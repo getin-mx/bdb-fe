@@ -1,0 +1,90 @@
+.radius5px {
+	border-radius: 5px !important;
+}
+
+.hidden {
+	display: none;
+}
+
+.checkbox input[type=checkbox], .checkbox-inline input[type=checkbox], .radio input[type=radio], .radio-inline input[type=radio] {
+		position: absolute;
+		margin-top: 4px;
+		margin-left: 0px;
+}
+
+.topmargin20 {
+	margin-top: 22px;
+	margin-bottom: 0px;
+}
+
+.hr-line-dashed-5p {
+		border-top: 1px dashed #e7eaec;
+		color: #ffffff;
+		background-color: #ffffff;
+		height: 1px;
+		margin: 5px 0;
+}
+
+.checkbox-success input[type="checkbox"]:checked + label::before,
+.checkbox-success input[type="radio"]:checked + label::before {
+	background-color: #1ab394;
+	border-color: #1ab394;
+}
+.checkbox-success input[type="checkbox"]:checked + label::after,
+.checkbox-success input[type="radio"]:checked + label::after {
+	color: #fff;
+}
+
+.checkbox-success input[type="checkbox"]:indeterminate + label::before,
+.checkbox-success input[type="radio"]:indeterminate + label::before {
+	background-color: #1ab394;
+	border-color: #1ab394;
+}
+
+.checkbox-success input[type="checkbox"]:indeterminate + label::after,
+.checkbox-success input[type="radio"]:indeterminate + label::after {
+	background-color: #fff;
+}
+
+.modal-content {
+		background-clip: padding-box;
+		background-color: #FFFFFF;
+		border: 1px solid rgba(0,0,0,0);
+		border-radius: 10px;
+		box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+		outline: 0 none;
+		position: relative;
+}
+
+.modal-content .page-heading{
+		margin-left: 10px;
+		margin-right: 10px;
+		border-bottom: 0 !important;
+}
+
+.modal-open .animated {
+		animation-duration: 0s !important;
+		z-index: inherit;
+}
+
+.ibox-title {
+		-moz-border-bottom-colors: none;
+		-moz-border-left-colors: none;
+		-moz-border-right-colors: none;
+		-moz-border-top-colors: none;
+		background-color: #fff;
+		border-color: #e7eaec;
+		border-image: none;
+		border-style: solid solid none;
+		border-width: 1px 0 0;
+		color: inherit;
+		margin-bottom: 0;
+		padding: 14px 15px 7px;
+		min-height: 48px;
+}
+
+@media (min-width: 992px) {
+	.modal-lg {
+		width: 90%;
+	}
+}

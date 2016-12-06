@@ -1,0 +1,585 @@
+<div ng-controller="APDeviceSettingsCtrl" data-ng-init="init()">
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-lg-10">
+		<h2>Configuraci&oacute;n de Antena</h2>
+		<ol class="breadcrumb">
+			<li>
+				<a href="index.html">Home</a>
+			</li>
+			<li>
+				<a href="#/index/apdevices">Antenas</a>
+			</li>
+			<li class="active">
+				<strong>{{obj.hostname}}</strong>
+			</li>
+		</ol>
+	</div>
+	<div class="col-lg-2">
+	</div>
+	<div class="input-group" style="margin-top:50px;">
+		<button type="button" ng-click="update()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in">Aplicar</button>
+	</div>
+</div>
+
+<uib-tabset>
+<!-- Rules Tab -->
+<uib-tab>
+<uib-tab-heading>
+<span>Reglas</span>
+</uib-tab-heading>
+<div class="panel-body wrapper wrapper-content animated fadeInRight">
+
+	<div class="row">
+		
+		<!-- Power & Threshold Configuration -->
+		<div class="col-lg-5">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Potencia</h5>
+				</div>
+				<div class="ibox-content">
+					<div class="text-center" style="height: 130px;">
+						<div style="width: 45%; float: left;">
+						Potencia de Visitante<br/>
+						<div class="m-r-md inline" style="margin-top: 15px; margin-left: 15px;">
+							<knob knob-data="obj.visitPowerThreshold" class="m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" data-min="-200" data-max="0" knob-options=""></knob>
+						</div>
+						</div>
+
+						<div style="width: 45%; float: right;">
+						Potencia de Paseante<br/>
+						<div class="m-r-md inline" style="margin-top: 15px; margin-left: 15px;">
+							<knob knob-data="obj.peasantPowerThreshold" class="m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" data-min="-200" data-max="0" knob-options=""></knob>
+						</div>
+						</div>
+					</div>
+
+					<div class="m-b-sm" style="margin-top: 15px;">
+						<strong>Tiempo de visita:</strong> Un visitante deber&aacute; estar m&aacute;s del m&iacute;nimo del rango y menos del m&aacute;ximo del rango seleccionado para ser contado como tal.
+					</div>
+					<div id="visitTimeThreshold" ion-range-slider range-options="visitTimeThreshold"></div>
+
+					<div class="m-b-sm" style="margin-top: 15px;">
+						<strong>Tiempo m&iacute;nimo de permanencia:</strong> Un visitante estar al menos el tiempo especificado en el siguiente control para aparecer en las estad&iacute;sticas de permanencia.
+					</div>
+					<div id="visitCountThreshold" ion-range-slider range-options="visitCountThreshold"></div>
+
+					<div class="m-b-sm" style="margin-top: 15px;">
+						<strong>GAP:</strong> Tiempo entre probe-requests para que un visitante sea contado como la misma visita.
+					</div>
+					<div id="visitGapThreshold" ion-range-slider range-options="visitGapThreshold"></div>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- Range Slider -->
+		<div class="col-lg-7">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>D&iacute;as y Horarios</h5>
+				</div>
+				<div class="ibox-content">
+					<div class="m-b-sm">
+						<strong>Horario de Monitoreo:</strong> Horarios en los que el sistema realizar&aacute; el monitoreo de paseantes.
+					</div>
+					<div class="row">
+						<div class="col-sm-2">
+						</div>
+						<div class="col-sm-10">
+							<div id="monitor" ion-range-slider range-options="monitor"></div>
+						</div>
+					</div>
+
+					<div class="m-b-sm m-t">
+						<strong>D&iacute;as y horarios de apertura:</strong> D&iacute;as y horarios en los que el sistema realizar&aacute; el monitoreo de visitantes.
+					</div>
+
+					<div class="row">
+						<div class="col-sm-2">
+							<div class="checkbox checkbox-success topmargin20">
+								<input id="visitOnMon" ng-click="changeDay()" ng-model="obj.visitsOnMon" type="checkbox" checked="">
+								<label for="visitOnMon">
+									Lunes
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-10">
+							<div id="visitMon" ion-range-slider range-options="visitMon"></div>
+						</div>
+					</div>
+					<div class="hr-line-dashed-5p"></div>
+					<div class="row">
+						<div class="col-sm-2">
+							<div class="checkbox checkbox-success topmargin20">
+								<input id="visitOnTue" ng-click="changeDay()" ng-model="obj.visitsOnTue" type="checkbox" checked="">
+								<label for="visitOnTue">
+									Martes
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-10">
+							<div id="visitTue" ion-range-slider range-options="visitTue"></div>
+						</div>
+					</div>
+					<div class="hr-line-dashed-5p"></div>
+					<div class="row">
+						<div class="col-sm-2">
+							<div class="checkbox checkbox-success topmargin20">
+								<input id="visitOnWed" ng-click="changeDay()" ng-model="obj.visitsOnWed" type="checkbox" checked="">
+								<label for="visitOnWed">
+									Miercoles
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-10">
+							<div id="visitWed" ion-range-slider range-options="visitWed"></div>
+						</div>
+					</div>
+					<div class="hr-line-dashed-5p"></div>
+					<div class="row">
+						<div class="col-sm-2">
+							<div class="checkbox checkbox-success topmargin20">
+								<input id="visitOnThu" ng-click="changeDay()" ng-model="obj.visitsOnThu" type="checkbox" checked="">
+								<label for="visitOnThu">
+									Jueves
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-10">
+							<div id="visitThu" ion-range-slider range-options="visitThu"></div>
+						</div>
+					</div>
+					<div class="hr-line-dashed-5p"></div>
+					<div class="row">
+						<div class="col-sm-2">
+							<div class="checkbox checkbox-success topmargin20">
+								<input id="visitOnFri" ng-click="changeDay()" ng-model="obj.visitsOnFri" type="checkbox" checked="">
+								<label for="visitOnFri">
+									Viernes
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-10">
+							<div id="visitFri" ion-range-slider range-options="visitFri"></div>
+						</div>
+					</div>
+					<div class="hr-line-dashed-5p"></div>
+					<div class="row">
+						<div class="col-sm-2">
+							<div class="checkbox checkbox-success topmargin20">
+								<input id="visitOnSat" ng-click="changeDay()" ng-model="obj.visitsOnSat" type="checkbox" checked="">
+								<label for="visitOnSat">
+									Sabado
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-10">
+							<div id="visitSat" ion-range-slider range-options="visitSat"></div>
+						</div>
+					</div>
+					<div class="hr-line-dashed-5p"></div>
+					<div class="row">
+						<div class="col-sm-2">
+							<div class="checkbox checkbox-success topmargin20">
+								<input id="visitOnSun" ng-click="changeDay()" ng-model="obj.visitsOnSun" type="checkbox" checked="">
+								<label for="visitOnSun">
+									Domingo
+								</label>
+							</div>
+						</div>
+						<div class="col-sm-10">
+							<div id="visitSun" ion-range-slider range-options="visitSun"></div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</div>
+</uib-tab>
+
+<!-- Status Tab -->
+<uib-tab heading="Estado" select="updateMap()">
+<div class="panel-body wrapper wrapper-content animated fadeInRight">
+
+	<div class="row">
+		
+		<!-- Status -->
+		<div class="col-lg-5">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Atributos</h5>
+				</div>
+				<div class="ibox-content form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right;">Modelo</label>
+						<div class="col-sm-9"><span>{{obj.model}}</span></div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right;">Modo</label>
+						<div class="col-sm-9">{{obj.mode}}</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right;">Versi&oacute;n</label>
+						<div class="col-sm-9">{{obj.version}}</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right;">Estado</label>
+						<div class="col-sm-9">{{obj.status}}</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right;">IP VPN</label>
+						<div class="col-sm-9">{{obj.tunnelIp}}</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right;">IP Interna</label>
+						<div class="col-sm-9">{{obj.wanIp}}</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right;">IP P&uacute;blica</label>
+						<div class="col-sm-9">{{obj.publicIp}}</div>
+					</div>
+					<div class="hr-line-dashed-5p"></div>
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right;">Creado</label>
+						<div class="col-sm-9">{{obj.creationDateTime  | date:'dd/MM/yyyy HH:mm:ss'}}</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right;">Actualizado</label>
+						<div class="col-sm-9">{{obj.lastUpdate  | date:'dd/MM/yyyy HH:mm:ss'}}</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right;">Informado</label>
+						<div class="col-sm-9">{{obj.lastInfoUpdate  | date:'dd/MM/yyyy HH:mm:ss'}}</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right;">Ultima Recepci&oacute;n</label>
+						<div class="col-sm-9">{{obj.lastRecordDate  | date:'dd/MM/yyyy HH:mm:ss'}}</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right;">Cantidad</label>
+						<div class="col-sm-9">{{obj.lastRecordCount}}</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- Map -->
+		<div class="col-lg-7">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Ubicaci&oacute;n aproximada</h5>
+				</div>
+				<div id="map" style="height: 500px; background-color: white;">
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+</div>
+</uib-tab>
+
+<!-- Uptime Tab -->
+<uib-tab select="updateUptime()">
+<uib-tab-heading>
+<span>Uptime</span>
+</uib-tab-heading>
+<div class="panel-body wrapper wrapper-content animated fadeInRight">
+
+	<div class="row">
+
+		<!-- Uptime -->
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Uptime</h5>
+				</div>
+				<div class="ibox-content">
+					<!-- heatmap_apuptime -->
+					<div class="row" data-ng-init="refreshUptime()">
+						<div class="col-lg-12">
+							<div id="heatmap_apuptime"></div>
+						</div>
+					</div>
+					<!-- fin heatmap_apuptime -->
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+</uib-tab>
+
+<!-- Assignations tab -->
+<uib-tab select="refreshAssignations()">
+<uib-tab-heading>
+<span>Asignaciones</span>
+</uib-tab-heading>
+<div class="panel-body wrapper wrapper-content animated fadeInRight">
+
+	<div class="row">
+
+		<!-- Assignations -->
+		<div ng-class="tableAssignationClass">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<div class="col-sm-11 m-b-xs">
+						<h5>Asignaciones de la antenna {{obj.hostname}}</h5>
+					</div>
+					<div class="col-sm-1 m-b-xs" >
+						<div class="input-group" style="margin-top: -6px;">
+							<span class="input-group-btn">
+								<button ng-click="refreshAssignations()" ladda="loadingRefresh" type="button"
+								class="ladda-button btn btn-sm btn-primary radius5px" data-style="zoom-in">
+								<i class="fa fa-refresh"></i></button>
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="ibox-content">
+
+					<!-- apdassignations table -->
+					<div class="panel-body">
+						<table  id="apdassignations-table" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10">
+							<thead>
+								<tr>
+									<th data-sort-ignore="true">
+										Tienda
+									</th>
+									<th data-sort-ignore="true">
+										Desde
+									</th>
+									<th data-sort-ignore="true">
+										Hasta
+									</th>
+									<th data-sort-ignore="true">
+										Acciones
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="7">
+										<ul class="pagination pull-right"></ul>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+					<!-- fin apdassignations table -->
+
+				</div>
+
+				<div class="ibox-content" ng-class="classNoActiveAssignations">
+	                <p class="font-bold  alert alert-warning m-b-sm">
+						Esta antena no contiene ninguna asignaci&oacute;n active. Deseas <a href="#" ng-click="newAssignation()" >asignarla</a>?
+                    </p>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Assignations -->
+		<div class="col-lg-6" ng-class="formAssignationClass">
+			<div class="ibox float-e-margins" ng-controller="APDAssignationCtrl" data-ng-init="brandInit()">
+				<div class="ibox-title">
+					<h5>Par&aacute;metros de asignacion para {{obj.hostname}}</h5>
+				</div>
+
+				<!-- apdassignations ABM -->
+				<div class="ibox-content form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right; padding-top: 6px;">Cadena</label>
+						<div class="col-sm-9"><select ng-class="classAdding" ng-model="brand" ng-change="brandChange()" data-ng-options="o.name for o in brands" class="input-sm form-control" style="width: 250px;"></select><span ng-class="classUpdating">{{brand.name}}</span></div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right; padding-top: 6px;">Tienda</label>
+						<div class="col-sm-9"><select ng-class="classAdding" ng-model="store" data-ng-options="o.name for o in stores" class="input-sm form-control" style="width: 250px;"></select><span ng-class="classUpdating">{{store.name}}</span></div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right; padding-top: 6px;">Desde</label>
+						<div class="col-sm-9"><input type="datetime" id="fromDate" ng-model="fromDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD"></div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right; padding-top: 6px;">Hasta</label>
+						<div class="col-sm-9"><input type="datetime" id="toDate" ng-model="toDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD"></div>
+					</div>
+
+				</div>
+
+				<div class="ibox-content form-horizontal">
+					<div class="form-group" style="margin-left: 10px; margin-right: 10px;">
+						<button type="button" ng-click="updateAssignation()" ladda="loadingUpdate" class="col-sm-3 ladda-button btn btn-info block btn-w-m m-b" data-style="zoom-in" style="float: right;">Aplicar</button>
+						<div class="col-sm-1" style="float: right;"></div>
+						<button type="button" ng-click="cancel()" class="col-sm-3 ladda-button btn btn-default block btn-w-m m-b" data-style="zoom-in" style="float: right;">Cancelar</button>
+					</div>
+				</div>
+				<!-- fin apdassignations ABM -->
+
+			</div>
+		</div>
+
+	</div>
+</div>
+</uib-tab>
+
+<!-- Reprocess tab -->
+<uib-tab select="refreshProcesses()">
+<uib-tab-heading>
+<span>Reprocesos</span>
+</uib-tab-heading>
+<div class="panel-body wrapper wrapper-content animated fadeInRight">
+
+	<div class="row">
+
+		<!-- Assignations -->
+		<div class="col-lg-8">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<div class="col-sm-11 m-b-xs">
+						<h5>Procesos para {{entity.name}}</h5>
+					</div>
+					<div class="col-sm-1 m-b-xs" >
+						<div class="input-group" style="margin-top: -6px;">
+							<span class="input-group-btn">
+								<button ng-click="refreshProcesses()" ladda="loadingRefresh" type="button"
+								class="ladda-button btn btn-sm btn-primary radius5px" data-style="zoom-in">
+								<i class="fa fa-refresh"></i></button>
+							</span>
+						</div>
+					</div>
+
+				</div>
+				<div class="ibox-content">
+
+					<!-- TabSet -->
+					<uib-tabset>
+					<!-- process table -->
+					<uib-tab>
+					<uib-tab-heading>
+					<span>Procesos Activos</span><span id="process-count"></span>
+					</uib-tab-heading>
+						<div class="panel-body">
+							<table  id="process-table" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10">
+								<thead>
+									<tr>
+										<th data-sort-ignore="true">
+											Nombre
+										</th>
+										<th data-sort-ignore="true">
+											Usuario
+										</th>
+										<th data-sort-ignore="true">
+											Fecha
+										</th>
+										<th data-sort-ignore="true">
+											Estado
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="7">
+											<ul class="pagination pull-right"></ul>
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</uib-tab>
+					<!-- fin process table -->
+
+					<!-- process ended table -->
+					<uib-tab>
+					<uib-tab-heading>
+					<span>Procesos Finalizados</span><span id="process-ended-count"></span>
+					</uib-tab-heading>
+						<div class="panel-body">
+							<table  id="process-ended-table" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10">
+								<thead>
+									<tr>
+										<th data-sort-ignore="true">
+											Nombre
+										</th>
+										<th data-sort-ignore="true">
+											Usuario
+										</th>
+										<th data-sort-ignore="true">
+											Fecha
+										</th>
+										<th data-sort-ignore="true">
+											Estado
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="7">
+											<ul class="pagination pull-right"></ul>
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</uib-tab>
+					<!-- fin process ended table -->
+					</uib-tabset>
+
+				</div>
+			</div>
+		</div>
+
+
+		<!-- Request Process -->
+		<div class="col-lg-4">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Solicitar reproceso para para {{entity.name}}</h5>
+				</div>
+
+				<!-- apdassignations ABM -->
+				<div class="ibox-content form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right; padding-top: 6px;">Desde</label>
+						<div class="col-sm-9"><input type="datetime" id="processFromDate" ng-model="processFromDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD"></div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right; padding-top: 6px;">Hasta</label>
+						<div class="col-sm-9"><input type="datetime" id="processToDate" ng-model="processToDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD"></div>
+					</div>
+
+				</div>
+
+				<div class="ibox-content form-horizontal">
+					<div class="form-group" style="margin-left: 10px; margin-right: 10px;">
+						<button type="button" ng-click="requestProcess()" ladda="loadingUpdate" class="col-sm-3 ladda-button btn btn-info block btn-w-m m-b" data-style="zoom-in" style="float: right;">Ejecutar</button>
+					</div>
+				</div>
+				<!-- fin apdassignations ABM -->
+
+			</div>
+		</div>
+
+	</div>
+</div>
+</uib-tab>
+</uib-tabset>
+</div>

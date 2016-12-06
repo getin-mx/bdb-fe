@@ -1,0 +1,29 @@
+<div ng-controller="DemoMapsCtrl" class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-lg-12 ibox-content" data-ng-init="refresh()">
+			<div class="form-group" style="height: 50px;">
+				<div class="input-group" style="float:left;">
+					Tienda:<br>
+					<select name="venue" ng-model="venue" id="venue" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;" tabindex="2">
+						<option value="Sportium Arboledas">Tienda 1</option>
+						<option value="Sportium Coyoacan">Tienda 2</option>
+						<option value="Sportium Cuautitlan">Tienda 3</option>
+						<option value="Sportium Del VAlle">Tienda 4</option>
+						<option value="Sportium Desierto">Tienda 5</option>
+						<option value="Sportium Lomas Verdes">Tienda 6</option>
+						<option value="Sportium San Angel">Tienda 7</option>
+						<option value="Sportium Santa Fe">Tienda 8</option>
+						<option value="Sportium Satelite">Tienda 9</option>
+					</select>
+				</div>
+				<div class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">
+					<button ng-click="refresh()" type="button" ladda="loadingRefresh" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Filtrar</button>
+				</div>
+			</div>
+			<!-- funnel convertion-->
+			<div class="ibox-content" id="map">
+			</div>
+			<!-- fin funnel -->
+		</div>
+	</div>
+</div>

@@ -1,0 +1,34 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.draggable {
+	position: absolute;
+}
+
+.mapContainer {
+	zoom: 0.5;
+}
+
+#map {
+	background-size: 100%;
+}
+
+#zoomin {
+	position: fixed;
+	top: 10px;
+	left: 20px;
+}
+
+#zoomout {
+	position: fixed;
+	top: 10px;
+	left: 80px;
+}
+
+#save {
+	position: fixed;
+	top: 10px;
+	left: 150px;
+}

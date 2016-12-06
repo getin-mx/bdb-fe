@@ -1,0 +1,52 @@
+<div ng-controller="StorePlacerCtrl" class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+
+		<div class="col-lg-12 ibox-content" data-ng-init="init()">
+			<div class="form-group" style="height: 50px;">
+				<div class="input-group" style="float:left;">
+					Cadena:<br>
+					<select  ng-model="brand" ng-change="brandChange()" data-ng-options="o.name for o in brands" class="input-sm form-control" style="width: 250px;"></select>
+				</div>
+				<div class="input-group" style="float:left; margin-left: 10px;">
+					Tienda:<br>
+					<select  ng-model="store" data-ng-options="o.name for o in stores" class="input-sm form-control" style="width: 250px;"></select>
+				</div>
+				<div class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">
+					<button ng-click="refresh()" type="button" ladda="loadingRefresh" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Filtrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row" style="margin-top: 15px;">
+		<div class="col-lg-8">
+			<!-- map-->
+			<div class="ibox-content" id="map" style="height: 500px; padding: 0px;">
+			</div>
+			<!-- fin map -->
+		</div>
+
+		<div class="col-lg-4">
+            <div class="ibox-title">
+                <h5>Ubicaci&oacute;n</h5>
+            </div>
+			<div class="ibox-content" >
+				<!-- Tabla -->
+                    <form class="form-horizontal">
+						<div class="input-group">
+	
+						<label class="col-sm-3 control-label">Latitud</label>
+	                    <div class="col-sm-9"><input type="text" ng-model="latitude" class="form-control"></div>
+	
+						<label class="col-sm-3 control-label">Longitud</label>
+	                    <div class="col-sm-9"><input type="text" ng-model="longitude" class="form-control"></div>
+	
+						<div class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">
+						<button ng-click="update()" type="button" ladda="loadingUpdate" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Actualizar</button>
+						</div>
+	                </form>
+			</div>
+		</div>
+	</div>
+
+</div>

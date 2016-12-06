@@ -1,0 +1,60 @@
+<div ng-controller="HeatmapCtrl" id="HeatmapFrameView" data-ng-init="initFrame()">
+	<div class="mapContainer">
+		<canvas id="map"></canvas>
+	</div>
+	<a href="#" style="display:none;" id="next">next</a>
+	<a href="#" style="display:none;" id="prev">previous</a>
+	<a href="#" style="display:none;" id="zoomin">zoom in</a>
+	<a href="#" style="display:none;" id="zoomout">zoom out</a>
+	<a href="#" style="display:none;" id="save">save</a>
+	<script>
+	$(document).ready( function() {
+		$('#next').click(function() {
+			next();
+		});
+		$('#prev').click(function() {
+			prev();
+		});
+		$('#zoomout').click(function() {
+			zoomout();
+		});
+		
+		$('#zoomin').click(function() {
+			zoomin();
+		});
+		
+		$('#save').click(function() {
+			indoormap.save(mapData, KEY);
+		});
+	});
+	var next = function() {
+		indoormap.drawNextLineElement();
+	}
+	var prev = function() {
+		indoormap.drawPrevLineElement();
+	}
+	var reload = function() {
+		window.location.reload();
+	}
+	var zoomout = function() {
+		current = Math.round(parseFloat($('.mapContainer').css('zoom')) * 100) / 100;
+		if( current == 'NaN' ) current = 0.5;
+		current -= 0.1;
+		if( current == 0.5 ) {
+			$('.mapContainer').css('zoom', '');
+		} else {
+			$('.mapContainer').css('zoom', current);
+		}
+	}
+	var zoomin = function() {
+		current = Math.round(parseFloat($('.mapContainer').css('zoom')) * 100) / 100;
+		if( current == 'NaN' ) current = 0.5;
+		current += 0.1;
+		if( current == 0.5 ) {
+			$('.mapContainer').css('zoom', '');
+		} else {
+			$('.mapContainer').css('zoom', current);
+		}
+	}
+	</script>
+</div>

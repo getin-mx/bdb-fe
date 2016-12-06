@@ -1,0 +1,45 @@
+<div class="wrapper wrapper-content animated fadeInRight" id="HeatmapView" ng-controller="MTHeatmapCtrl" data-ng-init="initHeatmap()">
+	<div class="row">
+		<div class="col-lg-6">
+			<!-- heatmap -->
+			<div class="ibox-content" id="heatmapParent">
+			</div>
+			<!-- heatmap end -->
+		</div>
+		<div class="col-lg-6">
+			<div class="ibox-content">
+				<div id="detalle">
+					<!-- filtro -->
+					<div class="form-group" id="data_5">
+						<label class="font-noraml">Rango de Fechas:</label>
+						<div class="input-group date" style="max-width: 400px;">
+							<input type="datetime" id="fromDate" ng-model="fromDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
+							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+							<input type="datetime" id="toDate" ng-model="toDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
+							<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<button type="button" ng-click="updateHeatmap()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Filtrar</button>
+					</div>
+					<!-- Ayuda -->
+					<h2>Ayuda</h2>
+					<small>El mapa de calor le puede permitir conocer en que
+					áreas se concentra más personas visualizandolo directamente en
+					el mapa del Centro Comercial. </small>
+					<!-- Tips -->
+					<h2>Tips</h2>
+					<small> Esta información le puede ayudar a tomar
+					desiciones en difusión dentro de la tienda. Además de
+					generar estrategias de marketing para promociones directas. </small>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- footer -->
+	<div class="row">
+		<div class="col-lg-12" style="height: 50px;">
+		</div>
+	</div>
+	<!-- footer end -->
+</div>

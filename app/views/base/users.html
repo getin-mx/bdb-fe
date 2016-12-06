@@ -1,0 +1,101 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="UsersCtrl">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox">
+				<div class="ibox-content">
+					<div class="tabs-container">
+
+						<!-- Header -->
+						<div class="row">
+							<div class="col-sm-8 m-b-xs">
+							</div>
+							<div class="col-sm-4 m-b-xs">
+								<div class="input-group">
+									<span class="input-group-btn">
+										<button ng-click="refresh()" ladda="loadingRefresh" type="button"
+										class="ladda-button btn btn-sm btn-primary" data-style="zoom-in">
+										<i class="fa fa-search"></i></button>
+									</span>
+									<input type="text" ng-model="search" placeholder="Search" bdb-enter="refresh()" class="input-sm form-control">
+									<span class="input-group-btn">
+										<a class="btn btn-sm btn-default" ng-click="clean()"><i class="fa fa-remove"></i></a>
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<!-- TabSet -->
+						<uib-tabset data-ng-init="init()">
+						<uib-tab>
+						<uib-tab-heading>
+						<span>Activos</span><span id="user-active-count"></span>
+						</uib-tab-heading>
+						<div class="panel-body">
+							<table  id="user-active-table" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10" data-limit-navigation="5">
+								<thead>
+									<tr>
+										<th data-sort-initial="true" data-toggle="true" data-sort-name="key">
+											Usuario
+										</th>
+										<th data-sort-ignore="true">
+											Nombre
+										</th>
+										<th data-sort-ignore="true">
+											Tipo
+										</th>
+										<th data-sort-ignore="true">
+											Acciones
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+								<tfoot>
+								<tr>
+									<td colspan="7">
+									<ul class="pagination pull-right"></ul>
+								</td>
+							</tr>
+							</tfoot>
+						</table>
+					</div>
+					</uib-tab>
+					<uib-tab>
+					<uib-tab-heading>
+					<span>Inactivos</span><span id="user-inactive-count"></span>
+					</uib-tab-heading>
+					<div class="panel-body">
+						<table  id="user-inactive-table" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10" data-limit-navigation="5">
+							<thead>
+								<tr>
+									<th data-sort-initial="true" data-toggle="true" data-sort-name="key">
+										Usuario
+									</th>
+									<th data-sort-ignore="true">
+										Nombre
+									</th>
+									<th data-sort-ignore="true">
+										Tipo
+									</th>
+									<th data-sort-ignore="true">
+										Acciones
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+							<tfoot>
+							<tr>
+								<td colspan="7">
+								<ul class="pagination pull-right"></ul>
+							</td>
+						</tr>
+						</tfoot>
+					</table>
+				</div>
+				</uib-tab>
+				</uib-tabset>
+			</div>
+		</div>
+	</div>
+</div>

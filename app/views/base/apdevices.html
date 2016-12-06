@@ -1,0 +1,206 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="APDevicesCtrl">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox">
+				<div class="ibox-content">
+					<div class="tabs-container">
+						
+						<!-- Header -->
+						<div class="row">
+							<div class="col-sm-8 m-b-xs">
+							<input type="hidden" id="hostnameParam" value=""/>
+							</div>
+							<div class="col-sm-4 m-b-xs">
+								<div class="input-group">
+									<span class="input-group-btn">
+										<button ng-click="refresh()" ladda="loadingRefresh" type="button"
+										class="ladda-button btn btn-sm btn-primary" data-style="zoom-in">
+										<i class="fa fa-search"></i></button>
+									</span>
+									<input type="text" ng-model="search" placeholder="Search" bdb-enter="refresh()" class="input-sm form-control">
+									<span class="input-group-btn">
+										<a class="btn btn-sm btn-default" ng-click="clean()"><i class="fa fa-remove"></i></a>
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<!-- TabSet -->
+						<uib-tabset data-ng-init="refresh()">
+						<uib-tab>
+						<uib-tab-heading>
+						<span>Online</span><span id="apdevice-assigned-count"></span>
+						</uib-tab-heading>
+						<div class="panel-body">
+							<table  id="apdevice-assigned-table" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10">
+								<thead>
+									<tr>
+										<th data-sort-initial="true" data-toggle="true">
+											Hostname
+										</th>
+										<th>
+											Descripci&oacute;n
+										</th>
+										<th>
+											Hardware
+										</th>
+										<th>
+											Modo
+										</th>
+										<th>
+											Versi&oacute;n
+										</th>
+										<th>
+											Ultima Recepci&oacute;n
+										</th>
+										<th data-sort-ignore="true">
+											Acciones
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+								<tfoot>
+								<tr>
+									<td colspan="7">
+									<ul class="pagination pull-right"></ul>
+								</td>
+							</tr>
+							</tfoot>
+						</table>
+					</div>
+					</uib-tab>
+					<uib-tab>
+					<uib-tab-heading>
+					<span>Offline</span><span id="apdevice-offline-count"></span>
+					</uib-tab-heading>
+					<div class="panel-body">
+						<table  id="apdevice-offline-table" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10">
+							<thead>
+								<tr>
+									<th data-sort-initial="true" data-toggle="true">
+										Hostname
+									</th>
+									<th>
+										Descripci&oacute;n
+									</th>
+									<th>
+										Hardware
+									</th>
+									<th>
+										Modo
+									</th>
+									<th>
+										Versi&oacute;n
+									</th>
+									<th>
+										Ultima Recepci&oacute;n
+									</th>
+									<th data-sort-ignore="true">
+										Acciones
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+							<tfoot>
+							<tr>
+								<td colspan="7">
+								<ul class="pagination pull-right"></ul>
+							</td>
+						</tr>
+						</tfoot>
+					</table>
+				</div>
+				</uib-tab>
+				<uib-tab>
+				<uib-tab-heading>
+				<span>Sin Asignar</span><span id="apdevice-unassigned-count"></span>
+				</uib-tab-heading>
+				<div class="panel-body">
+					<table  id="apdevice-unassigned-table" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10">
+						<thead>
+							<tr>
+								<th data-sort-initial="true" data-toggle="true">
+									Hostname
+								</th>
+								<th>
+									Descripci&oacute;n
+								</th>
+								<th>
+									Hardware
+								</th>
+								<th>
+									Modo
+								</th>
+								<th>
+									Versi&oacute;n
+								</th>
+								<th>
+									Ultima Recepci&oacute;n
+								</th>
+								<th data-sort-ignore="true">
+									Acciones
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="7">
+									<ul class="pagination pull-right"></ul>
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</div>
+				</uib-tab>
+				<uib-tab>
+				<uib-tab-heading>
+				<span>Dadas de Baja</span><span id="apdevice-down-count"></span>
+				</uib-tab-heading>
+				<div class="panel-body">
+					<table  id="apdevice-down-table" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10">
+						<thead>
+							<tr>
+								<th data-sort-initial="true" data-toggle="true">
+									Hostname
+								</th>
+								<th>
+									Descripci&oacute;n
+								</th>
+								<th>
+									Hardware
+								</th>
+								<th>
+									Modo
+								</th>
+								<th>
+									Versi&oacute;n
+								</th>
+								<th>
+									Ultima Recepci&oacute;n
+								</th>
+								<th data-sort-ignore="true">
+									Acciones
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+						<tfoot>
+						<tr>
+							<td colspan="7">
+								<ul class="pagination pull-right"></ul>
+							</td>
+						</tr>
+						</tfoot>
+					</table>
+				</div>
+				</uib-tab>
+				</uib-tabset>
+			</div>
+		</div>
+	</div>
+</div>

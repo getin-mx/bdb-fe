@@ -1,0 +1,62 @@
+<div ng-controller="TrafficMapCtrl" class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+
+		<div class="col-lg-12 ibox-content" data-ng-init="init()">
+			<div class="form-group" style="height: 50px;">
+				<div class="input-group" style="float:left;">
+					Cadena:<br>
+					<select  ng-model="brand" ng-change="brandChange()" data-ng-options="o.name for o in brands" class="input-sm form-control" style="width: 250px;"></select>
+				</div>
+				<div class="input-group" style="float:left; margin-left: 10px;">
+					Tienda:<br>
+					<select  ng-model="store" data-ng-options="o.name for o in stores" class="input-sm form-control" style="width: 250px;"></select>
+				</div>
+				<div class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">
+					<button ng-click="refresh()" type="button" ladda="loadingRefresh" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Filtrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row" style="margin-top: 15px;">
+		<div class="col-lg-8">
+			<!-- map-->
+			<div class="ibox-content" id="map" style="height: 500px; padding: 0px;">
+			</div>
+			<!-- fin map -->
+		</div>
+
+		<div class="col-lg-4">
+			<div class="ibox-content">
+				<!-- Tabla -->
+				<div class="form-group">
+					<label class="font-noraml"><strong>Tr&aacute;fico Vehicular</strong></label>
+					<hr/>
+					<table  id="traffic-table" class="footable table table-stripped toggle-arrow-tiny">
+						<thead>
+							<tr>
+								<th data-sort-ignore="true">
+									<center>Hora</center>
+								</th>
+								<th data-sort-ignore="true">
+									<center>Veh&iacute;culos</center>
+								</th>
+								<th data-sort-ignore="true">
+									<center>Hora</center>
+								</th>
+								<th data-sort-ignore="true">
+									<center>Veh&iacute;culos</center>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+						<tfoot>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

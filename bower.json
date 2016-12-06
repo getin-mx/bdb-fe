@@ -1,0 +1,52 @@
+{
+  "name": "bigdatabrain",
+  "version": "2.5.0",
+  "authors": [
+    "Matias Hapanowicz"
+  ],
+  "description": "AllShoppings BigDataBrain",
+  "main": "app/index.html",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "appPath": "app",
+  "dependencies": {
+    "angular-animate": "~1.5.0",
+    "angular-sanitize": "~1.5.0",
+    "angular-messages": "~1.5.0",
+    "angular-translate": "~2.5.2",
+    "angular-aria": "~1.5.0",
+    "angular-cookies": "~1.5.0",
+    "angular-ladda": "~0.4.2",
+    "angular-datetime": "~3.2.2",
+    "angular-datepicker": "~2.0.3",
+    "angular-sweetalert": "~1.1.2",
+    "angular-knob": "~0.0.3",
+    "jquery": "~2.1.4",
+    "jquery-ui": "~1.10.4",
+    "jquery-overscroll": "~1.7.7",
+    "slimScroll": "~1.3.6",
+    "angular-resource": "~1.5.0",
+    "angular-ui-router": "~0.2.15",
+    "bootstrap": "~3.3.6",
+    "angular-bootstrap": "~1.1.2",
+    "moment": "~2.10.6",
+    "animate.css": "~3.4.0",
+    "angular": "~1.5.0",
+    "pace": "~1.0.2",
+    "metisMenu": "~2.0.2",
+    "fontawesome": "~4.5.0",
+    "highcharts": "~4.2.6",
+    "ion.rangeSlider": "~2.1.4",
+    "bootstrap-touchspin": "~3.1.2",
+    "chosen": "~1.6.2",
+    "awesome-bootstrap-checkbox": "~0.3.7"
+  },
+  "resolutions": {
+    "jquery": "~2.1.4",
+    "angular": "~1.5.0"
+  }
+}

@@ -1,0 +1,46 @@
+<div ng-controller="StoreTicketsCtrl" class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+
+		<div class="col-lg-12 ibox-content" data-ng-init="init()">
+			<div class="form-group" style="height: 50px;">
+				<div class="input-group" style="float:left;">
+					Cadena:<br>
+					<select  ng-model="brand" ng-change="brandChange()" data-ng-options="o.name for o in brands" class="input-sm form-control" style="width: 250px;"></select>
+				</div>
+				<div class="input-group" style="float:left; margin-left: 10px;">
+					Tienda:<br>
+					<select  ng-model="store" data-ng-options="o.name for o in stores" class="input-sm form-control" style="width: 250px;"></select>
+				</div>
+				<div class="input-group" style="float:left; max-width: 400px; margin-left: 10px;">
+					Fechas:<br>
+					<input type="datetime" id="fromDate" ng-model="fromDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
+				</div>
+				<div class="input-group" style="float:left; max-width: 400px; margin-left: 10px;">
+					Fechas:<br>
+					<input type="datetime" id="toDate" ng-model="toDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
+				</div>
+				<div class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">
+					<button ng-click="refresh()" type="button" ladda="loadingRefresh" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Filtrar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row" style="margin-top: 15px;">
+		<div class="col-lg-12">
+			<!-- map-->
+				<div class="ibox-title">
+					<h5>Tickets</h5>
+				</div>
+				<div class="ibox-content form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-1" style="text-align: right;">Modelo</label>
+						<div class="col-sm-3"><input ng-model="toDate" class="form-control"></div>
+					</div>
+				</div>
+			<!-- fin map -->
+		</div>
+
+	</div>
+
+</div>
