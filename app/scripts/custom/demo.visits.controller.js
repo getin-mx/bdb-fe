@@ -215,6 +215,7 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
             + '&eraseBlanks=true',
             function(data) {
                 // Disable extra options by default
+                data.series[0].visible = false;
                 for( var i = 2; i < data.series.length; i++)
                     data.series[i].visible = false;
 
