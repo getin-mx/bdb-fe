@@ -281,7 +281,7 @@
         $scope.loadingSubmit = false;
         $scope.postRefresh(data);
     }
-
+    
 	$scope.refresh = function() {
 		$http.get(CommonsService.getUrl('/apdevice/' + $scope.hostname ))
 		.then($scope.postRefresh);
