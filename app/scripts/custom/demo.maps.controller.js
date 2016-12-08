@@ -119,21 +119,21 @@ function DemoMapsCtrl($scope, $http, CommonsService, AuthenticationService) {
                 }
             });
 
-            for (i = 0; i < data.length; i++) {
-                var item = data[i];
-                var conns = item.connections / 20;
-                if( conns > 2000 ) conns = 2000;
-                if( conns < 100 ) conns = 100;
-                map.drawCircle({
-                    lat: item.lat,
-                    lng: item.lon,
-                    fillColor: '#ffff00',
-                    fillOpacity: 0.8,
-                    strokeColor: '#ffff00',
-                    strokeWeight: 1,
-                    radius: conns
-                });
-            }
+            // for (i = 0; i < data.length; i++) {
+            //     var item = data[i];
+            //     var conns = item.connections / 20;
+            //     if( conns > 2000 ) conns = 2000;
+            //     if( conns < 100 ) conns = 100;
+            //     map.drawCircle({
+            //         lat: item.lat,
+            //         lng: item.lon,
+            //         fillColor: '#ffff00',
+            //         fillOpacity: 0.8,
+            //         strokeColor: '#ffff00',
+            //         strokeWeight: 1,
+            //         radius: conns
+            //     });
+            // }
 
             map.addMarkers(markers_data);
     }

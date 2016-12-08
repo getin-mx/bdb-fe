@@ -119,20 +119,20 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 		for (i = 0; i < obj.length; i++) {
 			var item = obj[i];
 			
-			if( item.type == $scope.TYPE_WIFI ) {
-				var conns = item.connections / 20;
-				if( conns > 2000 ) conns = 2000;
-				if( conns < 100 ) conns = 100;
-				map.drawCircle({
-					lat: item.lat,
-					lng: item.lon,
-					fillColor: '#ffff00',
-					fillOpacity: 0.8,
-					strokeColor: '#ffff00',
-					strokeWeight: 1,
-					radius: conns
-				});
-			}
+			// if( item.type == $scope.TYPE_WIFI ) {
+			// 	var conns = item.connections / 20;
+			// 	if( conns > 2000 ) conns = 2000;
+			// 	if( conns < 100 ) conns = 100;
+			// 	map.drawCircle({
+			// 		lat: item.lat,
+			// 		lng: item.lon,
+			// 		fillColor: '#ffff00',
+			// 		fillOpacity: 0.8,
+			// 		strokeColor: '#ffff00',
+			// 		strokeWeight: 1,
+			// 		radius: conns
+			// 	});
+			// }
 
 			if( item.type == $scope.TYPE_GPS ) {
 				var conns = item.connections / 20;

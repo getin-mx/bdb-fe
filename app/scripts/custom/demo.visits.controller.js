@@ -87,7 +87,7 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
             + '/dashoard/timelineData?entityId=' + entityId 
             + '&entityKind=1' 
             + '&subentityId=' + subEntityId 
-            + '&elementId=APDVisit' 
+            + '&elementId=apd_visitor' 
             + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
             + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets' 
             + '&fromStringDate=' + fromDate 
@@ -146,7 +146,7 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
             + '/dashoard/timelineHour?entityId=' + entityId 
             + '&entityKind=1' 
             + '&subentityId=' + subEntityId 
-            + '&elementId=APDVisit' 
+            + '&elementId=apd_visitor' 
             + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
             + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android' 
             + '&fromStringDate=' + fromDate 
@@ -205,7 +205,7 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
             + '/dashoard/timelineHour?entityId=' + entityId 
             + '&entityKind=1' 
             + '&subentityId=' + subEntityId 
-            + '&elementId=APDVPermanence' 
+            + '&elementId=apd_permanence' 
             + '&subIdOrder=permanence_hourly_peasents,permanence_hourly_visits,permanence_hourly_peasents_ios,'
             + 'permanence_hourly_peasents_android,permanence_hourly_visits_ios,permanence_hourly_visits_android' 
             + '&fromStringDate=' + fromDate 
@@ -266,7 +266,7 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
             + '/dashoard/heatmapTableHour?entityId=' + entityId 
             + '&entityKind=1' 
             + '&subentityId=' + subEntityId 
-            + '&elementId=APDVisit' 
+            + '&elementId=apd_visitor' 
             + '&elementSubId=visitor_total_visits' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
@@ -328,7 +328,7 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
             + '/dashoard/heatmapTableHour?entityId=' + entityId 
             + '&entityKind=1' 
             + '&subentityId=' + subEntityId 
-            + '&elementId=APDVPermanence' 
+            + '&elementId=apd_permanence' 
             + '&elementSubId=permanence_hourly_visits' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 

@@ -75,12 +75,6 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             data: { pageTitle: 'Visitas'}
         })
 
-        .state('index.apdvisits2', {
-            url: "/apdvisits2",
-            templateUrl: "views/custom/apdvisits2.html",
-            data: { pageTitle: 'Visitas'}
-        })
-
         .state('index.storeplacer', {
             url: "/storeplacer",
             templateUrl: "views/custom/storeplacer.html",
@@ -103,12 +97,6 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             url: "/apddetails",
             templateUrl: "views/custom/apddetails.html",
             data: { pageTitle: 'Detalles'}
-        })
-
-        .state('index.apdvisitslimit', {
-            url: "/apdvisitslimit",
-            templateUrl: "views/custom/apdvisitslimit.html",
-            data: { pageTitle: 'Visitas'}
         })
 
         .state('index.mtheatmap', {
