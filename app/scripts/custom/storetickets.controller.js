@@ -16,7 +16,6 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 	$scope.longitude = 0;
 
 	$scope.init = function() {
-
 		$scope.brands = new Array();
 		$scope.loadingRefresh = true;
 		$http.get(CommonsService.getUrl('/dashboard/assignedBrandList'))
@@ -70,66 +69,65 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 
 	}
 
-	$scope.refresh = function() {
+	$scope.loadUpdate = function(data) {
 
+		$scope.listdays = new Array();
+        $scope.loadingloadUpdate = true;
+        $scope.fromDate = $('#fromDate').val();
+        $scope.toDate = $('#toDate').val();
+		console.log($scope.dias);
+		console.log($scope.store.id);
+		console.log($scope.store);
+		$http.get(CommonsService.getUrl('/dashboard/storeTicketData')
+			+ '&storeId=' + $scope.store.id 
+			+ '&fromDate=' + $scope.fromDate
+			+ '&toDate=' + $scope.toDate)
+			.then($scope.postLoadUpdate);
+	}
+
+	$scope.postLoadUpdate = function(data) {
+		console.log(data);
+		console.log(data.data.data.length)
+		$scope.obj = data.data;
+		for( var i = 0; i < data.data.data.length; i++ ) {
+			//generar la lista de dias/ticket
+			var day = {
+				date: data.data.dates[i],
+				numberoftickets: data.data.data[i]
+			}
+			$scope.listdays.push(day);
+		}
+		console.log($scope.listdays);
+		$scope.loadingloadUpdate = false;
+	}
+
+
+	$scope.refresh = function(data) {
 		$scope.loadingRefresh = true;
-		$http.get(CommonsService.getUrl('/store/' + $scope.store.id ))
-			.then($scope.postRefresh);
 
 	}
 
 	$scope.postRefresh = function(data) {
-
+		$scope.loadingSubmit = false;
 		// Default fallback for Mexico City
-		if(  data.data.address.latitude === undefined ) {
-			data.data.address.latitude = 19.412457;
-			data.data.address.longitude = -99.1404902;
+
+	}
+	$scope.updateTickets = function(){
+		$scope.loadingexecUpdate = true;
+		console.log($scope.listdays);
+		$scope.obj.data = new Array();
+		for( var i = 0; i < $scope.listdays.length; i++ ) {
+			$scope.obj.data.push($scope.listdays[i].numberoftickets)
 		}
+		$http.post(CommonsService.getUrl('/dashboard/storeTicketData'), $scope.obj)
+			.then($scope.postUpdateTickets);
 
-		$scope.latitude = data.data.address.latitude;
-		$scope.longitude = data.data.address.longitude;
-		$scope.obj = data.data;
+	}		
+	
 
-		map = new GMaps({
-			div: '#map',
-			lat: data.data.address.latitude,
-			lng: data.data.address.longitude,
-			width: "100%",
-			height: "550px",
-			zoom: 11
-		});
-
-		map.removeMarkers();
-		map.addMarker({
-			lat: data.data.address.latitude,
-			lng: data.data.address.longitude,
-			title: data.data.name,
-			draggable : true,
-			dragend : function(mouseevent) {
-				$scope.latitude = this.getPosition().lat();
-				$scope.longitude = this.getPosition().lng();
-				$scope.$apply();
-			}
-		});
-
-		$scope.loadingRefresh = false;
-
-	}
-
-	$scope.update = function() {
-		$scope.loadingUpdate = true;
-
-		$scope.obj.address.latitude = $scope.latitude;
-		$scope.obj.address.longitude = $scope.longitude;
-
-		$http.post(CommonsService.getUrl('/store'), $scope.obj)
-			.then($scope.postUpdate);
-
-	}
-
-	$scope.postUpdate = function(data) {
-		console.log(data);
-		$scope.loadingUpdate = false;
+	$scope.postUpdateTickets = function(data){
+	console.log(data);
+		$scope.loadingexecUpdate = false;
 
 		if( data.status = 200 
 			&& data.data.error_code === undefined ) {
@@ -145,6 +143,17 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 				type: "error"
 			});
 		}
+		
+	}
+
+	$scope.update = function() {
+		$scope.loadingUpdate = true;
+
+		$scope.obj.address.latitude = $scope.latitude;
+		$scope.obj.address.longitude = $scope.longitude;
+
+		$http.post(CommonsService.getUrl('/store'), $scope.obj)
+			.then($scope.postUpdate);
 
 	}
 
