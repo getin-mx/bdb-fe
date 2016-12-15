@@ -20,6 +20,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 		$scope.loadingRefresh = true;
 		$http.get(CommonsService.getUrl('/dashboard/assignedBrandList'))
 			.then($scope.postInit);
+		$scope.formTicketsClass = 'hidden';
 
 	}
 
@@ -98,12 +99,14 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 			$scope.listdays.push(day);
 		}
 		console.log($scope.listdays);
+		$scope.formTicketsClass = '';
 		$scope.loadingloadUpdate = false;
 	}
 
 
 	$scope.refresh = function(data) {
 		$scope.loadingRefresh = true;
+		$scope.formTicketsClass = 'hidden';
 
 	}
 
@@ -133,13 +136,14 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 			&& data.data.error_code === undefined ) {
 			SweetAlert.swal({
 				title: "Ok!",
-				text: "La configuración de la tienda fue salvada con éxito",
+				text: "Los tickets del "+ $scope.fromDate
+			+ ' al ' + $scope.toDate+" han sido actualizados con éxito",
 				type: "success"
 			});
 		} else {
 			SweetAlert.swal({
 				title: "Error!",
-				text: "La configuración de la tienda no pudo salvarse",
+				text: "Ocurrio un problema, no se han podido guardar los tickets.",
 				type: "error"
 			});
 		}
