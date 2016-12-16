@@ -131,14 +131,14 @@ function APDVisitsCtrl($scope, AuthenticationService, CommonsService, $rootScope
                         marginRight: 200
                     },
                     title: {
-                        text: 'Trafico por Día'
+                        text: 'Tráfico por Día'
                     },
                     xAxis: {
                         categories: data.categories
                     },
                     yAxis: {
                         title: {
-                            text: 'Trafico por Día'
+                            text: 'Tráfico por Día'
                         },
                         plotLines: [{
                             value: 0,
@@ -190,14 +190,14 @@ function APDVisitsCtrl($scope, AuthenticationService, CommonsService, $rootScope
                         marginRight: 200
                     },
                     title: {
-                        text: 'Trafico por Hora'
+                        text: 'Tráfico por Hora'
                     },
                     xAxis: {
                         categories: data.categories
                     },
                     yAxis: {
                         title: {
-                            text: 'Trafico por Hora'
+                            text: 'Tráfico por Hora'
                         },
                         plotLines: [{
                             value: 0,

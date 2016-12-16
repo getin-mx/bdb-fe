@@ -60,7 +60,7 @@ function angularConfig($stateProvider, $urlRouterProvider) {
         .state('index.trafficmap', {
             url: "/trafficmap",
             templateUrl: "views/base/trafficmap.html",
-            data: { pageTitle: 'Trafico Vehicular'}
+            data: { pageTitle: 'Tráfico Vehicular'}
         })
 
         .state('index.influencemap', {
