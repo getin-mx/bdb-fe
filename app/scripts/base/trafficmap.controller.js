@@ -12,12 +12,68 @@ function TrafficMapCtrl($scope, $http, $location, CommonsService, Authentication
 		count: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 	}
 
+	$scope.dayType = null;
+	$scope.hourType = null;
+	$scope.hour = null;
+	$scope.dayTypes = new Array();
+	$scope.hourTypes = new Array();
+	$scope.hours = new Array();
+
 	$scope.init = function() {
 
 		$scope.brands = new Array();
 		$scope.loadingRefresh = true;
 		$http.get(CommonsService.getUrl('/dashboard/assignedBrandList'))
 			.then($scope.postInit);
+
+		$scope.dayTypes.push({
+			id: 1,
+			name: 'Entre Semana'
+		})
+
+		$scope.dayTypes.push({
+			id: 2,
+			name: 'Fin de Semana'
+		})
+
+		$scope.hourTypes.push({
+			id: 1,
+			name: 'Día completo'
+		})
+
+		$scope.hourTypes.push({
+			id: 2,
+			name: 'Hora Pico'
+		})
+
+		$scope.hourTypes.push({
+			id: 3,
+			name: 'Hora no Pico'
+		})
+
+		$scope.hours.push({
+			id: 1,
+			name: 'Día Completo'
+		})
+
+		$scope.hours.push({
+			id: 2,
+			name: 'Matutino'
+		})
+
+		$scope.hours.push({
+			id: 3,
+			name: 'Vespertino'
+		})
+
+		$scope.hours.push({
+			id: 4,
+			name: 'Nocturno'
+		})
+
+		$scope.dayType = $scope.dayTypes[0];
+		$scope.hourType = $scope.hourTypes[0];
+		$scope.hour = $scope.hours[0];
 
 	}
 
@@ -89,7 +145,33 @@ function TrafficMapCtrl($scope, $http, $location, CommonsService, Authentication
 			}
 		}
 
-		initSinTraficoMap({lat: data.data.address.latitude, lng: data.data.address.longitude}, 'map');
+		// Set Layer information
+		var layer = '';
+		if( $scope.dayType.id == 1 ) {
+			layer = 'heatmap';
+		} else if( $scope.dayType.id == 2 ) {
+			layer = 'heatmap_weekend';
+		}
+
+		if( $scope.hour.id == 1 ) {
+			if( $scope.hourType.id == 2 ) {
+				layer += '_rush';
+			} else if( $scope.hourType.id == 3 ) {
+				layer += '_norush';
+			}
+		} else {
+			if( $scope.hour.id == 2 ) {
+				layer += '_morning';
+			} else if( $scope.hour.id == 3 ) {
+				layer += '_afternoon';
+			} else if( $scope.hour.id == 4 ) {
+				layer += '_night';
+			}
+		}
+		layer += '.json';
+
+		// Initialize Sin Trafico Lib
+		initSinTraficoMap({lat: data.data.address.latitude, lng: data.data.address.longitude}, 'map', layer);
 		$scope.loadTable($scope.clear);
 		getFlow(
 			{ 

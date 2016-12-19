@@ -26,34 +26,56 @@
 			<!-- fin map -->
 		</div>
 
-		<div class="col-lg-4">
-			<div class="ibox-content">
-				<!-- Tabla -->
-				<div class="form-group">
-					<label class="font-noraml"><strong>Tr&aacute;fico Vehicular</strong></label>
-					<hr/>
-					<table  id="traffic-table" class="footable table table-stripped toggle-arrow-tiny">
-						<thead>
-							<tr>
-								<th data-sort-ignore="true">
-									<center>Hora</center>
-								</th>
-								<th data-sort-ignore="true">
-									<center>Veh&iacute;culos</center>
-								</th>
-								<th data-sort-ignore="true">
-									<center>Hora</center>
-								</th>
-								<th data-sort-ignore="true">
-									<center>Veh&iacute;culos</center>
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-						</tbody>
-						<tfoot>
-						</tfoot>
-					</table>
+		<div class="row">
+
+			<div class="col-lg-4">
+				<div class="ibox-content">
+					<!-- Tabla -->
+					<div class="form-group">
+						<label class="font-noraml"><strong>Filtros</strong></label>
+						<hr/>
+						<div class="input-group" >
+							<select  ng-model="dayType" ng-change="refresh()" data-ng-options="o.name for o in dayTypes" class="input-sm form-control" style="width: 250px;"></select>
+						</div>
+						<div class="input-group" style="margin-top: 10px;">
+							<select  ng-model="hourType" ng-change="refresh()" data-ng-options="o.name for o in hourTypes" class="input-sm form-control" style="width: 250px;"></select>
+						</div>
+						<div class="input-group" style="margin-top: 10px;">
+							<select  ng-model="hour" ng-change="refresh()" data-ng-options="o.name for o in hours" class="input-sm form-control" style="width: 250px;"></select>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4">
+				<div class="ibox-content">
+					<!-- Tabla -->
+					<div class="form-group">
+						<label class="font-noraml"><strong>Tr&aacute;fico Vehicular</strong></label>
+						<hr/>
+						<table  id="traffic-table" class="footable table table-stripped toggle-arrow-tiny">
+							<thead>
+								<tr>
+									<th data-sort-ignore="true">
+										<center>Hora</center>
+									</th>
+									<th data-sort-ignore="true">
+										<center>Veh&iacute;culos</center>
+									</th>
+									<th data-sort-ignore="true">
+										<center>Hora</center>
+									</th>
+									<th data-sort-ignore="true">
+										<center>Veh&iacute;culos</center>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+							<tfoot>
+							</tfoot>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
