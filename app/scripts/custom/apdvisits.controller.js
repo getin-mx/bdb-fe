@@ -1,7 +1,7 @@
 /**
  * APDVisitsCtrl - controller
  */
-function APDVisitsCtrl($scope, AuthenticationService, CommonsService, $rootScope, $http) {
+function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService, $rootScope, $http) {
 
     var vm = this;
 
@@ -88,30 +88,34 @@ function APDVisitsCtrl($scope, AuthenticationService, CommonsService, $rootScope
     }
 
     $scope.updateStoreList = function(id, baseUrl, entityId) {
-        $.getJSON(
-            baseUrl 
-            + '/dashoard/storesFilter?entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&toStringDate=' + toDate 
-            + '&onlyExternalIds=true',
-            function(data) {
-                $(id).empty();
-                $(id).append($('<option>', {
-                    value: '',
-                    text: 'Todas'
-                }));
-                $.each(data, function(idx, item) {
-                    $(id).append($('<option>', {
-                        value: item.identifier,
-                        text: item.name
-                    }));
-                });
-            });
+        $http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
+            + '&entityId=' + $scope.brandId 
+            + '&entityKind=1&onlyExternalIds=true')
+            .then($scope.postUpdateStoreList);
     }
+
+    $scope.postUpdateStoreList = function(data) {
+        id = '#store';
+        $(id).empty();
+        $(id).append($('<option>', {
+            value: '',
+            text: 'Todas'
+        }));
+
+        for( var i = 0; i < data.data.data.length; i++ ) {
+            $(id).append($('<option>', {
+                value: data.data.data[i].identifier,
+                text: data.data.data[i].name
+            }));
+        }
+    }
+
     this.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
             baseUrl 
-            + '/dashoard/timelineData?entityId=' + entityId 
+            + '/dashoard/timelineData'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
             + '&entityKind=1' 
             + '&subentityId=' + subEntityId 
             + '&elementId=apd_visitor' 
@@ -170,7 +174,9 @@ function APDVisitsCtrl($scope, AuthenticationService, CommonsService, $rootScope
     this.updateVisitsByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
             baseUrl 
-            + '/dashoard/timelineHour?entityId=' + entityId 
+            + '/dashoard/timelineHour'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
             + '&entityKind=1' 
             + '&subentityId=' + subEntityId 
             + '&elementId=apd_visitor' 
@@ -229,7 +235,9 @@ function APDVisitsCtrl($scope, AuthenticationService, CommonsService, $rootScope
     this.updatePermanenceByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
             baseUrl 
-            + '/dashoard/timelineHour?entityId=' + entityId 
+            + '/dashoard/timelineHour'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
             + '&entityKind=1' 
             + '&subentityId=' + subEntityId 
             + '&elementId=apd_permanence' 
@@ -291,7 +299,9 @@ function APDVisitsCtrl($scope, AuthenticationService, CommonsService, $rootScope
     this.updateHeatmapTraffic = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
             baseUrl 
-            + '/dashoard/heatmapTableHour?entityId=' + entityId 
+            + '/dashoard/heatmapTableHour'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
             + '&entityKind=1' 
             + '&subentityId=' + subEntityId 
             + '&elementId=apd_visitor' 
@@ -353,7 +363,9 @@ function APDVisitsCtrl($scope, AuthenticationService, CommonsService, $rootScope
     this.updateHeatmapPermanence = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
             baseUrl 
-            + '/dashoard/heatmapTableHour?entityId=' + entityId 
+            + '/dashoard/heatmapTableHour'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
             + '&entityKind=1' 
             + '&subentityId=' + subEntityId 
             + '&elementId=apd_permanence' 
@@ -415,7 +427,9 @@ function APDVisitsCtrl($scope, AuthenticationService, CommonsService, $rootScope
     this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId) {
         $.getJSON(
             baseUrl 
-            + '/dashoard/brandTableData?entityId=' + entityId 
+            + '/dashoard/brandTableData'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
             + '&entityKind=1' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 

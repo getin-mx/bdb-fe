@@ -11,8 +11,8 @@ var config = {};
 config.baseUrl = 'http://api.allshoppings.mobi/bdb';
 config.dashUrl = 'http://api.allshoppings.mobi/appv2';
 
-//config.baseUrl = 'http://localhost:8081/bdb';
-//config.dashUrl = 'http://localhost:8081/appv2';
+// config.baseUrl = 'http://localhost:8081/bdb';
+// config.dashUrl = 'http://localhost:8081/appv2';
 
 config.oneMonth = 2505600000;
 config.oneWeek = 518400000;
