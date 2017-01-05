@@ -1,16 +1,13 @@
 /**
  * TrafficMapCtrl - controller
  */
-function TrafficMapCtrl($scope, $http, $location, CommonsService, AuthenticationService) {
+function TrafficMapCtrl($scope, $http, $location, $uibModal, CommonsService, AuthenticationService) {
 
 	var vm = this;
 	$scope.brands = null;
 	$scope.brand = null;
 	$scope.stores = null;
 	$scope.store = null;
-	$scope.clear = {
-		count: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-	}
 
 	$scope.dayType = null;
 	$scope.hourType = null;
@@ -172,85 +169,22 @@ function TrafficMapCtrl($scope, $http, $location, CommonsService, Authentication
 
 		// Initialize Sin Trafico Lib
 		initSinTraficoMap({lat: data.data.address.latitude, lng: data.data.address.longitude}, 'map', layer);
-		$scope.loadTable($scope.clear);
-		getFlow(
-			{ 
-				lat: data.data.address.latitude, 
-				lng: data.data.address.longitude
-			}, 
-			function(data) {
-				console.log(data)
-				$scope.loadTable(data);
-			},
-			function(){
-				console.log('Error getting traffic flow')
-			});
+		document.getElementById('lat').value = data.data.address.latitude;
+		document.getElementById('lng').value = data.data.address.longitude;
 		
 		$scope.loadingRefresh = false;
 	}
 
-	$scope.loadTable = function(data) {
-		var trafficTable = $('#traffic-table').data('footable');
-		$("#traffic-table>tbody>tr").each(function(index, elem){$(elem).remove();});
-
-		var row = '';
-		row += '<tr>'
-			   + '<td><center><strong>' + 6 + '</strong></center></td>'
-			   + '<td><center>' + data.count[$scope.convertGMT(6)] + '</center></td>'
-			   + '<td><center><strong>' + 14 + '</strong></center></td>'
-			   + '<td><center>' + data.count[$scope.convertGMT(14)] + '</center></td>'
-			   + '</tr>';
-		row += '<tr>'
-			   + '<td><center><strong>' + 7 + '</strong></center></td>'
-			   + '<td><center>' + data.count[$scope.convertGMT(7)] + '</center></td>'
-			   + '<td><center><strong>' + 15 + '</strong></center></td>'
-			   + '<td><center>' + data.count[$scope.convertGMT(15)] + '</center></td>'
-			   + '</tr>';
-		row += '<tr>'
-			   + '<td><center><strong>' + 8 + '</strong></center></td>'
-			   + '<td><center>' + data.count[$scope.convertGMT(8)] + '</center></td>'
-			   + '<td><center><strong>' + 16 + '</strong></center></td>'
-			   + '<td><center>' + data.count[$scope.convertGMT(16)] + '</center></td>'
-			   + '</tr>';
-		row += '<tr>'
-			   + '<td><center><strong>' + 9 + '</strong></center></td>'
-			   + '<td><center>' + data.count[$scope.convertGMT(9)] + '</center></td>'
-			   + '<td><center><strong>' + 17 + '</strong></center></td>'
-			   + '<td><center>' + data.count[$scope.convertGMT(17)] + '</center></td>'
-			   + '</tr>';
-		row += '<tr>'
-			   + '<td><center><strong>' + 10 + '</strong></center></td>'
-			   + '<td><center>' + data.count[$scope.convertGMT(10)] + '</center></td>'
-			   + '<td><center><strong>' + 18 + '</strong></center></td>'
-			   + '<td><center>' + data.count[$scope.convertGMT(18)] + '</center></td>'
-			   + '</tr>';
-		row += '<tr>'
-			   + '<td><center><strong>' + 11 + '</strong></center></td>'
-			   + '<td><center>' + data.count[$scope.convertGMT(11)] + '</center></td>'
-			   + '<td><center><strong>' + 19 + '</strong></center></td>'
-			   + '<td><center>' + data.count[$scope.convertGMT(19)] + '</center></td>'
-			   + '</tr>';
-		row += '<tr>'
-			   + '<td><center><strong>' + 12 + '</strong></center></td>'
-			   + '<td><center>' + data.count[$scope.convertGMT(12)] + '</center></td>'
-			   + '<td><center><strong>' + 20 + '</strong></center></td>'
-			   + '<td><center>' + data.count[$scope.convertGMT(20)] + '</center></td>'
-			   + '</tr>';
-		row += '<tr>'
-			   + '<td><center><strong>' + 13 + '</strong></center></td>'
-			   + '<td><center>' + data.count[$scope.convertGMT(13)] + '</center></td>'
-			   + '<td><center><strong>' + 21 + '</strong></center></td>'
-			   + '<td><center>' + data.count[$scope.convertGMT(21)] + '</center></td>'
-			   + '</tr>';
-
-		trafficTable.appendRow(row);
+	$scope.viewTrafficDetails = function() {
+		console.log($scope.store);
+		document.getElementById('storeId').value = $scope.store.id;
+        var modalInstance = $uibModal.open({
+            templateUrl: 'views/base/trafficdetails.html',
+            size: 'lg',
+            controller: TrafficDetailsCtrl
+        });
 	}
 
-	$scope.convertGMT = function(hour) {
-		var offset = 6;
-		if( hour < offset ) hour += 24;
-		return (hour - offset);
-	}
 
 	return vm;
 };

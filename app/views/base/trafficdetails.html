@@ -1,0 +1,56 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="TrafficDetailsCtrl">
+	<!-- filtro -->
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox-content">
+				<!-- Tabla -->
+				<div class="form-group">
+					<label class="font-noraml"><strong>Tr&aacute;fico Vehicular</strong><br/>Calle: {{streetName}} </label>
+					<hr/>
+					<table  id="traffic-table" class="footable table table-stripped toggle-arrow-tiny">
+						<thead>
+							<tr>
+								<th data-sort-ignore="true">
+									<center>Hora</center>
+								</th>
+								<th data-sort-ignore="true">
+									<center>Veh&iacute;culos</center>
+								</th>
+								<th data-sort-ignore="true">
+									<center>Km/h</center>
+								</th>
+								<th data-sort-ignore="true">
+									<center>Hora</center>
+								</th>
+								<th data-sort-ignore="true">
+									<center>Veh&iacute;culos</center>
+								</th>
+								<th data-sort-ignore="true">
+									<center>Km/h</center>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+						</tbody>
+						<tfoot>
+						</tfoot>
+					</table>
+				</div>
+			</div>
+
+			<div class="ibox-content" ng-class="classNoActiveAssignations">
+	            <p class="font-bold  alert alert-warning m-b-sm">
+					La informaci&oacute;n aqu&iacute; descripta est&aacute; basada en el promedio diario de veh&iacute;culos que circularon por este punto geogr&aacute;fico todos los d&iacute;as del &uacute;ltimo a&ntilde;o
+	            </p>
+			</div>
+
+		</div>
+
+	</div>
+	<!-- footer -->
+	<div class="row" data-ng-init="init()">
+		<div class="col-lg-12" style="height: 50px;">
+		</div>
+	</div>
+	<!-- fin footer -->
+</div>

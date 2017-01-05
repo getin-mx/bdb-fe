@@ -1,6 +1,8 @@
 <div ng-controller="TrafficMapCtrl" class="wrapper wrapper-content animated fadeInRight">
 	<div class="row">
-
+		<input type="hidden" id="storeId" />
+		<input type="hidden" id="lat" />
+		<input type="hidden" id="lng" />
 		<div class="col-lg-12 ibox-content" data-ng-init="init()">
 			<div class="form-group" style="height: 50px;">
 				<div class="input-group" style="float:left;">
@@ -51,30 +53,7 @@
 				<div class="ibox-content">
 					<!-- Tabla -->
 					<div class="form-group">
-						<label class="font-noraml"><strong>Tr&aacute;fico Vehicular</strong></label>
-						<hr/>
-						<table  id="traffic-table" class="footable table table-stripped toggle-arrow-tiny">
-							<thead>
-								<tr>
-									<th data-sort-ignore="true">
-										<center>Hora</center>
-									</th>
-									<th data-sort-ignore="true">
-										<center>Veh&iacute;culos</center>
-									</th>
-									<th data-sort-ignore="true">
-										<center>Hora</center>
-									</th>
-									<th data-sort-ignore="true">
-										<center>Veh&iacute;culos</center>
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-							</tbody>
-							<tfoot>
-							</tfoot>
-						</table>
+						<button ng-click="viewTrafficDetails()" type="button" ladda="loadingRefresh" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Ver Detalles de Tráfico</button>
 					</div>
 				</div>
 			</div>
