@@ -180,7 +180,7 @@ function TrafficMapCtrl($scope, $http, $location, $uibModal, CommonsService, Aut
 		document.getElementById('storeId').value = $scope.store.id;
         var modalInstance = $uibModal.open({
             templateUrl: 'views/base/trafficdetails.html',
-            size: 'lg',
+            size: 'md',
             controller: TrafficDetailsCtrl
         });
 	}
