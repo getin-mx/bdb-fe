@@ -1,64 +1,28 @@
 /**
- * APDDetailsCtrl - controller
+ * DemoVisits3Ctrl - controller
  */
-function APDDetailsCtrl($scope, AuthenticationService, $rootScope, $http) {
+function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, $rootScope, $http) {
 
     var vm = this;
 
     var dToDate = new Date(new Date().getTime() - config.oneDay);
     var dFromDate = new Date(dToDate.getTime() - config.oneWeek);
 
+    $scope.toDate = dToDate.format("yyyy-mm-dd", null);
+    $('#toDate').val($scope.toDate);
+    $scope.fromDate = dFromDate.format("yyyy-mm-dd", null);
+    $('#fromDate').val($scope.fromDate);
+    $scope.storeId = '';
+
     var globals = AuthenticationService.getCredentials();
     var credentials = globals.currentUser;
-
-    $scope.initAPDVisits = function() {
-        $http.get(CommonsService.getUrl('/dashboard/assignedBrandList'))
-            .then($scope.initAPDVisitsPhase2);
-    }
-
-    $scope.initAPDVisitsPhase2 = function(data) {
-
-        $scope.toDate = dToDate.format("yyyy-mm-dd", null);
-        $('#toDate').val($scope.toDate);
-        $scope.fromDate = dFromDate.format("yyyy-mm-dd", null);
-        $('#fromDate').val($scope.fromDate);
-        $scope.storeId = '';
-
-        $('#brandId').find('option').remove()
-
-        if( data.data.data.length == 1 ) {
-            $('#brandSelectorContainer').css('display','none');
-            selected = data.data.data[0].identifier;
-        } else {
-            $('#brandSelectorContainer').css('display','block');
-            for(var i = 0; i < data.data.data.length; i++) {
-                if( i == 0 ) selected = data.data.data[i].identifier;
-                $('#brandId').append($('<option>', { 
-                    value: data.data.data[i].identifier,
-                    text : data.data.data[i].name 
-                }));
-            }
-        }
-        $scope.brandId = selected;
-        $('#brandId').val(selected);
-
-        $scope.updateStoreList('#store', config.dashUrl, $scope.brandId);
-        $scope.updateAPDVisits();
-    }
-
-    $scope.updateBrand = function() {
-        $scope.loadingSubmit = true;
-        $scope.brandId = $('#brandId').val();
-        $scope.updateStoreList('#store', config.dashUrl, $scope.brandId);
-        $scope.updateAPDVisits();
-        $scope.loadingSubmit = false;
-    }
+    $scope.brandId = 'flormar_pa';
 
     $scope.exportAPDVisits = function() {
         $scope.fromDate = $('#fromDate').val();
         $scope.toDate = $('#toDate').val();
 
-        var url =  config.baseUrl + '/dashboard/visitDetailExport' 
+        var url =  config.baseUrl + '/dashboard/brandExport' 
             + '?authToken=' + $rootScope.globals.currentUser.token 
             + '&brandId=' + $scope.brandId 
             + '&storeId=' + $scope.storeId
@@ -87,29 +51,31 @@ function APDDetailsCtrl($scope, AuthenticationService, $rootScope, $http) {
         vm.updateBrandPerformanceTable('#brand_performance_table', config.dashUrl, fromDate, toDate, brandId);
     }
 
-    $scope.updateStoreList = function(id, baseUrl, entityId) {
-        $http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
-            + '&entityId=' + $scope.brandId 
-            + '&entityKind=1&onlyExternalIds=true')
-            .then($scope.postUpdateStoreList);
+    this.updateStoreList = function(id, baseUrl, entityId) {
+        $.getJSON(
+            baseUrl 
+            + '/dashoard/storesFilter?entityId=' + entityId 
+            + '&entityKind=1' 
+            + '&toStringDate=' + toDate 
+            + '&onlyExternalIds=true',
+            function(data) {
+                $(id).empty();
+                $(id).append($('<option>', {
+                    value: '',
+                    text: 'Todas'
+                }));
+                $.each(data, function(idx, item) {
+                    item.name = item.name.replace('Flormar Altaplaza', 'Tienda 1');
+                    item.name = item.name.replace('Flormar Metromall', 'Tienda 2');
+                    item.name = item.name.replace('Flormar Multicentro', 'Tienda 3');
+                    item.name = item.name.replace('Flormar Multiplaza', 'Tienda 4');
+                    $(id).append($('<option>', {
+                        value: item.identifier,
+                        text: item.name
+                    }));
+                });
+            });
     }
-
-    $scope.postUpdateStoreList = function(data) {
-        id = '#store';
-        $(id).empty();
-        $(id).append($('<option>', {
-            value: '',
-            text: 'Todas'
-        }));
-
-        for( var i = 0; i < data.data.data.length; i++ ) {
-            $(id).append($('<option>', {
-                value: data.data.data[i].identifier,
-                text: data.data.data[i].name
-            }));
-        }
-    }
-
     this.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
             baseUrl 
@@ -452,6 +418,10 @@ function APDDetailsCtrl($scope, AuthenticationService, $rootScope, $http) {
                 for (var i = 1; i < data.length - 1; i++) {
                     tab += '<tr>';
                     for (var x = 0; x < data[i].length; x++) {
+                        data[i][x] = data[i][x].replace('Flormar Altaplaza', 'Tienda 1');
+                        data[i][x] = data[i][x].replace('Flormar Metromall', 'Tienda 2');
+                        data[i][x] = data[i][x].replace('Flormar Multicentro', 'Tienda 3');
+                        data[i][x] = data[i][x].replace('Flormar Multiplaza', 'Tienda 4');
                         if (x == 0 || x == 3 || x == 5 || x == 7)
                             tab += '<td style="border-right: 1px solid gray;">' + data[i][x] + '</td>';
                         else
@@ -474,9 +444,12 @@ function APDDetailsCtrl($scope, AuthenticationService, $rootScope, $http) {
             });
     };
 
+    this.updateStoreList('#store', config.dashUrl, $scope.brandId);
+    $scope.updateAPDVisits();
+
     return vm;
 };
 
 angular
     .module('bdb')
-    .controller('APDDetailsCtrl', APDDetailsCtrl);
+    .controller('DemoVisits3Ctrl', DemoVisits3Ctrl);

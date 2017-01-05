@@ -84,7 +84,9 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
     this.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
             baseUrl 
-            + '/dashoard/timelineData?entityId=' + entityId 
+            + '/dashoard/timelineData'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
             + '&entityKind=1' 
             + '&subentityId=' + subEntityId 
             + '&elementId=apd_visitor' 
@@ -143,7 +145,9 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
     this.updateVisitsByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
             baseUrl 
-            + '/dashoard/timelineHour?entityId=' + entityId 
+            + '/dashoard/timelineHour'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
             + '&entityKind=1' 
             + '&subentityId=' + subEntityId 
             + '&elementId=apd_visitor' 
@@ -202,7 +206,9 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
     this.updatePermanenceByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
             baseUrl 
-            + '/dashoard/timelineHour?entityId=' + entityId 
+            + '/dashoard/timelineHour'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
             + '&entityKind=1' 
             + '&subentityId=' + subEntityId 
             + '&elementId=apd_permanence' 
@@ -264,7 +270,9 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
     this.updateHeatmapTraffic = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
             baseUrl 
-            + '/dashoard/heatmapTableHour?entityId=' + entityId 
+            + '/dashoard/heatmapTableHour'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
             + '&entityKind=1' 
             + '&subentityId=' + subEntityId 
             + '&elementId=apd_visitor' 
@@ -326,7 +334,9 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
     this.updateHeatmapPermanence = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
             baseUrl 
-            + '/dashoard/heatmapTableHour?entityId=' + entityId 
+            + '/dashoard/heatmapTableHour'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
             + '&entityKind=1' 
             + '&subentityId=' + subEntityId 
             + '&elementId=apd_permanence' 
@@ -388,11 +398,14 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
     this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId) {
         $.getJSON(
             baseUrl 
-            + '/dashoard/brandTableData?entityId=' + entityId 
+            + '/dashoard/brandTableData'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
             + '&entityKind=1' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
             + '&onlyExternalIds=true',
+
             function(data) {
                 var tab = '';
                 tab = '<table class="table table-striped" style="text-align: center;" >';

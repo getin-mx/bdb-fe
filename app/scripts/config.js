@@ -142,6 +142,12 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             data: { pageTitle: 'Visitas'}
         })
 
+        .state('index.demovisits3', {
+            url: "/demovisits3",
+            templateUrl: "views/custom/demo_visits_3.html",
+            data: { pageTitle: 'Visitas'}
+        })
+
         .state('index.demoareas', {
             url: "/demoareas",
             templateUrl: "views/custom/demo_areas.html",
