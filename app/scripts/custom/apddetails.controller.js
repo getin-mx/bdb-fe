@@ -1,7 +1,7 @@
 /**
  * APDDetailsCtrl - controller
  */
-function APDDetailsCtrl($scope, AuthenticationService, $rootScope, $http) {
+function APDDetailsCtrl($rootScope, $scope, AuthenticationService, CommonsService, $rootScope, $http) {
 
     var vm = this;
 
