@@ -172,6 +172,12 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             data: { pageTitle: 'Centros Comerciales'}
         })
 
+        .state('index.shoppingsettings', {
+            url: "/shoppingsettings/{identifier}",
+            templateUrl: "views/base/shopping.settings.html",
+            data: { pageTitle: 'Configuracion de Centros Comerciales'}
+        })
+
         .state('index.brands', {
             url: "/brands",
             templateUrl: "views/base/brands.html",

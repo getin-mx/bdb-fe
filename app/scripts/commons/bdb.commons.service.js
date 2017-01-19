@@ -85,6 +85,52 @@ function CommonsService($http, $cookieStore, $rootScope) {
 		$scope.loadingRefresh = false;
 	}
 
+	this.safeApply = function(scope) {
+		try {
+			if(!scope.$$phase) {
+				scope.$apply();
+			}
+		} catch( e ) {}
+	}
+
+	this.getTimezoneArray = function() {
+
+		var ret = new Array();
+		ret.push({id: -12, name: '(GMT -12:00) Eniwetok, Kwajalein'});
+		ret.push({id: -11, name: '(GMT -11:00) Midway Island, Samoa'});
+		ret.push({id: -10, name: '(GMT -10:00) Hawaii'});
+		ret.push({id: -9, name: '(GMT -9:00) Alaska'});
+		ret.push({id: -8, name: '(GMT -8:00) Pacific Time (US and Canada)'});
+		ret.push({id: -7, name: '(GMT -7:00) Mountain Time (US and Canada)'});
+		ret.push({id: -6, name: '(GMT -6:00) Central Time (US and Canada), Mexico City'});
+		ret.push({id: -5, name: '(GMT -5:00) Eastern Time (US and Canada), Bogota, Lima'});
+		ret.push({id: -4, name: '(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz'});
+		ret.push({id: -3.5, name: '(GMT -3:30) Newfoundland'});
+		ret.push({id: -3, name: '(GMT -3:00) Brazil, Buenos Aires, Georgetown<'});
+		ret.push({id: -2, name: '(GMT -2:00) Mid-Atlantic'});
+		ret.push({id: -1, name: '(GMT -1:00) Azores, Cape Verde Islands'});
+		ret.push({id: 0, name: '(GMT) Western Europe Time, London, Lisbon, Casablanca'});
+		ret.push({id: 1, name: '(GMT +1:00) Brussels, Copenhagen, Madrid, Paris'});
+		ret.push({id: 2, name: '(GMT +2:00) Kaliningrad, South Africa'});
+		ret.push({id: 3, name: '(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg'});
+		ret.push({id: 3.5, name: '(GMT +3:30) Tehran'});
+		ret.push({id: 4, name: '(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi'});
+		ret.push({id: 4.5, name: '(GMT +4:30) Kabul'});
+		ret.push({id: 5, name: '(GMT +5:00) Ekaterinburg, Islamabad, Karachi, Tashkent'});
+		ret.push({id: 5.5, name: '(GMT +5:30) Bombay, Calcutta, Madras, New Delhi'});
+		ret.push({id: 6, name: '(GMT +6:00) Almaty, Dhaka, Colombo'});
+		ret.push({id: 7, name: '(GMT +7:00) Bangkok, Hanoi, Jakarta'});
+		ret.push({id: 8, name: '(GMT +8:00) Beijing, Perth, Singapore, Hong Kong'});
+		ret.push({id: 9, name: '(GMT +9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk'});
+		ret.push({id: 9.5, name: '(GMT +9:30) Adelaide, Darwin'});
+		ret.push({id: 10, name: '(GMT +10:00) Eastern Australia, Guam, Vladivostok'});
+		ret.push({id: 11, name: '(GMT +11:00) Magadan, Solomon Islands, New Caledonia'});
+		ret.push({id: 12, name: '(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka'});
+
+		return ret;
+
+	}
+
 	return this;
 };
 

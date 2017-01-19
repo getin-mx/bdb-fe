@@ -15,6 +15,7 @@
         'oitozero.ngSweetAlert',		// SweetAlert
         'ui.knob',                      // jsKnob
         'ui.bootstrap',                 // ui-bootstrap
-        'localytics.directives'         // angular-chosen (just provided... not in repo)
+        'localytics.directives',        // angular-chosen (just provided... not in repo)
+        'summernote'                    // Summernote text editor
     ])
 })();

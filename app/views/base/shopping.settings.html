@@ -1,0 +1,154 @@
+<!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+<div id="blueimp-gallery" class="blueimp-gallery">
+	<div class="slides"></div>
+	<h3 class="title"></h3>
+	<a class="prev">‹</a>
+	<a class="next">›</a>
+	<a class="close">×</a>
+	<a class="play-pause"></a>
+	<ol class="indicator"></ol>
+</div>
+
+
+<div ng-controller="ShoppingSettingsCtrl" data-ng-init="init()">
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-lg-10">
+		<h2>Configuraci&oacute;n de Centro Comercial</h2>
+		<ol class="breadcrumb">
+			<li>
+				<a href="index.html">Home</a>
+			</li>
+			<li>
+				<a href="#/index/shoppings">Centros Comerciales</a>
+			</li>
+			<li class="active">
+				<strong>{{obj.name}}</strong>
+			</li>
+		</ol>
+	</div>
+	<div class="col-lg-2">
+	</div>
+	<div class="input-group" style="margin-top:50px;">
+		<button type="button" ng-click="update()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in">Aplicar</button>
+	</div>
+</div>
+
+<uib-tabset>
+<!-- Status Tab -->
+<uib-tab heading="Datos Generales">
+<div class="panel-body wrapper wrapper-content animated fadeInRight">
+
+	<div class="row">
+		
+		<!-- Info -->
+		<div class="col-lg-8">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Atributos</h5>
+				</div>
+				<div class="ibox-content form-horizontal">
+					<div class="form-group"><label class="col-sm-2 control-label">Nombre</label>
+						<div class="col-sm-10"><input type="text" class="form-control" ng-model="obj.name"></div>
+					</div>
+					<div class="form-group"><label class="col-sm-2 control-label">Estado</label>
+						<div class="col-sm-10">
+							<div><label> <input type="radio" ng-value="0" name="status" ng-model="obj.status"> Habilitado </label></div>
+							<div><label> <input type="radio" ng-value="1" name="boolean" ng-model="obj.status"> Deshabilitado </label></div>
+						</div>
+					</div>
+
+					<div class="form-group"><label class="col-sm-2 control-label">Descripci&oacute;n</label>
+						<div class="col-sm-10">
+							<div summernote class="summernote"  ng-model="obj.description">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Image -->
+		<div class="col-lg-4">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Imagen</h5>
+				</div>
+				<div class="ibox-content form-horizontal" style="min-height: 200px;">
+					<div class="form-group col-sm-5">
+						<div lightbox-gallery id="avatarId" class="lightBoxGallery" style="padding: 15px;">
+							<a href="http://api.allshoppings.mobi/img/{{obj.avatarId}}" title="{{obj.name}}"><img class="thumb" src="http://api.allshoppings.mobi/img/{{obj.avatarId}}"></a>
+						</div>
+					</div>
+					<div class="form-group col-sm-8">
+						<form class="dropzone" dropzone="" id="dropzone">
+							<div class="dz-message">
+								Arrastra aqu&iacute; tus archivos para subirlos
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</uib-tab>
+
+<!-- Status Tab -->
+<uib-tab heading="Ubicaci&oacute;n" select="updateMap()">
+<div class="panel-body wrapper wrapper-content animated fadeInRight">
+
+	<div class="row">
+		
+		<!-- Info -->
+		<div class="col-lg-7">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Ubicaci&oacute;n</h5>
+				</div>
+				<div class="ibox-content form-horizontal">
+					<div class="form-group"><label class="col-sm-3 control-label">Zona Horaria</label>
+						<div class="col-sm-9">
+							<select  ng-model="timezone" ng-change="" data-ng-options="o.name for o in timezones" class="form-control"></select>
+						</div>
+					</div>
+					<div class="form-group"><label class="col-sm-3 control-label">Calle / N&uacute;mero</label>
+						<div class="col-sm-5"><input type="text" class="form-control" ng-model="obj.address.streetName"></div>
+						<div class="col-sm-4"><input type="text" class="form-control" ng-model="obj.address.streetNumber"></div>
+					</div>
+					<div class="form-group"><label class="col-sm-3 control-label">Ciudad / Cod.Postal</label>
+						<div class="col-sm-5"><input type="text" class="form-control" ng-model="obj.address.city"></div>
+						<div class="col-sm-4"><input type="text" class="form-control" ng-model="obj.address.zipCode"></div>
+					</div>
+					<div class="form-group"><label class="col-sm-3 control-label">Provincia / Pa&iacute;s</label>
+						<div class="col-sm-5"><input type="text" class="form-control" ng-model="obj.address.province"></div>
+						<div class="col-sm-4"><select ng-model="country" data-ng-options="o.name for o in countries" class="form-control"></select></div>
+					</div>
+					<div class="hr-line-dashed-5p"></div>
+					<div class="form-group"><label class="col-sm-3 control-label">Latitud / Longitud</label>
+						<div class="col-sm-5"><input type="text" class="form-control" ng-model="obj.address.latitude"></div>
+						<div class="col-sm-4"><input type="text" class="form-control" ng-model="obj.address.longitude"></div>
+					</div>
+					<div class="hr-line-dashed-5p"></div>
+					<div class="form-group"><label class="col-sm-3 control-label">Area de Notificación <br/><small>(En metros)</small></label>
+						<div class="col-sm-9"><input type="text" class="form-control" ng-model="obj.fenceSize"></div>
+					</div>
+					<div class="form-group"><label class="col-sm-3 control-label">Area de Checkin <br/><small>(En metros)</small></label>
+						<div class="col-sm-9"><input type="text" class="form-control" ng-model="obj.checkinAreaSize"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Image -->
+		<div class="col-lg-5">
+			<!-- map-->
+			<div class="ibox-content" id="map" style="height: 450px; padding: 0px;">
+			</div>
+			<!-- fin map -->
+		</div>
+	</div>
+</div>
+</uib-tab>
+
+</uib-tabset>
+</div>
