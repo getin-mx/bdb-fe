@@ -135,13 +135,13 @@ function StorePlacerCtrl($scope, $http, $location, CommonsService, Authenticatio
 			&& data.data.error_code === undefined ) {
 			SweetAlert.swal({
 				title: "Ok!",
-				text: "La configuración de la tienda fue salvada con éxito",
+				text: "La configuración fue salvada con éxito",
 				type: "success"
 			});
 		} else {
 			SweetAlert.swal({
 				title: "Error!",
-				text: "La configuración de la tienda no pudo salvarse",
+				text: "La configuración no pudo salvarse",
 				type: "error"
 			});
 		}

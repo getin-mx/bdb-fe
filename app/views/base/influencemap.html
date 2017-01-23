@@ -7,7 +7,7 @@
 					<select  ng-model="brand" ng-change="brandChange()" data-ng-options="o.name for o in brands" class="input-sm form-control" style="width: 250px;"></select>
 				</div>
 				<div class="input-group" style="float:left; margin-left: 10px;">
-					Tienda:<br>
+					{{storeLabel}}:<br>
 					<select  ng-model="store" data-ng-options="o.name for o in stores" class="input-sm form-control" style="width: 250px;"></select>
 				</div>
 				<div class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">

@@ -94,8 +94,26 @@ function TrafficMapCtrl($scope, $http, $location, $uibModal, CommonsService, Aut
 
 	}
 
+    $scope.updateStoreLabel = function() {
+        $http.get(CommonsService.getUrl('/dashboard/config')
+            + '&entityId=' + $scope.brand.id 
+            + '&entityKind=1')
+            .then($scope.postUpdateStoreLabel);
+    }
+
+    $scope.postUpdateStoreLabel = function(data) {
+        try {
+            $scope.storeLabel = data.data.storeLabel;
+            if( $scope.storeLabel === undefined || $scope.storeLabel == null )
+                $scope.storeLabel = 'Tienda';
+        } catch( e ) {
+            $scope.storeLabel = 'Tienda';
+        }
+    }	
+
 	$scope.brandChange = function() {
 
+		$scope.updateStoreLabel();
 		$scope.stores = new Array();
 		$scope.loadingRefresh = true;
 		$http.get(CommonsService.getUrl('/dashboard/assignedStoreList')

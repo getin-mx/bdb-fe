@@ -71,13 +71,13 @@
             && data.data.error_code === undefined ) {
             SweetAlert.swal({
                 title: "Ok!",
-                text: "La configuración de la tienda fue salvada con éxito",
+                text: "La asignación fue salvada con éxito",
                 type: "success"
             });
         } else {
             SweetAlert.swal({
                 title: "Error!",
-                text: "La configuración de la tienda no pudo salvarse",
+                text: "La asignación no pudo salvarse",
                 type: "error"
             });
         }

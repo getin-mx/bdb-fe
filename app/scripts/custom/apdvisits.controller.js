@@ -11,6 +11,8 @@ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService
     var globals = AuthenticationService.getCredentials();
     var credentials = globals.currentUser;
 
+    $scope.storeLabel = '';
+
     $scope.initAPDVisits = function() {
         $http.get(CommonsService.getUrl('/dashboard/assignedBrandList'))
             .then($scope.initAPDVisitsPhase2);
@@ -41,6 +43,7 @@ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService
         }
         $scope.brandId = selected;
         $('#brandId').val(selected);
+        $scope.updateStoreLabel();
 
         $scope.updateStoreList('#store', config.dashUrl, $scope.brandId);
         $scope.updateAPDVisits();
@@ -49,10 +52,28 @@ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService
     $scope.updateBrand = function() {
         $scope.loadingSubmit = true;
         $scope.brandId = $('#brandId').val();
+        $scope.updateStoreLabel();
         $scope.updateStoreList('#store', config.dashUrl, $scope.brandId);
         $scope.updateAPDVisits();
         $scope.loadingSubmit = false;
     }
+
+    $scope.updateStoreLabel = function() {
+        $http.get(CommonsService.getUrl('/dashboard/config')
+            + '&entityId=' + $scope.brandId 
+            + '&entityKind=1')
+            .then($scope.postUpdateStoreLabel);
+    }
+
+    $scope.postUpdateStoreLabel = function(data) {
+        try {
+            $scope.storeLabel = data.data.storeLabel;
+            if( $scope.storeLabel === undefined || $scope.storeLabel == null )
+                $scope.storeLabel = 'Tienda';
+        } catch( e ) {
+            $scope.storeLabel = 'Tienda';
+        }
+    }    
 
     $scope.exportAPDVisits = function() {
         $scope.fromDate = $('#fromDate').val();
@@ -438,7 +459,7 @@ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService
                 var tab = '';
                 tab = '<table class="table table-striped" style="text-align: center;" >';
                 tab += '<tr style="font-weight:bold;">';
-                tab += '<td>Tienda</td>';
+                tab += '<td>' + $scope.storeLabel + '</td>';
                 tab += '<td>Paseantes</td>';
                 tab += '<td>Visitantes</td>';
                 tab += '<td>Tickets</td>';

@@ -78,13 +78,13 @@ function angularConfig($stateProvider, $urlRouterProvider) {
         .state('index.storeplacer', {
             url: "/storeplacer",
             templateUrl: "views/custom/storeplacer.html",
-            data: { pageTitle: 'Ubicacion de Tiendas'}
+            data: { pageTitle: 'Ubicacion'}
         })
 
         .state('index.storetickets', {
             url: "/storetickets",
             templateUrl: "views/custom/storetickets.html",
-            data: { pageTitle: 'Tickets de Tiendas'}
+            data: { pageTitle: 'Tickets'}
         })
 
         .state('index.test', {
