@@ -352,7 +352,7 @@
 							<thead>
 								<tr>
 									<th data-sort-ignore="true">
-										Tienda
+										Tienda / Centro Comercial
 									</th>
 									<th data-sort-ignore="true">
 										Desde
@@ -399,11 +399,21 @@
 				<!-- apdassignations ABM -->
 				<div class="ibox-content form-horizontal">
 					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right; padding-top: 6px;">Tipo</label>
+						<div class="col-sm-9"><select ng-class="classAdding" ng-model="entityKind" ng-change="entityKindChange()" data-ng-options="o.name for o in entityKinds" class="input-sm form-control" style="width: 250px;"></select><span ng-class="classUpdating">{{entityKind.name}}</span></div>
+					</div>
+
+					<div class="form-group" ng-class="classShopping">
+						<label class="col-sm-3" style="text-align: right; padding-top: 6px;">Centro Comercial</label>
+						<div class="col-sm-9"><select ng-class="classAdding" ng-model="shopping" ng-change="shoppingChange()" data-ng-options="o.name for o in shoppings" class="input-sm form-control" style="width: 250px;"></select><span ng-class="classUpdating">{{shopping.name}}</span></div>
+					</div>
+
+					<div class="form-group" ng-class="classStore">
 						<label class="col-sm-3" style="text-align: right; padding-top: 6px;">Cadena</label>
 						<div class="col-sm-9"><select ng-class="classAdding" ng-model="brand" ng-change="brandChange()" data-ng-options="o.name for o in brands" class="input-sm form-control" style="width: 250px;"></select><span ng-class="classUpdating">{{brand.name}}</span></div>
 					</div>
 
-					<div class="form-group">
+					<div class="form-group" ng-class="classStore">
 						<label class="col-sm-3" style="text-align: right; padding-top: 6px;">Tienda</label>
 						<div class="col-sm-9"><select ng-class="classAdding" ng-model="store" data-ng-options="o.name for o in stores" class="input-sm form-control" style="width: 250px;"></select><span ng-class="classUpdating">{{store.name}}</span></div>
 					</div>

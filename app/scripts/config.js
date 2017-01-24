@@ -247,7 +247,7 @@ angular
                 });
 
                 event.preventDefault();
-            }inde
+            }
         });
     };
 });

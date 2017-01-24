@@ -10,10 +10,24 @@
         $scope.classUpdating = 'hidden';
         $scope.classAdding = '';
 
+        $scope.classStore = '';
+        $scope.classShopping = 'hidden';
+
         $scope.fromDate = new Date();
         $scope.toDate = null;
 
+        $scope.shopping = {};
+        $scope.brand = {};
+        $scope.store = {};
+        $scope.entityKind = {};
+
         $scope.brandInit();
+        $scope.shoppingInit();
+
+        $scope.entityKinds = new Array();
+        $scope.entityKinds.push({id: 0, name: 'Centro Comercial'});
+        $scope.entityKinds.push({id: 3, name: 'Tienda'});
+        $scope.entityKind = $scope.entityKinds[1];
     }
 
     $scope.load = function(identifier) {
@@ -23,10 +37,22 @@
                 if( data.status == 200 ) {
                     $scope.classUpdating = '';
                     $scope.classAdding = 'hidden';
-                    $scope.brand.id = $scope.obj.brandId;
-                    $scope.brand.name = $scope.obj.brandName;
-                    $scope.store.id = $scope.obj.entityId;
-                    $scope.store.name = $scope.obj.name;
+
+                    if( $scope.obj.entityKind == 0 ) {
+                        $scope.entityKind.id = 0;
+                        $scope.entityKind.name = 'Centro Comercial';
+                        $scope.shopping.id = $scope.obj.entityId;
+                        $scope.shopping.name = $scope.obj.name;
+                    } else {
+                        $scope.entityKind.id = 3;
+                        $scope.entityKind.name = 'Tienda';
+                        $scope.brand.id = $scope.obj.brandId;
+                        $scope.brand.name = $scope.obj.brandName;
+                        $scope.store.id = $scope.obj.entityId;
+                        $scope.store.name = $scope.obj.name;
+                    }
+
+                    $scope.entityKindChange();
 
                     $scope.fromDate = $scope.obj.fromDate;
                     $scope.toDate = $scope.obj.toDate;
@@ -43,11 +69,26 @@
             });
     }
 
+    $scope.entityKindChange = function() {
+        if( $scope.entityKind.id == 0 ) {
+            $scope.classShopping = '';
+            $scope.classStore = 'hidden';
+        } else {
+            $scope.classShopping = 'hidden';
+            $scope.classStore = '';
+        }
+    }
+
     $scope.updateAssignation = function() {
         $scope.loadingUpdate = true;
         $scope.obj.hostname = $scope.hostname;
-        $scope.obj.entityId = $scope.store.id;
-        $scope.obj.entityKind = 3;
+        if( $scope.entityKind.id == 3 ) {
+            $scope.obj.entityId = $scope.store.id;
+            $scope.obj.entityKind = 3;
+        } else {
+            $scope.obj.entityId = $scope.shopping.id;
+            $scope.obj.entityKind = 0;
+        }
         $scope.fromDate = $('#fromDate').val();
         $scope.toDate = $('#toDate').val();
         $scope.obj.fromDate = $scope.fromDate;
@@ -83,6 +124,37 @@
         }
 
         $rootScope.$emit('adpassignation.update');
+    }
+
+    $scope.shoppingInit = function() {
+
+        $scope.shoppings = new Array();
+        $scope.loadingRefresh = true;
+        $http.get(CommonsService.getUrl('/dashboard/assignedShoppingList'))
+            .then(function(data) {
+
+                // validate token
+                if( data.status != 200 || data.data.error_code !== undefined )
+                    AuthenticationService.logout(function(response) {
+                        $location.path('/login');    
+                    });
+
+                for( var i = 0; i < data.data.data.length; i++ ) {
+                    var shopping = {
+                        id: data.data.data[i].identifier,
+                        name: data.data.data[i].name
+                    }
+                    $scope.shoppings.push(shopping);
+                }
+                $scope.shopping = $scope.shoppings[0];
+                $scope.shoppingChange();
+
+            });
+    }
+
+    $scope.shoppingChange = function() {
+
+        $scope.loadingRefresh = true;
     }
 
     $scope.brandInit = function() {
