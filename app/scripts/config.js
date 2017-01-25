@@ -75,6 +75,12 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             data: { pageTitle: 'Visitas'}
         })
 
+        .state('index.shoppingvisits', {
+            url: "/shoppingvisits",
+            templateUrl: "views/custom/shoppingvisits.html",
+            data: { pageTitle: 'Visitas'}
+        })
+
         .state('index.storeplacer', {
             url: "/storeplacer",
             templateUrl: "views/custom/storeplacer.html",
