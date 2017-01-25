@@ -97,7 +97,7 @@ function APDevicesCtrl($scope, $http, $location, $uibModal, CommonsService, Auth
 	    			   + '<a class="apdevicesettings" style="margin-left: 10px;" href="#" '
 	    			   + 'data-value="' + obj.hostname + '"><i class="fa fa-cog"></i></a>'
 
-	    			   + ((obj.status == 0 && obj.reportable == true )
+	    			   + ((obj.status == 0 )
 	    			   ? '<a class="apdevicedisable" style="margin-left: 10px;" href="#" '
 	    			   + 'data-value="' + obj.hostname + '"><i class="fa fa-arrow-down"></i></a>' : '')
 
