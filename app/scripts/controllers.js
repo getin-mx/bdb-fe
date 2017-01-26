@@ -9,6 +9,7 @@
 function MainCtrl($scope, AuthenticationService) {
 
     var main = this;
+    $scope.hastImage = 'hidden';
 
     $scope.updateCredentials = function() {
         var globals = AuthenticationService.getCredentials();
@@ -16,6 +17,12 @@ function MainCtrl($scope, AuthenticationService) {
         var menu = globals.currentMenu;
         if (credentials) {
             main.userName = credentials.firstname;
+            main.avatarId = credentials.avatarId;
+            if( credentials.avatarId == null || credentials.avatarId === undefined ) {
+                $scope.hastImage = 'hidden';
+            } else {
+                $scope.hastImage = '';
+            }
             if( menu ) {
                 $scope.menu = menu.entries;
             } else {

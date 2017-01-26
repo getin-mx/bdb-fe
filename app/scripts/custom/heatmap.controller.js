@@ -30,7 +30,11 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
         indoormap.draw(mapData, $('.mapContainer')[0]);
         if (indoormap.queryString()['noHeatMap'] != 'true') {
             $('#save').css('display', 'none');
-            indoormap.drawHeatMap(config.baseUrl, token, mapData, KEY, $('.mapContainer')[0], entityId, fromDate, toDate, dayOfWeek, timezone, 150, 4);
+            if( KEY == 'mundoe_p1') {
+                indoormap.drawHeatMap(config.baseUrl, token, mapData, KEY, $('.mapContainer')[0], entityId, fromDate, toDate, dayOfWeek, timezone, 100, 10);
+            } else {
+                indoormap.drawHeatMap(config.baseUrl, token, mapData, KEY, $('.mapContainer')[0], entityId, fromDate, toDate, dayOfWeek, timezone, 150, 4);
+            }
         }
     
         $scope.mapData = mapData;
@@ -46,7 +50,7 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
 
     $scope.initHeatmap = function() {
         var dToDate = new Date(new Date().getTime() - config.oneDay);
-        var dFromDate = new Date(dToDate.getTime() - config.oneMonth);
+        var dFromDate = new Date(dToDate.getTime() - config.oneWeek);
 
         $scope.toDate = dToDate.format("yyyy-mm-dd", null);
         $('#toDate').val($scope.toDate);
