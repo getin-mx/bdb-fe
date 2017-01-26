@@ -4,6 +4,8 @@
 function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, CommonsService, $http) {
 
     var vm = this;
+    $scope.mapData = null;
+    $scope.KEY = null;
 
     $scope.initFrame = function() {
         KEY = $location.search().floormap;
@@ -30,6 +32,15 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
             $('#save').css('display', 'none');
             indoormap.drawHeatMap(config.baseUrl, token, mapData, KEY, $('.mapContainer')[0], entityId, fromDate, toDate, dayOfWeek, timezone, 150, 4);
         }
+    
+        $scope.mapData = mapData;
+        $scope.KEY = KEY;
+
+        $('#save').click(function(e) {
+            e.preventDefault();
+            indoormap.save($scope.mapData, $scope.KEY);
+        });
+
         console.log('frame initialized');
     };
 
@@ -117,6 +128,7 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
             + '&fromDate=' + params.fromDate 
             + '&toDate=' + params.toDate
             + '&dayOfWeek=' + params.dayOfWeek
+            // + '&noHeatMap=true'
             + '&timezone=' + params.timezone;
 
         document.getElementById('floor_map_iframe').contentWindow.reload();
@@ -156,6 +168,7 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
                 + '&fromDate=' + fromDate 
                 + '&toDate=' + toDate 
                 + '&dayOfWeek=' + dayOfWeek 
+                // + '&noHeatMap=true'
                 + '&timezone=' + timezone 
                 + '"></iframe>';
 

@@ -33,7 +33,7 @@ indoormap = {
 			// This function is anonymous, is executed immediately and 
 			// the return value is assigned to QueryString!
 			var query_string = {};
-			var query = window.location.search.substring(1);
+			var query = window.location.href;
 			var vars = query.split("&");
 			for (var i=0;i<vars.length;i++) {
 				var pair = vars[i].split("=");
@@ -202,6 +202,49 @@ indoormap = {
 			if( data.corrected == undefined )
 				data.corrected = false;
 			return data;
+		},
+
+		/**
+		 * Saves the working set in the data server
+		 * 
+		 * @param data
+		 *            The object with the FloorMap data set
+		 * @param identifier
+		 *            The FloorMap object identifier
+		 * @param success
+		 *            A success callback function
+		 * @param failure
+		 *            An error callback function
+		 */
+		save: function(data, identifier, success, failure) {
+
+			url = 'http://api.allshoppings.mobi/bdb/dashboard/floormapData';
+
+			data.identifier = identifier;
+			for( var i = 0; i < data.data.length; i++ ) {
+				var element = data.data[i];
+				element.x = indoormap.extractNumber($('#' + element.uid).css('left'));
+				element.y = indoormap.extractNumber($('#' + element.uid).css('top'));
+				element.zoneName = $('#zoneName-' + element.uid).val();
+				data.data[i] = element;
+			}
+
+			$.ajax({
+				headers: {"Content-Type":"application/json; charset=UTF-8"},
+				crossDomain : true,
+				dataType : "json",
+				type : 'POST',
+				url : url,
+				data : JSON.stringify(data),
+				success : function(data) {
+					alert('Datos Guardados');
+					if( typeof(success) == 'function') success();
+				},
+				error : function() {
+					alert('Error al guardar los datos. Intente de nuevo');
+					if( typeof(failure) == 'function') failure();
+				}
+			});
 		},
 
 		/**
