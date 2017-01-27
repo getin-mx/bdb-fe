@@ -1,0 +1,32 @@
+<div ng-controller="DeviceMessageCtrl" class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-lg-12 ibox-content" data-ng-init="init()">
+            <div class="ibox-title">
+                <h5>Env&iacute;o de mensajes</h5>
+            </div>
+			<div class="ibox-content" >
+				<!-- Tabla -->
+                    <form class="form-horizontal">
+						<div class="input-group">
+	
+						<label class="col-sm-3 control-label">Dispositivo</label>
+	                    <div class="col-sm-9"><input type="text" ng-model="deviceUUID" class="form-control"></div>
+	
+						<label class="col-sm-3 control-label">Titulo</label>
+	                    <div class="col-sm-9"><input type="text" ng-model="title" class="form-control"></div>
+
+						<label class="col-sm-3 control-label">Mensaje</label>
+	                    <div class="col-sm-9"><input type="text" ng-model="message" class="form-control"></div>
+
+						<label class="col-sm-3 control-label">Url</label>
+	                    <div class="col-sm-9"><input type="text" ng-model="url" class="form-control"></div>
+	
+						<div class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">
+						<button ng-click="update()" type="button" ladda="loadingUpdate" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Enviar</button>
+						</div>
+	                </form>
+			</div>
+		</div>
+	</div>
+
+</div>

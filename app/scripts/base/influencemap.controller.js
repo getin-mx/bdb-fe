@@ -7,6 +7,8 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 
 	$scope.TYPE_GPS_WORK = 3;
 	$scope.TYPE_GPS_HOME = 2;
+	$scope.TYPE_GPS_WORK_PEASANT = 5;
+	$scope.TYPE_GPS_HOME_PEASANT = 4;
 	$scope.TYPE_GPS = 1;
 	$scope.TYPE_WIFI = 0;
 
@@ -138,22 +140,7 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 		for (i = 0; i < obj.length; i++) {
 			var item = obj[i];
 			
-			// if( item.type == $scope.TYPE_WIFI ) {
-			// 	var conns = item.connections / 20;
-			// 	if( conns > 2000 ) conns = 2000;
-			// 	if( conns < 100 ) conns = 100;
-			// 	map.drawCircle({
-			// 		lat: item.lat,
-			// 		lng: item.lon,
-			// 		fillColor: '#ffff00',
-			// 		fillOpacity: 0.8,
-			// 		strokeColor: '#ffff00',
-			// 		strokeWeight: 1,
-			// 		radius: conns
-			// 	});
-			// }
-
-			if( item.type == $scope.TYPE_GPS ) {
+			if( item.type == $scope.TYPE_GPS_WORK ) {
 				var conns = item.connections / 20;
 				if( conns > 2000 ) conns = 2000;
 				if( conns < 100 ) conns = 100;
@@ -178,6 +165,36 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 					fillColor: '#0000ff',
 					fillOpacity: 0.8,
 					strokeColor: '#0000ff',
+					strokeWeight: 1,
+					radius: conns
+				});
+			}
+
+			if( item.type == $scope.TYPE_GPS_WORK_PEASANT ) {
+				var conns = item.connections / 20;
+				if( conns > 2000 ) conns = 2000;
+				if( conns < 100 ) conns = 100;
+				map.drawCircle({
+					lat: item.lat,
+					lng: item.lon,
+					fillColor: '#800080',
+					fillOpacity: 0.8,
+					strokeColor: '#800080',
+					strokeWeight: 1,
+					radius: conns
+				});
+			}
+
+			if( item.type == $scope.TYPE_GPS_HOME_PEASANT ) {
+				var conns = item.connections / 5;
+				if( conns > 2000 ) conns = 2000;
+				if( conns < 100 ) conns = 100;
+				map.drawCircle({
+					lat: item.lat,
+					lng: item.lon,
+					fillColor: '#FFA500',
+					fillOpacity: 0.8,
+					strokeColor: '#FFA500',
 					strokeWeight: 1,
 					radius: conns
 				});

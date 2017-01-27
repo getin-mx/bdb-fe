@@ -87,6 +87,12 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             data: { pageTitle: 'Ubicacion'}
         })
 
+        .state('index.devicemessage', {
+            url: "/devicemessage",
+            templateUrl: "views/custom/devicemessage.html",
+            data: { pageTitle: 'Envio de Mensajes'}
+        })
+
         .state('index.storetickets', {
             url: "/storetickets",
             templateUrl: "views/custom/storetickets.html",
