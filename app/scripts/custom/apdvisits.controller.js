@@ -102,6 +102,7 @@ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService
 
         vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, fromDate, toDate, brandId, storeId);
         vm.updateVisitsByHourChart('#visits_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId);
+        vm.updateRepetitionsChart('#repetitions', config.dashUrl, fromDate, toDate, brandId, storeId);
         vm.updatePermanenceByHourChart('#permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId);
         vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId);
         vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId);
@@ -225,6 +226,65 @@ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService
                     yAxis: {
                         title: {
                             text: 'Tráfico por Hora'
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }]
+                    },
+                    tooltip: {
+                        valueSuffix: ''
+                    },
+                    legend: {
+                        layout: 'vertical',
+                        align: 'right',
+                        verticalAlign: 'middle',
+                        borderWidth: 0
+                    },
+                    plotOptions: {
+                        line: {
+                            dataLabels: {
+                                enabled: true
+                            },
+                            enableMouseTracking: false
+                        }
+                    },
+                    series: data.series
+                });
+            });
+    };
+    this.updateRepetitionsChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
+        $.getJSON(
+            baseUrl 
+            + '/dashoard/repetitions'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
+            + '&entityKind=1' 
+            + '&subentityId=' + subEntityId 
+            + '&elementId=apd_visitor' 
+            + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
+            + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android' 
+            + '&fromStringDate=' + fromDate 
+            + '&toStringDate=' + toDate 
+            + '&eraseBlanks=true',
+            function(data) {
+                // Disable extra options by default
+                $(id).highcharts({
+                    chart: {
+                        type: 'column',
+                        marginLeft: 200,
+                        marginRight: 200
+                    },
+                    title: {
+                        text: 'Repeticiones'
+                    },
+                    xAxis: {
+                        categories: data.categories
+                    },
+                    yAxis: {
+                        title: {
+                            text: 'Repeticiones'
                         },
                         plotLines: [{
                             value: 0,
