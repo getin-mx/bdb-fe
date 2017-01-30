@@ -14,6 +14,15 @@ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService
     $scope.storeLabel = '';
 
     $scope.initAPDVisits = function() {
+
+        if(globals.currentUser.role == 1) {
+            $('#exportDetails').css('display','block');
+            $scope.detailsExportable = '';
+        } else {
+            $('#exportDetails').css('display','none');
+            $scope.detailsExportable = 'hidden';
+        }
+
         $http.get(CommonsService.getUrl('/dashboard/assignedBrandList'))
             .then($scope.initAPDVisitsPhase2);
     }
@@ -80,6 +89,20 @@ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService
         $scope.toDate = $('#toDate').val();
 
         var url =  config.baseUrl + '/dashboard/brandExport' 
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&brandId=' + $scope.brandId 
+            + '&storeId=' + $scope.storeId
+            + '&fromStringDate=' + $scope.fromDate
+            + '&toStringDate=' + $scope.toDate
+
+        window.open(url);
+    }
+
+    $scope.exportDetails = function() {
+        $scope.fromDate = $('#fromDate').val();
+        $scope.toDate = $('#toDate').val();
+
+        var url =  config.baseUrl + '/dashboard/visitDetailExport' 
             + '?authToken=' + $rootScope.globals.currentUser.token 
             + '&brandId=' + $scope.brandId 
             + '&storeId=' + $scope.storeId
