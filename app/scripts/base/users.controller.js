@@ -46,8 +46,10 @@ function UsersCtrl($scope, $http, $location, CommonsService, AuthenticationServi
 	    					  + '">' + (obj.fullname === undefined ? '-' : obj.fullname) + '</td>'
 	    		+ '<td data-value="' + (obj.securitySettings.role === undefined ? '' : obj.securitySettings.role) 
 	    					  + '">' + (obj.securitySettings.role === undefined ? '-' : $scope.getUserType(obj.securitySettings.role)) + '</td>'
-	    		+ '<td data-value="' + obj.hotname + '"><a href="/#/index/apuptime/' 
-	    							 + obj.hostname + '"><i class="fa fa-line-chart"></i></a></td>'
+	    		+ '<td data-value="' + (obj.lastLogin === undefined ? '' : obj.lastLogin) 
+	    					  + '">' + (obj.lastLogin === undefined ? '-' : obj.lastLogin) + '</td>'
+	    		// + '<td data-value="' + obj.hotname + '"><a href="/#/index/apuptime/' 
+	    		// 					 + obj.hostname + '"><i class="fa fa-line-chart"></i></a></td>'
 	    		+ '</tr>';
 	    return row;
 	}
@@ -58,7 +60,7 @@ function UsersCtrl($scope, $http, $location, CommonsService, AuthenticationServi
 		if( role == 3 ) return "Country Admin";
 		if( role == 5 ) return "Centro Comercial";
 		if( role == 7 ) return "Cadena";
-		if( role == 9 ) return "Club de Beneficios";
+		if( role == 9 ) return "Tienda";
 		if( role == 11 ) return "Data Entry";
 		if( role == 13 ) return "Solo Lectura";
 		if( role == 15 ) return "Adminstrador de Cupones";
