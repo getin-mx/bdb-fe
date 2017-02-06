@@ -470,6 +470,8 @@
 
 	    $scope.toDate = dToDate.format("yyyy-mm-dd", null);
 	    $scope.fromDate = dFromDate.format("yyyy-mm-dd", null);
+        $('#uptimeFromDate').val($scope.fromDate);
+        $('#uptimeToDate').val($scope.toDate);
 
 		$scope.loadingRefresh = true;
 		$http.get(CommonsService.getUrl('/dashboard/apuptime') + '&identifier=' + $scope.hostname 
@@ -477,6 +479,18 @@
 			.then($scope.fillUptime);
 
 	}
+
+    $scope.refreshUptimeButton = function() {
+
+        $scope.toDate = $('#uptimeToDate').val();
+        $scope.fromDate = $('#uptimeFromDate').val();
+
+        $scope.loadingRefresh = true;
+        $http.get(CommonsService.getUrl('/dashboard/apuptime') + '&identifier=' + $scope.hostname 
+            + '&fromStringDate=' + $scope.fromDate + '&toStringDate=' + $scope.toDate)
+            .then($scope.fillUptime);
+
+    }
 
 	$scope.fillUptime = function(data) {
         $scope.uptime = Highcharts.chart('heatmap_apuptime', {
