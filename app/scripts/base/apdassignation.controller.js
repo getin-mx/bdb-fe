@@ -5,6 +5,18 @@
 
     var vm = this;
 
+    $scope.init = function() {
+        $scope.shopping = {};
+        $scope.brand = {};
+        $scope.store = {};
+        $scope.entityKind = {};
+
+        $scope.entityKinds = new Array();
+        $scope.entityKinds.push({id: 0, name: 'Centro Comercial'});
+        $scope.entityKinds.push({id: 3, name: 'Tienda'});
+        $scope.entityKind = $scope.entityKinds[1];        
+    }
+
     $scope.new = function() {
         $scope.obj = {};
         $scope.classUpdating = 'hidden';
@@ -16,23 +28,16 @@
         $scope.fromDate = new Date();
         $scope.toDate = null;
 
-        $scope.shopping = {};
-        $scope.brand = {};
-        $scope.store = {};
-        $scope.entityKind = {};
-
         $scope.brandInit();
         $scope.shoppingInit();
 
-        $scope.entityKinds = new Array();
-        $scope.entityKinds.push({id: 0, name: 'Centro Comercial'});
-        $scope.entityKinds.push({id: 3, name: 'Tienda'});
-        $scope.entityKind = $scope.entityKinds[1];
+        $scope.init();
     }
 
     $scope.load = function(identifier) {
         $http.get(CommonsService.getUrl('/apdassignation/' + identifier))
             .then(function(data) {
+                $scope.init();
                 $scope.obj = data.data;
                 if( data.status == 200 ) {
                     $scope.classUpdating = '';
@@ -64,6 +69,8 @@
                         $scope.obj.toDate = null;  
                         $('#toDate').val('');
                     } 
+
+                    CommonsService.safeApply($scope);
                 }
 
             });
