@@ -20,6 +20,11 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 
 	$scope.init = function() {
 
+		$scope.checkGpsWork = true;
+		$scope.checkGpsHome = true;
+		$scope.checkPeasantWork = true;
+		$scope.checkPeasantHome = true;
+
 		$scope.brands = new Array();
 		$scope.loadingRefresh = true;
 		$http.get(CommonsService.getUrl('/dashboard/assignedBrandList'))
@@ -140,7 +145,7 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 		for (i = 0; i < obj.length; i++) {
 			var item = obj[i];
 			
-			if( item.type == $scope.TYPE_GPS_WORK ) {
+			if( item.type == $scope.TYPE_GPS_WORK && $scope.checkGpsWork == true ) {
 				var conns = item.connections / 20;
 				if( conns > 2000 ) conns = 2000;
 				if( conns < 100 ) conns = 100;
@@ -155,7 +160,7 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 				});
 			}
 
-			if( item.type == $scope.TYPE_GPS_HOME ) {
+			if( item.type == $scope.TYPE_GPS_HOME && $scope.checkGpsHome == true ) {
 				var conns = item.connections / 5;
 				if( conns > 2000 ) conns = 2000;
 				if( conns < 100 ) conns = 100;
@@ -170,7 +175,7 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 				});
 			}
 
-			if( item.type == $scope.TYPE_GPS_WORK_PEASANT ) {
+			if( item.type == $scope.TYPE_GPS_WORK_PEASANT && $scope.checkPeasantWork == true  ) {
 				var conns = item.connections / 20;
 				if( conns > 2000 ) conns = 2000;
 				if( conns < 100 ) conns = 100;
@@ -185,7 +190,7 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 				});
 			}
 
-			if( item.type == $scope.TYPE_GPS_HOME_PEASANT ) {
+			if( item.type == $scope.TYPE_GPS_HOME_PEASANT && $scope.checkPeasantHome == true  ) {
 				var conns = item.connections / 5;
 				if( conns > 2000 ) conns = 2000;
 				if( conns < 100 ) conns = 100;

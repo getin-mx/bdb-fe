@@ -1,6 +1,6 @@
 <div ng-controller="InfluenceMapCtrl" class="wrapper wrapper-content animated fadeInRight">
 	<div class="row">
-		<div class="col-lg-12 ibox-content" data-ng-init="init()">
+		<div class="col-lg-9 ibox-content" data-ng-init="init()">
 			<div class="form-group" style="height: 50px;">
 				<div class="input-group" style="float:left;">
 					Cadena:<br>
@@ -19,5 +19,31 @@
 			</div>
 			<!-- fin funnel -->
 		</div>
+
+		<div class="col-lg-3">
+            <div class="ibox-title">
+                <h5>Referencias</h5>
+            </div>
+			<div class="ibox-content" >
+				<!-- Tabla -->
+                    <form class="form-horizontal">
+						<div class="input-group">
+	
+                        <div><label> <input icheck type="checkbox" ng-model="checkGpsWork">
+                        <span style="color: #00ff00;">Verde: </span>Visitas de D&iacute;a </label></div>
+                        <div><label> <input icheck type="checkbox" ng-model="checkGpsHome">
+                        <span style="color: #0000ff;">Azul: </span>Visitas de Noche </label></div>
+                        <div><label> <input icheck type="checkbox" ng-model="checkPeasantWork">
+                        <span style="color: #800080;">Morado: </span>Paseantes de D&iacute;a </label></div>
+                        <div><label> <input icheck type="checkbox" ng-model="checkPeasantHome">
+                        <span style="color: #FFA500;">Naranja: </span>Paseantes de Noche </label></div>
+
+						<div class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">
+						<button ng-click="refresh()" type="button" ladda="loadingRefresh" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Actualizar</button>
+						</div>
+	                </form>
+			</div>
+		</div>
+
 	</div>
 </div>
