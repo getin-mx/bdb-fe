@@ -409,13 +409,25 @@ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService
             + '&entityKind=1' 
             + '&subentityId=' + subEntityId 
             + '&elementId=apd_visitor' 
-            + '&elementSubId=visitor_total_visits' 
+            + '&elementSubId=visitor_total_visits,visitor_total_peasents'
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
             + '&average=false' 
             + '&toMinutes=false' 
             + '&eraseBlanks=true',
             function(data) {
+
+                var p = new Array();
+                for( var i = 0; i < data.data.length; i++) {
+                    var ob = data.data[i];
+                    var p1 = p[ob[0]];
+                    if( p1 === null || p1 === undefined )  {
+                        p1 = new Array();
+                        p[ob[0]] = p1;
+                    }
+                    var val = ob[3];
+                    p1[ob[1]] = val;
+                }
 
                 $(id).highcharts({
                     chart: {
@@ -449,7 +461,7 @@ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService
                     },
                     tooltip: {
                         formatter: function() {
-                            return this.point.value + ' Visitantes';
+                            return this.point.value + ' <strong>Visitantes</strong> <br/>' + p[this.point.x][this.point.y]    + ' <strong>Paseantes</strong>';
                         }
                     },
                     series: [{
@@ -473,13 +485,25 @@ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService
             + '&entityKind=1' 
             + '&subentityId=' + subEntityId 
             + '&elementId=apd_permanence' 
-            + '&elementSubId=permanence_hourly_visits' 
+            + '&elementSubId=permanence_hourly_visits,permanence_hourly_peasents' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
             + '&average=true' 
             + '&toMinutes=true' 
             + '&eraseBlanks=true',
             function(data) {
+
+                var p = new Array();
+                for( var i = 0; i < data.data.length; i++) {
+                    var ob = data.data[i];
+                    var p1 = p[ob[0]];
+                    if( p1 === null || p1 === undefined )  {
+                        p1 = new Array();
+                        p[ob[0]] = p1;
+                    }
+                    var val = ob[3];
+                    p1[ob[1]] = val;
+                }
 
                 $(id).highcharts({
                     chart: {
@@ -513,7 +537,7 @@ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService
                     },
                     tooltip: {
                         formatter: function() {
-                            return this.point.value + ' minutos';
+                            return '<strong>Visitantes: </strong>' + this.point.value + ' minutos <br/> <strong>Paseantes: </strong>' + p[this.point.x][this.point.y]    + ' minutos';
                         }
                     },
                     series: [{
