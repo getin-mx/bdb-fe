@@ -93,7 +93,7 @@
     $scope.monitor = {
         min: 0,
         max: 1440,
-        step: 30,
+        step: 15,
         type: 'double',
         prefix: "",
         postfix: "",
@@ -107,7 +107,7 @@
     $scope.visitMon = {
         min: 0,
         max: 1440,
-        step: 30,
+        step: 15,
         type: 'double',
         prefix: "",
         postfix: "",
@@ -121,7 +121,7 @@
     $scope.visitTue = {
         min: 0,
         max: 1440,
-        step: 30,
+        step: 15,
         type: 'double',
         prefix: "",
         postfix: "",
@@ -135,7 +135,7 @@
     $scope.visitWed = {
         min: 0,
         max: 1440,
-        step: 30,
+        step: 15,
         type: 'double',
         prefix: "",
         postfix: "",
@@ -149,7 +149,7 @@
     $scope.visitThu = {
         min: 0,
         max: 1440,
-        step: 30,
+        step: 15,
         type: 'double',
         prefix: "",
         postfix: "",
@@ -163,7 +163,7 @@
     $scope.visitFri = {
         min: 0,
         max: 1440,
-        step: 30,
+        step: 15,
         type: 'double',
         prefix: "",
         postfix: "",
@@ -177,7 +177,7 @@
     $scope.visitSat = {
         min: 0,
         max: 1440,
-        step: 30,
+        step: 15,
         type: 'double',
         prefix: "",
         postfix: "",
@@ -191,7 +191,7 @@
     $scope.visitSun = {
         min: 0,
         max: 1440,
-        step: 30,
+        step: 15,
         type: 'double',
         prefix: "",
         postfix: "",
