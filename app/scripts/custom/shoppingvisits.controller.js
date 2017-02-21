@@ -74,8 +74,13 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
     }
 
     this.filterAPDVisits = function(shoppingId, storeId, fromDate, toDate) {
-        console.log(fromDate);
-        console.log(toDate);
+
+        $('#visits_by_date').html('');
+        $('#visits_by_hour').html('');
+        $('#permanence_by_hour').html('');
+        $('#heatmap_traffic_by_hour').html('');
+        $('#heatmap_permanence_by_hour').html('');
+        $('#shopping_performance_table').html('');
 
         vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, fromDate, toDate, shoppingId, storeId);
         vm.updateVisitsByHourChart('#visits_by_hour', config.dashUrl, fromDate, toDate, shoppingId, storeId);

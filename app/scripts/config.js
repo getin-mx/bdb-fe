@@ -220,6 +220,18 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             data: { pageTitle: 'Configuracion de Antena'}
         })
 
+        .state('index.aphentry', {
+            url: "/aphentry/{identifier}",
+            templateUrl: "views/base/aphentry.html",
+            data: { pageTitle: 'Analisis de Visitas'}
+        })
+
+        .state('index.apdvanalysis', {
+            url: "/apdvanalysis",
+            templateUrl: "views/base/apdvanalysis.html",
+            data: { pageTitle: 'Analisis de Visitas'}
+        })
+
 };
 
 /**

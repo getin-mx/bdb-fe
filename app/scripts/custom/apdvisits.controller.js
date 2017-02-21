@@ -120,8 +120,14 @@ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService
     }
 
     this.filterAPDVisits = function(brandId, storeId, fromDate, toDate) {
-        console.log(fromDate);
-        console.log(toDate);
+
+        $('#visits_by_date').html('');
+        $('#visits_by_hour').html('');
+        $('#repetitions').html('');
+        $('#permanence_by_hour').html('');
+        $('#heatmap_traffic_by_hour').html('');
+        $('#heatmap_permanence_by_hour').html('');
+        $('#brand_performance_table').html('');
 
         vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, fromDate, toDate, brandId, storeId);
         vm.updateVisitsByHourChart('#visits_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId);
