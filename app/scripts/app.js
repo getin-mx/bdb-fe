@@ -16,7 +16,7 @@
         'ui.knob',                      // jsKnob
         'ui.bootstrap',                 // ui-bootstrap
         'localytics.directives',        // angular-chosen (just provided... not in repo)
-        'summernote',                   // Summernote text editor
-        'BrowserCache'
+        'summernote'                   // Summernote text editor
+        // 'BrowserCache'
     ])
 })();
