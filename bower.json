@@ -48,7 +48,6 @@
     "awesome-bootstrap-checkbox": "~0.3.7",
     "dropzone": "~4.3.0",
     "blueimp-gallery": "~2.22.0",
-    // "angular-browser-cache-manager": "~0.0.5",
     "icheck": "~1.0.2"
   },
   "resolutions": {
