@@ -30,13 +30,16 @@
 						<div class="input-group">
 	
                         <div><label> <input icheck type="checkbox" ng-model="checkGpsWork">
-                        <span style="color: #00ff00;">Verde: </span>Visitas de D&iacute;a </label></div>
+                        <span style="color: #00ff00;">Verde:<br> </span>Ubicaci&oacute;n de los visitantes en el d&iacute;a. </label></div>
+                        <br>
                         <div><label> <input icheck type="checkbox" ng-model="checkGpsHome">
-                        <span style="color: #0000ff;">Azul: </span>Visitas de Noche </label></div>
+                        <span style="color: #0000ff;">Azul:<br> </span>Ubicaci&oacute;n de los visitantes en la noche. </label></div>
+                        <br>
                         <div><label> <input icheck type="checkbox" ng-model="checkPeasantWork">
-                        <span style="color: #800080;">Morado: </span>Paseantes de D&iacute;a </label></div>
+                        <span style="color: #800080;">Morado:<br> </span>Ubicaci&oacute;n de los paseantes en el d&iacute;a. </label></div>
+                        <br>
                         <div><label> <input icheck type="checkbox" ng-model="checkPeasantHome">
-                        <span style="color: #FFA500;">Naranja: </span>Paseantes de Noche </label></div>
+                        <span style="color: #FFA500;">Naranja:<br> </span>Ubicaci&oacute;n de los paseantes en la noche. </label></div>
 
 						<div class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">
 						<button ng-click="refresh()" type="button" ladda="loadingRefresh" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Actualizar</button>
@@ -44,6 +47,5 @@
 	                </form>
 			</div>
 		</div>
-
 	</div>
 </div>
