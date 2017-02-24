@@ -276,11 +276,11 @@ angular
     };
 });
 
-// angular
-//     .module('bdb')
-//     .config(['$httpProvider', function($httpProvider) {
-//         $httpProvider.interceptors.push('browserCacheInterceptor');
-//     }]);
+angular
+    .module('bdb')
+    .config(['$httpProvider', function($httpProvider) {
+        $httpProvider.interceptors.push('browserCacheInterceptor');
+    }]);
 
 
 angular
