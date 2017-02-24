@@ -47,7 +47,8 @@
     "chosen": "~1.6.2",
     "awesome-bootstrap-checkbox": "~0.3.7",
     "dropzone": "~4.3.0",
-    "blueimp-gallery": "~2.22.0"
+    "blueimp-gallery": "~2.22.0",
+    "angular-browser-cache-manager": "~0.0.5"
   },
   "resolutions": {
     "jquery": "~2.1.4",
