@@ -26,6 +26,7 @@
     "angular-sweetalert": "~1.1.2",
     "angular-knob": "~0.0.3",
     "angular-summernote": "~0.8.1",
+    "angular-browser-cache-manager": "~0.0.5",
     "summernote": "~0.8.1",
     "jquery": "~2.1.4",
     "jquery-ui": "~1.10.4",
@@ -47,8 +48,7 @@
     "chosen": "~1.6.2",
     "awesome-bootstrap-checkbox": "~0.3.7",
     "dropzone": "~4.3.0",
-    "blueimp-gallery": "~2.22.0",
-    "angular-browser-cache-manager": "~0.0.5"
+    "blueimp-gallery": "~2.22.0"
   },
   "resolutions": {
     "jquery": "~2.1.4",
