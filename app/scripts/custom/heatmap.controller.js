@@ -66,11 +66,11 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
 
         $('#shoppingId').find('option').remove()
 
-        var selected = 'toreoparquecentral';
+        var selected = 'mundoe';
         if( data.data.data.length == 0 ) {
             $('#shoppingId').append($('<option>', { 
-                value: 'toreoparquecentral',
-                text : 'Toreo Parque Central'
+                value: 'mundoe',
+                text : 'Centro Comercial MundoE'
             }));
         } else {
             for(var i = 0; i < data.data.data.length; i++) {
