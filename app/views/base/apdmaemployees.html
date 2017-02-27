@@ -1,0 +1,78 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="ÀPDMAEmployeesCtrl">
+
+	<input type="hidden" id="identifierParam"/>
+	<input type="hidden" id="entityIdParam"/>
+	<input type="hidden" id="entityKindParam"/>
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox">
+				<div class="ibox-content">
+
+					<div class="row col-lg-12" data-ng-init="init()">
+						<div class="form-group" style="height: 50px;">
+							<div class="input-group" style="float:left;">
+								Cadena:<br>
+								<select  ng-model="brand" ng-change="brandChange()" data-ng-options="o.name for o in brands" class="form-control" style="width: 250px;"></select>
+							</div>
+							<div class="input-group" style="float:left; margin-left: 10px;">
+								Tienda:<br>
+								<select  ng-model="store" data-ng-options="o.name for o in stores" class="form-control" style="width: 250px;"></select>
+							</div>
+							<div class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">
+								<button ng-click="refresh()" type="button" ladda="loadingRefresh" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Filtrar</button>
+							</div>
+							<div class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">
+								<button ng-click="newRecord()" type="button" ladda="loadingRefresh" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Nuevo</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="tabs-container">
+						
+						<!-- Header -->
+
+						<!-- TabSet -->
+						<uib-tabset>
+						<uib-tab>
+						<uib-tab-heading>
+						<span>Visitas</span><span id="employee-count"></span>
+						</uib-tab-heading>
+						<div class="panel-body">
+							<table  id="employee-table" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10">
+								<thead>
+									<tr>
+										<th data-sort-ignore="true" data-toggle="true">
+											MAC Address
+										</th>
+										<th data-sort-ignore="true">
+											Nombre
+										</th>
+										<th data-sort-ignore="true">
+											Empleado Desde
+										</th>
+										<th data-sort-ignore="true">
+											Empleado Hasta
+										</th>
+										<th data-sort-ignore="true">
+											Acciones
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+								<tfoot>
+								<tr>
+									<td colspan="6">
+									<ul class="pagination pull-right"></ul>
+								</td>
+							</tr>
+							</tfoot>
+						</table>
+					</div>
+					</uib-tab>
+				</uib-tabset>
+			</div>
+		</div>
+	</div>
+</div>

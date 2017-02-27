@@ -232,6 +232,18 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             data: { pageTitle: 'Analisis de Visitas'}
         })
 
+        .state('index.apdmaemployees', {
+            url: "/apdmaemployees",
+            templateUrl: "views/base/apdmaemployees.html",
+            data: { pageTitle: 'Empleados'}
+        })
+
+        .state('index.apdmaemployeesettings', {
+            url: "/apdmaemployeesettings/{identifier}",
+            templateUrl: "views/base/apdmaemployee.settings.html",
+            data: { pageTitle: 'Configuracion de Empleado'}
+        })
+
 };
 
 /**

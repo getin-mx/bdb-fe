@@ -1,0 +1,74 @@
+<div ng-controller="APDMAEmployeeSettingsCtrl" data-ng-init="init()">
+<div class="row wrapper border-bottom white-bg page-heading">
+	<div class="col-lg-8">
+		<h2>Configuraci&oacute;n de Empleado</h2>
+		<ol class="breadcrumb">
+			<li>
+				<a href="index.html">Home</a>
+			</li>
+			<li>
+				<a href="#/index/apdmaemployees">Empleados</a>
+			</li>
+			<li class="active">
+				<strong>{{obj.description}}</strong>
+			</li>
+		</ol>
+	</div>
+	<div class="col-lg-4">
+	</div>
+	<div class="input-group" style="margin-top:50px;">
+		<button type="button" ng-click="update()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in">Aplicar</button>
+	</div>
+</div>
+
+<uib-tabset>
+<!-- Assignations tab -->
+<uib-tab">
+<uib-tab-heading>
+</uib-tab-heading>
+<div class="panel-body wrapper wrapper-content animated fadeInRight">
+
+	<div class="row">
+
+		<!-- Assignations -->
+		<div class="col-lg-12" ng-class="formAssignationClass">
+			<div class="ibox float-e-margins" ng-controller="APDAssignationCtrl" data-ng-init="brandInit()">
+				<div class="ibox-title">
+					<h5>Par&aacute;metros de empleado para {{obj.description}}</h5>
+				</div>
+
+				<!-- apdassignations ABM -->
+				<div class="ibox-content form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right; padding-top: 6px;">MAC</label>
+						<div class="col-sm-9"><input ng-model="obj.mac" class="form-control" style="width: 250px;"></div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right; padding-top: 6px;">Nombre del Empleado</label>
+						<div class="col-sm-9"><input ng-model="obj.description" class="form-control" style="width: 250px;"></div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right; padding-top: 6px;">Desde</label>
+						<div class="col-sm-9"><input type="datetime" id="fromDate" ng-model="fromDate" class="form-control" style="width: 250px;" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD"></div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-3" style="text-align: right; padding-top: 6px;">Hasta</label>
+						<div class="col-sm-9"><input type="datetime" id="toDate" ng-model="toDate" class="form-control" style="width: 250px;" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD"></div>
+					</div>
+
+				</div>
+
+				<!-- fin apdassignations ABM -->
+
+			</div>
+		</div>
+
+	</div>
+</div>
+</uib-tab>
+
+</uib-tabset>
+</div>
