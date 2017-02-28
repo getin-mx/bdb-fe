@@ -1,7 +1,7 @@
 /**
  * UsersCtrl - controller
  */
-function UsersCtrl($scope, $http, $location, CommonsService, AuthenticationService) {
+function UsersCtrl($scope, $http, $location, CommonsService, AuthenticationService, $uibModal) {
 
 	var vm = this;
 	$scope.search = '';
@@ -39,6 +39,15 @@ function UsersCtrl($scope, $http, $location, CommonsService, AuthenticationServi
 
 	}
 
+	$scope.modalAuditLog = function(identifier) {
+		document.getElementById('identifierParam').value = identifier;
+        var modalInstance = $uibModal.open({
+            templateUrl: 'views/base/loginauditlog.html',
+            size: 'lg',
+            controller: LoginAuditLogCtrl
+        });
+	}
+
 	$scope.fillRecord = function(obj, status) {
 		var row = '<tr>'
 	    		+ '<td data-value="' + obj.identifier + '">' + obj.identifier + '</td>'
@@ -48,8 +57,10 @@ function UsersCtrl($scope, $http, $location, CommonsService, AuthenticationServi
 	    					  + '">' + (obj.securitySettings.role === undefined ? '-' : $scope.getUserType(obj.securitySettings.role)) + '</td>'
 	    		+ '<td data-value="' + (obj.lastLogin === undefined ? '' : obj.lastLogin) 
 	    					  + '">' + (obj.lastLogin === undefined ? '-' : obj.lastLogin) + '</td>'
-	    		// + '<td data-value="' + obj.hotname + '"><a href="/#/index/apuptime/' 
-	    		// 					 + obj.hostname + '"><i class="fa fa-line-chart"></i></a></td>'
+	    		+ '<td data-value="' + obj.hotname + '">'
+	    			   + '<a class="loginauditlog" style="margin-left: 10px;" href="#" '
+	    			   + 'data-value="' + obj.identifier + '"><i class="fa fa-search-plus"></i></a>'
+	    		+ '</td>'
 	    		+ '</tr>';
 	    return row;
 	}
@@ -67,12 +78,22 @@ function UsersCtrl($scope, $http, $location, CommonsService, AuthenticationServi
 		if( role == 17 ) return "Aplicacion";
 	}
 
+	$scope.defineTriggers = function() {
+		// Define auditlog click response
+		$('.loginauditlog').click(function(e) {
+			e.preventDefault();
+			$scope.modalAuditLog($(e.currentTarget).data('value'));
+		})
+	}
+
 	$scope.fillTableActive = function(data) {
 		CommonsService.paginateCommonTable($scope, 'user', data, '7', '1,3,5,7,9,11,13,15');
+		$scope.defineTriggers();
 	}
 
 	$scope.fillTableInactive = function(data) {
 		CommonsService.paginateCommonTable($scope, 'user', data, '1,3,5', '1,3,5,7,9,11,13,15');
+		$scope.defineTriggers();
 	}
 
 	return vm;

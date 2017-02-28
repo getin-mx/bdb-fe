@@ -190,6 +190,12 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             data: { pageTitle: 'Configuracion de Centros Comerciales'}
         })
 
+        .state('index.loginauditlog', {
+            url: "/loginauditlog/{identifier}",
+            templateUrl: "views/base/loginauditlog.html",
+            data: { pageTitle: 'Log de Auditoria'}
+        })
+
         .state('index.brands', {
             url: "/brands",
             templateUrl: "views/base/brands.html",
