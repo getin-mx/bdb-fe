@@ -244,6 +244,12 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             data: { pageTitle: 'Configuracion de Empleado'}
         })
 
+        .state('index.opentimes', {
+            url: "/opentimes",
+            templateUrl: "views/base/opentimes.html",
+            data: { pageTitle: 'Horarios de Apertura y Cierre'}
+        })
+
 };
 
 /**
