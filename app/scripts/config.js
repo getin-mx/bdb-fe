@@ -256,6 +256,12 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             data: { pageTitle: 'Horario de Empleados'}
         })
 
+        .state('index.processes', {
+            url: "/processes",
+            templateUrl: "views/base/processes.html",
+            data: { pageTitle: 'Reprocesos'}
+        })
+
 };
 
 /**
