@@ -78,6 +78,17 @@
 					</div>
 				</div>
 			</div>
+			<div class="ibox-content" class="form-group" ng-class="classAdmin">
+                <label>Comentarios</label>
+                <textarea class="form-control" ng-model="visitsComments" placeholder="Tus comentarios" rows="3"></textarea>
+                <br/>
+				<button type="button" ng-click="updateComments()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Guardar</button>
+			</div>
+			<div class="ibox-content" ng-class="classUser">
+                <p class="font-bold  alert alert-warning m-b-sm">
+                	{{visitsComments}}
+                </p>
+			</div>
 		</div>
 	</div>
 	<!-- fin table -->

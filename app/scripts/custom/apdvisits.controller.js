@@ -1,9 +1,12 @@
 /**
  * APDVisitsCtrl - controller
  */
-function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService, $rootScope, $http) {
+ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService, $rootScope, $http, SweetAlert) {
 
     var vm = this;
+
+    $scope.classUser = 'hidden';
+    $scope.classAdmin = 'hidden';
 
     var dToDate = new Date(new Date().getTime() - config.oneDay);
     var dFromDate = new Date(dToDate.getTime() - config.oneWeek);
@@ -17,14 +20,18 @@ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService
 
         if(globals.currentUser.role == 1) {
             $('#exportDetails').css('display','block');
+            $scope.classUser = 'hidden';
+            $scope.classAdmin = '';
             $scope.detailsExportable = '';
         } else {
             $('#exportDetails').css('display','none');
+            $scope.classUser = 'hidden';
+            $scope.classAdmin = 'hidden';
             $scope.detailsExportable = 'hidden';
         }
 
         $http.get(CommonsService.getUrl('/dashboard/assignedBrandList'))
-            .then($scope.initAPDVisitsPhase2);
+        .then($scope.initAPDVisitsPhase2);
     }
 
     $scope.initAPDVisitsPhase2 = function(data) {
@@ -71,7 +78,7 @@ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService
         $http.get(CommonsService.getUrl('/dashboard/config')
             + '&entityId=' + $scope.brandId 
             + '&entityKind=1')
-            .then($scope.postUpdateStoreLabel);
+        .then($scope.postUpdateStoreLabel);
     }
 
     $scope.postUpdateStoreLabel = function(data) {
@@ -82,18 +89,58 @@ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService
         } catch( e ) {
             $scope.storeLabel = 'Tienda';
         }
+        try {
+            $scope.visitsComments = data.data.visitsComments;
+        } catch( e ) {
+        }
+
+        if ($scope.visitsComments != '' && $scope.visitsComments !== undefined && $scope.classAdmin == 'hidden') {
+            $scope.classUser = '';
+        }
     }    
+
+    $scope.updateComments = function() {
+        $scope.loadingSubmit = true;
+
+        $scope.dashboard = {
+            entityId: $scope.brandId,
+            entityKind: 1,
+            visitsComments: $scope.visitsComments
+        }
+
+        $http.post((CommonsService.getUrl('/dashboard/config')), $scope.dashboard)
+        .then(function(data) {
+            console.log(data);
+
+            if( data.status = 200 && data.data.error_code === undefined ) {
+                SweetAlert.swal({
+                    title: "Ok!",
+                    text: "Los comentarios fueron salvados con éxito",
+                    type: "success"
+                });
+
+                $scope.loadingSubmit = false;
+
+            } else {
+                SweetAlert.swal({
+                    title: "Error!",
+                    text: "Los comentarios no pudieron salvarse",
+                    type: "error"
+                });
+            }
+        });
+    }
 
     $scope.exportAPDVisits = function() {
         $scope.fromDate = $('#fromDate').val();
         $scope.toDate = $('#toDate').val();
 
         var url =  config.baseUrl + '/dashboard/brandExport' 
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&brandId=' + $scope.brandId 
-            + '&storeId=' + $scope.storeId
-            + '&fromStringDate=' + $scope.fromDate
-            + '&toStringDate=' + $scope.toDate
+        + '?authToken=' + $rootScope.globals.currentUser.token 
+        + '&brandId=' + $scope.brandId 
+        + '&storeId=' + $scope.storeId
+        + '&fromStringDate=' + $scope.fromDate
+        + '&toStringDate=' + $scope.toDate
 
         window.open(url);
     }
@@ -103,11 +150,11 @@ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService
         $scope.toDate = $('#toDate').val();
 
         var url =  config.baseUrl + '/dashboard/visitDetailExport' 
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&brandId=' + $scope.brandId 
-            + '&storeId=' + $scope.storeId
-            + '&fromStringDate=' + $scope.fromDate
-            + '&toStringDate=' + $scope.toDate
+        + '?authToken=' + $rootScope.globals.currentUser.token 
+        + '&brandId=' + $scope.brandId 
+        + '&storeId=' + $scope.storeId
+        + '&fromStringDate=' + $scope.fromDate
+        + '&toStringDate=' + $scope.toDate
 
         window.open(url);
     }
@@ -142,7 +189,7 @@ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService
         $http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
             + '&entityId=' + $scope.brandId 
             + '&entityKind=1&onlyExternalIds=true')
-            .then($scope.postUpdateStoreList);
+        .then($scope.postUpdateStoreList);
     }
 
     $scope.postUpdateStoreList = function(data) {
@@ -612,5 +659,5 @@ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService
 };
 
 angular
-    .module('bdb')
-    .controller('APDVisitsCtrl', APDVisitsCtrl);
+.module('bdb')
+.controller('APDVisitsCtrl', APDVisitsCtrl);
