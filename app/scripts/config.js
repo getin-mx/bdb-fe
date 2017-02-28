@@ -250,6 +250,12 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             data: { pageTitle: 'Horarios de Apertura y Cierre'}
         })
 
+        .state('index.employeetimes', {
+            url: "/employeetimes",
+            templateUrl: "views/base/employeetimes.html",
+            data: { pageTitle: 'Horario de Empleados'}
+        })
+
 };
 
 /**
