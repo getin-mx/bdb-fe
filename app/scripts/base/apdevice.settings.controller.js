@@ -202,7 +202,10 @@
         to: 1440
     };
 
+    $scope.processMinDate = moment("2017-01-01T12:00:00.000Z");
+
 	$scope.init = function() {
+        console.log($scope.processMinDate);
         $scope.classNoActiveAssignations = 'hidden';
 		if( $stateParams.hostname !== undefined ) {
 			$scope.hostname = $stateParams.hostname;
@@ -700,6 +703,7 @@
 
     $scope.refreshProcesses = function() {
         $scope.loadingRefresh = true;
+
         $http.get(CommonsService.getUrl('/process') + '&hostname=' + $scope.hostname + '&order=startDateTime desc' )
             .then($scope.fillProcessTable);
         $http.get(CommonsService.getUrl('/apdassignation') + '&hostname=' + $scope.hostname + '&active=true' )
@@ -768,6 +772,48 @@
         $scope.loadingUpdate = true;
         $scope.processFromDate = $('#processFromDate').val();
         $scope.processToDate = $('#processToDate').val();
+
+        var tmpDate = moment($scope.processFromDate);
+        if( tmpDate < $scope.processMinDate ) {
+            SweetAlert.swal({
+                title: "Error!",
+                text: "La fecha de inicio del reproceso es menor al primero de enero!",
+                type: "error"
+            });
+            $scope.loadingUpdate = false;
+            return;
+        }
+
+        tmpDate = moment($scope.processToDate);
+        if( tmpDate < $scope.processMinDate ) {
+            SweetAlert.swal({
+                title: "Error!",
+                text: "La fecha de fin del reproceso es menor al primero de enero!",
+                type: "error"
+            });
+            $scope.loadingUpdate = false;
+            return;
+        }
+
+        if( Date.daysBetween(new Date($scope.processFromDate), new Date($scope.processToDate)) > 31 ) {
+            SweetAlert.swal({
+                title: "Error!",
+                text: "No puede reprocesarse más de un mes!",
+                type: "error"
+            });
+            $scope.loadingUpdate = false;
+            return;
+        }
+
+        if( moment($scope.processToDate) <= moment($scope.processFromDate)) {
+            SweetAlert.swal({
+                title: "Error!",
+                text: "La fecha de fin de reproceso tiene que ser mayor a la de inicio!",
+                type: "error"
+            });
+            $scope.loadingUpdate = false;
+            return;
+        }
 
         var request = {
             entityId: $scope.entity.id,
