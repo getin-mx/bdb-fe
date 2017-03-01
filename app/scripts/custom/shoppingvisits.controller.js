@@ -78,6 +78,7 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
         $('#visits_by_date').html('');
         $('#visits_by_hour').html('');
         $('#permanence_by_hour').html('');
+        $('#repetitions').html('');
         $('#heatmap_traffic_by_hour').html('');
         $('#heatmap_permanence_by_hour').html('');
         $('#shopping_performance_table').html('');
@@ -85,6 +86,7 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
         vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, fromDate, toDate, shoppingId, storeId);
         vm.updateVisitsByHourChart('#visits_by_hour', config.dashUrl, fromDate, toDate, shoppingId, storeId);
         vm.updatePermanenceByHourChart('#permanence_by_hour', config.dashUrl, fromDate, toDate, shoppingId, storeId);
+        vm.updateRepetitionsChart('#repetitions', config.dashUrl, fromDate, toDate, shoppingId, storeId);
         vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.dashUrl, fromDate, toDate, shoppingId, storeId);
         vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.dashUrl, fromDate, toDate, shoppingId, storeId);
         vm.updateShoppingPerformanceTable('#shopping_performance_table', config.dashUrl, fromDate, toDate, shoppingId);
@@ -297,6 +299,73 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
                     series: data.series
                 });
             });
+    };
+    this.updateRepetitionsChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
+        $.getJSON(
+            baseUrl 
+            + '/dashoard/repetitions'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
+            + '&entityKind=0' 
+            + '&subentityId=' + subEntityId 
+            + '&elementId=apd_visitor' 
+            + '&subIdOrder=visitor_total_visits,'
+            + 'visitor_total_visits_ios,visitor_total_visits_android' 
+            + '&fromStringDate=' + fromDate 
+            + '&toStringDate=' + toDate 
+            + '&eraseBlanks=true',
+            function(data) {
+
+                try {
+                    var newdata = new Array();
+                    newdata.push(data.series[1]);
+                    newdata[0].type = 'column';
+
+                    // Disable extra options by default
+                    $(id).highcharts({
+                        chart: {
+                            type: 'column',
+                            marginLeft: 200,
+                            marginRight: 200
+                        },
+                        title: {
+                            text: 'Repeticiones'
+                        },
+                        xAxis: {
+                            categories: data.categories
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Repeticiones'
+                            },
+                            plotLines: [{
+                                value: 0,
+                                width: 1,
+                                color: '#808080'
+                            }]
+                        },
+                        tooltip: {
+                            valueSuffix: ''
+                        },
+                        legend: {
+                            layout: 'vertical',
+                            align: 'right',
+                            verticalAlign: 'middle',
+                            borderWidth: 0
+                        },
+                        plotOptions: {
+                            line: {
+                                dataLabels: {
+                                    enabled: true
+                                },
+                                enableMouseTracking: false
+                            }
+                        },
+                        series: newdata
+                    });
+
+            } catch( e ) {}
+        });
     };
     this.updateHeatmapTraffic = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(

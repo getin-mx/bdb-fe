@@ -40,7 +40,6 @@ function CommonsService($http, $cookieStore, $rootScope) {
 
 		$('#' + entity + '-' + strStatus + '-table').data('record-count',data.data.recordCount);
 		table.pageCallback = function(ft, pageNumber, sort, callback) {
-			console.log(sort);
 			var $table = $(ft.table), data = $table.data();
 			var pageSize = data.pageSize || ft.options.pageSize;
 			var from = pageSize * pageNumber;
