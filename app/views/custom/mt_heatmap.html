@@ -1,12 +1,12 @@
 <div class="wrapper wrapper-content animated fadeInRight" id="HeatmapView" ng-controller="MTHeatmapCtrl" data-ng-init="initHeatmap()">
 	<div class="row">
-		<div class="col-lg-6">
-			<!-- heatmap -->
+		<div ng-class="heatmapClass">
+			<!-- heatmap-->
 			<div class="ibox-content" id="heatmapParent">
 			</div>
-			<!-- heatmap end -->
+			<!-- fin heatmap -->
 		</div>
-		<div class="col-lg-6">
+		<div ng-class="textClass">
 			<div class="ibox-content">
 				<div id="detalle">
 					<!-- filtro -->
@@ -26,7 +26,7 @@
 					<h2>Ayuda</h2>
 					<small>El mapa de calor le puede permitir conocer en que
 					áreas se concentra más personas visualizandolo directamente en
-					el mapa del Centro Comercial. </small>
+					el mapa de la tienda. </small>
 					<!-- Tips -->
 					<h2>Tips</h2>
 					<small> Esta información le puede ayudar a tomar
@@ -41,5 +41,5 @@
 		<div class="col-lg-12" style="height: 50px;">
 		</div>
 	</div>
-	<!-- footer end -->
+	<!-- fin footer -->
 </div>

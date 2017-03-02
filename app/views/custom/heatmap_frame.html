@@ -2,6 +2,7 @@
 	<div class="mapContainer">
 		<canvas id="map"></canvas>
 	</div>
+	<a href="#" style="display:none;" id="toggleMap">toggleMap</a>
 	<a href="#" style="display:none;" id="next">next</a>
 	<a href="#" style="display:none;" id="prev">previous</a>
 	<a href="#" style="display:none;" id="zoomin">zoom in</a>
@@ -9,6 +10,9 @@
 	<a href="#" style="display:none;" id="save">save</a>
 	<script>
 	$(document).ready( function() {
+		$('#toggleMap').click(function() {
+			toggleMap();
+		});
 		$('#next').click(function() {
 			next();
 		});
@@ -22,7 +26,14 @@
 		$('#zoomin').click(function() {
 			zoomin();
 		});
+		
+		$('#save').click(function() {
+			indoormap.save(mapData, KEY);
+		});
 	});
+	var toggleMap = function() {
+		indoormap.toggleMap();
+	}
 	var next = function() {
 		indoormap.drawNextLineElement();
 	}

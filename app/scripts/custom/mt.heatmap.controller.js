@@ -1,9 +1,11 @@
 /**
  * MTHeatmapCtrl - controller
  */
-function MTHeatmapCtrl($rootScope, $scope, $location, AuthenticationService) {
+function MTHeatmapCtrl($rootScope, $scope, $location, AuthenticationService, CommonsService, $http) {
 
     var vm = this;
+    $scope.mapData = null;
+    $scope.KEY = null;
 
     $scope.initFrame = function() {
         KEY = $location.search().floormap;
@@ -17,6 +19,8 @@ function MTHeatmapCtrl($rootScope, $scope, $location, AuthenticationService) {
 
         var mapData = indoormap.loadAndParseURL(config.baseUrl, token, KEY);
         $('#map').css('background-image', 'url(http://api.allshoppings.mobi/img/' + mapData.imageId + ')');
+        $('#floor_map_iframe').css('height', mapData.mapHeight + 'px');
+        $('#floor_map_iframe').css('width', mapData.mapWidth + 'px');
         $('#map').css('height', mapData.mapHeight + 'px');
         $('#map').css('width', mapData.mapWidth + 'px');
 
@@ -26,18 +30,34 @@ function MTHeatmapCtrl($rootScope, $scope, $location, AuthenticationService) {
 
         indoormap.init();
         indoormap.draw(mapData, $('.mapContainer')[0]);
-        // if (indoormap.queryString()['noHeatMap'] != 'true') {
-        //     $('#save').css('display', 'none');
-        //     indoormap.drawHeatMap(config.baseUrl, token, mapData, KEY, $('.mapContainer')[0], entityId, fromDate, toDate, dayOfWeek, timezone, 150, 8);
-        // }
-        $('#save').css('display', 'none');
-        indoormap.drawLines(config.baseUrl, token, mapData, KEY, $('.mapContainer')[0], entityId, fromDate, toDate, dayOfWeek, timezone, 0, 20);
+        if (indoormap.queryString()['noHeatMap'] != 'true') {
+            $('#save').css('display', 'none');
+            if( KEY == 'mundoe_p1') {
+                indoormap.drawLines(config.baseUrl, token, mapData, KEY, $('.mapContainer')[0], entityId, fromDate, toDate, dayOfWeek, timezone, 0, 20);
+            } else {
+                indoormap.drawLines(config.baseUrl, token, mapData, KEY, $('.mapContainer')[0], entityId, fromDate, toDate, dayOfWeek, timezone, 0, 20);
+            }
+        }
+    
+        $scope.mapData = mapData;
+        $scope.KEY = KEY;
+
+        $('#save').click(function(e) {
+            e.preventDefault();
+            indoormap.save($scope.mapData, $scope.KEY);
+        });
+
         console.log('frame initialized');
     };
 
     $scope.initHeatmap = function() {
         var dToDate = new Date(new Date().getTime() - config.oneDay);
         var dFromDate = new Date(dToDate.getTime() - config.oneMonth);
+
+        $scope.heatmapClass = 'col-lg-6';
+        $scope.textClass = 'col-lg-6';
+        $scope.headerClass = 'col-lg-12';
+        $scope.fullscreen = false;
 
         $scope.toDate = dToDate.format("yyyy-mm-dd", null);
         $('#toDate').val($scope.toDate);
@@ -49,19 +69,20 @@ function MTHeatmapCtrl($rootScope, $scope, $location, AuthenticationService) {
         var credentials = globals.currentUser;
         $scope.brandId = credentials.identifier;
 
-        vm.updateHeatmapParams();
         $scope.updateHeatmap();
-    };
+
+    }
 
     $scope.updateHeatmap = function() {
         vm.updateHeatmapParams();
-        vm.filterHeatmap($scope.heatmapParams.entityId, $scope.heatmapParams.entityKind, 
-            $scope.heatmapParams.fromDate, $scope.heatmapParams.toDate, 
-            $scope.heatmapParams.dayOfWeek, $scope.heatmapParams.timezone);
+        vm.filterHeatmap($scope.heatmapParams.token, $scope.heatmapParams.entityId, 
+            $scope.heatmapParams.entityKind, $scope.heatmapParams.fromDate, 
+            $scope.heatmapParams.toDate, $scope.heatmapParams.dayOfWeek, 
+            $scope.heatmapParams.timezone);
     }
 
-    this.filterHeatmap = function(entityId, entityKind, fromDate, toDate, dayOfWeek, timezone) {
-        vm.updateHeatmapParent('#heatmapParent', config.dashUrl, entityId, entityKind, fromDate, toDate, dayOfWeek, timezone);
+    this.filterHeatmap = function(token, entityId, entityKind, fromDate, toDate, dayOfWeek, timezone) {
+        vm.updateHeatmapParent('#heatmapParent', token, config.dashUrl, entityId, entityKind, fromDate, toDate, dayOfWeek, timezone);
     }
     
     this.updateHeatmapParams = function() {
@@ -72,7 +93,8 @@ function MTHeatmapCtrl($rootScope, $scope, $location, AuthenticationService) {
             fromDate: $('#fromDate').val(),
             toDate: $('#toDate').val(),
             dayOfWeek: null,
-            timezone: null
+            timezone: null,
+            token: AuthenticationService.getCredentials().currentUser.token
         }
     }
 
@@ -91,17 +113,19 @@ function MTHeatmapCtrl($rootScope, $scope, $location, AuthenticationService) {
             + '&fromDate=' + params.fromDate 
             + '&toDate=' + params.toDate
             + '&dayOfWeek=' + params.dayOfWeek
+            // + '&noHeatMap=true'
             + '&timezone=' + params.timezone;
 
         document.getElementById('floor_map_iframe').contentWindow.reload();
 
     }
 
-    this.updateHeatmapParent = function(id, baseUrl, entityId, entityKind, fromDate, toDate, dayOfWeek, timezone) {
+    this.updateHeatmapParent = function(id, token, baseUrl, entityId, entityKind, fromDate, toDate, dayOfWeek, timezone) {
         $.getJSON(
             baseUrl 
             + '/dashoard/floormapData' 
-            + '?entityId=' + entityId 
+            + '?authToken=' + token
+            + '&entityId=' + entityId
             + '&entityKind=' + entityKind, 
             function(data) {
 
@@ -116,29 +140,51 @@ function MTHeatmapCtrl($rootScope, $scope, $location, AuthenticationService) {
             }
 
             tab += '<div style="float:right;">';
-            tab += '<a href="javascript:void" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.toggleMap();"><span class="fa fa-map-o"></span></a>';
+            tab += '<a href="javascript:null" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.toggleMap();"><span class="fa fa-map-o"></span></a>';
             tab += '&nbsp;';
-            tab += '<a href="javascript:void" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.prev();"><span class="fa fa-arrow-circle-o-left"></span></a>';
+            tab += '<a href="javascript:null" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.prev();"><span class="fa fa-arrow-circle-o-left"></span></a>';
             tab += '&nbsp;';
-            tab += '<a href="javascript:void" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.next();"><span class="fa fa-arrow-circle-o-right"></span></a>';
+            tab += '<a href="javascript:null" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.next();"><span class="fa fa-arrow-circle-o-right"></span></a>';
             tab += '&nbsp;';
-            tab += '<a href="javascript:void" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.zoomin();"><span class="fa fa-search-plus"></span></a>';
+            tab += '<a href="javascript:null" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.zoomin();"><span class="fa fa-search-plus"></span></a>';
             tab += '&nbsp;';
-            tab += '<a href="javascript:void" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.zoomout();"><span class="fa fa-search-minus"></span></a>';
+            tab += '<a href="javascript:null" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.zoomout();"><span class="fa fa-search-minus"></span></a>';
+            tab += '&nbsp;';
+            tab += '<a href="javascript:null" class="fullscreen"><span class="fa fa-arrows-alt"></span></a>';
             tab += '</div>';
 
             var map = floormaps.data[0];
             tab += '<br/>';
-            tab += '<iframe id="floor_map_iframe" class="floor_map_iframe" style="border: 0px; height: 600px; min-width: 100%; max-width:100%;" src="#/mtheatmap_frame' 
+            tab += '<div id="heatmap_container" style="height: 600px; overflow: auto; -webkit-overflow-scrolling: touch;">';
+            tab += '<iframe id="floor_map_iframe" class="floor_map_iframe" scrolling="no" style="border: 0px; min-height: 500px; min-width: 100%;" src="#/mtheatmap_frame' 
                 + '?floormap=' + map.identifier 
                 + '&entityId=' + entityId 
                 + '&fromDate=' + fromDate 
                 + '&toDate=' + toDate 
                 + '&dayOfWeek=' + dayOfWeek 
+                // + '&noHeatMap=true'
                 + '&timezone=' + timezone 
                 + '"></iframe>';
+            tab += '<div>';
 
             $(id).html(tab);
+
+            $('.fullscreen').click(function(e) {
+                if( $scope.fullscreen ) {
+                    $scope.heatmapClass = 'col-lg-6';
+                    $scope.textClass = 'col-lg-6';
+                    $scope.headerClass = 'col-lg-12';
+                    $('#heatmap_container').css('height','600px');
+                    $scope.fullscreen = false;
+                } else {
+                    $scope.heatmapClass = 'col-lg-12';
+                    $scope.headerClass = 'hidden';
+                    $scope.textClass = 'hidden';
+                    $('#heatmap_container').css('height','700px');
+                    $scope.fullscreen = true;
+                }
+                CommonsService.safeApply($scope);
+            });
 
         });
     };

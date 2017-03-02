@@ -135,13 +135,6 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             data: { pageTitle: 'Heatmap', specialClass: 'white-bg' }
         })
 
-
-        .state('index.demoheatmap', {
-            url: "/demoheatmap",
-            templateUrl: "views/custom/demo_heatmap.html",
-            data: { pageTitle: 'Heatmap'}
-        })
-
         .state('index.demomap', {
             url: "/demomap",
             templateUrl: "views/custom/demo_maps.html",
