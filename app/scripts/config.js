@@ -323,5 +323,3 @@ angular
     .module('bdb')
     .config(angularConfig)
     .run(run);
-
-

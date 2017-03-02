@@ -19,6 +19,8 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
 
         var mapData = indoormap.loadAndParseURL(config.baseUrl, token, KEY);
         $('#map').css('background-image', 'url(http://api.allshoppings.mobi/img/' + mapData.imageId + ')');
+        $('#floor_map_iframe').css('height', mapData.mapHeight + 'px');
+        $('#floor_map_iframe').css('width', mapData.mapWidth + 'px');
         $('#map').css('height', mapData.mapHeight + 'px');
         $('#map').css('width', mapData.mapWidth + 'px');
 
@@ -51,6 +53,10 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
     $scope.initHeatmap = function() {
         var dToDate = new Date(new Date().getTime() - config.oneDay);
         var dFromDate = new Date(dToDate.getTime() - config.oneWeek);
+
+        $scope.heatmapClass = 'col-lg-6';
+        $scope.textClass = 'col-lg-6';
+        $scope.fullscreen = false;
 
         $scope.toDate = dToDate.format("yyyy-mm-dd", null);
         $('#toDate').val($scope.toDate);
@@ -87,7 +93,6 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
         var credentials = globals.currentUser;
         $scope.brandId = credentials.identifier;
 
-        vm.updateHeatmapParams();
         $scope.updateHeatmap();
 
     }
@@ -159,14 +164,17 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
             }
 
             tab += '<div style="float:right;">';
-            tab += '<a href="javascript:void" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.zoomin();"><span class="fa fa-search-plus"></span></a>';
+            tab += '<a href="javascript:null" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.zoomin();"><span class="fa fa-search-plus"></span></a>';
             tab += '&nbsp;';
-            tab += '<a href="javascript:void" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.zoomout();"><span class="fa fa-search-minus"></span></a>';
+            tab += '<a href="javascript:null" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.zoomout();"><span class="fa fa-search-minus"></span></a>';
+            tab += '&nbsp;';
+            tab += '<a href="javascript:null" class="fullscreen"><span class="fa fa-arrows-alt"></span></a>';
             tab += '</div>';
 
             var map = floormaps.data[0];
             tab += '<br/>';
-            tab += '<iframe id="floor_map_iframe" class="floor_map_iframe" style="border: 0px; height: 600px; min-width: 100%; max-width:100%;" src="#/heatmap_frame' 
+            tab += '<div style="height: 600px; overflow: auto; -webkit-overflow-scrolling: touch;">';
+            tab += '<iframe id="floor_map_iframe" class="floor_map_iframe" scrolling="no" style="border: 0px; min-height: 500px; min-width: 100%;" src="#/heatmap_frame' 
                 + '?floormap=' + map.identifier 
                 + '&entityId=' + entityId 
                 + '&fromDate=' + fromDate 
@@ -175,8 +183,22 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
                 // + '&noHeatMap=true'
                 + '&timezone=' + timezone 
                 + '"></iframe>';
+            tab += '<div>';
 
             $(id).html(tab);
+
+            $('.fullscreen').click(function(e) {
+                if( $scope.fullscreen ) {
+                    $scope.heatmapClass = 'col-lg-6';
+                    $scope.textClass = 'col-lg-6';
+                    $scope.fullscreen = false;
+                } else {
+                    $scope.heatmapClass = 'col-lg-12';
+                    $scope.textClass = 'hidden';
+                    $scope.fullscreen = true;
+                }
+                CommonsService.safeApply($scope);
+            });
 
         });
     };
