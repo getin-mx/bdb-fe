@@ -56,6 +56,7 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
 
         $scope.heatmapClass = 'col-lg-6';
         $scope.textClass = 'col-lg-6';
+        $scope.headerClass = 'col-lg-12';
         $scope.fullscreen = false;
 
         $scope.toDate = dToDate.format("yyyy-mm-dd", null);
@@ -173,7 +174,7 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
 
             var map = floormaps.data[0];
             tab += '<br/>';
-            tab += '<div style="height: 600px; overflow: auto; -webkit-overflow-scrolling: touch;">';
+            tab += '<div id="heatmap_container" style="height: 600px; overflow: auto; -webkit-overflow-scrolling: touch;">';
             tab += '<iframe id="floor_map_iframe" class="floor_map_iframe" scrolling="no" style="border: 0px; min-height: 500px; min-width: 100%;" src="#/heatmap_frame' 
                 + '?floormap=' + map.identifier 
                 + '&entityId=' + entityId 
@@ -191,10 +192,14 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
                 if( $scope.fullscreen ) {
                     $scope.heatmapClass = 'col-lg-6';
                     $scope.textClass = 'col-lg-6';
+                    $scope.headerClass = 'col-lg-12';
+                    $('#heatmap_container').css('height','600px');
                     $scope.fullscreen = false;
                 } else {
                     $scope.heatmapClass = 'col-lg-12';
+                    $scope.headerClass = 'hidden';
                     $scope.textClass = 'hidden';
+                    $('#heatmap_container').css('height','700px');
                     $scope.fullscreen = true;
                 }
                 CommonsService.safeApply($scope);
