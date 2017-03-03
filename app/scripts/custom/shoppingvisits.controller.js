@@ -52,16 +52,15 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
         $scope.loadingSubmit = false;
     }
 
-    $scope.exportAPDVisits = function() {
+    $scope.exportDetails = function() {
         $scope.fromDate = $('#fromDate').val();
         $scope.toDate = $('#toDate').val();
 
-        var url =  config.baseUrl + '/dashboard/brandExport' 
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&shoppingId=' + $scope.shoppingId 
-            + '&storeId=' + $scope.storeId
-            + '&fromStringDate=' + $scope.fromDate
-            + '&toStringDate=' + $scope.toDate
+        var url =  config.baseUrl + '/dashboard/visitDetailExport' 
+        + '?authToken=' + $rootScope.globals.currentUser.token 
+        + '&shoppingId=' + $scope.shoppingId 
+        + '&fromStringDate=' + $scope.fromDate
+        + '&toStringDate=' + $scope.toDate
 
         window.open(url);
     }

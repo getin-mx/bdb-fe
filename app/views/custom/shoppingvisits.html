@@ -34,7 +34,8 @@
 					<div class="row">
 						<div class="form-group col-lg-6">
 							<div class="form-group" style="height: 50px;">
-								<button type="button" ng-click="updateAPDVisits()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Filtrar</button>
+								<button type="button" ng-click="updateAPDVisits()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" style="float:left;" data-style="zoom-in" >Filtrar</button>
+								<button type="button" ng-class="detailsExportable" ng-click="exportDetails()" ladda="loadingExcel" style="float:left; margin-left: 10px;" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Exportar MACs</button>
 							</div>
 						</div>
 						<div class="form-group col-lg-6 hidden">
