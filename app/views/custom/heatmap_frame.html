@@ -31,6 +31,13 @@
 			indoormap.save(mapData, KEY);
 		});
 	});
+	var save = function() {
+		var scope = angular.element('#HeatmapFrameView').scope();
+	    console.log(scope.mapData);
+	    console.log(scope.KEY);
+
+		indoormap.save(scope.mapData, scope.KEY);
+	}
 	var toggleMap = function() {
 		indoormap.toggleMap();
 	}

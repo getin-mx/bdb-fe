@@ -1,4 +1,20 @@
-<div class="wrapper wrapper-content animated fadeInRight" id="HeatmapView" ng-controller="MTHeatmapCtrl" data-ng-init="initHeatmap()">
+<div class="wrapper wrapper-content animated fadeInRight" id="HeatmapView" ng-controller="PatternHeatmapCtrl" data-ng-init="initHeatmap()">
+	<div class="row" style="margin-bottom: 15px;">
+		<div ng-class="headerClass">
+			<div class="ibox-content">
+				<div class="form-group" style="height: 50px;">
+					<div class="input-group" style="float:left;">
+						Mapa:<br>
+						<select name="venue" ng-model="shoppingId" id="shoppingId" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;">
+						</select>
+					</div>
+					<div class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">
+						<button type="button" ng-click="updateHeatmap()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Filtrar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="row">
 		<div ng-class="heatmapClass">
 			<!-- heatmap-->

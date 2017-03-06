@@ -111,15 +111,15 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             data: { pageTitle: 'Detalles'}
         })
 
-        .state('index.mtheatmap', {
-            url: "/mtheatmap",
-            templateUrl: "views/custom/mt_heatmap.html",
-            data: { pageTitle: 'Heatmap'}
+        .state('index.patternheatmap', {
+            url: "/patternheatmap",
+            templateUrl: "views/custom/pattern_heatmap.html",
+            data: { pageTitle: 'Heatmap de Patrones'}
         })
 
-        .state('mtheatmap_frame', {
-            url: "/mtheatmap_frame",
-            templateUrl: "views/custom/mt_heatmap_frame.html",
+        .state('patternheatmap_frame', {
+            url: "/patternheatmap_frame",
+            templateUrl: "views/custom/pattern_heatmap_frame.html",
             data: { pageTitle: 'Heatmap', specialClass: 'white-bg' }
         })
 

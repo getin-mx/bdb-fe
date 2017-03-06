@@ -1,11 +1,12 @@
 /**
- * MTHeatmapCtrl - controller
+ * PatternHeatmapCtrl - controller
  */
-function MTHeatmapCtrl($rootScope, $scope, $location, AuthenticationService, CommonsService, $http) {
+function PatternHeatmapCtrl($rootScope, $scope, $location, AuthenticationService, CommonsService, $http) {
 
     var vm = this;
     $scope.mapData = null;
     $scope.KEY = null;
+    $scope.edit = false;
 
     $scope.initFrame = function() {
         KEY = $location.search().floormap;
@@ -51,6 +52,11 @@ function MTHeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Com
     };
 
     $scope.initHeatmap = function() {
+
+        edit = $location.search().edit;
+        if( edit === "true" )
+            $scope.edit = true;
+
         var dToDate = new Date(new Date().getTime() - config.oneDay);
         var dFromDate = new Date(dToDate.getTime() - config.oneMonth);
 
@@ -63,7 +69,32 @@ function MTHeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Com
         $('#toDate').val($scope.toDate);
         $scope.fromDate = dFromDate.format("yyyy-mm-dd", null);
         $('#fromDate').val($scope.fromDate);
-        $scope.shoppingId = '740547b3-5c3a-492c-a2f8-bc88345fcc5d';
+
+        $http.get(CommonsService.getUrl('/dashboard/floormapList'))
+            .then($scope.initHeatmapPhase2);
+
+    };
+
+    $scope.initHeatmapPhase2 = function(data) {
+
+        $('#shoppingId').find('option').remove()
+
+        var selected = 'mundoe';
+        if( data.data.data.length == 0 ) {
+            $('#shoppingId').append($('<option>', { 
+                value: 'mundoe',
+                text : 'Centro Comercial MundoE'
+            }));
+        } else {
+            for(var i = 0; i < data.data.data.length; i++) {
+                if( i == 0 ) selected = data.data.data[i].identifier;
+                $('#shoppingId').append($('<option>', { 
+                    value: data.data.data[i].identifier,
+                    text : data.data.data[i].name 
+                }));
+            }
+        }
+        $('#shoppingId').val(selected);
 
         var globals = AuthenticationService.getCredentials();
         var credentials = globals.currentUser;
@@ -88,7 +119,7 @@ function MTHeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Com
     this.updateHeatmapParams = function() {
         $scope.heatmapParams = {
             BASE_URL: config.dashUrl,
-            entityId: $scope.shoppingId,
+            entityId: $('#shoppingId').val(),
             entityKind: 0,
             fromDate: $('#fromDate').val(),
             toDate: $('#toDate').val(),
@@ -107,13 +138,13 @@ function MTHeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Com
         $('#' + mapIdentifier).addClass('btActive');
         currentActiveMap = mapIdentifier;
 
-        $('#floor_map_iframe')[0].src = '#/mtheatmap_frame' 
+        $('#floor_map_iframe')[0].src = '#/patternheatmap_frame' 
             + '?floormap=' + mapIdentifier 
             + '&entityId=' + params.entityId 
             + '&fromDate=' + params.fromDate 
             + '&toDate=' + params.toDate
             + '&dayOfWeek=' + params.dayOfWeek
-            // + '&noHeatMap=true'
+            + '&noHeatMap=' + $scope.edit
             + '&timezone=' + params.timezone;
 
         document.getElementById('floor_map_iframe').contentWindow.reload();
@@ -140,6 +171,10 @@ function MTHeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Com
             }
 
             tab += '<div style="float:right;">';
+            if($scope.edit == true ) {
+                tab += '<a href="javascript:null" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.save();"><span class="fa fa-floppy-o"></span></a>';
+                tab += '&nbsp;';
+            }
             tab += '<a href="javascript:null" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.toggleMap();"><span class="fa fa-map-o"></span></a>';
             tab += '&nbsp;';
             tab += '<a href="javascript:null" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.prev();"><span class="fa fa-arrow-circle-o-left"></span></a>';
@@ -156,13 +191,13 @@ function MTHeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Com
             var map = floormaps.data[0];
             tab += '<br/>';
             tab += '<div id="heatmap_container" style="height: 600px; overflow: auto; -webkit-overflow-scrolling: touch;">';
-            tab += '<iframe id="floor_map_iframe" class="floor_map_iframe" scrolling="no" style="border: 0px; min-height: 500px; min-width: 100%;" src="#/mtheatmap_frame' 
+            tab += '<iframe id="floor_map_iframe" class="floor_map_iframe" scrolling="no" style="border: 0px; min-height: 500px; min-width: 100%;" src="#/patternheatmap_frame' 
                 + '?floormap=' + map.identifier 
                 + '&entityId=' + entityId 
                 + '&fromDate=' + fromDate 
                 + '&toDate=' + toDate 
                 + '&dayOfWeek=' + dayOfWeek 
-                // + '&noHeatMap=true'
+                + '&noHeatMap=' + $scope.edit
                 + '&timezone=' + timezone 
                 + '"></iframe>';
             tab += '<div>';
@@ -194,4 +229,4 @@ function MTHeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Com
 
 angular
     .module('bdb')
-    .controller('MTHeatmapCtrl', MTHeatmapCtrl);
+    .controller('PatternHeatmapCtrl', PatternHeatmapCtrl);

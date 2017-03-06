@@ -6,6 +6,7 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
     var vm = this;
     $scope.mapData = null;
     $scope.KEY = null;
+    $scope.edit = false;
 
     $scope.initFrame = function() {
         KEY = $location.search().floormap;
@@ -51,6 +52,11 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
     };
 
     $scope.initHeatmap = function() {
+
+        edit = $location.search().edit;
+        if( edit === "true" )
+            $scope.edit = true;
+
         var dToDate = new Date(new Date().getTime() - config.oneDay);
         var dFromDate = new Date(dToDate.getTime() - config.oneWeek);
 
@@ -138,7 +144,7 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
             + '&fromDate=' + params.fromDate 
             + '&toDate=' + params.toDate
             + '&dayOfWeek=' + params.dayOfWeek
-            // + '&noHeatMap=true'
+            + '&noHeatMap=' + $scope.edit
             + '&timezone=' + params.timezone;
 
         document.getElementById('floor_map_iframe').contentWindow.reload();
@@ -165,6 +171,10 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
             }
 
             tab += '<div style="float:right;">';
+            if($scope.edit == true ) {
+                tab += '<a href="javascript:null" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.save();"><span class="fa fa-floppy-o"></span></a>';
+                tab += '&nbsp;';
+            }
             tab += '<a href="javascript:null" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.zoomin();"><span class="fa fa-search-plus"></span></a>';
             tab += '&nbsp;';
             tab += '<a href="javascript:null" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.zoomout();"><span class="fa fa-search-minus"></span></a>';
@@ -181,7 +191,7 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
                 + '&fromDate=' + fromDate 
                 + '&toDate=' + toDate 
                 + '&dayOfWeek=' + dayOfWeek 
-                // + '&noHeatMap=true'
+                + '&noHeatMap=' + $scope.edit
                 + '&timezone=' + timezone 
                 + '"></iframe>';
             tab += '<div>';
