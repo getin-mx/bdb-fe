@@ -153,7 +153,7 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 					lat: item.lat,
 					lng: item.lon,
 					fillColor: '#00ff00',
-					fillOpacity: 0.8,
+					fillOpacity: 0.2,
 					strokeColor: '#00ff00',
 					strokeWeight: 1,
 					radius: conns
@@ -168,7 +168,7 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 					lat: item.lat,
 					lng: item.lon,
 					fillColor: '#0000ff',
-					fillOpacity: 0.8,
+					fillOpacity: 0.2,
 					strokeColor: '#0000ff',
 					strokeWeight: 1,
 					radius: conns
@@ -183,7 +183,7 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 					lat: item.lat,
 					lng: item.lon,
 					fillColor: '#800080',
-					fillOpacity: 0.8,
+					fillOpacity: 0.2,
 					strokeColor: '#800080',
 					strokeWeight: 1,
 					radius: conns
@@ -198,7 +198,7 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 					lat: item.lat,
 					lng: item.lon,
 					fillColor: '#FFA500',
-					fillOpacity: 0.8,
+					fillOpacity: 0.2,
 					strokeColor: '#FFA500',
 					strokeWeight: 1,
 					radius: conns
