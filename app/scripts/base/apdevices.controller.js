@@ -1,7 +1,7 @@
 /**
  * APDevicesCtrl - controller
  */
-function APDevicesCtrl($scope, $http, $location, $uibModal, CommonsService, AuthenticationService, SweetAlert) {
+function APDevicesCtrl($scope, $rootScope, $http, $location, $uibModal, CommonsService, AuthenticationService, SweetAlert) {
 
 	var vm = this;
 	$scope.search = '';
@@ -51,6 +51,15 @@ function APDevicesCtrl($scope, $http, $location, $uibModal, CommonsService, Auth
     $scope.generalClick = function(event){
 
 		alert(event.target.attributes['data-click'].value);
+    }
+
+    $scope.export = function() {
+        var url =  config.baseUrl + '/dashboard/apdeviceExport' 
+        + '?authToken=' + $rootScope.globals.currentUser.token 
+        + '&status=0'
+
+        window.open(url);
+
     }
 
 	$scope.fillTable = function(data) {
