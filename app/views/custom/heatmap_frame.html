@@ -2,6 +2,7 @@
 	<div class="mapContainer">
 		<canvas id="map"></canvas>
 	</div>
+	<a href="#" style="display:none;" id="toggleLines">toggleLines</a>
 	<a href="#" style="display:none;" id="toggleMap">toggleMap</a>
 	<a href="#" style="display:none;" id="next">next</a>
 	<a href="#" style="display:none;" id="prev">previous</a>
@@ -12,6 +13,9 @@
 	$(document).ready( function() {
 		$('#toggleMap').click(function() {
 			toggleMap();
+		});
+		$('#toggleLines').click(function() {
+			toggleLines();
 		});
 		$('#next').click(function() {
 			next();
@@ -31,15 +35,18 @@
 			indoormap.save(mapData, KEY);
 		});
 	});
+	var toggleLines = function() {
+		indoormap.toggleLines();
+	}
+	var toggleMap = function() {
+		indoormap.toggleMap();
+	}
 	var save = function() {
 		var scope = angular.element('#HeatmapFrameView').scope();
 	    console.log(scope.mapData);
 	    console.log(scope.KEY);
 
 		indoormap.save(scope.mapData, scope.KEY);
-	}
-	var toggleMap = function() {
-		indoormap.toggleMap();
 	}
 	var next = function() {
 		indoormap.drawNextLineElement();

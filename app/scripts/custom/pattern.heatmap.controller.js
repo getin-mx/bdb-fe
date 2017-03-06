@@ -175,6 +175,8 @@ function PatternHeatmapCtrl($rootScope, $scope, $location, AuthenticationService
                 tab += '<a href="javascript:null" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.save();"><span class="fa fa-floppy-o"></span></a>';
                 tab += '&nbsp;';
             }
+            tab += '<a href="javascript:null" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.toggleLines();"><span class="fa fa-line-chart"></span></a>';
+            tab += '&nbsp;';
             tab += '<a href="javascript:null" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.toggleMap();"><span class="fa fa-map-o"></span></a>';
             tab += '&nbsp;';
             tab += '<a href="javascript:null" onclick="document.getElementById(\'floor_map_iframe\').contentWindow.prev();"><span class="fa fa-arrow-circle-o-left"></span></a>';

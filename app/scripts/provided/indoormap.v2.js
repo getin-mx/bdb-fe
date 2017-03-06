@@ -19,6 +19,7 @@ var wifiSpots = null;
 var trackCache = null;
 var trackIndex = 0;
 var mapActive = 1;
+var linesActive = 1;
 
 // Encapsulated Library Definition
 indoormap = {
@@ -366,6 +367,15 @@ indoormap = {
 			indoormap.drawLineElement(trackIndex);
 		},
 
+		toggleLines: function() {
+			if( linesActive == 1 ) 
+				linesActive = 0;
+			else
+				linesActive = 1;
+
+			indoormap.drawLineElement(trackIndex);
+		},
+
 		/**
 		 * Draw path and journey lines in a map
 		 */
@@ -471,13 +481,15 @@ indoormap = {
 			var context = canvas.getContext("2d");
 			var ele = trackCache[index];
 			var timeslots = Object.keys(ele.wifiPoints);
-			for( var j = 0; j < timeslots.length; j++ ) {
-				var spot = indoormap.findWifiSpot(ele.wifiPoints[timeslots[j]]);
-				if( j == 0 ) {
-					context.beginPath();
-					context.moveTo(spot.x +correction, spot.y +correction);
-				} else {
-					context.lineTo(spot.x +correction, spot.y +correction);
+			if( linesActive == 1 ) {
+				for( var j = 0; j < timeslots.length; j++ ) {
+					var spot = indoormap.findWifiSpot(ele.wifiPoints[timeslots[j]]);
+					if( j == 0 ) {
+						context.beginPath();
+						context.moveTo(spot.x +correction, spot.y +correction);
+					} else {
+						context.lineTo(spot.x +correction, spot.y +correction);
+					}
 				}
 			}
 		    context.lineWidth = 10;
