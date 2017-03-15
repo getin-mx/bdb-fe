@@ -508,7 +508,7 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
                 var tab = '';
                 tab = '<table class="table table-striped" style="text-align: center;" >';
                 tab += '<tr style="font-weight:bold;">';
-                tab += '<td>Centro Comercial</td>';
+                tab += '<td style="text-align: left; border-right: 1px solid gray;">Centro Comercial</td>';
                 // tab += '<td>Paseantes</td>';
                 tab += '<td>Visitantes</td>';
                 // tab += '<td>Tickets</td>';
@@ -521,7 +521,8 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
                 tab += '<tbody>';
                 for (var i = 1; i < data.length - 1; i++) {
                     tab += '<tr>';
-                    for (var x = 0; x < data[i].length; x++) {
+                    tab += '<td style="text-align: left; border-right: 1px solid gray;">' + data[i][0] + '</td>';
+                    for (var x = 1; x < data[i].length; x++) {
                         if( x != 1 && x != 3 && x != 4 && x != 5 ) {
                             if (x == 0 || x == 3 || x == 5 || x == 7)
                                 tab += '<td style="border-right: 1px solid gray;">' + data[i][x] + '</td>';
