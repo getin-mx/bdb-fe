@@ -22,7 +22,6 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
         $('#toDate').val($scope.toDate);
         $scope.fromDate = dFromDate.format("yyyy-mm-dd", null);
         $('#fromDate').val($scope.fromDate);
-        $scope.storeId = '';
 
         $('#shoppingId').find('option').remove()
 
@@ -42,7 +41,28 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
         $scope.shoppingId = selected;
         $('#shoppingId').val(selected);
 
+        $scope.updateZoneList('#zone',  $scope.shoppingId);
         $scope.updateAPDVisits();
+    }
+
+    $scope.updateZoneList = function(id, entityId) {
+        $http.get(CommonsService.getUrl('/dashboard/innerZoneList')
+            + '&entityId=' + $scope.shoppingId 
+            + '&entityKind=0')
+        .then(function(data) {
+            $(id).empty();
+            $(id).append($('<option>', {
+                value: '',
+                text: 'Todas'
+            }));
+
+            for( var i = 0; i < data.data.data.length; i++ ) {
+                $(id).append($('<option>', {
+                    value: data.data.data[i].identifier,
+                    text: data.data.data[i].name
+                }));
+            }
+        });
     }
 
     $scope.updateShopping = function() {
@@ -69,10 +89,10 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
         $scope.fromDate = $('#fromDate').val();
         $scope.toDate = $('#toDate').val();
 
-        vm.filterAPDVisits($scope.shoppingId, $scope.storeId, $scope.fromDate, $scope.toDate);
+        vm.filterAPDVisits($scope.shoppingId, $scope.zoneId, $scope.fromDate, $scope.toDate);
     }
 
-    this.filterAPDVisits = function(shoppingId, storeId, fromDate, toDate) {
+    this.filterAPDVisits = function(shoppingId, zoneId, fromDate, toDate) {
 
         $('#visits_by_date').html('');
         $('#visits_by_hour').html('');
@@ -82,46 +102,35 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
         $('#heatmap_permanence_by_hour').html('');
         $('#shopping_performance_table').html('');
 
-        vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, fromDate, toDate, shoppingId, storeId);
-        vm.updateVisitsByHourChart('#visits_by_hour', config.dashUrl, fromDate, toDate, shoppingId, storeId);
-        vm.updatePermanenceByHourChart('#permanence_by_hour', config.dashUrl, fromDate, toDate, shoppingId, storeId);
-        vm.updateRepetitionsChart('#repetitions', config.dashUrl, fromDate, toDate, shoppingId, storeId);
-        vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.dashUrl, fromDate, toDate, shoppingId, storeId);
-        vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.dashUrl, fromDate, toDate, shoppingId, storeId);
+        vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, fromDate, toDate, shoppingId, zoneId);
+        vm.updateVisitsByHourChart('#visits_by_hour', config.dashUrl, fromDate, toDate, shoppingId, zoneId);
+        vm.updatePermanenceByHourChart('#permanence_by_hour', config.dashUrl, fromDate, toDate, shoppingId, zoneId);
+        vm.updateRepetitionsChart('#repetitions', config.dashUrl, fromDate, toDate, shoppingId, zoneId);
+        vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.dashUrl, fromDate, toDate, shoppingId, zoneId);
+        vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.dashUrl, fromDate, toDate, shoppingId, zoneId);
         vm.updateShoppingPerformanceTable('#shopping_performance_table', config.dashUrl, fromDate, toDate, shoppingId);
     }
 
-    $scope.updateStoreList = function(id, baseUrl, entityId) {
-        $http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
-            + '&entityId=' + $scope.shoppingId 
-            + '&entityKind=1&onlyExternalIds=true')
-            .then($scope.postUpdateStoreList);
-    }
+    this.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subentityId) {
 
-    $scope.postUpdateStoreList = function(data) {
-        id = '#store';
-        $(id).empty();
-        $(id).append($('<option>', {
-            value: '',
-            text: 'Todas'
-        }));
+        var eid;
+        var kind;
 
-        for( var i = 0; i < data.data.data.length; i++ ) {
-            $(id).append($('<option>', {
-                value: data.data.data[i].identifier,
-                text: data.data.data[i].name
-            }));
+        if( subentityId === undefined || subentityId == '') {
+            eid = entityId;
+            kind = 0;
+        } else {
+            eid = subentityId;
+            kind = 20;
         }
-    }
 
-    this.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
             baseUrl 
             + '/dashoard/timelineData'
             + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=0' 
-            + '&subentityId=' + entityId 
+            + '&entityId=' + eid 
+            + '&entityKind=' + kind
+            + '&subentityId=' + eid 
             + '&elementId=apd_visitor' 
             + '&subIdOrder=visitor_total_visits,'
             + 'visitor_total_visits_ios,visitor_total_visits_android' 
@@ -175,14 +184,25 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
                 });
             });
     };
-    this.updateVisitsByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
+    this.updateVisitsByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subentityId) {
+        var eid;
+        var kind;
+
+        if( subentityId === undefined || subentityId == '') {
+            eid = entityId;
+            kind = 0;
+        } else {
+            eid = subentityId;
+            kind = 20;
+        }
+
         $.getJSON(
             baseUrl 
             + '/dashoard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=0' 
-            + '&subentityId=' + entityId 
+            + '&entityId=' + eid 
+            + '&entityKind=' + kind 
+            + '&subentityId=' + eid
             + '&elementId=apd_visitor' 
             + '&subIdOrder=visitor_total_visits,'
             + 'visitor_total_visits_ios,visitor_total_visits_android' 
@@ -236,14 +256,25 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
                 });
             });
     };
-    this.updatePermanenceByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
+    this.updatePermanenceByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subentityId) {
+        var eid;
+        var kind;
+
+        if( subentityId === undefined || subentityId == '') {
+            eid = entityId;
+            kind = 0;
+        } else {
+            eid = subentityId;
+            kind = 20;
+        }
+
         $.getJSON(
             baseUrl 
             + '/dashoard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=0' 
-            + '&subentityId=' + entityId 
+            + '&entityId=' + eid
+            + '&entityKind=' + kind 
+            + '&subentityId=' + eid 
             + '&elementId=apd_permanence' 
             + '&subIdOrder=permanence_hourly_visits,'
             + 'permanence_hourly_visits_ios,permanence_hourly_visits_android' 
@@ -299,14 +330,14 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
                 });
             });
     };
-    this.updateRepetitionsChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
+    this.updateRepetitionsChart = function(id, baseUrl, fromDate, toDate, entityId, subentityId) {
         $.getJSON(
             baseUrl 
             + '/dashoard/repetitions'
             + '?authToken=' + $rootScope.globals.currentUser.token 
             + '&entityId=' + entityId 
-            + '&entityKind=0' 
-            + '&subentityId=' + subEntityId 
+            + '&entityKind=0'
+            + '&subentityId=' + entityId 
             + '&elementId=apd_visitor' 
             + '&subIdOrder=visitor_total_visits,'
             + 'visitor_total_visits_ios,visitor_total_visits_android' 
@@ -366,14 +397,26 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
             } catch( e ) {}
         });
     };
-    this.updateHeatmapTraffic = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
+    this.updateHeatmapTraffic = function(id, baseUrl, fromDate, toDate, entityId, subentityId) {
+
+        var eid;
+        var kind;
+
+        if( subentityId === undefined || subentityId == '') {
+            eid = entityId;
+            kind = 0;
+        } else {
+            eid = subentityId;
+            kind = 20;
+        }
+
         $.getJSON(
             baseUrl 
             + '/dashoard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=0' 
-            + '&subentityId=' + entityId 
+            + '&entityId=' + eid 
+            + '&entityKind=' + kind 
+            + '&subentityId=' + eid 
             + '&elementId=apd_visitor' 
             + '&elementSubId=visitor_total_visits' 
             + '&fromStringDate=' + fromDate 
@@ -430,14 +473,25 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
                 });
             });
     };
-    this.updateHeatmapPermanence = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
+    this.updateHeatmapPermanence = function(id, baseUrl, fromDate, toDate, entityId, subentityId) {
+        var eid;
+        var kind;
+
+        if( subentityId === undefined || subentityId == '') {
+            eid = entityId;
+            kind = 0;
+        } else {
+            eid = subentityId;
+            kind = 20;
+        }
+
         $.getJSON(
             baseUrl 
             + '/dashoard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=0' 
-            + '&subentityId=' + entityId 
+            + '&entityId=' + eid 
+            + '&entityKind=' + kind 
+            + '&subentityId=' + eid 
             + '&elementId=apd_permanence' 
             + '&elementSubId=permanence_hourly_visits' 
             + '&fromStringDate=' + fromDate 
