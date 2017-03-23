@@ -1,7 +1,7 @@
 /**
  * APDVAnalysisCtrl - controller
  */
-function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, AuthenticationService, SweetAlert) {
+function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, AuthenticationService, SweetAlert, $window) {
 
 	var vm = this;
 	$scope.search = '';
@@ -124,7 +124,7 @@ function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, A
 	    			   + '<td data-value="' + obj.hostname + '">'
 
 	    			   + '<a class="aphentry" style="margin-left: 10px;" href="#" '
-	    			   + 'data-value="' + obj.apheSource + '"><i class="fa fa-map-marker"></i></a>'
+	    			   + 'data-value="' + obj.apheSource + '"><i class="fa fa-search"></i></a>'
 
 	    			   + '</td>'
 
@@ -149,7 +149,7 @@ function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, A
 		$('.aphentry').click(function(e) {
 			e.preventDefault();
 			// window.location = '/#/index/aphentry/' + encodeURIComponent($(e.currentTarget).data('value'));
-			$location.path('/index/aphentry/' + encodeURIComponent($(e.currentTarget).data('value')));
+			$window.open('/#/index/aphentry/' + encodeURIComponent($(e.currentTarget).data('value')));
 			CommonsService.safeApply($scope);
 		})
 
