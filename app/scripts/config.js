@@ -75,6 +75,12 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             data: { pageTitle: 'Visitas'}
         })
 
+        .state('index.apdvisitsonly', {
+            url: "/apdvisitsonly",
+            templateUrl: "views/custom/apdvisitsonly.html",
+            data: { pageTitle: 'Visitas'}
+        })
+
         .state('index.shoppingvisits', {
             url: "/shoppingvisits",
             templateUrl: "views/custom/shoppingvisits.html",

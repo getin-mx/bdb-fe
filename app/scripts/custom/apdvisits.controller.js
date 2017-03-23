@@ -7,6 +7,7 @@
 
     $scope.classUser = 'hidden';
     $scope.classAdmin = 'hidden';
+    $scope.visitsOnly = false;
 
     var dToDate = new Date(new Date().getTime() - config.oneDay);
     var dFromDate = new Date(dToDate.getTime() - config.oneWeek);
@@ -16,7 +17,10 @@
 
     $scope.storeLabel = '';
 
-    $scope.initAPDVisits = function() {
+    $scope.initAPDVisits = function(visitsOnly) {
+
+        if( visitsOnly == true ) $scope.visitsOnly = true;
+        else $scope.visitsOnly = false;
 
         if(globals.currentUser.role == 1) {
             $('#exportDetails').css('display','block');
@@ -209,8 +213,23 @@
     }
 
     this.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
-        $.getJSON(
-            baseUrl 
+        var url = null;
+
+        if( $scope.visitsOnly == true ) 
+            url = baseUrl 
+            + '/dashoard/timelineData'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
+            + '&entityKind=1' 
+            + '&subentityId=' + subEntityId 
+            + '&elementId=apd_visitor' 
+            + '&subIdOrder=visitor_total_visits,'
+            + 'visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets' 
+            + '&fromStringDate=' + fromDate 
+            + '&toStringDate=' + toDate 
+            + '&eraseBlanks=false';
+        else 
+            url = baseUrl 
             + '/dashoard/timelineData'
             + '?authToken=' + $rootScope.globals.currentUser.token 
             + '&entityId=' + entityId 
@@ -221,10 +240,15 @@
             + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&eraseBlanks=false',
+            + '&eraseBlanks=false';
+
+
+        $.getJSON( url,
             function(data) {
                 // Disable extra options by default
-                for( var i = 2; i < data.series.length; i++)
+                var from = 2;
+                if( $scope.visitsOnly == true ) from = 1;
+                for( var i = from; i < data.series.length; i++)
                     data.series[i].visible = false;
 
                 $(id).highcharts({
@@ -270,8 +294,23 @@
             });
     };
     this.updateVisitsByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
-        $.getJSON(
-            baseUrl 
+        var url = null;
+
+        if( $scope.visitsOnly == true ) 
+            url = baseUrl 
+            + '/dashoard/timelineHour'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
+            + '&entityKind=1' 
+            + '&subentityId=' + subEntityId 
+            + '&elementId=apd_visitor' 
+            + '&subIdOrder=visitor_total_visits,'
+            + 'visitor_total_visits_ios,visitor_total_visits_android' 
+            + '&fromStringDate=' + fromDate 
+            + '&toStringDate=' + toDate 
+            + '&eraseBlanks=true';
+        else 
+            url = baseUrl 
             + '/dashoard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token 
             + '&entityId=' + entityId 
@@ -282,10 +321,15 @@
             + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&eraseBlanks=true',
+            + '&eraseBlanks=true';
+
+
+        $.getJSON( url,
             function(data) {
                 // Disable extra options by default
-                for( var i = 2; i < data.series.length; i++)
+                var from = 2;
+                if( $scope.visitsOnly == true ) from = 1;
+                for( var i = from; i < data.series.length; i++)
                     data.series[i].visible = false;
 
                 $(id).highcharts({
@@ -331,8 +375,23 @@
             });
     };
     this.updateRepetitionsChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
-        $.getJSON(
-            baseUrl 
+        var url = null;
+
+        if( $scope.visitsOnly == true ) 
+            url = baseUrl 
+            + '/dashoard/repetitions'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
+            + '&entityKind=1' 
+            + '&subentityId=' + subEntityId 
+            + '&elementId=apd_visitor' 
+            + '&subIdOrder=visitor_total_visits'
+            + 'visitor_total_visits_ios,visitor_total_visits_android' 
+            + '&fromStringDate=' + fromDate 
+            + '&toStringDate=' + toDate 
+            + '&eraseBlanks=true';
+        else 
+            url = baseUrl 
             + '/dashoard/repetitions'
             + '?authToken=' + $rootScope.globals.currentUser.token 
             + '&entityId=' + entityId 
@@ -343,7 +402,9 @@
             + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&eraseBlanks=true',
+            + '&eraseBlanks=true';
+
+        $.getJSON(url,
             function(data) {
                 // Disable extra options by default
                 $(id).highcharts({
@@ -390,8 +451,25 @@
             });
     };
     this.updatePermanenceByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
-        $.getJSON(
-            baseUrl 
+        var url = null;
+
+        if( $scope.visitsOnly == true ) 
+            url = baseUrl 
+            + '/dashoard/timelineHour'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
+            + '&entityKind=1' 
+            + '&subentityId=' + subEntityId 
+            + '&elementId=apd_permanence' 
+            + '&subIdOrder=permanence_hourly_visits,'
+            + 'permanence_hourly_visits_ios,permanence_hourly_visits_android' 
+            + '&fromStringDate=' + fromDate 
+            + '&toStringDate=' + toDate 
+            + '&average=true' 
+            + '&toMinutes=true' 
+            + '&eraseBlanks=true';
+        else 
+            url = baseUrl 
             + '/dashoard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token 
             + '&entityId=' + entityId 
@@ -404,12 +482,19 @@
             + '&toStringDate=' + toDate 
             + '&average=true' 
             + '&toMinutes=true' 
-            + '&eraseBlanks=true',
+            + '&eraseBlanks=true';
+
+        $.getJSON( url,
             function(data) {
                 // Disable extra options by default
-                data.series[0].visible = false;
-                for( var i = 2; i < data.series.length; i++)
-                    data.series[i].visible = false;
+                if( $scope.visitsOnly == true ) {
+                    for( var i = 1; i < data.series.length; i++)
+                        data.series[i].visible = false;
+                } else {
+                    data.series[0].visible = false;
+                    for( var i = 2; i < data.series.length; i++)
+                        data.series[i].visible = false;
+                }
 
                 $(id).highcharts({
                     chart: {
@@ -454,8 +539,24 @@
             });
     };
     this.updateHeatmapTraffic = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
-        $.getJSON(
-            baseUrl 
+        var url = null;
+
+        if( $scope.visitsOnly == true ) 
+            url = baseUrl 
+            + '/dashoard/heatmapTableHour'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
+            + '&entityKind=1' 
+            + '&subentityId=' + subEntityId 
+            + '&elementId=apd_visitor' 
+            + '&elementSubId=visitor_total_visits'
+            + '&fromStringDate=' + fromDate 
+            + '&toStringDate=' + toDate 
+            + '&average=false' 
+            + '&toMinutes=false' 
+            + '&eraseBlanks=true';
+        else 
+            url = baseUrl 
             + '/dashoard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token 
             + '&entityId=' + entityId 
@@ -467,7 +568,9 @@
             + '&toStringDate=' + toDate 
             + '&average=false' 
             + '&toMinutes=false' 
-            + '&eraseBlanks=true',
+            + '&eraseBlanks=true';
+
+        $.getJSON(url, 
             function(data) {
 
                 var p = new Array();
@@ -514,7 +617,11 @@
                     },
                     tooltip: {
                         formatter: function() {
-                            return this.point.value + ' <strong>Visitantes</strong> <br/>' + p[this.point.x][this.point.y]    + ' <strong>Paseantes</strong>';
+                            if($scope.visitsOnly == true ) {
+                                return this.point.value + ' <strong>Visitantes</strong>';
+                            } else {
+                                return this.point.value + ' <strong>Visitantes</strong> <br/>' + p[this.point.x][this.point.y]    + ' <strong>Paseantes</strong>';
+                            }
                         }
                     },
                     series: [{
@@ -530,8 +637,24 @@
             });
     };
     this.updateHeatmapPermanence = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
-        $.getJSON(
-            baseUrl 
+        var url = null;
+
+        if( $scope.visitsOnly == true ) 
+            url = baseUrl 
+            + '/dashoard/heatmapTableHour'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + entityId 
+            + '&entityKind=1' 
+            + '&subentityId=' + subEntityId 
+            + '&elementId=apd_permanence' 
+            + '&elementSubId=permanence_hourly_visits' 
+            + '&fromStringDate=' + fromDate 
+            + '&toStringDate=' + toDate 
+            + '&average=true' 
+            + '&toMinutes=true' 
+            + '&eraseBlanks=true';
+        else 
+            url = baseUrl 
             + '/dashoard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token 
             + '&entityId=' + entityId 
@@ -543,7 +666,9 @@
             + '&toStringDate=' + toDate 
             + '&average=true' 
             + '&toMinutes=true' 
-            + '&eraseBlanks=true',
+            + '&eraseBlanks=true';
+
+        $.getJSON(url,
             function(data) {
 
                 var p = new Array();
@@ -590,7 +715,11 @@
                     },
                     tooltip: {
                         formatter: function() {
-                            return '<strong>Visitantes: </strong>' + this.point.value + ' minutos <br/> <strong>Paseantes: </strong>' + p[this.point.x][this.point.y]    + ' minutos';
+                            if( $scope.visitsOnly == true ) {
+                                return '<strong>Visitantes: </strong>' + this.point.value + ' minutos';
+                            } else {
+                                return '<strong>Visitantes: </strong>' + this.point.value + ' minutos <br/> <strong>Paseantes: </strong>' + p[this.point.x][this.point.y]    + ' minutos';
+                            }
                         }
                     },
                     series: [{
@@ -620,10 +749,12 @@
                 tab = '<table class="table table-striped" style="text-align: center;" >';
                 tab += '<tr style="font-weight:bold;">';
                 tab += '<td>' + $scope.storeLabel + '</td>';
-                tab += '<td>Paseantes</td>';
+                if( $scope.visitsOnly == false )
+                    tab += '<td>Paseantes</td>';
                 tab += '<td>Visitantes</td>';
                 tab += '<td>Tickets</td>';
-                tab += '<td>Paseantes/Visitantes</td>';
+                if( $scope.visitsOnly == false )
+                    tab += '<td>Paseantes/Visitantes</td>';
                 tab += '<td>Visitantes/Tickets</td>';
                 tab += '<td>Día más Alto</td>';
                 tab += '<td>Día más Bajo</td>';
@@ -636,7 +767,8 @@
                         if (x == 0 || x == 3 || x == 5 || x == 7)
                             tab += '<td style="border-right: 1px solid gray;">' + data[i][x] + '</td>';
                         else
-                            tab += '<td>' + data[i][x] + '</td>';
+                            if( $scope.visitsOnly == false || (x != 1 & x != 4))
+                                tab += '<td>' + data[i][x] + '</td>';
                     }
                     tab += '</tr>';
                 }
@@ -645,7 +777,8 @@
                     if (x == 0 || x == 3 || x == 5 || x == 7)
                         tab += '<td style="border-right: 1px solid gray;">' + data[data.length - 1][x] + '</td>';
                     else
-                        tab += '<td>' + data[data.length - 1][x] + '</td>';
+                        if( $scope.visitsOnly == false || (x != 1 & x != 4))
+                            tab += '<td>' + data[data.length - 1][x] + '</td>';
                 }
                 tab += '</tr></tbody></table>';
 
