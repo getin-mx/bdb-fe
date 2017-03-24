@@ -224,7 +224,7 @@
             + '&subentityId=' + subEntityId 
             + '&elementId=apd_visitor' 
             + '&subIdOrder=visitor_total_visits,'
-            + 'visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets' 
+            + 'visitor_total_visits_ios,visitor_total_visits_android' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
             + '&eraseBlanks=false';
@@ -748,37 +748,46 @@
                 var tab = '';
                 tab = '<table class="table table-striped" style="text-align: center;" >';
                 tab += '<tr style="font-weight:bold;">';
-                tab += '<td>' + $scope.storeLabel + '</td>';
+                tab += '<td>' + $scope.storeLabel + '</td>';        // 0
                 if( $scope.visitsOnly == false )
-                    tab += '<td>Paseantes</td>';
-                tab += '<td>Visitantes</td>';
-                tab += '<td>Tickets</td>';
-                if( $scope.visitsOnly == false )
-                    tab += '<td>Paseantes/Visitantes</td>';
-                tab += '<td>Visitantes/Tickets</td>';
-                tab += '<td>Día más Alto</td>';
-                tab += '<td>Día más Bajo</td>';
-                tab += '<td>Permanencia Promedio</td>';
+                    tab += '<td>Paseantes</td>';                    // 1
+                tab += '<td>Visitantes</td>';                       // 2   
+                if( $scope.visitsOnly == false ) {
+                    tab += '<td>Tickets</td>';                      // 3
+                    tab += '<td>Paseantes/Visitantes</td>';         // 4
+                    tab += '<td>Visitantes/Tickets</td>';           // 5
+                }
+                tab += '<td>Día más Alto</td>';                     // 6
+                tab += '<td>Día más Bajo</td>';                     // 7
+                tab += '<td>Permanencia Promedio</td>';             // 8
                 tab += '</tr>';
                 tab += '<tbody>';
                 for (var i = 1; i < data.length - 1; i++) {
                     tab += '<tr>';
                     for (var x = 0; x < data[i].length; x++) {
-                        if (x == 0 || x == 3 || x == 5 || x == 7)
-                            tab += '<td style="border-right: 1px solid gray;">' + data[i][x] + '</td>';
-                        else
-                            if( $scope.visitsOnly == false || (x != 1 & x != 4))
+                        if (x == 0 || x == 3 || x == 5 || x == 7) {
+                            if( $scope.visitsOnly == false || (x != 3 && x != 5)) {
+                                tab += '<td style="border-right: 1px solid gray;">' + data[i][x] + '</td>';
+                            }
+                        } else {
+                            if( $scope.visitsOnly == false || (x != 1 && x != 4)) {
                                 tab += '<td>' + data[i][x] + '</td>';
+                            }
+                        }
                     }
                     tab += '</tr>';
                 }
                 tab += '<tr style="font-weight:bold;">';
                 for (var x = 0; x < data[data.length - 1].length; x++) {
-                    if (x == 0 || x == 3 || x == 5 || x == 7)
-                        tab += '<td style="border-right: 1px solid gray;">' + data[data.length - 1][x] + '</td>';
-                    else
-                        if( $scope.visitsOnly == false || (x != 1 & x != 4))
+                    if (x == 0 || x == 3 || x == 5 || x == 7) {
+                        if( $scope.visitsOnly == false || (x != 3 && x != 5)) {
+                            tab += '<td style="border-right: 1px solid gray;">' + data[data.length - 1][x] + '</td>';
+                        }
+                    } else {
+                        if( $scope.visitsOnly == false || (x != 1 && x != 4)) {
                             tab += '<td>' + data[data.length - 1][x] + '</td>';
+                        }
+                    }
                 }
                 tab += '</tr></tbody></table>';
 
