@@ -8,14 +8,60 @@
     $scope.classUser = 'hidden';
     $scope.classAdmin = 'hidden';
     $scope.visitsOnly = false;
-
-    var dToDate = new Date(new Date().getTime() - config.oneDay);
-    var dFromDate = new Date(dToDate.getTime() - config.oneWeek);
+    $scope.retailCalendar = config.retailCalendar;
+    $scope.retailCalendarDate = null;
 
     var globals = AuthenticationService.getCredentials();
     var credentials = globals.currentUser;
 
     $scope.storeLabel = '';
+
+    $scope.dateChange = function() {
+        alert("date changed");
+    }
+
+    $scope.findRetailCalendarDate = function() {
+        var d = new Date(new Date().getTime() - config.oneDay).format("yyyy-mm-dd");
+        for( var i = 0; i < $scope.retailCalendar.length; i++ ) {
+            if($scope.retailCalendar[i].fromDate < d && $scope.retailCalendar[i].toDate >= d)
+                $scope.retailCalendarDate = $scope.retailCalendar[i];
+        }
+        $scope.retailCalendarChange();
+
+        $('.datelistener').each(function() {
+            var elem = $(this);
+
+            // Save current value of element
+            elem.data('oldVal', elem.val());
+
+            // Look for changes in the value
+            elem.bind("propertychange change click keyup input paste blur focus", function(event){
+                // If value has changed...
+                if (elem.data('oldVal') != elem.val()) {
+                    // Updated stored value
+                    elem.data('oldVal', elem.val());
+
+                    var fd = $('#fromDate').val();
+                    var td = $('#toDate').val();
+
+                    $scope.retailCalendarDate = null;
+                    for( var i = 0; i < $scope.retailCalendar.length; i++ ) {
+                        if($scope.retailCalendar[i].fromDate == fd && $scope.retailCalendar[i].toDate == td)
+                            $scope.retailCalendarDate = $scope.retailCalendar[i];
+                    }
+                }
+            });
+       });
+    }
+
+    $scope.retailCalendarChange = function() {
+        if($scope.retailCalendarDate != null ) {
+            $scope.toDate = $scope.retailCalendarDate.toDate;
+            $('#toDate').val($scope.toDate);
+            $scope.fromDate = $scope.retailCalendarDate.fromDate;
+            $('#fromDate').val($scope.fromDate);
+        }
+    }
 
     $scope.initAPDVisits = function(visitsOnly) {
 
@@ -34,16 +80,14 @@
             $scope.detailsExportable = 'hidden';
         }
 
+        $scope.findRetailCalendarDate();
+
         $http.get(CommonsService.getUrl('/dashboard/assignedBrandList'))
         .then($scope.initAPDVisitsPhase2);
     }
 
     $scope.initAPDVisitsPhase2 = function(data) {
 
-        $scope.toDate = dToDate.format("yyyy-mm-dd", null);
-        $('#toDate').val($scope.toDate);
-        $scope.fromDate = dFromDate.format("yyyy-mm-dd", null);
-        $('#fromDate').val($scope.fromDate);
         $scope.storeId = '';
 
         $('#brandId').find('option').remove()

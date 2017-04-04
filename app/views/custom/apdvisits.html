@@ -24,10 +24,14 @@
 						<div class="form-group col-lg-6">
 							<label class="font-noraml">Rango de Fechas:</label>
 							<div class="input-group date" style="max-width: 400px;">
-								<input type="datetime" id="fromDate" ng-model="fromDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
+								<input type="datetime" id="fromDate" ng-model="fromDate" class="form-control datelistener" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-								<input type="datetime" id="toDate" ng-model="toDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
+								<input type="datetime" id="toDate" ng-model="toDate" class="form-control datelistener" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+							</div>
+							<div class="input-group" style="max-width: 400px;">
+								<select ng-model="retailCalendarDate" ng-change="retailCalendarChange()" data-ng-options="o.name for o in retailCalendar" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 400px;">
+								</select>
 							</div>
 						</div>
 						<div class="form-group col-lg-6">
