@@ -33,11 +33,7 @@ function PatternHeatmapCtrl($rootScope, $scope, $location, AuthenticationService
         indoormap.draw(mapData, $('.mapContainer')[0]);
         if (indoormap.queryString()['noHeatMap'] != 'true') {
             $('#save').css('display', 'none');
-            if( KEY == 'mundoe_p1') {
-                indoormap.drawLines(config.baseUrl, token, mapData, KEY, $('.mapContainer')[0], entityId, fromDate, toDate, dayOfWeek, timezone, 0, 20);
-            } else {
-                indoormap.drawLines(config.baseUrl, token, mapData, KEY, $('.mapContainer')[0], entityId, fromDate, toDate, dayOfWeek, timezone, 0, 20);
-            }
+            indoormap.drawLines(config.baseUrl, token, mapData, KEY, $('.mapContainer')[0], entityId, fromDate, toDate, dayOfWeek, timezone, 0, 20);
         }
     
         $scope.mapData = mapData;

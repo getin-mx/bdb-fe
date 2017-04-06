@@ -781,7 +781,7 @@
     this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId) {
         $.getJSON(
             baseUrl 
-            + '/dashoard/brandTableData'
+            + (entityId == 'volaris_mx' ? '/dashoard/brandTableData2' : '/dashoard/brandTableData')
             + '?authToken=' + $rootScope.globals.currentUser.token 
             + '&entityId=' + entityId 
             + '&entityKind=1' 
@@ -792,7 +792,7 @@
                 var tab = '';
                 tab = '<table class="table table-striped" style="text-align: center;" >';
                 tab += '<tr style="font-weight:bold;">';
-                tab += '<td>' + $scope.storeLabel + '</td>';        // 0
+                tab += '<td style="text-align: left; border-right: 1px solid gray;">' + $scope.storeLabel + '</td>';
                 if( $scope.visitsOnly == false )
                     tab += '<td>Paseantes</td>';                    // 1
                 tab += '<td>Visitantes</td>';                       // 2   
@@ -808,7 +808,8 @@
                 tab += '<tbody>';
                 for (var i = 1; i < data.length - 1; i++) {
                     tab += '<tr>';
-                    for (var x = 0; x < data[i].length; x++) {
+                    tab += '<td style="text-align: left; border-right: 1px solid gray;">' + data[i][0] + '</td>';
+                    for (var x = 1; x < data[i].length; x++) {
                         if (x == 0 || x == 3 || x == 5 || x == 7) {
                             if( $scope.visitsOnly == false || (x != 3 && x != 5)) {
                                 tab += '<td style="border-right: 1px solid gray;">' + data[i][x] + '</td>';
@@ -822,7 +823,8 @@
                     tab += '</tr>';
                 }
                 tab += '<tr style="font-weight:bold;">';
-                for (var x = 0; x < data[data.length - 1].length; x++) {
+                tab += '<td style="text-align: left; border-right: 1px solid gray;">' + data[data.length - 1][0] + '</td>';
+                for (var x = 1; x < data[data.length - 1].length; x++) {
                     if (x == 0 || x == 3 || x == 5 || x == 7) {
                         if( $scope.visitsOnly == false || (x != 3 && x != 5)) {
                             tab += '<td style="border-right: 1px solid gray;">' + data[data.length - 1][x] + '</td>';
