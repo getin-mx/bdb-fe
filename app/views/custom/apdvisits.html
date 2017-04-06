@@ -52,7 +52,8 @@
 						<div class="form-group col-lg-6">
 							<div class="form-group" style="height: 50px;">
 								<button type="button" ng-click="exportAPDVisits()" ladda="loadingExcel" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Exportar a Excel</button>
-								<span id="exportDetails"><button type="button" ng-class="detailsExportable" ng-click="exportDetails()" ladda="loadingExcel" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Exportar MACs</button></span>
+								<span id="exportDetails"><!-- <button type="button" ng-class="detailsExportable" ng-click="exportDetails()" ladda="loadingExcel" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Exportar MACs</button> -->
+								<button type="button" ng-class="detailsExportable" ng-click="exportReport()" ladda="loadingExcel" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Exportar Reporte</button></span>
 							</div>
 						</div>
 					</div>

@@ -193,6 +193,20 @@
         window.open(url);
     }
 
+    $scope.exportReport = function() {
+        $scope.fromDate = $('#fromDate').val();
+        $scope.toDate = $('#toDate').val();
+
+        var url =  config.baseUrl + '/dashboard/reportExport' 
+        + '?authToken=' + $rootScope.globals.currentUser.token 
+        + '&brandId=' + $scope.brandId 
+        + '&storeId=' + $scope.storeId
+        + '&fromStringDate=' + $scope.fromDate
+        + '&toStringDate=' + $scope.toDate
+
+        window.open(url);
+    }
+
     $scope.exportDetails = function() {
         $scope.fromDate = $('#fromDate').val();
         $scope.toDate = $('#toDate').val();
