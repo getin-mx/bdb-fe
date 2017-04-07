@@ -10,6 +10,7 @@
     $scope.visitsOnly = false;
     $scope.retailCalendar = config.retailCalendar;
     $scope.retailCalendarDate = null;
+    $scope.zoneAble = 'hidden';
 
     var globals = AuthenticationService.getCredentials();
     var credentials = globals.currentUser;
@@ -108,14 +109,13 @@
         $scope.brandId = selected;
         $('#brandId').val(selected);
         $scope.updateStoreLabel();
-
         $scope.updateStoreList('#store', config.dashUrl, $scope.brandId);
         $scope.updateAPDVisits();
     }
 
     $scope.updateBrand = function() {
         $scope.loadingSubmit = true;
-        $scope.brandId = $('#brandId').val();
+        $scope.brandId = $('#brandId').val();        
         $scope.updateStoreLabel();
         $scope.updateStoreList('#store', config.dashUrl, $scope.brandId);
         $scope.updateAPDVisits();
@@ -238,16 +238,43 @@
         $('#heatmap_permanence_by_hour').html('');
         $('#brand_performance_table').html('');
 
-        vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, fromDate, toDate, brandId, storeId);
-        vm.updateVisitsByHourChart('#visits_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId);
-        vm.updateRepetitionsChart('#repetitions', config.dashUrl, fromDate, toDate, brandId, storeId);
-        vm.updatePermanenceByHourChart('#permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId);
-        vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId);
-        vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId);
+        vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
+        vm.updateVisitsByHourChart('#visits_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
+        vm.updateRepetitionsChart('#repetitions', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
+        vm.updatePermanenceByHourChart('#permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
+        vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
+        vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         vm.updateBrandPerformanceTable('#brand_performance_table', config.dashUrl, fromDate, toDate, brandId);
     }
 
+    $scope.updateZoneList = function(id, entityId) {
+        $http.get(CommonsService.getUrl('/dashboard/innerZoneList')
+            + '&entityId=' + entityId 
+            + '&entityKind=1')
+        .then(function(data) {
+            $(id).empty();
+            $(id).append($('<option>', {
+                value: '',
+                text: 'Todas'
+            }));
+
+            for( var i = 0; i < data.data.data.length; i++ ) {
+                $(id).append($('<option>', {
+                    value: data.data.data[i].identifier,
+                    text: data.data.data[i].name
+                }));
+            }
+        });
+    }
+
     $scope.updateStoreList = function(id, baseUrl, entityId) {
+        if( $scope.brandId == 'volaris_mx') {
+            $scope.zoneAble = '';
+        } else {
+            $scope.zoneAble = 'hidden';
+        }
+        $scope.updateZoneList('#zone', $scope.brandId);
+
         $http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
             + '&entityId=' + $scope.brandId 
             + '&entityKind=1&onlyExternalIds=true')
@@ -270,16 +297,33 @@
         }
     }
 
-    this.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
+    this.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId) {
         var url = null;
 
-        if( $scope.visitsOnly == true ) 
+        var eid;
+        var seid;
+        var kind;
+        var vo = false;
+
+        if( zoneId === undefined || zoneId == '') {
+            eid = entityId;
+            seid = subEntityId;
+            kind = 1;
+            vo = false;
+        } else {
+            eid = zoneId;
+            seid = zoneId;
+            kind = 20;
+            vo = true;
+        }
+
+        if( $scope.visitsOnly == true || vo == true ) 
             url = baseUrl 
             + '/dashoard/timelineData'
             + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&subentityId=' + subEntityId 
+            + '&entityId=' + eid 
+            + '&entityKind=' + kind
+            + '&subentityId=' + seid
             + '&elementId=apd_visitor' 
             + '&subIdOrder=visitor_total_visits,'
             + 'visitor_total_visits_ios,visitor_total_visits_android' 
@@ -290,9 +334,9 @@
             url = baseUrl 
             + '/dashoard/timelineData'
             + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&subentityId=' + subEntityId 
+            + '&entityId=' + eid
+            + '&entityKind=' + kind 
+            + '&subentityId=' + seid
             + '&elementId=apd_visitor' 
             + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
             + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets' 
@@ -351,16 +395,33 @@
                 });
             });
     };
-    this.updateVisitsByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
+    this.updateVisitsByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId) {
         var url = null;
 
-        if( $scope.visitsOnly == true ) 
+        var eid;
+        var seid;
+        var kind;
+        var vo = false;
+
+        if( zoneId === undefined || zoneId == '') {
+            eid = entityId;
+            seid = subEntityId;
+            kind = 1;
+            vo = false;
+        } else {
+            eid = zoneId;
+            seid = zoneId;
+            kind = 20;
+            vo = true;
+        }
+
+        if( $scope.visitsOnly == true || vo == true ) 
             url = baseUrl 
             + '/dashoard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&subentityId=' + subEntityId 
+            + '&entityId=' + eid
+            + '&entityKind=' + kind
+            + '&subentityId=' + seid 
             + '&elementId=apd_visitor' 
             + '&subIdOrder=visitor_total_visits,'
             + 'visitor_total_visits_ios,visitor_total_visits_android' 
@@ -371,9 +432,9 @@
             url = baseUrl 
             + '/dashoard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&subentityId=' + subEntityId 
+            + '&entityId=' + eid 
+            + '&entityKind=' + kind
+            + '&subentityId=' + seid 
             + '&elementId=apd_visitor' 
             + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
             + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android' 
@@ -432,29 +493,47 @@
                 });
             });
     };
-    this.updateRepetitionsChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
+    this.updateRepetitionsChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId) {
         var url = null;
 
-        if( $scope.visitsOnly == true ) 
+        var eid;
+        var seid;
+        var kind;
+        var vo = false;
+
+        if( zoneId === undefined || zoneId == '') {
+            eid = entityId;
+            seid = subEntityId;
+            kind = 1;
+            vo = false;
+        } else {
+            eid = zoneId;
+            seid = zoneId;
+            kind = 20;
+            vo = true;
+        }
+
+        if( $scope.visitsOnly == true || vo == true ) {
+            return;
             url = baseUrl 
             + '/dashoard/repetitions'
             + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&subentityId=' + subEntityId 
+            + '&entityId=' + eid 
+            + '&entityKind=' + kind
+            + '&subentityId=' + seid 
             + '&elementId=apd_visitor' 
             + '&subIdOrder=visitor_total_visits'
             + 'visitor_total_visits_ios,visitor_total_visits_android' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
             + '&eraseBlanks=true';
-        else 
+        } else 
             url = baseUrl 
             + '/dashoard/repetitions'
             + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&subentityId=' + subEntityId 
+            + '&entityId=' + eid 
+            + '&entityKind=' + kind
+            + '&subentityId=' + seid 
             + '&elementId=apd_visitor' 
             + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
             + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android' 
@@ -508,16 +587,33 @@
                 });
             });
     };
-    this.updatePermanenceByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
+    this.updatePermanenceByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId) {
         var url = null;
 
-        if( $scope.visitsOnly == true ) 
+        var eid;
+        var seid;
+        var kind;
+        var vo = false;
+
+        if( zoneId === undefined || zoneId == '') {
+            eid = entityId;
+            seid = subEntityId;
+            kind = 1;
+            vo = false;
+        } else {
+            eid = zoneId;
+            seid = zoneId;
+            kind = 20;
+            vo = true;
+        }
+
+        if( $scope.visitsOnly == true || vo == true ) 
             url = baseUrl 
             + '/dashoard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&subentityId=' + subEntityId 
+            + '&entityId=' + eid 
+            + '&entityKind=' + kind
+            + '&subentityId=' + seid 
             + '&elementId=apd_permanence' 
             + '&subIdOrder=permanence_hourly_visits,'
             + 'permanence_hourly_visits_ios,permanence_hourly_visits_android' 
@@ -530,9 +626,9 @@
             url = baseUrl 
             + '/dashoard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&subentityId=' + subEntityId 
+            + '&entityId=' + eid 
+            + '&entityKind=' + kind
+            + '&subentityId=' + seid 
             + '&elementId=apd_permanence' 
             + '&subIdOrder=permanence_hourly_peasents,permanence_hourly_visits,permanence_hourly_peasents_ios,'
             + 'permanence_hourly_peasents_android,permanence_hourly_visits_ios,permanence_hourly_visits_android' 
@@ -596,16 +692,33 @@
                 });
             });
     };
-    this.updateHeatmapTraffic = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
+    this.updateHeatmapTraffic = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId) {
         var url = null;
 
-        if( $scope.visitsOnly == true ) 
+        var eid;
+        var seid;
+        var kind;
+        var vo = false;
+
+        if( zoneId === undefined || zoneId == '') {
+            eid = entityId;
+            seid = subEntityId;
+            kind = 1;
+            vo = false;
+        } else {
+            eid = zoneId;
+            seid = zoneId;
+            kind = 20;
+            vo = true;
+        }
+
+        if( $scope.visitsOnly == true || vo == true ) 
             url = baseUrl 
             + '/dashoard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&subentityId=' + subEntityId 
+            + '&entityId=' + eid 
+            + '&entityKind=' + kind
+            + '&subentityId=' + seid 
             + '&elementId=apd_visitor' 
             + '&elementSubId=visitor_total_visits'
             + '&fromStringDate=' + fromDate 
@@ -617,9 +730,9 @@
             url = baseUrl 
             + '/dashoard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&subentityId=' + subEntityId 
+            + '&entityId=' + eid 
+            + '&entityKind=' + kind
+            + '&subentityId=' + seid 
             + '&elementId=apd_visitor' 
             + '&elementSubId=visitor_total_visits,visitor_total_peasents'
             + '&fromStringDate=' + fromDate 
@@ -675,7 +788,7 @@
                     },
                     tooltip: {
                         formatter: function() {
-                            if($scope.visitsOnly == true ) {
+                            if( $scope.visitsOnly == true || vo == true ) {
                                 return this.point.value + ' <strong>Visitantes</strong>';
                             } else {
                                 return this.point.value + ' <strong>Visitantes</strong> <br/>' + p[this.point.x][this.point.y]    + ' <strong>Paseantes</strong>';
@@ -694,16 +807,33 @@
                 });
             });
     };
-    this.updateHeatmapPermanence = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
+    this.updateHeatmapPermanence = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId) {
         var url = null;
 
-        if( $scope.visitsOnly == true ) 
+        var eid;
+        var seid;
+        var kind;
+        var vo = false;
+
+        if( zoneId === undefined || zoneId == '') {
+            eid = entityId;
+            seid = subEntityId;
+            kind = 1;
+            vo = false;
+        } else {
+            eid = zoneId;
+            seid = zoneId;
+            kind = 20;
+            vo = true;
+        }
+
+        if( $scope.visitsOnly == true || vo == true ) 
             url = baseUrl 
             + '/dashoard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&subentityId=' + subEntityId 
+            + '&entityId=' + eid 
+            + '&entityKind=' + kind
+            + '&subentityId=' + seid 
             + '&elementId=apd_permanence' 
             + '&elementSubId=permanence_hourly_visits' 
             + '&fromStringDate=' + fromDate 
@@ -715,9 +845,9 @@
             url = baseUrl 
             + '/dashoard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&subentityId=' + subEntityId 
+            + '&entityId=' + eid 
+            + '&entityKind=' + kind
+            + '&subentityId=' + seid 
             + '&elementId=apd_permanence' 
             + '&elementSubId=permanence_hourly_visits,permanence_hourly_peasents' 
             + '&fromStringDate=' + fromDate 
@@ -773,7 +903,7 @@
                     },
                     tooltip: {
                         formatter: function() {
-                            if( $scope.visitsOnly == true ) {
+                            if( $scope.visitsOnly == true || vo == true ) {
                                 return '<strong>Visitantes: </strong>' + this.point.value + ' minutos';
                             } else {
                                 return '<strong>Visitantes: </strong>' + this.point.value + ' minutos <br/> <strong>Paseantes: </strong>' + p[this.point.x][this.point.y]    + ' minutos';
