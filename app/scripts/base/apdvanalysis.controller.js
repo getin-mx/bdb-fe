@@ -10,6 +10,7 @@ function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, A
 	$scope.brand = null;
 	$scope.stores = null;
 	$scope.store = null;
+	$scope.status = {};
 
 	$scope.init = function() {
 
@@ -80,7 +81,7 @@ function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, A
 		$http.get(CommonsService.getUrl('/apdvisit') 
 			+ '&entityId=' + $scope.store.id
 			+ '&date=' + $scope.anDate
-			+ '&entityKind=3&checkinType=2&from=0&to=0&q=' + encodeURIComponent($scope.search))
+			+ '&entityKind=3&checkinType=2&order=mac&from=0&to=10&q=' + encodeURIComponent($scope.search))
 			.then($scope.fillTable);
 
 	}
@@ -96,6 +97,27 @@ function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, A
 
 		//get the footable object
 		var tableAssigned = $('#apdvisit-table').data('footable');
+		tableAssigned.pageCallback = function(ft, pageNumber, sort, callback) {
+			var $table = $(ft.table), data = $table.data();
+			var pageSize = data.pageSize || ft.options.pageSize;
+			var from = pageSize * pageNumber;
+			var to = from + pageSize;
+
+			$scope.loadingRefresh = true;
+			$scope.status.httpCallback = callback;
+			$scope.status.ft = ft;
+			$scope.status.pageNumber = pageNumber;
+
+			$http.get(CommonsService.getUrl('/apdvisit')  
+				+ '&from=' + from 
+				+ '&to=' + to 
+				+ '&entityId=' + $scope.store.id
+				+ '&date=' + $scope.anDate
+				+ '&entityKind=3&checkinType=2'
+				+ '&order=' + encodeURIComponent(sort)
+				+ '&q=' + encodeURIComponent($scope.search))
+				.then($scope.fillTable);
+		}
 
 	    $("#apdvisit-table>tbody>tr").each(function(index, elem){$(elem).remove();});
 
@@ -137,11 +159,19 @@ function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, A
 	    tableAssigned.appendRow(tableAssignedRows);
 
 		$('#apdvisit-table').data('current-page', '0');
-		$('#apdvisit-table').data('record-count', assignedCount);
+		$('#apdvisit-table').data('record-count', data.data.recordCount);
 
 		tableAssigned.redraw();
 
-    	$("#apdvisit-count").html('&nbsp;(' + assignedCount + ')');
+    	$("#apdvisit-count").html('&nbsp;(' + data.data.recordCount + ')');
+
+	    if( $scope.status.httpCallback !== undefined ) {
+	    	$scope.status.ft.pageInfo.currentPage = $scope.status.pageNumber;
+	    	$scope.status.httpCallback($scope.status.ft, $scope.status.pageNumber);
+	    	$scope.status.httpCallback = undefined;
+	    	$scope.status.ft = undefined;
+	    	$scope.status.pageNumber = undefined;
+	    }
 
 		$scope.loadingRefresh = false;
 
