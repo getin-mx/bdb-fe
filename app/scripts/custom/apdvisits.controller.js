@@ -244,6 +244,7 @@
         vm.updatePermanenceByHourChart('#permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
+        vm.updateHeatmapOccupation('#heatmap_occupation_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         vm.updateBrandPerformanceTable('#brand_performance_table', config.dashUrl, fromDate, toDate, brandId);
     }
 
@@ -879,6 +880,121 @@
                     },
                     title: {
                         text: 'Permanencia por Hora'
+                    },
+                    xAxis: {
+                        categories: data.xCategories
+                    },
+                    yAxis: {
+                        categories: data.yCategories,
+                        title: 'Horarios'
+                    },
+                    colorAxis: {
+                        min: 0,
+                        minColor: '#FFFFFF',
+                        //maxColor: Highcharts.getOptions().colors[0]
+                        maxColor: '#137499'
+                    },
+                    legend: {
+                        align: 'right',
+                        layout: 'vertical',
+                        margin: 0,
+                        verticalAlign: 'top',
+                        y: 25,
+                        symbolHeight: 280
+                    },
+                    tooltip: {
+                        formatter: function() {
+                            if( $scope.visitsOnly == true || vo == true ) {
+                                return '<strong>Visitantes: </strong>' + this.point.value + ' minutos';
+                            } else {
+                                return '<strong>Visitantes: </strong>' + this.point.value + ' minutos <br/> <strong>Paseantes: </strong>' + p[this.point.x][this.point.y]    + ' minutos';
+                            }
+                        }
+                    },
+                    series: [{
+                        borderWidth: 1,
+                        borderColor: '#137499',
+                        data: data.data,
+                        dataLabels: {
+                            enabled: false,
+                            color: '#000000'
+                        }
+                    }]
+                });
+            });
+    };
+     this.updateHeatmapOccupation = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId) {
+        var url = null;
+
+        var eid;
+        var seid;
+        var kind;
+        var vo = false;
+
+        if( zoneId === undefined || zoneId == '') {
+            eid = entityId;
+            seid = subEntityId;
+            kind = 1;
+            vo = false;
+        } else {
+            eid = zoneId;
+            seid = zoneId;
+            kind = 20;
+            vo = true;
+        }
+
+        if( $scope.visitsOnly == true || vo == true ) 
+            url = baseUrl 
+            + '/dashoard/heatmapTableHour'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + eid 
+            + '&entityKind=' + kind
+            + '&subentityId=' + seid 
+            + '&elementId=apd_occupation' 
+            + '&elementSubId=occupation_hourly_visits' 
+            + '&fromStringDate=' + fromDate 
+            + '&toStringDate=' + toDate 
+            + '&average=true' 
+            + '&toMinutes=true' 
+            + '&eraseBlanks=true';
+        else 
+            url = baseUrl 
+            + '/dashoard/heatmapTableHour'
+            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '&entityId=' + eid 
+            + '&entityKind=' + kind
+            + '&subentityId=' + seid 
+            + '&elementId=apd_occupation' 
+            + '&elementSubId=occupation_hourly_visits,occupation_hourly_peasants' 
+            + '&fromStringDate=' + fromDate 
+            + '&toStringDate=' + toDate 
+            + '&average=true' 
+            + '&toMinutes=true' 
+            + '&eraseBlanks=true';
+
+        $.getJSON(url,
+            function(data) {
+
+                var p = new Array();
+                for( var i = 0; i < data.data.length; i++) {
+                    var ob = data.data[i];
+                    var p1 = p[ob[0]];
+                    if( p1 === null || p1 === undefined )  {
+                        p1 = new Array();
+                        p[ob[0]] = p1;
+                    }
+                    var val = ob[3];
+                    p1[ob[1]] = val;
+                }
+
+                $(id).highcharts({
+                    chart: {
+                        type: 'heatmap',
+                        marginLeft: 200,
+                        marginRight: 200
+                    },
+                    title: {
+                        text: 'Ocupacion por Hora'
                     },
                     xAxis: {
                         categories: data.xCategories
