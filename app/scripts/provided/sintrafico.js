@@ -106,7 +106,7 @@ function getFlow(storePosition, success, fail) {
 			console.log('Error ' + jqXHR.status);
 			if( fail !== undefined ) fail();
 		})
-}
+}   
 
 // Function to be called after the SinTrafico request ID is received
 function delayFlowResponse(req_id, success, fail) {
@@ -133,4 +133,145 @@ function delayFlowResponse(req_id, success, fail) {
 			console.log('Error ' + jqXHR.status);
 			if( fail !== undefined ) fail();
 		})
-}
+}   
+
+// Returns vehicle origin destiny  for a location.
+function getOriginWork(lat, lon, mapa, success, fail) {
+    var parameters =  {
+        'key':      'e3d5b3f4b180e43558c1908b04f85f9e73de94b31777a8eb2ab844fd9296f177',
+        'lat':      lat,
+        'lon':      lon,
+        'origin':   'start',
+        'time':     'morning'
+    };
+
+    var result = null;
+
+    $.getJSON('http://api.sintrafico.com/trips', parameters)
+        .done(function(data, textStatus, jqXHR) {
+            if (textStatus == 'success') {
+                $.each( data.result, function( i, item ) {
+
+                    map.drawCircle({
+                        lat: item.centroid[0],
+                        lng: item.centroid[1],
+                        fillColor: '#b9390f',
+                        fillOpacity: 0.2,
+                        strokeColor: '#b9390f',
+                        strokeWeight: 1,
+                        radius: item.average_radius
+                    });
+                });
+            }
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            console.log('Error ' + jqXHR.status);
+        })
+
+    return result;
+}   
+
+// Returns vehicle origin destiny  for a location.
+function getDestinyWork(lat, lon, mapa, success, fail) {
+    var parameters =  {
+        'key':      'e3d5b3f4b180e43558c1908b04f85f9e73de94b31777a8eb2ab844fd9296f177',
+        'lat':      lat,
+        'lon':      lon,
+        'origin':   'end',
+        'time':     'morning'
+    };
+
+    var result = null;
+
+    $.getJSON('http://api.sintrafico.com/trips', parameters)
+        .done(function(data, textStatus, jqXHR) {
+            if (textStatus == 'success') {
+                $.each( data.result, function( i, item ) {
+
+                    map.drawCircle({
+                        lat: item.centroid[0],
+                        lng: item.centroid[1],
+                        fillColor: '#777',
+                        fillOpacity: 0.2,
+                        strokeColor: '#777',
+                        strokeWeight: 1,
+                        radius: item.average_radius
+                    });
+                });
+            }
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            console.log('Error ' + jqXHR.status);
+        })
+    return result;
+} 
+
+// Returns vehicle origin destiny  for a location.
+function getOriginHome(lat, lon, mapa, success, fail) {
+    var parameters =  {
+        'key':      'e3d5b3f4b180e43558c1908b04f85f9e73de94b31777a8eb2ab844fd9296f177',
+        'lat':      lat,
+        'lon':      lon,
+        'origin':   'start',
+        'time':     'night'
+    };
+
+    var result = null;
+
+    $.getJSON('http://api.sintrafico.com/trips', parameters)
+        .done(function(data, textStatus, jqXHR) {
+            if (textStatus == 'success') {
+                $.each( data.result, function( i, item ) {
+
+                    map.drawCircle({
+                        lat: item.centroid[0],
+                        lng: item.centroid[1],
+                        fillColor: '#c3af05',
+                        fillOpacity: 0.2,
+                        strokeColor: '#c3af05',
+                        strokeWeight: 1,
+                        radius: item.average_radius
+                    });
+                });
+            }
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            console.log('Error ' + jqXHR.status);
+        })
+    return result;
+}   
+
+// Returns vehicle origin destiny  for a location.
+function getDestinyHome(lat, lon, mapa, success, fail) {
+    var parameters =  {
+        'key':      'e3d5b3f4b180e43558c1908b04f85f9e73de94b31777a8eb2ab844fd9296f177',
+        'lat':      lat,
+        'lon':      lon,
+        'origin':   'end',
+        'time':     'night'
+    };
+
+    var result = null;
+
+    $.getJSON('http://api.sintrafico.com/trips', parameters)
+        .done(function(data, textStatus, jqXHR) {
+            if (textStatus == 'success') {
+                $.each( data.result, function( i, item ) {
+
+                    mapa.drawCircle({
+                        lat: item.centroid[0],
+                        lng: item.centroid[1],
+                        fillColor: '#1ab394',
+                        fillOpacity: 0.2,
+                        strokeColor: '#1ab394',
+                        strokeWeight: 1,
+                        radius: item.average_radius
+                    });
+                });
+            }
+        })
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            console.log('Error ' + jqXHR.status);
+        })
+    return result;
+}   

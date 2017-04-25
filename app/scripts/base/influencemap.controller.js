@@ -4,11 +4,15 @@
 function InfluenceMapCtrl($scope, $http, $location, CommonsService, AuthenticationService) {
 
 	var vm = this;
+	var lat =0;
+	var lon = 0;
 
 	$scope.TYPE_GPS_WORK = 3;
 	$scope.TYPE_GPS_HOME = 2;
 	$scope.TYPE_GPS_WORK_PEASANT = 5;
 	$scope.TYPE_GPS_HOME_PEASANT = 4;
+	$scope.TYPE_GPS_WORK_ORIGIN_DESTINY = 7;
+	$scope.TYPE_GPS_HOME_ORIGIN_DESTINY = 6;
 	$scope.TYPE_GPS = 1;
 	$scope.TYPE_WIFI = 0;
 
@@ -24,6 +28,11 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 		$scope.checkGpsHome = true;
 		$scope.checkPeasantWork = true;
 		$scope.checkPeasantHome = true;
+		$scope.checkOriginWork = true;
+		$scope.checkDestinyWork = true;
+		$scope.checkOriginHome = true;
+		$scope.checkDestinyHome = true;
+
 
 		$scope.brands = new Array();
 		$scope.loadingRefresh = true;
@@ -117,6 +126,9 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 				}
 			}
 		}
+
+		lat = data.data.address.latitude;
+		lon = data.data.address.longitude;
 		
 		map = new GMaps({
 			div: '#map',
@@ -204,7 +216,27 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 					radius: conns
 				});
 			}
+		}//end for
 
+		if( $scope.checkOriginWork == true  ) {
+
+			var result = getOriginWork(lat, lon, map);
+
+		}
+
+		if( $scope.checkDestinyWork == true  ) {
+
+			var result = getDestinyWork(lat, lon, map);
+
+		}
+
+		if( $scope.checkOriginHome == true  ) {
+			var result = getOriginHome(lat, lon, map);
+
+		}
+
+		if( $scope.checkDestinyHome == true  ) {
+			var result = getDestinyHome(lat, lon, map);
 		}
 
 		$scope.loadingRefresh = false;
@@ -212,7 +244,7 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 	}
 
 	return vm;
-};
+}; 
 
 angular
 	.module('bdb')
