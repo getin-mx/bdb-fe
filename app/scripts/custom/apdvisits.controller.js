@@ -1020,9 +1020,9 @@
                     tooltip: {
                         formatter: function() {
                             if( $scope.visitsOnly == true || vo == true ) {
-                                return '<strong>Visitantes: </strong>' + this.point.value + ' minutos';
+                                return this.point.value + ' <strong>Visitantes</strong>';
                             } else {
-                                return '<strong>Visitantes: </strong>' + this.point.value + ' minutos <br/> <strong>Paseantes: </strong>' + p[this.point.x][this.point.y]    + ' minutos';
+                                return this.point.value + ' <strong>Visitantes</strong> <br/>' + p[this.point.x][this.point.y]    + ' <strong>Paseantes</strong>';
                             }
                         }
                     },
