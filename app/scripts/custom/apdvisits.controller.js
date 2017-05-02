@@ -235,6 +235,7 @@
         $('#repetitions').html('');
         $('#permanence_by_hour').html('');
         $('#heatmap_traffic_by_hour').html('');
+        $('#heatmap_occupation_by_hour').html('');
         $('#heatmap_permanence_by_hour').html('');
         $('#brand_performance_table').html('');
 
