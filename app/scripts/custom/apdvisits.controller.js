@@ -924,7 +924,7 @@
                 });
             });
     };
-     this.updateHeatmapOccupation = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId) {
+    this.updateHeatmapOccupation = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId) {
         var url = null;
 
         var eid;
