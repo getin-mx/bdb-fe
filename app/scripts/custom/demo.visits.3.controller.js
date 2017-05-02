@@ -437,6 +437,7 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, $rootScope, 
                 tab += '<td>Paseantes</td>';
                 tab += '<td>Visitantes</td>';
                 tab += '<td>Tickets</td>';
+                tab += '<td>Ventas</td>';
                 tab += '<td>Paseantes/Visitantes</td>';
                 tab += '<td>Visitantes/Tickets</td>';
                 tab += '<td>Día más Alto</td>';
@@ -451,7 +452,7 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, $rootScope, 
                         data[i][x] = data[i][x].replace('Flormar Metromall', 'Tienda 2');
                         data[i][x] = data[i][x].replace('Flormar Multicentro', 'Tienda 3');
                         data[i][x] = data[i][x].replace('Flormar Multiplaza', 'Tienda 4');
-                        if (x == 0 || x == 3 || x == 5 || x == 7)
+                        if (x == 0 || x == 4 || x == 6 || x == 8)
                             tab += '<td style="border-right: 1px solid gray;">' + data[i][x] + '</td>';
                         else
                             tab += '<td>' + data[i][x] + '</td>';
@@ -460,7 +461,7 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, $rootScope, 
                 }
                 tab += '<tr style="font-weight:bold;">';
                 for (var x = 0; x < data[data.length - 1].length; x++) {
-                    if (x == 0 || x == 3 || x == 5 || x == 7)
+                    if (x == 0 || x == 4 || x == 6 || x == 8)
                         tab += '<td style="border-right: 1px solid gray;">' + data[data.length - 1][x] + '</td>';
                     else
                         tab += '<td>' + data[data.length - 1][x] + '</td>';
