@@ -130,6 +130,16 @@ function CommonsService($http, $cookieStore, $rootScope) {
 
 	}
 
+	this.getTimestamp = function () {
+		if (!Date.now) {
+    		Date.now = function() { 
+    			return new Date().getTime(); 
+    		}
+		}
+
+		return Date.now();
+	}
+
 	return this;
 };
 

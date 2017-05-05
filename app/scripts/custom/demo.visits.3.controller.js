@@ -94,7 +94,8 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, $rootScope, 
             + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&eraseBlanks=false',
+            + '&eraseBlanks=false'
+            + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 // Disable extra options by default
                 for( var i = 2; i < data.series.length; i++)
@@ -155,7 +156,8 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, $rootScope, 
             + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&eraseBlanks=true',
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 // Disable extra options by default
                 for( var i = 2; i < data.series.length; i++)
@@ -218,7 +220,8 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, $rootScope, 
             + '&toStringDate=' + toDate 
             + '&average=true' 
             + '&toMinutes=true' 
-            + '&eraseBlanks=true',
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 // Disable extra options by default
                 data.series[0].visible = false;
@@ -281,7 +284,8 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, $rootScope, 
             + '&toStringDate=' + toDate 
             + '&average=false' 
             + '&toMinutes=false' 
-            + '&eraseBlanks=true',
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
 
                 var p = new Array();
@@ -357,7 +361,8 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, $rootScope, 
             + '&toStringDate=' + toDate 
             + '&average=true' 
             + '&toMinutes=true' 
-            + '&eraseBlanks=true',
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
 
                 var p = new Array();
@@ -452,7 +457,8 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, $rootScope, 
             + '&toStringDate=' + toDate 
             + '&average=true' 
             + '&toMinutes=true' 
-            + '&eraseBlanks=true';
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp();
         else 
             url = baseUrl 
             + '/dashoard/heatmapTableHour'
@@ -466,7 +472,8 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, $rootScope, 
             + '&toStringDate=' + toDate 
             + '&average=true' 
             + '&toMinutes=true' 
-            + '&eraseBlanks=true';
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp();
 
         $.getJSON(url,
             function(data) {
@@ -543,7 +550,8 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, $rootScope, 
             + '&entityKind=1' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&onlyExternalIds=true',
+            + '&onlyExternalIds=true'
+            + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 var tab = '';
                 tab = '<table class="table table-striped" style="text-align: center;" >';

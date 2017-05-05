@@ -331,7 +331,8 @@
             + 'visitor_total_visits_ios,visitor_total_visits_android' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&eraseBlanks=false';
+            + '&eraseBlanks=false'
+            + '&timestamp=' + CommonsService.getTimestamp();
         else 
             url = baseUrl 
             + '/dashoard/timelineData'
@@ -344,7 +345,8 @@
             + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets,visitor_total_revenue' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&eraseBlanks=false';
+            + '&eraseBlanks=false'
+            + '&timestamp=' + CommonsService.getTimestamp();
 
 
         $.getJSON( url,
@@ -440,7 +442,8 @@
             + 'visitor_total_visits_ios,visitor_total_visits_android' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&eraseBlanks=true';
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp();
         else 
             url = baseUrl 
             + '/dashoard/timelineHour'
@@ -453,7 +456,8 @@
             + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&eraseBlanks=true';
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp();
 
 
         $.getJSON( url,
@@ -539,7 +543,8 @@
             + 'visitor_total_visits_ios,visitor_total_visits_android' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&eraseBlanks=true';
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp();
         } else 
             url = baseUrl 
             + '/dashoard/repetitions'
@@ -552,7 +557,8 @@
             + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&eraseBlanks=true';
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp();
 
         $.getJSON(url,
             function(data) {
@@ -634,7 +640,9 @@
             + '&toStringDate=' + toDate 
             + '&average=true' 
             + '&toMinutes=true' 
-            + '&eraseBlanks=true';
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp();
+
         else 
             url = baseUrl 
             + '/dashoard/timelineHour'
@@ -649,7 +657,8 @@
             + '&toStringDate=' + toDate 
             + '&average=true' 
             + '&toMinutes=true' 
-            + '&eraseBlanks=true';
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp();
 
         $.getJSON( url,
             function(data) {
@@ -738,7 +747,8 @@
             + '&toStringDate=' + toDate 
             + '&average=false' 
             + '&toMinutes=false' 
-            + '&eraseBlanks=true';
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp();
         else 
             url = baseUrl 
             + '/dashoard/heatmapTableHour'
@@ -752,7 +762,8 @@
             + '&toStringDate=' + toDate 
             + '&average=false' 
             + '&toMinutes=false' 
-            + '&eraseBlanks=true';
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp();
 
         $.getJSON(url, 
             function(data) {
@@ -853,7 +864,8 @@
             + '&toStringDate=' + toDate 
             + '&average=true' 
             + '&toMinutes=true' 
-            + '&eraseBlanks=true';
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp();
         else 
             url = baseUrl 
             + '/dashoard/heatmapTableHour'
@@ -867,7 +879,8 @@
             + '&toStringDate=' + toDate 
             + '&average=true' 
             + '&toMinutes=true' 
-            + '&eraseBlanks=true';
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp();
 
         $.getJSON(url,
             function(data) {
@@ -968,7 +981,8 @@
             + '&toStringDate=' + toDate 
             + '&average=true' 
             + '&toMinutes=true' 
-            + '&eraseBlanks=true';
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp();
         else 
             url = baseUrl 
             + '/dashoard/heatmapTableHour'
@@ -982,7 +996,8 @@
             + '&toStringDate=' + toDate 
             + '&average=true' 
             + '&toMinutes=true' 
-            + '&eraseBlanks=true';
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp();
 
         $.getJSON(url,
             function(data) {
@@ -1059,7 +1074,8 @@
             + '&entityKind=1' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&onlyExternalIds=true',
+            + '&onlyExternalIds=true'
+            + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 var tab = '';
                 tab = '<table class="table table-striped" style="text-align: center;" >';

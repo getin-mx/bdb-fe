@@ -99,7 +99,8 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
             + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&eraseBlanks=false',
+            + '&eraseBlanks=false'
+            + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 // Disable extra options by default
                 for( var i = 2; i < data.series.length; i++)
@@ -160,7 +161,8 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
             + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&eraseBlanks=true',
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 // Disable extra options by default
                 for( var i = 2; i < data.series.length; i++)
@@ -223,7 +225,8 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
             + '&toStringDate=' + toDate 
             + '&average=true' 
             + '&toMinutes=true' 
-            + '&eraseBlanks=true',
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 // Disable extra options by default
                 data.series[0].visible = false;
@@ -286,7 +289,8 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
             + '&toStringDate=' + toDate 
             + '&average=false' 
             + '&toMinutes=false' 
-            + '&eraseBlanks=true',
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
 
                 var p = new Array();
@@ -362,7 +366,8 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
             + '&toStringDate=' + toDate 
             + '&average=true' 
             + '&toMinutes=true' 
-            + '&eraseBlanks=true',
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
 
                 var p = new Array();
@@ -433,7 +438,8 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
             + '&entityKind=1' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&onlyExternalIds=true',
+            + '&onlyExternalIds=true'
+            + '&timestamp=' + CommonsService.getTimestamp(),
 
             function(data) {
                 var tab = '';
