@@ -357,6 +357,7 @@
 
                 $(id).highcharts({
                     chart: {
+                        zoomType: 'xy',
                         marginLeft: 200,
                         marginRight: 200
                     },
@@ -366,7 +367,7 @@
                     xAxis: {
                         categories: data.categories
                     },
-                    yAxis: {
+                    yAxis: [{
                         title: {
                             text: 'Tráfico por Día'
                         },
@@ -375,7 +376,17 @@
                             width: 1,
                             color: '#808080'
                         }]
-                    },
+                    },{ // Secondary yAxis
+                        title: {
+                            text: 'Ventas'
+                        },
+                        plotLines: [{
+                            value: 0,
+                            width: 1,
+                            color: '#808080'
+                        }],
+                        opposite: true
+                    }],
                     tooltip: {
                         valueSuffix: ''
                     },
