@@ -136,7 +136,8 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
             + 'visitor_total_visits_ios,visitor_total_visits_android' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&eraseBlanks=false',
+            + '&eraseBlanks=false'
+            + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 // Disable extra options by default
                 for( var i = 1; i < data.series.length; i++)
@@ -208,7 +209,8 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
             + 'visitor_total_visits_ios,visitor_total_visits_android' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&eraseBlanks=true',
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 // Disable extra options by default
                 for( var i = 1; i < data.series.length; i++)
@@ -282,7 +284,8 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
             + '&toStringDate=' + toDate 
             + '&average=true' 
             + '&toMinutes=true' 
-            + '&eraseBlanks=true',
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 // Disable extra options by default
                 for( var i = 1; i < data.series.length; i++)
@@ -343,7 +346,8 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
             + 'visitor_total_visits_ios,visitor_total_visits_android' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&eraseBlanks=true',
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
 
                 try {
@@ -423,7 +427,8 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
             + '&toStringDate=' + toDate 
             + '&average=false' 
             + '&toMinutes=false' 
-            + '&eraseBlanks=true',
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
 
                 $(id).highcharts({
@@ -498,7 +503,8 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
             + '&toStringDate=' + toDate 
             + '&average=true' 
             + '&toMinutes=true' 
-            + '&eraseBlanks=true',
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
 
                 $(id).highcharts({
@@ -557,7 +563,8 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
             + '&entityKind=0' 
             + '&fromStringDate=' + fromDate 
             + '&toStringDate=' + toDate 
-            + '&onlyExternalIds=true',
+            + '&onlyExternalIds=true'
+            + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 var tab = '';
                 tab = '<table class="table table-striped" style="text-align: center;" >';
