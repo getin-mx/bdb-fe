@@ -594,7 +594,7 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
                     tab += '</tr>';
                 }
                 tab += '<tr style="font-weight:bold;">';
-                tab += '<td style="text-align: left; border-right: 1px solid gray;">blah' + data[data.length - 1][0] + '</td>';
+                tab += '<td style="text-align: left; border-right: 1px solid gray;">' + data[data.length - 1][0] + '</td>';
                 for (var x = 1; x < data[data.length - 1].length; x++) {
                     if( x != 1 && x != 3 && x != 4 && x != 5 ) {
                         if (x == 0 || x == 3 || x == 5 || x == 7)
