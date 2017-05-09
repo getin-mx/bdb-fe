@@ -33,8 +33,8 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
         indoormap.draw(mapData, $('.mapContainer')[0]);
         if (indoormap.queryString()['noHeatMap'] != 'true') {
             $('#save').css('display', 'none');
-            if( KEY == 'mundoe_p1') {
-                indoormap.drawHeatMap(config.baseUrl, token, mapData, KEY, $('.mapContainer')[0], entityId, fromDate, toDate, dayOfWeek, timezone, 100, 10);
+            if( KEY == 'mundoe_p1' || KEY == 'walmartdemo_pb') {
+                indoormap.drawHeatMap(config.baseUrl, token, mapData, KEY, $('.mapContainer')[0], entityId, fromDate, toDate, dayOfWeek, timezone, 150, 10);
             } else {
                 indoormap.drawHeatMap(config.baseUrl, token, mapData, KEY, $('.mapContainer')[0], entityId, fromDate, toDate, dayOfWeek, timezone, 150, 4);
             }
