@@ -354,8 +354,14 @@
                 // Disable extra options by default
                 var from = 2;
                 if( $scope.visitsOnly == true ) from = 1;
-                for( var i = from; i < data.series.length; i++)
+                for( var i = from; i < data.series.length; i++){
                     data.series[i].visible = false;
+                    
+                    if (i == data.series.length-1) {
+                        data.series[i].color = "#a006b3";
+                    }
+                    console.log(data.series[i]);
+                }
 
                 $(id).highcharts({
                     chart: {
