@@ -49,7 +49,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 		$scope.stores = new Array();
 		$scope.loadingRefresh = true;
 		$http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
-			+ '&entityId=' + this.brand.id 
+			+ '&entityId=' + $scope.brand.id 
 			+ '&entityKind=1&onlyExternalIds=true')
 			.then($scope.postBrandChange);
 	}
