@@ -80,7 +80,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 		console.log($scope.store.id);
 		console.log($scope.store);
 		$http.get(CommonsService.getUrl('/dashboard/storeTicketData')
-			+ '&storeId=' + $scope.store.id 
+			+ '&storeId=' + this.store.id 
 			+ '&fromDate=' + $scope.fromDate
 			+ '&toDate=' + $scope.toDate)
 			.then($scope.postLoadUpdate);
