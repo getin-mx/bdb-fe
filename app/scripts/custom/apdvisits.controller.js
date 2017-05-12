@@ -11,6 +11,7 @@
     $scope.retailCalendar = config.retailCalendar;
     $scope.retailCalendarDate = null;
     $scope.zoneAble = 'hidden';
+    $scope.showRevenue = false;
 
     var globals = AuthenticationService.getCredentials();
     var credentials = globals.currentUser;
@@ -108,6 +109,13 @@
         }
         $scope.brandId = selected;
         $('#brandId').val(selected);
+
+        // Please change this!
+        if( $scope.brandId == 'aditivo_mx')
+            $scope.showRevenue = true;
+        else 
+            $scope.showRevenue = false;
+
         $scope.updateStoreLabel();
         $scope.updateStoreList('#store', config.dashUrl, $scope.brandId);
         $scope.updateAPDVisits();
@@ -115,7 +123,14 @@
 
     $scope.updateBrand = function() {
         $scope.loadingSubmit = true;
-        $scope.brandId = $('#brandId').val();        
+        $scope.brandId = $('#brandId').val();
+
+        // Please change this!
+        if( $scope.brandId == 'aditivo_mx')
+            $scope.showRevenue = true;
+        else 
+            $scope.showRevenue = false;
+
         $scope.updateStoreLabel();
         $scope.updateStoreList('#store', config.dashUrl, $scope.brandId);
         $scope.updateAPDVisits();
@@ -334,33 +349,49 @@
             + '&eraseBlanks=false'
             + '&timestamp=' + CommonsService.getTimestamp();
         else 
-            url = baseUrl 
-            + '/dashoard/timelineData'
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + eid
-            + '&entityKind=' + kind 
-            + '&subentityId=' + seid
-            + '&elementId=apd_visitor' 
-            + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
-            + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets,visitor_total_revenue' 
-            + '&fromStringDate=' + fromDate 
-            + '&toStringDate=' + toDate 
-            + '&eraseBlanks=false'
-            + '&timestamp=' + CommonsService.getTimestamp();
+            if( $scope.showRevenue == true ) 
+                url = baseUrl 
+                + '/dashoard/timelineData'
+                + '?authToken=' + $rootScope.globals.currentUser.token 
+                + '&entityId=' + eid
+                + '&entityKind=' + kind 
+                + '&subentityId=' + seid
+                + '&elementId=apd_visitor' 
+                + '&subIdOrder=visitor_total_revenue,visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
+                + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets' 
+                + '&fromStringDate=' + fromDate 
+                + '&toStringDate=' + toDate 
+                + '&eraseBlanks=false'
+                + '&timestamp=' + CommonsService.getTimestamp();
+            else
+                url = baseUrl 
+                + '/dashoard/timelineData'
+                + '?authToken=' + $rootScope.globals.currentUser.token 
+                + '&entityId=' + eid
+                + '&entityKind=' + kind 
+                + '&subentityId=' + seid
+                + '&elementId=apd_visitor' 
+                + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
+                + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets' 
+                + '&fromStringDate=' + fromDate 
+                + '&toStringDate=' + toDate 
+                + '&eraseBlanks=false'
+                + '&timestamp=' + CommonsService.getTimestamp();
 
 
         $.getJSON( url,
             function(data) {
                 // Disable extra options by default
+
                 var from = 2;
                 if( $scope.visitsOnly == true ) from = 1;
+                if( $scope.showRevenue == true ) {
+                    from = 3;
+                    data.series[0].color = 'rgba(26, 179, 148, 0.5)';
+                    // data.series[0].color = "#1ab394";
+                }
                 for( var i = from; i < data.series.length; i++){
-                    data.series[i].visible = false;
-                    
-                    if (i == data.series.length-1) {
-                        data.series[i].color = "#a006b3";
-                    }
-                    console.log(data.series[i]);
+                    data.series[i].visible = false;                    
                 }
 
                 $(id).highcharts({
