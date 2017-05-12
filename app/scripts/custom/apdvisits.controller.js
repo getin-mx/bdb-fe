@@ -109,6 +109,13 @@
         }
         $scope.brandId = selected;
         $('#brandId').val(selected);
+
+        // Please change this!
+        if( $scope.brandId == 'aditivo_mx')
+            $scope.showRevenue = true;
+        else 
+            $scope.showRevenue = false;
+
         $scope.updateStoreLabel();
         $scope.updateStoreList('#store', config.dashUrl, $scope.brandId);
         $scope.updateAPDVisits();
