@@ -1,7 +1,7 @@
 /**
  * DemoVisits3Ctrl - controller
  */
-function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, $rootScope, $http) {
+function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsService, $rootScope, $http) {
 
     var vm = this;
 

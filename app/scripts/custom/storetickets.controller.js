@@ -76,9 +76,6 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
         $scope.loadingloadUpdate = true;
         $scope.fromDate = $('#fromDate').val();
         $scope.toDate = $('#toDate').val();
-		console.log($scope.dias);
-		console.log($scope.store.id);
-		console.log($scope.store);
 		$http.get(CommonsService.getUrl('/dashboard/storeTicketData')
 			+ '&storeId=' + this.store.id 
 			+ '&fromDate=' + $scope.fromDate
@@ -87,8 +84,6 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 	}
 
 	$scope.postLoadUpdate = function(data) {
-		console.log(data);
-		console.log(data.data.data.length)
 		$scope.obj = data.data;
 		for( var i = 0; i < data.data.data.length; i++ ) {
 			//generar la lista de dias/ticket
@@ -98,7 +93,6 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 			}
 			$scope.listdays.push(day);
 		}
-		console.log($scope.listdays);
 		$scope.formTicketsClass = '';
 		$scope.loadingloadUpdate = false;
 	}
@@ -117,7 +111,6 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 	}
 	$scope.updateTickets = function(){
 		$scope.loadingexecUpdate = true;
-		console.log($scope.listdays);
 		$scope.obj.data = new Array();
 		for( var i = 0; i < $scope.listdays.length; i++ ) {
 			$scope.obj.data.push($scope.listdays[i].numberoftickets)
@@ -129,7 +122,6 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 	
 
 	$scope.postUpdateTickets = function(data){
-	console.log(data);
 		$scope.loadingexecUpdate = false;
 
 		if( data.status = 200 
