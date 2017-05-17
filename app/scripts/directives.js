@@ -189,8 +189,8 @@
 		restrict: 'C',
 		link: function(scope, element, attrs) {
 
-			var config = {
-				url: 'http://api.allshoppings.mobi/bdb/img/upload',
+			var dropzoneConfig = {
+				url: config.uploadUrl,
 				parallelUploads: 1,
 				maxFiles: 1,
 				createImageThumbnails: false,
@@ -218,7 +218,7 @@
 
 			};
 
-			dropzone = new Dropzone(element[0], config);
+			dropzone = new Dropzone(element[0], dropzoneConfig);
 
 			angular.forEach(eventHandlers, function(handler, event) {
 				dropzone.on(event, handler);

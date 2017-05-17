@@ -10,9 +10,11 @@ var config = {};
 
 config.baseUrl = 'http://api.allshoppings.mobi/bdb';
 config.dashUrl = 'http://api.allshoppings.mobi/appv2';
+config.uploadUrl = 'http://api.allshoppings.mobi/bdb/img/upload'
 
 // config.baseUrl = 'http://localhost:8081/bdb';
 // config.dashUrl = 'http://localhost:8081/appv2';
+// config.uploadUrl = 'http://localhost:8081/bdb/img/upload'
 
 config.oneMonth = 2505600000;
 config.oneWeek = 518400000;

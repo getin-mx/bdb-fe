@@ -21,6 +21,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 		$http.get(CommonsService.getUrl('/dashboard/assignedBrandList'))
 			.then($scope.postInit);
 		$scope.formTicketsClass = 'hidden';
+		$scope.fileUpdateDisabled = true;
 
 	}
 
@@ -101,7 +102,6 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 	$scope.refresh = function(data) {
 		$scope.loadingRefresh = true;
 		$scope.formTicketsClass = 'hidden';
-
 	}
 
 	$scope.postRefresh = function(data) {
@@ -153,6 +153,106 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 
 	}
 
+	$scope.$on('upload.success', function(event, data) {
+		var file = data[0];
+		var response = JSON.parse(data[1]);
+		$scope.loadingexecUpdate = true;
+
+		file.previewElement.classList.remove('hide-trans');
+		$scope.fileUpdateDisabled = false;
+
+		CommonsService.safeApply($scope);
+        $scope.period = $('#period').val();
+        $scope.image = response.name;
+
+		$scope.liststores = new Array();
+		$scope.listdates = new Array();
+	
+		var obj = {
+			method: 'previewFileUpdate',
+			brandId: $scope.brand.id,
+			period: $scope.period,
+			imageId: response.name
+		}		
+
+		$http.post(CommonsService.getUrl('/dashboard/storeTicketData'), obj)
+			.then($scope.postPreview);
+	})
+
+	$scope.postPreview = function(data){
+		$scope.listdates = data.data.dateList;
+
+		for( var i = 0; i < data.data.storeList.length; i++ ) {
+			var storeElement = {
+				identifier: data.data.storeList[i].storeId,
+				original: data.data.storeList[i].original,
+				name: data.data.storeList[i].storeName,
+				tickets: data.data.storeList[i].tickets
+			}
+			$scope.liststores.push(storeElement);
+		}
+		$scope.formTicketsClass = '';
+		$scope.loadingexecUpdate = false;
+
+		if( data.status = 200 
+			&& data.data.error_code === undefined ) {
+			SweetAlert.swal({
+				title: "Ok!",
+				text: "La previsualización de tickets fue generada con éxito. Los tickets aun no están guardados. Por favor, revisa los datos y luego haz un click en el botón Confirmar para guardar los datos.",
+				type: "success"
+			});
+		} else {
+			SweetAlert.swal({
+				title: "Error!",
+				text: "Ocurrio un problema, no se han podido guardar los tickets.",
+				type: "error"
+			});
+		}
+		
+	}
+
+	$scope.fileUpdate = function() {
+		$scope.loadingexecUpdate = true;
+		$scope.formTicketsClass = 'hidden';
+
+		$scope.liststores = new Array();
+		$scope.listdates = new Array();
+
+        $scope.period = $('#period').val();
+	
+		var obj = {
+			method: 'doFileUpdate',
+			brandId: $scope.brand.id,
+			period: $scope.period,
+			imageId: $scope.image
+		}		
+
+		$http.post(CommonsService.getUrl('/dashboard/storeTicketData'), obj)
+			.then($scope.postFileUpdate);
+	}
+
+
+	$scope.postFileUpdate = function(data){
+
+		$scope.loadingexecUpdate = false;
+		$scope.fileUpdateDisabled = true;
+
+		if( data.status = 200 
+			&& data.data.error_code === undefined ) {
+			SweetAlert.swal({
+				title: "Ok!",
+				text: "La carga de tickets ha sido generada con éxito.",
+				type: "success"
+			});
+		} else {
+			SweetAlert.swal({
+				title: "Error!",
+				text: "Ocurrio un problema, no se han podido guardar los tickets.",
+				type: "error"
+			});
+		}
+		
+	}
 	return vm;
 };
 
