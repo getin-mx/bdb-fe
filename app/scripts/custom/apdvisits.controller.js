@@ -256,7 +256,7 @@
 
         vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         vm.updateVisitsByHourChart('#visits_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
-        vm.updateRepetitionsChart('#repetitions', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
+        // vm.updateRepetitionsChart('#repetitions', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         vm.updatePermanenceByHourChart('#permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);

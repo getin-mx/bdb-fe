@@ -109,7 +109,7 @@ function APDDetailsCtrl($rootScope, $scope, AuthenticationService, CommonsServic
 
 		vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, fromDate, toDate, brandId, storeId);
 		vm.updateVisitsByHourChart('#visits_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId);
-        vm.updateRepetitionsChart('#repetitions', config.dashUrl, fromDate, toDate, brandId, storeId);
+        // vm.updateRepetitionsChart('#repetitions', config.dashUrl, fromDate, toDate, brandId, storeId);
 		vm.updatePermanenceByHourChart('#permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId);
 		vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId);
 		vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId);
