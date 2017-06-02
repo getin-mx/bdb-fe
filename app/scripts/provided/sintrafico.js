@@ -322,7 +322,6 @@ function getIsochrone(lat, lon, mapa, length, color, success, fail) {
   									fillColor: color,
   									fillOpacity: 0.2
 									});
-									console.log(mapa);
 							})
 							.fail(function(jqXHR, textStatus, errorThrown) {
 									console.log('Error ' + jqXHR.status);
