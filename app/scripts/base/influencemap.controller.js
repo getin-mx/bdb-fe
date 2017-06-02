@@ -239,12 +239,22 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 			var result = getDestinyHome(lat, lon, map);
 		}
 
+		if( $scope.checkIsochroneWeekWorkTwenty == true  ) {
+			var result = getIsochrone(lat, lon, map, 20, '#ed5565');
+		}
+		if( $scope.checkIsochroneWeekWorkThirty == true  ) {
+			var result = getIsochrone(lat, lon, map, 30, '#32CD32');
+		}
+		if( $scope.checkIsochroneWeekWorkFourty == true  ) {
+			var result = getIsochrone(lat, lon, map, 40, '#CFB53B');
+		}
+
 		$scope.loadingRefresh = false;
 
 	}
 
 	return vm;
-}; 
+};
 
 angular
 	.module('bdb')

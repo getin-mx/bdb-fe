@@ -9,7 +9,7 @@ var map, heatmap;
 
 function initSinTraficoMap(storePosition, element, layer) {
 
-	if( layer === undefined || layer == null ) 
+	if( layer === undefined || layer == null )
 		layer = 'heatmap.json';
 
 	var map = new google.maps.Map(document.getElementById(element), {
@@ -30,7 +30,7 @@ function initSinTraficoMap(storePosition, element, layer) {
 
     google.maps.event.addListener(map, 'idle', function(){
         heatmap.set('radius', 5.8333*map.getZoom()-64.167);
-        updateLayer(map.getBounds(),layer);        
+        updateLayer(map.getBounds(),layer);
     });
 }
 
@@ -95,7 +95,7 @@ function getFlow(storePosition, success, fail) {
 
 	$.getJSON('http://api.sintrafico.com/flow', parameters)
 		.done(function(data, textStatus, jqXHR) {
-			
+
 			// Wait a second for the next request
 			window.setTimeout(function(){
 				delayFlowResponse(data.req_id, success, fail);
@@ -106,7 +106,7 @@ function getFlow(storePosition, success, fail) {
 			console.log('Error ' + jqXHR.status);
 			if( fail !== undefined ) fail();
 		})
-}   
+}
 
 // Function to be called after the SinTrafico request ID is received
 function delayFlowResponse(req_id, success, fail) {
@@ -133,7 +133,7 @@ function delayFlowResponse(req_id, success, fail) {
 			console.log('Error ' + jqXHR.status);
 			if( fail !== undefined ) fail();
 		})
-}   
+}
 
 // Returns vehicle origin destiny  for a location.
 function getOriginWork(lat, lon, mapa, success, fail) {
@@ -169,7 +169,7 @@ function getOriginWork(lat, lon, mapa, success, fail) {
         })
 
     return result;
-}   
+}
 
 // Returns vehicle origin destiny  for a location.
 function getDestinyWork(lat, lon, mapa, success, fail) {
@@ -204,7 +204,7 @@ function getDestinyWork(lat, lon, mapa, success, fail) {
             console.log('Error ' + jqXHR.status);
         })
     return result;
-} 
+}
 
 // Returns vehicle origin destiny  for a location.
 function getOriginHome(lat, lon, mapa, success, fail) {
@@ -239,7 +239,7 @@ function getOriginHome(lat, lon, mapa, success, fail) {
             console.log('Error ' + jqXHR.status);
         })
     return result;
-}   
+}
 
 // Returns vehicle origin destiny  for a location.
 function getDestinyHome(lat, lon, mapa, success, fail) {
@@ -257,7 +257,6 @@ function getDestinyHome(lat, lon, mapa, success, fail) {
         .done(function(data, textStatus, jqXHR) {
             if (textStatus == 'success') {
                 $.each( data.result, function( i, item ) {
-
                     mapa.drawCircle({
                         lat: item.centroid[0],
                         lng: item.centroid[1],
@@ -274,4 +273,60 @@ function getDestinyHome(lat, lon, mapa, success, fail) {
             console.log('Error ' + jqXHR.status);
         })
     return result;
-}   
+}
+
+// Returns vehicle origin destiny  for a location.
+function getIsochrone(lat, lon, mapa, length, color, success, fail) {
+	var parameters =  {
+							'key': 'e3d5b3f4b180e43558c1908b04f85f9e73de94b31777a8eb2ab844fd9296f177',
+							'lat': lat,
+							'lon': lon,
+							'insideOut': 'false',
+							'range': 'weekday_morning',
+							'length': length,
+							'foursquare': 'false',
+							'transport': 'car',
+							'polling': 'false'
+					};
+					let result = null;
+					$.getJSON('http://api.sintrafico.com/isochrone', parameters)
+							.done(function(data, textStatus, jqXHR) {
+									let geom = data.geom[0].geom;
+									let index = '<Polygon><outerBoundaryIs><LinearRing><coordinates>';
+									let out = '</coordinates></LinearRing></outerBoundaryIs></Polygon>';
+
+									let coordinates = geom.substring(index.length, geom.length - out.length);
+
+									let coorArray = coordinates.split(',')
+
+									let path = new Array();
+
+									$.each(coorArray , function (i, coordinate) {
+										if (i != 0) {
+											if (i != coorArray.length - 1) {
+												let market = coordinate.split(' ');
+												path.push(market);
+											}else {
+												let market = new Array();
+												market.push(coorArray[coorArray.length -1]);
+												market.push(coorArray[0]);
+												path.push(market);
+											}
+										}
+									});
+									mapa.drawPolygon({
+  									paths: path, // pre-defined polygon shape
+  									strokeColor: color,
+  									strokeOpacity: 1,
+  									strokeWeight: 3,
+  									fillColor: color,
+  									fillOpacity: 0.2
+									});
+									console.log(mapa);
+							})
+							.fail(function(jqXHR, textStatus, errorThrown) {
+									console.log('Error ' + jqXHR.status);
+							})
+		return result;
+
+}// end getIsochrone()
