@@ -111,7 +111,7 @@
         $('#brandId').val(selected);
 
         // Please change this!
-        if( $scope.brandId == 'aditivo_mx' || $scope.brandId == '98coastav_mx')
+        if( $scope.brandId == 'aditivo_mx' || $scope.brandId == '98coastav_mx' || $scope.brandId == 'botanicus_mx')
             $scope.showRevenue = true;
         else 
             $scope.showRevenue = false;
@@ -126,7 +126,7 @@
         $scope.brandId = $('#brandId').val();
 
         // Please change this!
-        if( $scope.brandId == 'aditivo_mx' || $scope.brandId == '98coastav_mx')
+        if( $scope.brandId == 'aditivo_mx' || $scope.brandId == '98coastav_mx' || $scope.brandId == 'botanicus_mx')
             $scope.showRevenue = true;
         else 
             $scope.showRevenue = false;
