@@ -274,4 +274,59 @@ function getDestinyHome(lat, lon, mapa, success, fail) {
             console.log('Error ' + jqXHR.status);
         })
     return result;
-}   
+}
+
+// Returns vehicle origin destiny  for a location.
+function getIsochrone(lat, lon, mapa, length, color, success, fail) {
+	var parameters =  {
+							'key': 'e3d5b3f4b180e43558c1908b04f85f9e73de94b31777a8eb2ab844fd9296f177',
+							'lat': lat,
+							'lon': lon,
+							'insideOut': 'false',
+							'range': 'weekday_morning',
+							'length': length,
+							'foursquare': 'false',
+							'transport': 'car',
+							'polling': 'false'
+					};
+					var result = null;
+					$.getJSON('http://api.sintrafico.com/isochrone', parameters)
+							.done(function(data, textStatus, jqXHR) {
+									var geom = data.geom[0].geom;
+									var index = '<Polygon><outerBoundaryIs><LinearRing><coordinates>';
+									var out = '</coordinates></LinearRing></outerBoundaryIs></Polygon>';
+
+									var coordinates = geom.substring(index.length, geom.length - out.length);
+
+									var coorArray = coordinates.split(',')
+
+									var path = new Array();
+
+									$.each(coorArray , function (i, coordinate) {
+										if (i != 0) {
+											if (i != coorArray.length - 1) {
+												var market = coordinate.split(' ');
+												path.push(market);
+											}else {
+												var market = new Array();
+												market.push(coorArray[coorArray.length -1]);
+												market.push(coorArray[0]);
+												path.push(market);
+											}
+										}
+									});
+									mapa.drawPolygon({
+  									paths: path, // pre-defined polygon shap
+  									strokeColor: color,
+  									strokeOpacity: 1,
+  									strokeWeight: 3,
+  									fillColor: color,
+  									fillOpacity: 0.2
+									});
+							})
+							.fail(function(jqXHR, textStatus, errorThrown) {
+									console.log('Error ' + jqXHR.status);
+							})
+		return result;
+
+}// end getIsochrone()
