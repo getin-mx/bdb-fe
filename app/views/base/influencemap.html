@@ -28,7 +28,7 @@
 				<!-- Tabla -->
                     <form class="form-horizontal">
 						<div class="input-group">
-	
+
                         <div><label> <input icheck type="checkbox" ng-model="checkGpsWork">
                         <span style="color: #00ff00;">Verde:<br> </span>Ubicaci&oacute;n de los visitantes en el d&iacute;a. </label></div>
                         <br>
@@ -52,6 +52,15 @@
                          <br>
                         <div><label> <input icheck type="checkbox" ng-model="checkDestinyHome">
                         <span style="color: #1ab394;">Azul Metalico:<br> </span>Destino de vehiculos en la noche. </label></div>
+												<br>
+												<div><label> <input icheck type="checkbox" ng-model="checkIsochroneWeekWorkTwenty">
+												<span style="color: #ed5565;">Rosa:<br> </span>Isocronos en 20 minutos.</label></div>
+												<br>
+												<div><label> <input icheck type="checkbox" ng-model="checkIsochroneWeekWorkThirty">
+												<span style="color: #32CD32;">Verde lima:<br> </span>Isocronos en 30 minutos.</label></div>
+												<br>
+												<div><label> <input icheck type="checkbox" ng-model="checkIsochroneWeekWorkFourty">
+												<span style="color: #CFB53B;">Oro:<br> </span>Isocronos en 40 minutos.</label></div>
 
 						<div class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">
 						<button ng-click="refresh()" type="button" ladda="loadingRefresh" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Actualizar</button>

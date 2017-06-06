@@ -46,7 +46,7 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 		// validate token
 		if( data.status != 200 || data.data.error_code !== undefined )
 			AuthenticationService.logout(function(response) {
-				$location.path('/login');    
+				$location.path('/login');
 			});
 
 		for( var i = 0; i < data.data.data.length; i++ ) {
@@ -63,7 +63,7 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 
     $scope.updateStoreLabel = function() {
         $http.get(CommonsService.getUrl('/dashboard/config')
-            + '&entityId=' + $scope.brand.id 
+            + '&entityId=' + $scope.brand.id
             + '&entityKind=1')
             .then($scope.postUpdateStoreLabel);
     }
@@ -76,7 +76,7 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
         } catch( e ) {
             $scope.storeLabel = 'Tienda';
         }
-    }	
+    }
 
 	$scope.brandChange = function() {
 
@@ -84,7 +84,7 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 		$scope.stores = new Array();
 		$scope.loadingRefresh = true;
 		$http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
-			+ '&entityId=' + $scope.brand.id 
+			+ '&entityId=' + $scope.brand.id
 			+ '&entityKind=1&onlyExternalIds=true')
 			.then($scope.postBrandChange);
 	}
@@ -116,8 +116,8 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 	$scope.postRefresh = function(data) {
 
 		// Default fallback for Mexico City
-		if( data.data === undefined 
-			|| data.data.address === undefined 
+		if( data.data === undefined
+			|| data.data.address === undefined
 			|| data.data.address.latitude === undefined ) {
 			data.data = {
 				address: {
@@ -129,7 +129,7 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 
 		lat = data.data.address.latitude;
 		lon = data.data.address.longitude;
-		
+
 		map = new GMaps({
 			div: '#map',
 			lat: data.data.address.latitude,
@@ -145,8 +145,8 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 			map: map.map
 		});
 
-		$http.get(CommonsService.getUrl('/dashboard/externalGeoData') 
-			+ '&entityId=' + $scope.store.id 
+		$http.get(CommonsService.getUrl('/dashboard/externalGeoData')
+			+ '&entityId=' + $scope.store.id
 			+ '&entityKind=3')
 			.then($scope.fillMap);
 	}
@@ -156,7 +156,7 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 		var obj = data.data.data;
 		for (i = 0; i < obj.length; i++) {
 			var item = obj[i];
-			
+
 			if( item.type == $scope.TYPE_GPS_WORK && $scope.checkGpsWork == true ) {
 				var conns = item.connections / 20;
 				if( conns > 2000 ) conns = 2000;
@@ -236,7 +236,17 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 		}
 
 		if( $scope.checkDestinyHome == true  ) {
-			var result = getDestinyHome(lat, lon, map);
+		  var result = getDestinyHome(lat, lon, map);
+		}
+
+		if( $scope.checkIsochroneWeekWorkTwenty == true  ) {
+		  var result = getIsochrone(lat, lon, map, 20, '#ed5565');
+		}
+		if( $scope.checkIsochroneWeekWorkThirty == true  ) {
+		  var result = getIsochrone(lat, lon, map, 30, '#32CD32');
+		}
+		if( $scope.checkIsochroneWeekWorkFourty == true  ) {
+		  var result = getIsochrone(lat, lon, map, 40, '#CFB53B');
 		}
 
 		$scope.loadingRefresh = false;
@@ -244,7 +254,7 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 	}
 
 	return vm;
-}; 
+};
 
 angular
 	.module('bdb')
