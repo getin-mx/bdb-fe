@@ -288,26 +288,26 @@ function getIsochrone(lat, lon, mapa, length, color, success, fail) {
 							'transport': 'car',
 							'polling': 'false'
 					};
-					let result = null;
+					var result = null;
 					$.getJSON('http://api.sintrafico.com/isochrone', parameters)
 							.done(function(data, textStatus, jqXHR) {
-									let geom = data.geom[0].geom;
-									let index = '<Polygon><outerBoundaryIs><LinearRing><coordinates>';
-									let out = '</coordinates></LinearRing></outerBoundaryIs></Polygon>';
+									var geom = data.geom[0].geom;
+									var index = '<Polygon><outerBoundaryIs><LinearRing><coordinates>';
+									var out = '</coordinates></LinearRing></outerBoundaryIs></Polygon>';
 
-									let coordinates = geom.substring(index.length, geom.length - out.length);
+									var coordinates = geom.substring(index.length, geom.length - out.length);
 
-									let coorArray = coordinates.split(',')
+									var coorArray = coordinates.split(',')
 
-									let path = new Array();
+									var path = new Array();
 
 									$.each(coorArray , function (i, coordinate) {
 										if (i != 0) {
 											if (i != coorArray.length - 1) {
-												let market = coordinate.split(' ');
+												var market = coordinate.split(' ');
 												path.push(market);
 											}else {
-												let market = new Array();
+												var market = new Array();
 												market.push(coorArray[coorArray.length -1]);
 												market.push(coorArray[0]);
 												path.push(market);
@@ -315,7 +315,7 @@ function getIsochrone(lat, lon, mapa, length, color, success, fail) {
 										}
 									});
 									mapa.drawPolygon({
-  									paths: path, // pre-defined polygon shape
+  									paths: path, // pre-defined polygon shap
   									strokeColor: color,
   									strokeOpacity: 1,
   									strokeWeight: 3,
