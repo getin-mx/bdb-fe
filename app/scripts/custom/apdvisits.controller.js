@@ -256,7 +256,9 @@
 
         vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         vm.updateVisitsByHourChart('#visits_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
-        // vm.updateRepetitionsChart('#repetitions', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
+        if( brandId == 'grupopavel_mx') {
+            vm.updateRepetitionsChart('#repetitions', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
+        }
         vm.updatePermanenceByHourChart('#permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
@@ -1123,7 +1125,9 @@
                     tab += '<td>Visitantes</td>';                   // 2   
                 if( $scope.visitsOnly == false ) {
                     tab += '<td>Tickets</td>';                      // 3
-                    tab += '<td>Ventas</td>';                       // 4
+                    if( entityId != 'volaris_mx' ) {
+                        tab += '<td>Ventas</td>';                   // 4
+                    }
                     tab += '<td>Paseantes/Visitantes</td>';         // 5
                     tab += '<td>Visitantes/Tickets</td>';           // 6
                 }
