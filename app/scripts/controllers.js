@@ -114,19 +114,80 @@ function LoginCtrl($scope, $location, AuthenticationService) {
 /**
  * Logout - controller
  */
-function LogoutCtrl($scope, $location, AuthenticationService) {
+function SessionCtrl($scope, $rootScope, $location, AuthenticationService, CommonsService, $uibModal, SweetAlert, $http) {
+    $scope.init = function() {
+        var globals = AuthenticationService.getCredentials();
+        var credentials = globals.currentUser;
+        if (credentials) {
+            $scope.userName = credentials.firstname;
+            $scope.avatarId = credentials.avatarId;
+            $scope.identifier = credentials.identifier;
+            if( credentials.avatarId == null || credentials.avatarId === undefined ) {
+                $scope.hastImage = 'hidden';
+            } else {
+                $scope.hastImage = '';
+            }
+        } else {
+            $scope.userName = 'Demo User';
+        }
+
+        $scope.obj = {};
+    }
+
     $scope.logout = function(){
         AuthenticationService.logout(function(response) {
             $location.path('/login');    
         });
     };
-};
 
+    $scope.showPasswordChangeModal = function() {
+        $rootScope.passModalInstance = $uibModal.open({
+            templateUrl: 'views/base/password.change.html',
+            size: 'md',
+            controller: SessionCtrl
+        });
+    };
+
+    $scope.changePassword = function() {
+        var message = undefined;
+
+        if( $scope.obj.currentPassword == '' || $scope.obj.currentPassword === undefined ) {
+            message = 'Por favor, ingresa tu contraseña actual';
+        } else if( $scope.obj.newPassword == '' || $scope.obj.newPassword === undefined ) {
+            message = 'Por favor, ingresa tu nueva contraseña';
+        } else if( $scope.obj.newPassword2 == '' || $scope.obj.newPassword2 === undefined ) {
+            message = 'Por favor, ingresa tu confirmación de contraseña';
+        } else if( $scope.obj.newPassword == $scope.obj.currentPassword ) {
+            message = 'Tu nueva contrseña no puede ser igual a la actual';
+        } else if( $scope.obj.newPassword != $scope.obj.newPassword2 ) {
+            message = 'Tu nueva contraseña no coincide con su confirmación';
+        }
+
+        if( message !== undefined ) {
+            SweetAlert.swal("Error!", message, "error");
+        } else {
+            $scope.loadingSubmit = true;
+            $http.post((CommonsService.getUrl('/pass')), $scope.obj)
+                .then(function(data) {
+                    if(data.data.error_code === undefined) {
+                        SweetAlert.swal("Contraseña Cambiada", "La contraseña fue cambiada con éxito", "success");
+                        $rootScope.passModalInstance.close();
+                    } else if(data.data.error_code == 407) {
+                        SweetAlert.swal("Error", "La contraseña actual es incorrecta", "error");
+                    } else {
+                        SweetAlert.swal("Error", "Ocurrió un error al cambiar la contraseña. Por favor, inténtalo más tarde", "error");
+                    }
+                    $scope.loadingSubmit = false;
+                })
+        }
+
+    }
+};
 
 angular
     .module('bdb')
     .controller('MainCtrl', MainCtrl)
     .controller('InitialCtrl', InitialCtrl)
     .controller('LoginCtrl', LoginCtrl)
-    .controller('LogoutCtrl', LogoutCtrl)
+    .controller('SessionCtrl', SessionCtrl)
     .controller('TranslateCtrl', TranslateCtrl);
