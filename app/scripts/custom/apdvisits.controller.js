@@ -111,7 +111,7 @@
         $('#brandId').val(selected);
 
         // Please change this!
-        if( $scope.brandId == 'aditivo_mx' || $scope.brandId == '98coastav_mx')
+        if( $scope.brandId == 'aditivo_mx' || $scope.brandId == '98coastav_mx' || $scope.brandId == 'botanicus_mx' || $scope.brandId == 'tonymoly_mx')
             $scope.showRevenue = true;
         else 
             $scope.showRevenue = false;
@@ -126,7 +126,7 @@
         $scope.brandId = $('#brandId').val();
 
         // Please change this!
-        if( $scope.brandId == 'aditivo_mx' || $scope.brandId == '98coastav_mx')
+        if( $scope.brandId == 'aditivo_mx' || $scope.brandId == '98coastav_mx' || $scope.brandId == 'botanicus_mx' || $scope.brandId == 'tonymoly_mx')
             $scope.showRevenue = true;
         else 
             $scope.showRevenue = false;
@@ -1122,7 +1122,7 @@
                 tab += '<td style="text-align: left; border-right: 1px solid gray;">' + $scope.storeLabel + '</td>';
                 if( $scope.visitsOnly == false )
                     tab += '<td>Paseantes</td>';                    // 1
-                    tab += '<td>Visitantes</td>';                   // 2   
+                tab += '<td>Visitantes</td>';                       // 2   
                 if( $scope.visitsOnly == false ) {
                     tab += '<td>Tickets</td>';                      // 3
                     if( entityId != 'volaris_mx' ) {
@@ -1156,7 +1156,7 @@
                                     tab += '<td style="border-right: 1px solid gray;">' + data[i][x] + '</td>';
                                 }
                             } else {
-                                if( $scope.visitsOnly == false || (x != 1 && x != 4) ) {
+                                if( $scope.visitsOnly == false || (x != 1 && x != 4 && x != 6) ) {
                                     tab += '<td>' + data[i][x] + '</td>';
                                 }
                             }
@@ -1183,7 +1183,7 @@
                                 tab += '<td style="border-right: 1px solid gray;">' + data[data.length - 1][x] + '</td>';
                             }
                         } else {
-                            if( $scope.visitsOnly == false || (x != 1 && x != 4)) {
+                            if( $scope.visitsOnly == false || (x != 1 && x != 4 && x != 6)) {
                                 tab += '<td>' + data[data.length - 1][x] + '</td>';
                             }
                         }
