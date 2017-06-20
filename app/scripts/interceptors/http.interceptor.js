@@ -3,8 +3,14 @@ angular
   .factory('httpErrorResponseInterceptor', ['$q', '$location',
     function($q, $location) {
       return {
-        response: function(responseData) {
-          return responseData;
+        response: function(response) {
+          if( response.data !== undefined && response.data.error_code !== undefined ) {
+            if( response.data.error_code == 408 ) {
+               $location.path('/login');
+            }
+          } else {
+            return response;
+          }
         },
         responseError: function error(response) {
           switch (response.status) {
@@ -15,9 +21,10 @@ angular
               $location.path('/404');
               break;
             case 200: 
-              if( response.data !== undefined && response.data !== error_code ) {
-                if( response.data.error_code == '408' )
-                  $location.path('/login');
+              if( response.data !== undefined && response.data.error_code !== undefined ) {
+                if( response.data.error_code == 408 ) {
+                   $location.path('/login');
+                }
               }
               break;
             default:
