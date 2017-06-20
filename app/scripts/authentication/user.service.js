@@ -22,7 +22,14 @@ function UserService($http, CommonsService) {
 	}
 
 	this.handleSuccess = function(res) {
-		return res.data;
+		if( res === undefined || res.data === undefined ) {
+			return {
+				success: false,
+				message: 'Usuario o contraseña incorrectos'
+			};
+		} else {
+			return res.data;
+		}
 	}
 
 	this.handleError = function(error) {

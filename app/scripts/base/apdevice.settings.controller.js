@@ -259,6 +259,14 @@
         delete $scope.obj.lastRecordCount;
         delete $scope.obj.reportStatus;
 
+        $scope.reportMailList = Array();
+        for( var x = 0; x < $scope.obj.reportMailList.length; x++ ) {
+            if( $scope.obj.reportMailList[x] !== undefined && $scope.obj.reportMailList[x].trim() != '' ) {
+                $scope.reportMailList.push($scope.obj.reportMailList[x].trim());
+            }
+        }
+        $scope.obj.reportMailList = $scope.reportMailList.slice();
+
         $http.post(CommonsService.getUrl('/apdevice/' + $scope.hostname), $scope.obj)
         .then($scope.postUpdate);
     }
@@ -351,47 +359,49 @@
 
 	$scope.changeDay = function() {
 
-		if( $scope.obj.visitsOnMon == false ) {
-			$('#visitMon')[0].offsetParent.children[0].style = 'display: none;';
-		} else {
-			$('#visitMon')[0].offsetParent.children[0].style = 'display: block;';
-		}
+        try {
+    		if( $scope.obj.visitsOnMon == false ) {
+    			$('#visitMon')[0].offsetParent.children[0].style = 'display: none;';
+    		} else {
+    			$('#visitMon')[0].offsetParent.children[0].style = 'display: block;';
+    		}
 
-		if( $scope.obj.visitsOnTue == false ) {
-			$('#visitTue')[0].offsetParent.children[0].style = 'display: none;';
-		} else {
-			$('#visitTue')[0].offsetParent.children[0].style = 'display: block;';
-		}
+    		if( $scope.obj.visitsOnTue == false ) {
+    			$('#visitTue')[0].offsetParent.children[0].style = 'display: none;';
+    		} else {
+    			$('#visitTue')[0].offsetParent.children[0].style = 'display: block;';
+    		}
 
-		if( $scope.obj.visitsOnWed == false ) {
-			$('#visitWed')[0].offsetParent.children[0].style = 'display: none;';
-		} else {
-			$('#visitWed')[0].offsetParent.children[0].style = 'display: block;';
-		}
+    		if( $scope.obj.visitsOnWed == false ) {
+    			$('#visitWed')[0].offsetParent.children[0].style = 'display: none;';
+    		} else {
+    			$('#visitWed')[0].offsetParent.children[0].style = 'display: block;';
+    		}
 
-		if( $scope.obj.visitsOnThu == false ) {
-			$('#visitThu')[0].offsetParent.children[0].style = 'display: none;';
-		} else {
-			$('#visitThu')[0].offsetParent.children[0].style = 'display: block;';
-		}
+    		if( $scope.obj.visitsOnThu == false ) {
+    			$('#visitThu')[0].offsetParent.children[0].style = 'display: none;';
+    		} else {
+    			$('#visitThu')[0].offsetParent.children[0].style = 'display: block;';
+    		}
 
-		if( $scope.obj.visitsOnFri == false ) {
-			$('#visitFri')[0].offsetParent.children[0].style = 'display: none;';
-		} else {
-			$('#visitFri')[0].offsetParent.children[0].style = 'display: block;';
-		}
+    		if( $scope.obj.visitsOnFri == false ) {
+    			$('#visitFri')[0].offsetParent.children[0].style = 'display: none;';
+    		} else {
+    			$('#visitFri')[0].offsetParent.children[0].style = 'display: block;';
+    		}
 
-		if( $scope.obj.visitsOnSat == false ) {
-			$('#visitSat')[0].offsetParent.children[0].style = 'display: none;';
-		} else {
-			$('#visitSat')[0].offsetParent.children[0].style = 'display: block;';
-		}
+    		if( $scope.obj.visitsOnSat == false ) {
+    			$('#visitSat')[0].offsetParent.children[0].style = 'display: none;';
+    		} else {
+    			$('#visitSat')[0].offsetParent.children[0].style = 'display: block;';
+    		}
 
-		if( $scope.obj.visitsOnSun == false ) {
-			$('#visitSun')[0].offsetParent.children[0].style = 'display: none;';
-		} else {
-			$('#visitSun')[0].offsetParent.children[0].style = 'display: block;';
-		}
+    		if( $scope.obj.visitsOnSun == false ) {
+    			$('#visitSun')[0].offsetParent.children[0].style = 'display: none;';
+    		} else {
+    			$('#visitSun')[0].offsetParent.children[0].style = 'display: block;';
+    		}
+        } catch( e ) {}
 
 	}
 
@@ -714,6 +724,7 @@
                     $scope.entity.kind = data.data.data[0].entityKind;
                     $scope.entity.name = data.data.data[0].entityName;
                 }
+                $scope.loadingUpdate = false;
             });
     }
 
@@ -845,7 +856,7 @@
             });
         }
 
-        $scope.loadingUpdate = true;
+        $scope.loadingUpdate = false;
         $scope.refreshProcesses();
     }
 
