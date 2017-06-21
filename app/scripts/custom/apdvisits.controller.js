@@ -360,7 +360,7 @@
                 + '&subentityId=' + seid
                 + '&elementId=apd_visitor'
                 + '&subIdOrder=visitor_total_revenue,visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
-                + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets'
+                + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets,visitor_total_items'
                 + '&fromStringDate=' + fromDate
                 + '&toStringDate=' + toDate
                 + '&eraseBlanks=false'
@@ -374,7 +374,7 @@
                 + '&subentityId=' + seid
                 + '&elementId=apd_visitor'
                 + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
-                + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets'
+                + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets,visitor_total_items'
                 + '&fromStringDate=' + fromDate
                 + '&toStringDate=' + toDate
                 + '&eraseBlanks=false'
@@ -492,7 +492,7 @@
             + '&subentityId=' + seid
             + '&elementId=apd_visitor'
             + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
-            + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android'
+            + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_hourly_tickets'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
             + '&eraseBlanks=true'

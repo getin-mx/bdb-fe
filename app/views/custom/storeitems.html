@@ -1,0 +1,55 @@
+<div ng-controller="StoreItemCtrl" class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-lg-12 ibox-content" data-ng-init="init()">
+			<div class="form-group row">
+				<div class="input-group" style="float: left; margin-left: 10px;">
+					Cadena:<br>
+					<select ng-model="brand" ng-change="brandChange()" data-ng-options="o.name for o in brands" class="form-control" style="width: 250px;"></select>
+				</div>
+				<div class="input-group" style="float: left; margin-left: 10px;">
+					Tienda:<br>
+					<select ng-model="store" data-ng-options="o.name for o in stores" class="form-control" style="width: 250px;"></select>
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="input-group" style="float: left; margin-left: 10px;">
+					Fecha Inicio:<br>
+					<input type="datetime" id="fromDate" ng-model="fromDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
+				</div>
+				<div class="input-group" style="float: left; margin-left: 10px;">
+					Fecha Fin:<br>
+					<input type="datetime" id="toDate" ng-model="toDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
+				</div>
+				<div class="input-group" style="float: left; margin-left: 10px;">
+					<br/>
+					<button type="button" ng-click="loadUpdate()" ladda="loadingloadUpdate" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Cargar</button>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="col-lg-12 ibox-content" ng-class="formItemClass">
+			<div class="ibox-title">
+				<h5>Item</h5>
+			</div>
+
+			<div class="ibox-content form-group">
+				<div ng-repeat="(i, day) in listdays track by $index">
+					<label class="col-lg-2 col-sm-3" style="text-align: center; margin-top: 7px;">{{day.date}}</label>
+					<div class="col-lg-2 col-sm-3"><input ng-model="listdays[i].numberofItem" class="form-control"></div>
+				</div>
+				<div class="col-lg-12" ng-class="formItemClass">
+					&nbsp;
+				</div>
+			</div>
+
+			<div class="col-lg-12 ibox-content" ng-class="formItemClass">
+				<button ng-click="updateItem()" type="button" ladda="loadingexecUpdate" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in">Actualizar</button>
+			</div>
+
+		</div>
+	</div>
+
+</div>

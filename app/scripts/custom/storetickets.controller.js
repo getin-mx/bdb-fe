@@ -9,20 +9,43 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 	$scope.brand = null;
 	$scope.stores = null;
 	$scope.store = null;
-
+	$scope.hours = null;
 	$scope.obj = null;
+	$scope.fromHour = null;
+	$scope.toHour = null;
 
 	$scope.latitude = 0;
 	$scope.longitude = 0;
 
 	$scope.init = function() {
 		$scope.brands = new Array();
+		$scope.hours = new Array();
+		for( var i = 0; i < 24; i++ ) {
+			var ele = {
+				id: $scope.hourFormat(i),
+				name: $scope.hourFormat(i)
+			};
+
+			$scope.hours.push(ele)
+			if( i == 8 ) $scope.fromHour = ele;
+			if( i == 20 ) $scope.toHour = ele;
+		}
+
 		$scope.loadingRefresh = true;
 		$http.get(CommonsService.getUrl('/dashboard/assignedBrandList'))
 			.then($scope.postInit);
 		$scope.formTicketsClass = 'hidden';
 		$scope.fileUpdateDisabled = true;
 
+	}
+
+	$scope.hourFormat = function(hour) {
+		var fmt = '';
+		if( hour < 10 )
+			fmt += '0';
+		fmt += hour;
+		fmt += ":00";
+		return fmt;
 	}
 
 	$scope.postInit = function(data) {
@@ -71,7 +94,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 
 	}
 
-	$scope.loadUpdate = function(data) {
+	$scope.loadTickets = function(data) {
 
 		$scope.listdays = new Array();
         $scope.loadingloadUpdate = true;
@@ -81,23 +104,45 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 			+ '&storeId=' + this.store.id 
 			+ '&fromDate=' + $scope.fromDate
 			+ '&toDate=' + $scope.toDate)
-			.then($scope.postLoadUpdate);
+			.then(function(data) {
+				$scope.obj = data.data;
+				for( var i = 0; i < data.data.data.length; i++ ) {
+					//generar la lista de dias/ticket
+					var day = {
+						date: data.data.dates[i],
+						numberoftickets: data.data.data[i]
+					}
+					$scope.listdays.push(day);
+				}
+				$scope.formTicketsClass = '';
+				$scope.loadingloadUpdate = false;
+			});
 	}
 
-	$scope.postLoadUpdate = function(data) {
-		$scope.obj = data.data;
-		for( var i = 0; i < data.data.data.length; i++ ) {
-			//generar la lista de dias/ticket
-			var day = {
-				date: data.data.dates[i],
-				numberoftickets: data.data.data[i]
-			}
-			$scope.listdays.push(day);
-		}
-		$scope.formTicketsClass = '';
-		$scope.loadingloadUpdate = false;
-	}
+	$scope.loadTicketsByHour = function(data) {
 
+		$scope.listhours = new Array();
+        $scope.loadingloadUpdate = true;
+        $scope.date = $('#date').val();
+		$http.get(CommonsService.getUrl('/dashboard/storeTicketByHourData')
+			+ '&storeId=' + this.store.id 
+			+ '&date=' + $scope.date
+			+ '&fromHour=' + $scope.fromHour.id
+			+ '&toHour=' + $scope.toHour.id)
+			.then(function(data) {
+				$scope.obj2 = data.data;
+				for( var i = 0; i < data.data.data.length; i++ ) {
+					//generar la lista de dias/ticket
+					var day = {
+						hour: data.data.dates[i],
+						numberoftickets: data.data.data[i]
+					}
+					$scope.listhours.push(day);
+				}
+				$scope.formTicketsClass = '';
+				$scope.loadingloadUpdate = false;
+			});
+	}
 
 	$scope.refresh = function(data) {
 		$scope.loadingRefresh = true;
@@ -120,6 +165,16 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 
 	}		
 	
+	$scope.updateTicketsByHour = function(){
+		$scope.loadingexecUpdate = true;
+		$scope.obj2.data = new Array();
+		for( var i = 0; i < $scope.listhours.length; i++ ) {
+			$scope.obj2.data.push($scope.listhours[i].numberoftickets)
+		}
+		$http.post(CommonsService.getUrl('/dashboard/storeTicketByHourData'), $scope.obj2)
+			.then($scope.postUpdateTickets);
+
+	}		
 
 	$scope.postUpdateTickets = function(data){
 		$scope.loadingexecUpdate = false;

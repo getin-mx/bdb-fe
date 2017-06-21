@@ -28,7 +28,7 @@
 							</div>
 							<div class="input-group" style="float: left; margin-left: 10px;">
 								<br/>
-								<button type="button" ng-click="loadUpdate()" ladda="loadingloadUpdate" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Cargar</button>
+								<button type="button" ng-click="loadTickets()" ladda="loadingloadUpdate" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Cargar</button>
 							</div>
 						</div>
 					</div>
@@ -113,6 +113,70 @@
 					</div>
 				</div>
 
+			</div>
+		</uib-tab>
+
+		<uib-tab>
+			<uib-tab-heading>
+				<span>Carga Horaria</span>
+			</uib-tab-heading>
+			<div class="panel-body" ng-controller="StoreTicketsCtrl" class="wrapper wrapper-content animated fadeInRight">
+				<div class="row">
+					<div class="col-lg-12 ibox-content" data-ng-init="init()">
+						<div class="form-group row">
+							<div class="input-group" style="float: left; margin-left: 10px;">
+								Cadena:<br>
+								<select ng-model="brand" ng-change="brandChange()" data-ng-options="o.name for o in brands" class="form-control" style="width: 250px;"></select>
+							</div>
+							<div class="input-group" style="float: left; margin-left: 10px;">
+								Tienda:<br>
+								<select ng-model="store" data-ng-options="o.name for o in stores" class="form-control" style="width: 250px;"></select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="input-group" style="float: left; margin-left: 10px;">
+								Fecha<br>
+								<input type="datetime" id="date" ng-model="date" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD" style="width: 190px;">
+							</div>
+							<div class="input-group" style="float: left; margin-left: 10px;">
+								Hora Inicio:<br>
+								<select ng-model="fromHour" data-ng-options="o.name for o in hours" class="form-control" style="width: 150px;"></select>
+							</div>
+							<div class="input-group" style="float: left; margin-left: 10px;">
+								Hora Fin:<br>
+								<select ng-model="toHour" data-ng-options="o.name for o in hours" class="form-control" style="width: 150px;"></select>
+							</div>
+							<div class="input-group" style="float: left; margin-left: 10px;">
+								<br/>
+								<button type="button" ng-click="loadTicketsByHour()" ladda="loadingloadUpdate" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Cargar</button>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="row">
+					<div class="col-lg-12 ibox-content" ng-class="formTicketsClass">
+						<div class="ibox-title">
+							<h5>Tickets Por Hora para el día {{date}}</h5>
+						</div>
+
+						<div class="ibox-content form-group">
+							<div ng-repeat="(i, hour) in listhours track by $index">
+								<label class="col-lg-2 col-sm-3" style="text-align: center; margin-top: 7px;">{{hour.hour}}</label>
+								<div class="col-lg-2 col-sm-3"><input ng-model="listhours[i].numberoftickets" class="form-control"></div>
+							</div>
+							<div class="col-lg-12" ng-class="formTicketsClass">
+								&nbsp;
+							</div>
+						</div>
+
+						<div class="col-lg-12 ibox-content" ng-class="formTicketsClass">
+							<button ng-click="updateTicketsByHour()" type="button" ladda="loadingexecUpdate" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in">Actualizar</button>
+						</div>
+
+					</div>
+				</div>
 			</div>
 		</uib-tab>
 
