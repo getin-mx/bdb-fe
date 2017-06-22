@@ -1,7 +1,7 @@
 /**
  * ÀPDMAEmployeesCtrl - controller
  */
-function ÀPDMAEmployeesCtrl($scope, $rootScope, $http, $location, $uibModal, CommonsService, AuthenticationService, SweetAlert) {
+function ÀPDMAEmployeesCtrl($scope, $rootScope, $http, $location, $uibModal, CommonsService, AuthenticationService, SweetAlert, $filter) {
 
 	var vm = this;
 	$scope.search = '';
@@ -126,8 +126,8 @@ function ÀPDMAEmployeesCtrl($scope, $rootScope, $http, $location, $uibModal, Co
 	    	var newRow = '<tr>'
 	    			   + '<td data-value="' + obj.mac + '">' + obj.mac + '</td>'
 	    			   + '<td data-value="' + obj.description + '">' + obj.description + '</td>'
-	    			   + '<td data-value="' + obj.fromDate + '">' + obj.fromDate + '</td>'
-	    			   + '<td data-value="' + obj.toDate + '">' + ((obj.toDate !== undefined) ? obj.toDate : '-') + '</td>'
+	    			   + '<td data-value="' + obj.fromDate + '">' + $filter('date')(obj.fromDate, "dd/MM/yyyy") + '</td>'
+	    			   + '<td data-value="' + obj.toDate + '">' + ((obj.toDate !== undefined) ? $filter('date')(obj.toDate, "dd/MM/yyyy") : '-') + '</td>'
 	    			   
 	    			   + '<td data-value="' + obj.identifier + '">'
 
