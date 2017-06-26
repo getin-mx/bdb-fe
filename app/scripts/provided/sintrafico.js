@@ -9,7 +9,7 @@ var map, heatmap;
 
 function initSinTraficoMap(storePosition, element, layer) {
 
-	if( layer === undefined || layer == null ) 
+	if( layer === undefined || layer == null )
 		layer = 'heatmap.json';
 
 	var map = new google.maps.Map(document.getElementById(element), {
@@ -30,7 +30,7 @@ function initSinTraficoMap(storePosition, element, layer) {
 
     google.maps.event.addListener(map, 'idle', function(){
         heatmap.set('radius', 5.8333*map.getZoom()-64.167);
-        updateLayer(map.getBounds(),layer);        
+        updateLayer(map.getBounds(),layer);
     });
 }
 
@@ -95,7 +95,7 @@ function getFlow(storePosition, success, fail) {
 
 	$.getJSON('http://api.sintrafico.com/flow', parameters)
 		.done(function(data, textStatus, jqXHR) {
-			
+
 			// Wait a second for the next request
 			window.setTimeout(function(){
 				delayFlowResponse(data.req_id, success, fail);
@@ -106,7 +106,7 @@ function getFlow(storePosition, success, fail) {
 			console.log('Error ' + jqXHR.status);
 			if( fail !== undefined ) fail();
 		})
-}   
+}
 
 // Function to be called after the SinTrafico request ID is received
 function delayFlowResponse(req_id, success, fail) {
@@ -133,7 +133,7 @@ function delayFlowResponse(req_id, success, fail) {
 			console.log('Error ' + jqXHR.status);
 			if( fail !== undefined ) fail();
 		})
-}   
+}
 
 // Returns vehicle origin destiny  for a location.
 function getOriginWork(lat, lon, mapa, success, fail) {
@@ -169,7 +169,7 @@ function getOriginWork(lat, lon, mapa, success, fail) {
         })
 
     return result;
-}   
+}
 
 // Returns vehicle origin destiny  for a location.
 function getDestinyWork(lat, lon, mapa, success, fail) {
@@ -204,7 +204,7 @@ function getDestinyWork(lat, lon, mapa, success, fail) {
             console.log('Error ' + jqXHR.status);
         })
     return result;
-} 
+}
 
 // Returns vehicle origin destiny  for a location.
 function getOriginHome(lat, lon, mapa, success, fail) {
@@ -239,7 +239,7 @@ function getOriginHome(lat, lon, mapa, success, fail) {
             console.log('Error ' + jqXHR.status);
         })
     return result;
-}   
+}
 
 // Returns vehicle origin destiny  for a location.
 function getDestinyHome(lat, lon, mapa, success, fail) {
@@ -287,7 +287,8 @@ function getIsochrone(lat, lon, mapa, length, color, success, fail) {
 							'length': length,
 							'foursquare': 'false',
 							'transport': 'car',
-							'polling': 'false'
+							'polling': 'false',
+							"method": "router_st_v0.1"
 					};
 					var result = null;
 					$.getJSON('http://api.sintrafico.com/isochrone', parameters)
