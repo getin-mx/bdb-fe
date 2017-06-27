@@ -796,7 +796,7 @@
             + '&entityKind=' + kind
             + '&subentityId=' + seid
             + '&elementId=apd_visitor'
-            + '&elementSubId=visitor_total_visits,visitor_total_peasents'
+            + '&elementSubId=visitor_total_visits,visitor_total_peasents,visitor_hourly_tickets'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
             + '&average=false'
@@ -817,6 +817,18 @@
                     }
                     var val = ob[3];
                     p1[ob[1]] = val;
+                }
+
+                var q = new Array();
+                for( var i = 0; i < data.data.length; i++) {
+                    var ob = data.data[i];
+                    var q1 = q[ob[0]];
+                    if( q1 === null || q1 === undefined )  {
+                        q1 = new Array();
+                        q[ob[0]] = q1;
+                    }
+                    var val = ob[4];
+                    q1[ob[1]] = val;
                 }
 
                 $(id).highcharts({
@@ -854,7 +866,7 @@
                             if( $scope.visitsOnly == true || vo == true ) {
                                 return this.point.value + ' <strong>Visitantes</strong>';
                             } else {
-                                return this.point.value + ' <strong>Visitantes</strong> <br/>' + p[this.point.x][this.point.y]    + ' <strong>Paseantes</strong>';
+                                return this.point.value + ' <strong>Visitantes</strong> <br/>' + p[this.point.x][this.point.y] + ' <strong>Paseantes</strong> <br/>' + q[this.point.x][this.point.y] + ' <strong>Tickets</strong>';
                             }
                         }
                     },
@@ -1029,8 +1041,8 @@
             + '&entityId=' + eid
             + '&entityKind=' + kind
             + '&subentityId=' + seid
-            + '&elementId=apd_occupation'
-            + '&elementSubId=occupation_hourly_visits,occupation_hourly_peasants'
+            + '&elementId=apd_occupation,apd_visitor'
+            + '&elementSubId=occupation_hourly_visits,occupation_hourly_peasants,visitor_hourly_tickets'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
             + '&average=true'
@@ -1051,6 +1063,18 @@
                     }
                     var val = ob[3];
                     p1[ob[1]] = val;
+                }
+
+                var q = new Array();
+                for( var i = 0; i < data.data.length; i++) {
+                    var ob = data.data[i];
+                    var q1 = q[ob[0]];
+                    if( q1 === null || q1 === undefined )  {
+                        q1 = new Array();
+                        q[ob[0]] = q1;
+                    }
+                    var val = ob[4];
+                    q1[ob[1]] = val;
                 }
 
                 $(id).highcharts({
@@ -1088,7 +1112,7 @@
                             if( $scope.visitsOnly == true || vo == true ) {
                                 return this.point.value + ' <strong>Visitantes</strong>';
                             } else {
-                                return this.point.value + ' <strong>Visitantes</strong> <br/>' + p[this.point.x][this.point.y]    + ' <strong>Paseantes</strong>';
+                                return this.point.value + ' <strong>Visitantes</strong> <br/>' + p[this.point.x][this.point.y] + ' <strong>Paseantes</strong> <br/>' + q[this.point.x][this.point.y] + ' <strong>Tickets</strong>';
                             }
                         }
                     },
