@@ -110,6 +110,13 @@
 	<!-- visits_by_date -->
 	<div class="row">
 		<div class="col-lg-12">
+	        <div class="ibox-content">
+	            <div class="btn-group">
+	                <button type="button" id="btnGraphDaily" ng-click="updateGraphs('D')" class="btn btn-xs btn-white active">Diario</button>
+	                <button type="button" id="btnGraphWeekly" ng-click="updateGraphs('W')" class="btn btn-xs btn-white">Semanal</button>
+	                <button type="button" id="btnGraphMonthly" ng-click="updateGraphs('M')" class="btn btn-xs btn-white">Mensual</button>
+	            </div>
+	        </div>
 			<div id="visits_by_date"></div>
 		</div>
 	</div>

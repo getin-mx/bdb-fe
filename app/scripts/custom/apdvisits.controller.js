@@ -12,6 +12,7 @@
     $scope.retailCalendarDate = null;
     $scope.zoneAble = 'hidden';
     $scope.showRevenue = false;
+    $scope.periodType = 'D';
 
     var globals = AuthenticationService.getCredentials();
     var credentials = globals.currentUser;
@@ -243,6 +244,25 @@
         vm.filterAPDVisits($scope.brandId, $scope.storeId, $scope.fromDate, $scope.toDate);
     }
 
+    $scope.updateGraphs = function(periodType) {
+        $scope.periodType = periodType;
+
+        $('#btnGraphDaily').removeClass('active');
+        $('#btnGraphWeekly').removeClass('active');
+        $('#btnGraphMonthly').removeClass('active');
+
+        if( periodType == 'D' ) {
+            $('#btnGraphDaily').addClass('active');
+        } else if( periodType == 'W' ) {
+            $('#btnGraphWeekly').addClass('active');
+        } else if( periodType == 'M' ) {
+            $('#btnGraphMonthly').addClass('active');
+        }
+
+        $('#visits_by_date').html('');
+        vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, $scope.fromDate, $scope.toDate, $scope.brandId, $scope.storeId, $scope.zoneId, $scope.periodType);
+    }
+
     this.filterAPDVisits = function(brandId, storeId, fromDate, toDate) {
 
         $('#visits_by_date').html('');
@@ -254,7 +274,7 @@
         $('#heatmap_permanence_by_hour').html('');
         $('#brand_performance_table').html('');
 
-        vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
+        vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId, $scope.periodType);
         vm.updateVisitsByHourChart('#visits_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         if( brandId == 'grupopavel_mx') {
             vm.updateRepetitionsChart('#repetitions', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
@@ -316,7 +336,7 @@
         }
     }
 
-    this.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId) {
+    this.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, periodType) {
         var url = null;
 
         var eid;
@@ -348,6 +368,7 @@
             + 'visitor_total_visits_ios,visitor_total_visits_android'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
+            + '&periodType=' + periodType
             + '&eraseBlanks=false'
             + '&timestamp=' + CommonsService.getTimestamp();
         else
@@ -363,6 +384,7 @@
                 + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets,visitor_total_items'
                 + '&fromStringDate=' + fromDate
                 + '&toStringDate=' + toDate
+                + '&periodType=' + periodType
                 + '&eraseBlanks=false'
                 + '&timestamp=' + CommonsService.getTimestamp();
             else
@@ -377,6 +399,7 @@
                 + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets,visitor_total_items'
                 + '&fromStringDate=' + fromDate
                 + '&toStringDate=' + toDate
+                + '&periodType=' + periodType
                 + '&eraseBlanks=false'
                 + '&timestamp=' + CommonsService.getTimestamp();
 
