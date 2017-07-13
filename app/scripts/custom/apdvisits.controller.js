@@ -112,7 +112,7 @@
         $('#brandId').val(selected);
 
         // Please change this!
-        if( $scope.brandId == 'aditivo_mx' || $scope.brandId == '98coastav_mx' || $scope.brandId == 'botanicus_mx' || $scope.brandId == 'tonymoly_mx' || $scope.brandId == 'areasmexico_mx' || $scope.brandId == 'liverpoolboutiques_mx' || $scope.brandId == 'ecobutik_mx')
+        if( $scope.brandId == 'aditivo_mx' || $scope.brandId == '98coastav_mx' || $scope.brandId == 'botanicus_mx' || $scope.brandId == 'tonymoly_mx' || $scope.brandId == 'areasmexico_mx' || $scope.brandId == 'liverpoolboutiques_mx' || $scope.brandId == 'ecobutik_mx' || $scope.brandId == "cafe_balcarce_ar")
             $scope.showRevenue = true;
         else
             $scope.showRevenue = false;
@@ -127,7 +127,7 @@
         $scope.brandId = $('#brandId').val();
 
         // Please change this!
-        if( $scope.brandId == 'aditivo_mx' || $scope.brandId == '98coastav_mx' || $scope.brandId == 'botanicus_mx' || $scope.brandId == 'tonymoly_mx' || $scope.brandId == 'areasmexico_mx' || $scope.brandId == 'liverpoolboutiques_mx' || $scope.brandId == 'ecobutik_mx')
+        if( $scope.brandId == 'aditivo_mx' || $scope.brandId == '98coastav_mx' || $scope.brandId == 'botanicus_mx' || $scope.brandId == 'tonymoly_mx' || $scope.brandId == 'areasmexico_mx' || $scope.brandId == 'liverpoolboutiques_mx' || $scope.brandId == 'ecobutik_mx' || $scope.brandId == "cafe_balcarce_ar")
             $scope.showRevenue = true;
         else
             $scope.showRevenue = false;
