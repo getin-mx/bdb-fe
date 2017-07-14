@@ -142,7 +142,8 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 		map.removeMarkers();
 		var marker = new google.maps.Marker({
 			position: {lat: data.data.address.latitude, lng: data.data.address.longitude},
-			map: map.map
+			map: map.map,
+			title: $scope.store.name
 		});
 
 		$http.get(CommonsService.getUrl('/dashboard/externalGeoData')
@@ -247,6 +248,230 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 		}
 		if( $scope.checkIsochroneWeekWorkFourty == true  ) {
 		  var result = getIsochrone(lat, lon, map, 40, '#CFB53B');
+		}
+
+		if ($scope.store.name == "Sportium Arboledas") {
+			var image = "https://ufs.cloud.getin.mx:8773/services/objectstorage/signatures/sneakers.png";
+			var marker = new google.maps.Marker({
+				position: {lat: 19.526770, lng: -99.228340},
+				map: map.map,
+				title: 'Sport City Mundo E',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.502331, lng: -99.176716},
+				map: map.map,
+				title: 'Sport City Tecnoparque',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.487852, lng: -99.239875},
+				map: map.map,
+				title: 'Sport City Lomas Verdes',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.558743, lng: -99.218218},
+				map: map.map,
+				title: 'SmartFit Jinetes',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.548406, lng: -99.206343},
+				map: map.map,
+				title: 'SmartFit Gustavo Baz',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.507134, lng: -99.236758},
+				map: map.map,
+				title: 'SmartFit Satelite',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.502522, lng: -99.203320},
+				map: map.map,
+				title: 'Go Fitness El Rosario',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.575284, lng: -99.226269},
+				map: map.map,
+				title: 'Nelson Vargas Mayorazgos',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.511977, lng: -99.242451},
+				map: map.map,
+				title: 'Nelson Vargas Satelite',
+				icon: image
+			});
+		}
+
+		if( $scope.store.name == "Sportium San Angel" ){
+			var image = "https://ufs.cloud.getin.mx:8773/services/objectstorage/signatures/sneakers.png";
+			var marker = new google.maps.Marker({
+				position: {lat: 19.370794, lng: -99.163294},
+				map: map.map,
+				title: 'Sport City Universidad',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.345971, lng: -99.177325},
+				map: map.map,
+				title: 'Sport City Oasis',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.363605, lng: -99.182711},
+				map: map.map,
+				title: 'Sport City Insurgentes',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.339813, lng: -99.194032},
+				map: map.map,
+				title: 'Sport City Loreto',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.307144, lng: -99.165783},
+				map: map.map,
+				title: 'Sport City Gran Sur',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.337143, lng: -99.198685},
+				map: map.map,
+				title: 'Sports World Loreto',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.345566, lng: -99.178429},
+				map: map.map,
+				title: 'Sports World Miguel Angel de Quevedo',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.353178, lng: -99.186669},
+				map: map.map,
+				title: 'Sports World San Angel',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.370993, lng: -99.179631},
+				map: map.map,
+				title: 'Sports World Del Valle',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.364900, lng: -99.171198},
+				map: map.map,
+				title: 'Sports World Amores',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.347434, lng: -99.201362},
+				map: map.map,
+				title: 'Sports World Altavista',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.365835, lng: -99.167305},
+				map: map.map,
+				title: 'Sports World Universidad',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.372702, lng: -99.173007},
+				map: map.map,
+				title: 'Sports World Felix Cuevas',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.351690, lng: -99.185820},
+				map: map.map,
+				title: 'Energy Fitness Altavista',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.395075, lng: -99.175296},
+				map: map.map,
+				title: 'Energy Fitness WTC',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.349393, lng: -99.188997},
+				map: map.map,
+				title: 'Zona Fitness Altavista',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.335787, lng: -99.157777},
+				map: map.map,
+				title: 'Smartfit Los Reyes',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.335665, lng: -99.198589},
+				map: map.map,
+				title: 'Smartfit Escenaria',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.330178, lng: -99.216389},
+				map: map.map,
+				title: 'Smartfit San Jeronimo',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.361288, lng: -99.183253},
+				map: map.map,
+				title: 'Smartfit Torre Diamante',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.372572, lng: -99.169356},
+				map: map.map,
+				title: 'SmartFit Amores',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.349069, lng: -99.190843},
+				map: map.map,
+				title: 'Go Fitness Revolución',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.379264, lng: -99.169450},
+				map: map.map,
+				title: 'Go Fitness Coyoacan',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.338376, lng: -99.159184},
+				map: map.map,
+				title: 'Nelson Vargas Los Reyes',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.323683, lng: -99.236649},
+				map: map.map,
+				title: 'Nelson Vargas San Jeronimo',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.365353, lng: -99.160268},
+				map: map.map,
+				title: 'Nelson Vargas Del Valle',
+				icon: image
+			});
+			var marker = new google.maps.Marker({
+				position: {lat: 19.368520, lng: -99.173798},
+				map: map.map,
+				title: 'C+ Adolfo Prieto',
+				icon: image
+			});
 		}
 
 		$scope.loadingRefresh = false;
