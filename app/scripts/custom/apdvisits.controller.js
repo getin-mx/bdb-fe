@@ -119,7 +119,6 @@
           'tonymoly_mx',
           'areasmexico_mx',
           'liverpoolboutiques_mx',
-          'ecobutik_mx',
           'cafe_balcarce_ar',
           'ecobutik_mx'
         );
@@ -145,7 +144,6 @@
           'tonymoly_mx',
           'areasmexico_mx',
           'liverpoolboutiques_mx',
-          'ecobutik_mx',
           'cafe_balcarce_ar',
           'ecobutik_mx'
         );
