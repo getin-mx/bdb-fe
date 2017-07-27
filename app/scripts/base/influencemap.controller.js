@@ -309,7 +309,7 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 		}
 
 		if( $scope.store.name == "Sportium San Angel" ){
-			var image = "https://ufs.cloud.getin.mx:8773/services/objectstorage/signatures/sneakers.png";
+			var image = "https://ufs.cloud.getin.mx:8773/services/objectstorage/luis/sneakers.png";
 			var marker = new google.maps.Marker({
 				position: {lat: 19.370794, lng: -99.163294},
 				map: map.map,
