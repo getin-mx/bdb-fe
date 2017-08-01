@@ -251,7 +251,7 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 		}
 
 		if ($scope.store.name == "Sportium Arboledas") {
-			var image = "https://ufs.cloud.getin.mx:8773/services/objectstorage/signatures/sneakers.png";
+			var image = "/styles/img/sneakers.png";
 			var marker = new google.maps.Marker({
 				position: {lat: 19.526770, lng: -99.228340},
 				map: map.map,
