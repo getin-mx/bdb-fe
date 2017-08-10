@@ -164,7 +164,8 @@
                 }
                 var row = { 'row': $row, 'detail': $next };
                 if (column !== undefined) {
-                    row.value = ft.parse(this.cells[column.sort.match], column);
+                    row.value = $(this.cells[column.sort.match]).data('value')
+                    // row.value = ft.parse(this.cells[column.sort.match], column);
                 }
                 rows.push(row);
                 return true;

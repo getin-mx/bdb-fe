@@ -292,7 +292,6 @@
         $('#heatmap_traffic_by_hour').html('');
         $('#heatmap_occupation_by_hour').html('');
         $('#heatmap_permanence_by_hour').html('');
-        $('#brand_performance_table').html('');
 
         vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId, $scope.periodType);
         vm.updateVisitsByHourChart('#visits_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
@@ -303,7 +302,7 @@
         vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         vm.updateHeatmapOccupation('#heatmap_occupation_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
-        vm.updateBrandPerformanceTable('#brand_performance_table', config.dashUrl, fromDate, toDate, brandId);
+        vm.updateBrandPerformanceTable('#brand_performance_table', config.baseUrl, fromDate, toDate, brandId);
     }
 
     $scope.updateZoneList = function(id, entityId) {
@@ -1172,9 +1171,69 @@
             });
     };
     this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId) {
+        $http.get(CommonsService.getUrl('/dashboard/brandTableData') 
+            + '&entityId=' + entityId
+            + '&entityKind=1'
+            + '&fromStringDate=' + fromDate
+            + '&toStringDate=' + toDate
+            + '&onlyExternalIds=true'
+            + '&format=json'
+            + '&timestamp=' + CommonsService.getTimestamp())
+            .then($scope.fillBrandTable);
+    };
+
+    $scope.fillBrandTable = function(data) {
+        console.log(data);
+        $('#brand-table>tbody>tr').each(function(index, elem){$(elem).remove();});
+
+        //get the footable object
+        var table = $('#brand-table').data('footable');
+
+        var newRow = '';
+        for(var i = 0; i < data.data.data.length; i++) {
+            var obj = data.data.data[i];
+            newRow += $scope.fillBrandRecord(obj);
+        }
+
+        table.appendRow(newRow);
+
+        $('#brand-count').html('&nbsp;(' + data.data.recordCount + ')');
+    }
+
+    $scope.fillBrandRecord = function(obj) {
+
+        var formatter1 = new Intl.NumberFormat('en-US');
+        var formatter2 = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2, /* this might not be necessary */
+        });
+        var formatter3 = new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2, /* this might not be necessary */
+        });
+
+        console.log(obj);
+
+        var row = '<tr>'
+                + '<td data-value="' + obj.title + '">' + obj.title + '</td>'
+                + '<td data-value="' + obj.peasants + '">' + formatter1.format(obj.peasants) + '</td>'
+                + '<td data-value="' + obj.visitors + '">' +  formatter1.format(obj.visitors) + '</td>'
+                + '<td data-value="' + obj.tickets + '">' +  formatter1.format(obj.tickets) + '</td>'
+                + '<td data-value="' + obj.revenue + '">' +  formatter2.format(obj.revenue) + '</td>'
+                + '<td data-value="' + obj.visitsConversion + '">' + formatter3.format(obj.visitsConversion) + '%' + '</td>'
+                + '<td data-value="' + obj.ticketsConversion + '">' + formatter3.format(obj.ticketsConversion) + '%' + '</td>'
+                + '<td data-value="' + obj.higherDay + '">' + obj.higherDay + '</td>'
+                + '<td data-value="' + obj.lowerDay + '">' + obj.lowerDay + '</td>'
+                + '<td data-value="' + obj.averagePermanence + '">' + formatter1.format(obj.averagePermanence) + ' mins' + '</td>'
+                + '</tr>';
+        return row;
+    }
+
+    
+    this.backup_updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId) {
         $.getJSON(
             baseUrl
-            + (entityId == 'volaris_mx' ? '/dashoard/brandTableData2' : '/dashoard/brandTableData')
+            + '/dashboard/brandTableData'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + entityId
             + '&entityKind=1'
