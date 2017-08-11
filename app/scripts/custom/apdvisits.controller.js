@@ -1217,15 +1217,15 @@
 
         var row = '<tr>'
                 + '<td data-value="' + obj.title + '">' + obj.title + '</td>'
-                + '<td data-value="' + obj.peasants + '">' + formatter1.format(obj.peasants) + '</td>'
-                + '<td data-value="' + obj.visitors + '">' +  formatter1.format(obj.visitors) + '</td>'
-                + '<td data-value="' + obj.tickets + '">' +  formatter1.format(obj.tickets) + '</td>'
-                + '<td data-value="' + obj.revenue + '">' +  formatter2.format(obj.revenue) + '</td>'
-                + '<td data-value="' + obj.visitsConversion + '">' + formatter3.format(obj.visitsConversion) + '%' + '</td>'
-                + '<td data-value="' + obj.ticketsConversion + '">' + formatter3.format(obj.ticketsConversion) + '%' + '</td>'
-                + '<td data-value="' + obj.higherDay + '">' + obj.higherDay + '</td>'
-                + '<td data-value="' + obj.lowerDay + '">' + obj.lowerDay + '</td>'
-                + '<td data-value="' + obj.averagePermanence + '">' + formatter1.format(obj.averagePermanence) + ' mins' + '</td>'
+                + '<td data-value="' + obj.peasants + '"><center>' + formatter1.format(obj.peasants) + '</center></td>'
+                + '<td data-value="' + obj.visitors + '"><center>' +  formatter1.format(obj.visitors) + '</center></td>'
+                + '<td data-value="' + obj.tickets + '"><center>' +  formatter1.format(obj.tickets) + '</center></td>'
+                + '<td data-value="' + obj.revenue + '"><center>' +  formatter2.format(obj.revenue) + '</center></td>'
+                + '<td data-value="' + obj.visitsConversion + '"><center>' + formatter3.format(obj.visitsConversion) + '%' + '</center></td>'
+                + '<td data-value="' + obj.ticketsConversion + '"><center>' + formatter3.format(obj.ticketsConversion) + '%' + '</center></td>'
+                + '<td data-value="' + obj.higherDay + '"><center>' + obj.higherDay + '</center></td>'
+                + '<td data-value="' + obj.lowerDay + '"><center>' + obj.lowerDay + '</center></td>'
+                + '<td data-value="' + obj.averagePermanence + '"><center>' + formatter1.format(obj.averagePermanence) + ' mins' + '</center></td>'
                 + '</tr>';
         return row;
     }
