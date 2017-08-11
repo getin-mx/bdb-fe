@@ -1206,10 +1206,11 @@
         var formatter2 = new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'USD',
-            minimumFractionDigits: 2, /* this might not be necessary */
+            minimumFractionDigits: 2 /* this might not be necessary */
         });
         var formatter3 = new Intl.NumberFormat('en-US', {
             minimumFractionDigits: 2, /* this might not be necessary */
+            maximumFractionDigits: 2 /* this might not be necessary */
         });
 
         console.log(obj);
