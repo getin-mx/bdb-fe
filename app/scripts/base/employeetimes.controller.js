@@ -126,7 +126,7 @@
                 tab += '<td>Salida</td>';
                 tab += '</tr>';
                 tab += '<tbody>';
-                for (var i = 1; i < data.length - 1; i++) {
+                for (var i = 1; i < data.length; i++) {
                     tab += '<tr>';
                     for (var x = 0; x < data[i].length; x++) {
                         tab += '<td>' + data[i][x] + '</td>';
