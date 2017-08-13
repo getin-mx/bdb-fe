@@ -76,19 +76,32 @@
 			<div class="ibox-content">
 				<div class="ibox float-e-margins">
 					<div class="table-responsive" id="brand_performance_table">
-						<table class="table table-striped" style="text-align: center;" >
-							<tr style="font-weight:bold;">
-								<td>{{storeLabel}}</td>
-								<td>Paseantes</td>
-								<td>Visitantes</td>
-								<td>Tickets</td>
-								<td>Ventas</td>
-								<td>Paseantes/Visitantes</td>
-								<td>Visitantes/Tickets</td>
-								<td>Día más Alto</td>
-								<td>Día más Bajo</td>
-								<td>Permanencia Promedio</td>
-							</tr>
+						<table  id="brand-table" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10" data-limit-navigation="5">
+							<thead>
+								<tr>
+									<th data-sort-initial="true" data-toggle="true" data-sort-name="key">
+										{{storeLabel}}
+									</th>
+									<th>Paseantes</th>
+									<th>Visitantes</th>
+									<th>Tickets</th>
+									<th>Ventas</th>
+									<th>Paseantes/Visitantes</th>
+									<th>Visitantes/Tickets</th>
+									<th>Día más Alto</th>
+									<th>Día más Bajo</th>
+									<th>Permanencia Promedio</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="10">
+										<ul class="pagination pull-right"></ul>
+									</td>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
 				</div>
