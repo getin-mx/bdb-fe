@@ -683,6 +683,27 @@
             		higherDate: data.data.higherDate
             	};
 
+		        $('#lower-days-table>tbody>tr').each(function(index, elem){$(elem).remove();});
+
+		        //get the footable object
+		        var table = $('#lower-days-table').data('footable');
+
+		        var newRow = '';
+		        for(var i = 0; i < data.data.performance.length; i++) {
+		            var obj = data.data.performance[i];
+			        var row = '<tr>'
+			        		+ ((i < 3) ? '<td><center><i class="fa fa-level-up"></i></center></td>' : '<td><center><i class="fa fa-level-down"></i></center></td>')
+			                + '<td><center>' + obj.date + '</center></td>'
+			                + '<td><center>' + obj.day + '</center></td>'
+			                + '<td><center>' + $scope.formatter1.format(obj.visits) + '</center></td>'
+			                + '<td><center>' + $scope.formatter3.format(obj.conversion) + '</center></td>'
+			                + '<td><center>' + $scope.formatter2.format(obj.avgTicket) + '</center></td>'
+			                + '</tr>';
+
+		            newRow += row;
+		        }
+
+		        table.appendRow(newRow);
 
             });
     };
@@ -700,7 +721,6 @@
     };
 
     $scope.fillBrandTable = function(data) {
-        console.log(data);
         $('#brand-table>tbody>tr').each(function(index, elem){$(elem).remove();});
 
         //get the footable object
@@ -709,31 +729,25 @@
         var newRow = '';
         for(var i = 0; i < data.data.data.length; i++) {
             var obj = data.data.data[i];
-            newRow += $scope.fillBrandRecord(obj);
+	        var row = '<tr>'
+	                + '<td data-value="' + obj.title + '">' + obj.title + '</td>'
+	                + '<td data-value="' + obj.peasants + '"><center>' + $scope.formatter1.format(obj.peasants) + '</center></td>'
+	                + '<td data-value="' + obj.visitors + '"><center>' +  $scope.formatter1.format(obj.visitors) + '</center></td>'
+	                + '<td data-value="' + obj.tickets + '"><center>' +  $scope.formatter1.format(obj.tickets) + '</center></td>'
+	                + '<td data-value="' + obj.revenue + '"><center>' +  $scope.formatter2.format(obj.revenue) + '</center></td>'
+	                + '<td data-value="' + obj.visitsConversion + '"><center>' + $scope.formatter3.format(obj.visitsConversion) + '%' + '</center></td>'
+	                + '<td data-value="' + obj.ticketsConversion + '"><center>' + $scope.formatter3.format(obj.ticketsConversion) + '%' + '</center></td>'
+	                + '<td data-value="' + obj.higherDay + '"><center>' + obj.higherDay + '</center></td>'
+	                + '<td data-value="' + obj.lowerDay + '"><center>' + obj.lowerDay + '</center></td>'
+	                + '<td data-value="' + obj.averagePermanence + '"><center>' + $scope.formatter1.format(obj.averagePermanence) + ' mins' + '</center></td>'
+	                + '</tr>';
+
+            newRow += row;
         }
 
         table.appendRow(newRow);
 
         $('#brand-count').html('&nbsp;(' + data.data.recordCount + ')');
-    }
-
-    $scope.fillBrandRecord = function(obj) {
-
-        console.log(obj);
-
-        var row = '<tr>'
-                + '<td data-value="' + obj.title + '">' + obj.title + '</td>'
-                + '<td data-value="' + obj.peasants + '"><center>' + $scope.formatter1.format(obj.peasants) + '</center></td>'
-                + '<td data-value="' + obj.visitors + '"><center>' +  $scope.formatter1.format(obj.visitors) + '</center></td>'
-                + '<td data-value="' + obj.tickets + '"><center>' +  $scope.formatter1.format(obj.tickets) + '</center></td>'
-                + '<td data-value="' + obj.revenue + '"><center>' +  $scope.formatter2.format(obj.revenue) + '</center></td>'
-                + '<td data-value="' + obj.visitsConversion + '"><center>' + $scope.formatter3.format(obj.visitsConversion) + '%' + '</center></td>'
-                + '<td data-value="' + obj.ticketsConversion + '"><center>' + $scope.formatter3.format(obj.ticketsConversion) + '%' + '</center></td>'
-                + '<td data-value="' + obj.higherDay + '"><center>' + obj.higherDay + '</center></td>'
-                + '<td data-value="' + obj.lowerDay + '"><center>' + obj.lowerDay + '</center></td>'
-                + '<td data-value="' + obj.averagePermanence + '"><center>' + $scope.formatter1.format(obj.averagePermanence) + ' mins' + '</center></td>'
-                + '</tr>';
-        return row;
     }
 
 	// Define available stores
