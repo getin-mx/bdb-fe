@@ -1,0 +1,525 @@
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="DashboardCtrl" data-ng-init="initDashboard()">
+
+	<!-- Header ***************************************************************************************************************** -->
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
+					<div class="row">
+						<div class="col-lg-3 col-md-4">
+							Cadena:<br>
+							<select data-placeholder="Selecciona Cadena..." ng-model="brand" ng-change="brandChange()" data-ng-options="o.name for o in brands" class="input form-control"></select>
+						</div>
+
+						<div class="col-lg-3 col-md-4">
+							Tipo de Per&iacute;odo:<br>
+							<select data-placeholder="Selecciona Tipo de Periodo..." ng-model="periodType" ng-change="periodTypeChange()" data-ng-options="o.name for o in periodTypes" class="input form-control"></select>
+						</div>
+
+						<div class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">
+							<button type="button" ng-click="updateDashboard()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in">Filtrar</button>
+						</div>
+
+					</div>
+
+					<div class="row">
+						<div ng-class="rangeVisible" class="col-lg-4 col-md-5">
+							<label class="font-noraml">Rango de Fechas:</label>
+							<div class="input-group date" style="max-width: 400px;">
+								<input type="datetime" id="fromDate" ng-model="fromDate" class="form-control datelistener" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
+								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+								<input type="datetime" id="toDate" ng-model="toDate" class="form-control datelistener" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
+								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+							</div>
+						</div>
+
+						<div ng-class="weekVisible" class="col-lg-4 col-md-5">
+							Semana:<br>
+							<select ng-model="retailCalendarDate" ng-change="retailCalendarChange()" data-ng-options="o.name for o in retailCalendar"  data-placeholder="Selecciona Semana..." class="input form-control"></select>
+						</div>
+
+						<div ng-class="monthVisible" class="col-lg-4 col-md-5">
+							Mes:<br>
+							<select ng-model="monthCalendarDate" ng-change="monthCalendarChange()" data-ng-options="o.name for o in monthCalendar"  data-placeholder="Selecciona Mes..." class="input form-control"></select>
+						</div>
+
+						<div ng-class="quarterVisible" class="col-lg-4 col-md-5">
+							Trimestre:<br>
+							<select ng-model="quarterCalendarDate" ng-change="quarterCalendarChange()" data-ng-options="o.name for o in quarterCalendar"  data-placeholder="Selecciona Trimestre..." class="input form-control"></select>
+						</div>
+
+						<div ng-class="annualVisible" class="col-lg-4 col-md-5">
+							Año:<br>
+							<select ng-model="annualCalendarDate" ng-change="annualCalendarChange()" data-ng-options="o.name for o in annualCalendar"  data-placeholder="Selecciona Año..." class="input form-control"></select>
+						</div>
+
+						<div class="col-lg-3 col-md-4">
+							{{storeLabel}}:<br>
+							<select data-placeholder="Selecciona {{storeLabel}}..." ng-model="store" ng-change="storeChange()" data-ng-options="o.name for o in stores" class="input form-control"></select>
+						</div>
+
+						<div class="col-lg-3 col-md-4">
+							Tipo de {{storeLabel}}:<br>
+							<select data-placeholder="Selecciona Tipo..." ng-model="storeType" ng-change="storeTypeChange()" data-ng-options="o.name for o in storeTypes" class="input form-control"></select>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Line 1 ***************************************************************************************************************** -->
+
+	<div class="row">
+		<div class="col-lg-25">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Ventas</h5>
+					<div ibox-tools></div>
+				</div>
+				<div class="ibox-content">
+					<h1 class="no-margins">{{info.revenue}}</h1>
+					<small>Total de Ventas</small>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-25">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Paseantes</h5>
+					<div ibox-tools></div>
+				</div>
+				<div class="ibox-content">
+					<h1 class="no-margins">{{info.peasants}}</h1>
+					<small>Total de Paseantes</small>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-25">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Visitas</h5>
+					<div ibox-tools></div>
+				</div>
+				<div class="ibox-content">
+					<h1 class="no-margins">{{info.visits}}</h1>
+					<small>Total de Visitas</small>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-25">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Tickets</h5>
+					<div ibox-tools></div>
+				</div>
+				<div class="ibox-content">
+					<h1 class="no-margins">{{info.tickets}}</h1>
+					<small>Total de Tickets</small>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-25">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Tickets Promedio</h5>
+					<div ibox-tools></div>
+				</div>
+				<div class="ibox-content">
+					<h1 class="no-margins">{{info.avgTickets}}</h1>
+					<small>Tickets Promedio</small>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Line 2 ***************************************************************************************************************** -->
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Visitas</h5>
+
+					<div class="pull-right">
+						<div class="btn-group">
+							<button type="button" class="btn btn-xs btn-white active">Diario</button>
+							<button type="button" class="btn btn-xs btn-white">Semanal</button>
+							<button type="button" class="btn btn-xs btn-white">Mensual</button>
+							<button type="button" class="btn btn-xs btn-white">Anual</button>
+						</div>
+					</div>
+				</div>
+				<div class="ibox-content">
+					<div class="row">
+						<div class="col-lg-9">
+							<div class="flot-chart" ng-controller="dashboardFlotTwo as chart">
+								<div flot class="flot-chart-content" dataset="chart.flotData" options="chart.flotOptions"></div>
+							</div>
+						</div>
+						<div class="col-lg-3">
+							<div class="row text-center" ng-controller="chartJsCtrl as chart">
+								<div class="col-lg-6" >
+									<canvas polarchart options="chart.polarOptions" data="chart.polarData" width="80" height="80"></canvas>
+									<h5>Kolter</h5>
+								</div>
+								<div class="col-lg-6">
+									<canvas doughnutchart options="chart.doughnutOptions" data="chart.doughnutData" width="78" height="78"></canvas>
+									<h5>Maxtor</h5>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Boxes 1 ***************************************************************************************************************** -->
+
+	<div class="row">
+
+		<div class="col-lg-3">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Permanencia</h5>
+					<div ibox-tools></div>
+				</div>
+				<div class="ibox-content">
+					<h1><i class="fa fa-clock-o"></i>&nbsp;&nbsp; {{info.permanenceMedian}}</h1>
+					<small><i class="fa fa-tim"></i> Mediana de tiempo de permanencia</small>
+				</div>
+			</div>
+
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Visitas</h5>
+					<div ibox-tools></div>
+				</div>
+				<div class="ibox-content">
+					<h1><i class="fa fa-users"></i>&nbsp;&nbsp; {{info.avgVisits}} Visitas</h1>
+					<small><i class="fa fa-tim"></i> Promedio de Visitas en la tienda</small>
+				</div>
+			</div>
+
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Dia Alto</h5>
+					<div ibox-tools></div>
+				</div>
+				<div class="ibox-content">
+					<h1><i class="fa fa-arrow-circle-up"></i>&nbsp;&nbsp; {{info.higherDate}}</h1>
+					<small><i class="fa fa-tim"></i> D&iacute;a m&aacute;s alto</small>
+				</div>
+			</div>
+
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Dia Bajo</h5>
+					<div ibox-tools></div>
+				</div>
+				<div class="ibox-content">
+					<h1><i class="fa fa-arrow-circle-down"></i>&nbsp;&nbsp; {{info.lowerDate}}</h1>
+					<small><i class="fa fa-tim"></i> D&iacute;a m&aacute;s Bajo</small>
+				</div>
+			</div>
+		</div>
+
+		<!-- Boxes 2 ***************************************************************************************************************** -->
+
+		<div class="col-lg-9">
+
+			<div class="col-lg-6">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>D&iacute;as Altos vs D&iacute;as Bajos</h5>
+						<div ibox-tools></div>
+					</div>
+					<div class="ibox-content">
+						<div class="table-responsive" style="min-height:290px;">
+							<table  id="lower-days-table" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10" data-limit-navigation="5">
+								<thead>
+									<tr>
+										<th data-sort-ignore="true"></th>
+										<th data-sort-ignore="true"><center><br/>Fecha</center></th>
+										<th data-sort-ignore="true"><center><br/>D&iacute;a</center></th>
+										<th data-sort-ignore="true"><center><br/>Visitas</center></th>
+										<th data-sort-ignore="true"><center>Conversi&oacute;n<br/>Compra</center></th>
+										<th data-sort-ignore="true"><center>Ticket<br/>Promedio</center></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><center><i class="fa fa-level-up"></i></center></td>
+										<td><center>20/08</center></td>
+										<td><center>Lun</center></td>
+										<td><center>100</center></td>
+										<td><center>50%</center></td>
+										<td><center>$1.000</center></td>
+									</tr>
+									<tr>
+										<td><center><i class="fa fa-level-up"></i></center></td>
+										<td><center>20/08</center></td>
+										<td><center>Lun</center></td>
+										<td><center>100</center></td>
+										<td><center>50%</center></td>
+										<td><center>$1.000</center></td>
+									</tr>
+									<tr>
+										<td><center><i class="fa fa-level-up"></i></center></td>
+										<td><center>20/08</center></td>
+										<td><center>Lun</center></td>
+										<td><center>100</center></td>
+										<td><center>50%</center></td>
+										<td><center>$1.000</center></td>
+									</tr>
+									<tr>
+										<td><center><i class="fa fa-level-down"></i></center></td>
+										<td><center>20/08</center></td>
+										<td><center>Lun</center></td>
+										<td><center>100</center></td>
+										<td><center>50%</center></td>
+										<td><center>$1.000</center></td>
+									</tr>
+									<tr>
+										<td><center><i class="fa fa-level-down"></i></center></td>
+										<td><center>20/08</center></td>
+										<td><center>Lun</center></td>
+										<td><center>100</center></td>
+										<td><center>50%</center></td>
+										<td><center>$1.000</center></td>
+									</tr>
+									<tr>
+										<td><center><i class="fa fa-level-down"></i></center></td>
+										<td><center>20/08</center></td>
+										<td><center>Lun</center></td>
+										<td><center>100</center></td>
+										<td><center>50%</center></td>
+										<td><center>$1.000</center></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Boxes 3 ***************************************************************************************************************** -->
+
+			<div class="col-lg-6">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>Antenas Apagadas</h5>
+						<div ibox-tools></div>
+					</div>
+					<div class="ibox-content">
+						<div class="table-responsive" style="min-height:290px;">
+							<table  id="uptime-table" class="footable table table-stripped toggle-arrow-tiny" data-page-size="5" data-limit-navigation="5">
+								<thead>
+									<tr>
+										<th data-sort-ignore="true"><center>Tienda</center></th>
+										<th data-sort-ignore="true"><center>Fecha</center></th>
+										<th data-sort-ignore="true"><center>Hora Inicial</center></th>
+										<th data-sort-ignore="true"><center>Hora Final</center></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td><center>San Antonio</center></td>
+										<td><center>20/08</center></td>
+										<td><center>10:00</center></td>
+										<td><center>20:00</center></td>
+									</tr>
+									<tr>
+										<td><center>San Antonio</center></td>
+										<td><center>20/08</center></td>
+										<td><center>10:00</center></td>
+										<td><center>20:00</center></td>
+									</tr>
+									<tr>
+										<td><center>San Antonio</center></td>
+										<td><center>20/08</center></td>
+										<td><center>10:00</center></td>
+										<td><center>20:00</center></td>
+									</tr>
+									<tr>
+										<td><center>San Antonio</center></td>
+										<td><center>20/08</center></td>
+										<td><center>10:00</center></td>
+										<td><center>20:00</center></td>
+									</tr>
+									<tr>
+										<td><center>San Antonio</center></td>
+										<td><center>20/08</center></td>
+										<td><center>10:00</center></td>
+										<td><center>20:00</center></td>
+									</tr>
+									<tr>
+										<td><center>San Antonio</center></td>
+										<td><center>20/08</center></td>
+										<td><center>10:00</center></td>
+										<td><center>20:00</center></td>
+									</tr>
+									<tr>
+										<td><center>San Antonio</center></td>
+										<td><center>20/08</center></td>
+										<td><center>10:00</center></td>
+										<td><center>20:00</center></td>
+									</tr>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="4">
+											<ul class="pagination pull-right"></ul>
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Hour Chart ***************************************************************************************************************** -->
+
+			<div class="col-lg-12">
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+						<h5>Paseantes y Visitas por Horario</h5>
+						<div ibox-tools></div>
+					</div>
+					<div class="ibox-content">
+						<div class="table-responsive">
+							<div id="visits_by_hour"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+	<!-- Traffic by Hour Heatmap ***************************************************************************************************************** -->
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Entradas por Hora</h5>
+					<div ibox-tools></div>
+				</div>
+				<div class="ibox-content">
+					<div class="table-responsive">
+						<div id="heatmap_traffic_by_hour"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Occupation Heatmap ***************************************************************************************************************** -->
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Ocupaci&oacute;n por Hora</h5>
+					<div ibox-tools></div>
+				</div>
+				<div class="ibox-content">
+					<div class="table-responsive">
+						<div id="heatmap_occupation_by_hour"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Permanence By Entry Heatmap ***************************************************************************************************************** -->
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Permanencia por Hora: Entrada</h5>
+					<div ibox-tools></div>
+				</div>
+				<div class="ibox-content">
+					<div class="table-responsive">
+						<div id="heatmap_permanence_by_hour"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Permanence By Exit Heatmap ***************************************************************************************************************** -->
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Permanencia por Hora: Salida</h5>
+					<div ibox-tools></div>
+				</div>
+				<div class="ibox-content">
+					<div class="table-responsive">
+						<div id="heatmap_permanence_by_hour_exit"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Table Data ******************************************************************************************************************************** -->
+
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Datos Generales</h5>
+					<div ibox-tools></div>
+				</div>
+				<div class="ibox-content">
+					<div class="table-responsive">
+						<table  id="brand-table" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10" data-limit-navigation="5">
+							<thead>
+								<tr>
+									<th data-sort-initial="true" data-toggle="true" data-sort-name="key">
+										{{storeLabel}}
+									</th>
+									<th>Paseantes</th>
+									<th>Visitantes</th>
+									<th>Tickets</th>
+									<th>Ventas</th>
+									<th>Paseantes/Visitantes</th>
+									<th>Visitantes/Tickets</th>
+									<th>Día más Alto</th>
+									<th>Día más Bajo</th>
+									<th>Permanencia Promedio</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="10">
+										<ul class="pagination pull-right"></ul>
+									</td>
+								</tr>
+							</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
