@@ -207,6 +207,7 @@
 	$scope.init = function() {
         console.log($scope.processMinDate);
         $scope.classNoActiveAssignations = 'hidden';
+        $scope.classActiveAssignations = 'hidden';
 		if( $stateParams.hostname !== undefined ) {
 			$scope.hostname = $stateParams.hostname;
 		} else {
@@ -609,8 +610,10 @@
 
         if( activeCount == 0 ) {
             $scope.classNoActiveAssignations = '';
+            $scope.classActiveAssignations = 'hidden';
         } else {
             $scope.classNoActiveAssignations = 'hidden';
+            $scope.classActiveAssignations = '';
         }
 
 

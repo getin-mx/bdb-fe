@@ -12,6 +12,10 @@ config.baseUrl = 'http://api.allshoppings.mobi/bdb';
 config.dashUrl = 'http://api.allshoppings.mobi/appv2';
 config.uploadUrl = 'http://api.allshoppings.mobi/bdb/img/upload'
 
+// config.baseUrl = 'http://staging.getin.mx/bdb';
+// config.dashUrl = 'http://staging.getin.mx/appv2';
+// config.uploadUrl = 'http://staging.getin.mx/bdb/img/upload'
+
 // config.baseUrl = 'http://localhost:8081/bdb';
 // config.dashUrl = 'http://localhost:8081/appv2';
 // config.uploadUrl = 'http://localhost:8081/bdb/img/upload'
