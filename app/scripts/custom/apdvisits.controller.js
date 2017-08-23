@@ -197,7 +197,6 @@
 
         $http.post((CommonsService.getUrl('/dashboard/config')), $scope.dashboard)
         .then(function(data) {
-            console.log(data);
 
             if( data.status = 200 && data.data.error_code === undefined ) {
                 SweetAlert.swal({
@@ -264,6 +263,8 @@
         $scope.fromDate = $('#fromDate').val();
         $scope.toDate = $('#toDate').val();
 
+        $('#brand-table').data( "page-size",  $scope.pagination);
+        
         vm.filterAPDVisits($scope.brandId, $scope.storeId, $scope.fromDate, $scope.toDate);
     }
 
@@ -1199,7 +1200,6 @@
     };
 
     $scope.fillBrandTable = function(data) {
-        console.log(data);
         $('#brand-table>tbody>tr').each(function(index, elem){$(elem).remove();});
 
         //get the footable object
@@ -1229,7 +1229,6 @@
             maximumFractionDigits: 2 /* this might not be necessary */
         });
 
-        console.log(obj);
 
         var row = '<tr>'
                 + '<td data-value="' + obj.title + '">' + obj.title + '</td>'
