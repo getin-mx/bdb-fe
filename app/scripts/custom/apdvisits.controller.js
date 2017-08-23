@@ -13,6 +13,7 @@
     $scope.zoneAble = 'hidden';
     $scope.showRevenue = false;
     $scope.periodType = 'D';
+    $scope.pagination = 0;
 
     var globals = AuthenticationService.getCredentials();
     var credentials = globals.currentUser;
@@ -129,6 +130,7 @@
 
         $scope.updateStoreLabel();
         $scope.updateStoreList('#store', config.dashUrl, $scope.brandId);
+        $scope.upadtePagination('#pags');
         $scope.updateAPDVisits();
     }
 
@@ -154,6 +156,7 @@
 
         $scope.updateStoreLabel();
         $scope.updateStoreList('#store', config.dashUrl, $scope.brandId);
+        $scope.upadtePagination('#pags');
         $scope.updateAPDVisits();
         $scope.loadingSubmit = false;
     }
@@ -353,6 +356,19 @@
                 text: data.data.data[i].name
             }));
         }
+    }
+
+    $scope.upadtePagination = function(id) {
+      $(id).empty();
+
+      var values = [10, 20, 50, 100];
+      for (var i = 0; i < values.length; i++) {
+        $(id).append($('<option>', {
+            value: values[i],
+            text: values[i]
+        }));
+      }
+
     }
 
     this.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, periodType) {
@@ -1171,7 +1187,7 @@
             });
     };
     this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId) {
-        $http.get(CommonsService.getUrl('/dashboard/brandTableData') 
+        $http.get(CommonsService.getUrl('/dashboard/brandTableData')
             + '&entityId=' + entityId
             + '&entityKind=1'
             + '&fromStringDate=' + fromDate
@@ -1230,7 +1246,7 @@
         return row;
     }
 
-    
+
     this.backup_updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId) {
         $.getJSON(
             baseUrl

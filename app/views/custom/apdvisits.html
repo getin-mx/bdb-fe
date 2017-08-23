@@ -42,6 +42,17 @@
 								</select>
 							</div>
 						</div>
+						<div class="form-group col-lg-6">
+							<label class="font-noraml">Cantidad:</label>
+							<div class="input-group date">
+								<select name="pags" ng-model="pagination" id="pags" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;">
+									<option value="">10</option>
+									<option value="">20</option>
+									<option value="">50</option>
+									<option value="">100</option>
+								</select>
+							</div>
+						</div>
 						<div class="form-group col-lg-6" ng-class="zoneAble">
 							<label class="font-noraml">Zona:</label>
 							<div class="input-group date">
@@ -76,7 +87,7 @@
 			<div class="ibox-content">
 				<div class="ibox float-e-margins">
 					<div class="table-responsive" id="brand_performance_table">
-						<table  id="brand-table" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10" data-limit-navigation="5">
+						<table  id="brand-table" class="footable table table-stripped toggle-arrow-tiny" [data-page-size]="{pagination}" data-limit-navigation="5">
 							<thead>
 								<tr>
 									<th data-sort-initial="true" data-toggle="true" data-sort-name="key">
