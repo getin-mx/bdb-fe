@@ -121,7 +121,8 @@
           'areasmexico_mx',
           'liverpoolboutiques_mx',
           'cafe_balcarce_ar',
-          'ecobutik_mx'
+          'ecobutik_mx',
+          'fullsand_mx'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
@@ -147,7 +148,8 @@
           'areasmexico_mx',
           'liverpoolboutiques_mx',
           'cafe_balcarce_ar',
-          'ecobutik_mx'
+          'ecobutik_mx',
+          'fullsand_mx'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
@@ -264,7 +266,7 @@
         $scope.toDate = $('#toDate').val();
 
         $('#brand-table').data( "page-size",  $scope.pagination);
-        
+
         vm.filterAPDVisits($scope.brandId, $scope.storeId, $scope.fromDate, $scope.toDate);
     }
 
