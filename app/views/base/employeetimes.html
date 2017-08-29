@@ -17,7 +17,7 @@
 			<div class="ibox-content">
 				<div id="detalle">
 					<div class="row">
-						<div class="form-group col-lg-6">
+						<div class="form-group col-lg-4">
 							<label class="font-noraml">Rango de Fechas:</label>
 							<div class="input-group date" style="max-width: 400px;">
 								<input type="datetime" id="fromDate" ng-model="fromDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
@@ -26,10 +26,16 @@
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 							</div>
 						</div>
-						<div class="form-group col-lg-6">
+						<div class="form-group col-lg-4" ng-class="bystore">
 							<label class="font-noraml">{{storeLabel}}:</label>
 							<div class="input-group date">
 								<select  ng-model="store" data-ng-options="o.name for o in stores" class="form-control" style="width: 250px;"></select>
+							</div>
+						</div>
+						<div class="form-group col-lg-4" ng-class="byemployee">
+							<label class="font-noraml">Empleado:</label>
+							<div class="input-group date">
+								<select  ng-model="employee" data-ng-options="o.name for o in employees" class="form-control" style="width: 250px;"></select>
 							</div>
 						</div>
 					</div>
@@ -49,15 +55,28 @@
 		<div class="col-lg-12">
 			<div class="ibox-content">
 				<div class="ibox float-e-margins">
-					<div class="table-responsive" id="opentimes_table">
-						<table class="table table-striped" style="text-align: center;" >
-							<tr style="font-weight:bold;">
-								<td>{{storeLabel}}</td>
-								<td>Empleado</td>
-								<td>Dia</td>
-								<td>Entrada</td>
-								<td>Salida</td>
-							</tr>
+					<div class="table-responsive">
+						<table  id="employee-table" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10" data-limit-navigation="5">
+							<thead>
+								<tr>
+									<th data-sort-initial="true" data-toggle="true" data-sort-name="key">
+										{{storeLabel}}
+									</th>
+									<th>Empleado</th>
+									<th>Dia</th>
+									<th>Entrada</th>
+									<th>Salida</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+							<tfoot>
+								<tr>
+									<td colspan="5">
+										<ul class="pagination pull-right"></ul>
+									</td>
+								</tr>
+							</tfoot>
 						</table>
 					</div>
 				</div>

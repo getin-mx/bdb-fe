@@ -9,6 +9,8 @@
     $scope.brand = null;
     $scope.stores = null;
     $scope.store = null;
+    $scope.employees = null;
+    $scope.employee = null;
 
     var dToDate = new Date(new Date().getTime() - config.oneDay);
     var dFromDate = new Date(dToDate.getTime() - config.oneWeek);
@@ -60,24 +62,48 @@
         $http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
             + '&entityId=' + $scope.brand.id 
             + '&entityKind=1&onlyExternalIds=true')
-            .then($scope.postBrandChange);
-    }
+            .then(function(data) {
+                $scope.updateStoreLabel();
+                var store = {
+                    id: '',
+                    name: 'Todas'
+                }
+                $scope.stores.push(store);
+                for( var i = 0; i < data.data.data.length; i++ ) {
+                    var store = {
+                        id: data.data.data[i].identifier,
+                        name: data.data.data[i].name
+                    }
+                    $scope.stores.push(store);
+                }
+                $scope.store = $scope.stores[0];
+                $scope.loadingRefresh = false;
 
-    $scope.postBrandChange = function(data) {
+                $scope.refresh();
+            });
 
-        $scope.updateStoreLabel();
-        for( var i = 0; i < data.data.data.length; i++ ) {
-            var store = {
-                id: data.data.data[i].identifier,
-                name: data.data.data[i].name
-            }
-            $scope.stores.push(store);
-        }
-        $scope.store = $scope.stores[0];
-        $scope.loadingRefresh = false;
+        $scope.employees = new Array();
+        $http.get(CommonsService.getUrl('/dashboard/assignedEmployeeList')
+            + '&entityId=' + $scope.brand.id 
+            + '&entityKind=1')
+            .then(function(data) {
+                var employee = {
+                    id: '',
+                    name: 'Todos'
+                }
+                $scope.employees.push(employee);
+                for( var i = 0; i < data.data.data.length; i++ ) {
+                    var employee = {
+                        id: data.data.data[i].identifier,
+                        name: data.data.data[i].name
+                    }
+                    $scope.employees.push(employee);
+                }
+                $scope.employee = $scope.employees[0];
+                $scope.loadingRefresh = false;
 
-        $scope.refresh();
-
+                $scope.refresh();
+            });
     }
 
     $scope.updateStoreLabel = function() {
@@ -102,40 +128,56 @@
         $scope.toDate = $('#toDate').val();
 
         $('#opentimes_table').html('');
-        $scope.updateTable('#opentimes_table', config.baseUrl, $scope.fromDate, $scope.toDate, $scope.store.id);
+        $scope.updateTable();
         CommonsService.safeApply($scope);
     }
 
-    $scope.updateTable = function(id, baseUrl, fromDate, toDate, entityId) {
+    $scope.updateTable = function() {
+        var eid;
+        var ekind;
+        var emp = '';
+        if( $scope.store.id == '' ) {
+            eid = $scope.brand.id;
+            ekind = 1;
+        } else {
+            eid = $scope.store.id;
+            ekind = 1;
+        }
+
+        if( $scope.employee !== null && $scope.employee.id !== undefined ) {
+            emp = $scope.employee.id;
+        }
+
         $.getJSON(
-            baseUrl 
-            + '/dashboard/employeetimes'
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId
-            + '&entityKind=3' 
-            + '&fromStringDate=' + fromDate 
-            + '&toStringDate=' + toDate ,
+            CommonsService.getUrl('/dashboard/employeetimes')
+            + '&entityId=' + eid
+            + '&entityKind=' + ekind 
+            + '&employeeId=' + emp
+            + '&fromStringDate=' + $scope.fromDate 
+            + '&toStringDate=' + $scope.toDate ,
             function(data) {
-                var tab = '';
-                tab = '<table class="table table-striped" style="text-align: center;" >';
-                tab += '<tr style="font-weight:bold;">';
-                tab += '<td>' + $scope.storeLabel + '</td>';
-                tab += '<td>Empleado</td>';
-                tab += '<td>Dia</td>';
-                tab += '<td>Entrada</td>';
-                tab += '<td>Salida</td>';
-                tab += '</tr>';
-                tab += '<tbody>';
-                for (var i = 1; i < data.length; i++) {
-                    tab += '<tr>';
-                    for (var x = 0; x < data[i].length; x++) {
-                        tab += '<td>' + data[i][x] + '</td>';
-                    }
-                    tab += '</tr>';
+
+                $('#employee-table>tbody>tr').each(function(index, elem){$(elem).remove();});
+
+                //get the footable object
+                var table = $('#employee-table').data('footable');
+
+                var newRow = '';
+                for(var i = 0; i < data.data.length; i++) {
+                    var obj = data.data[i];
+                    var row = '<tr>'
+                            + '<td><center>' + obj.store + '</center></td>'
+                            + '<td><center>' + obj.employee + '</center></td>'
+                            + '<td><center>' + obj.date + '</center></td>'
+                            + '<td><center>' + obj.start + '</center></td>'
+                            + '<td><center>' + obj.finish + '</center></td>'
+                            + '</tr>';
+
+                    newRow += row;
                 }
-                tab += '</tbody>';
-                tab += '</table>';
-                $(id).html(tab);
+
+                table.appendRow(newRow);
+
                 $scope.loadingRefresh = false;
                 CommonsService.safeApply($scope);
             });
