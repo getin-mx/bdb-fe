@@ -166,11 +166,11 @@
                 for(var i = 0; i < data.data.length; i++) {
                     var obj = data.data[i];
                     var row = '<tr>'
-                            + '<td data-value="' + obj.store + ':' + obj.employee + ':' + obj.date + '"><center>' + obj.store + '</center></td>'
-                            + '<td data-value="' + obj.employee + ':' + obj.date + '"><center>' + obj.employee + '</center></td>'
-                            + '<td data-value="' + obj.date + ':' + obj.store + ':' + obj.employee + '"><center>' + obj.date + '</center></td>'
-                            + '<td data-value="' + obj.start + '"><center>' + obj.start + '</center></td>'
-                            + '<td data-value="' + obj.finish + '"><center>' + obj.finish + '</center></td>'
+                            + '<td data-value="' + obj.store + ':' + obj.employee + ':' + obj.date + ':' + obj.start + '"><center>' + obj.store + '</center></td>'
+                            + '<td data-value="' + obj.employee + ':' + obj.date + ':' + obj.start + '"><center>' + obj.employee + '</center></td>'
+                            + '<td data-value="' + obj.date + ':' + obj.start + ':' + obj.store + ':' + obj.employee + '"><center>' + obj.date + '</center></td>'
+                            + '<td data-value="' + obj.date + ':' + obj.start + '"><center>' + obj.start + '</center></td>'
+                            + '<td data-value="' + obj.date + ':' + obj.finish + '"><center>' + obj.finish + '</center></td>'
                             + '</tr>';
 
                     newRow += row;
