@@ -122,7 +122,8 @@
           'liverpoolboutiques_mx',
           'cafe_balcarce_ar',
           'ecobutik_mx',
-          'fullsand_mx'
+          'fullsand_mx',
+          'sallybeauty_mx'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
@@ -149,7 +150,8 @@
           'liverpoolboutiques_mx',
           'cafe_balcarce_ar',
           'ecobutik_mx',
-          'fullsand_mx'
+          'fullsand_mx',
+          'sallybeauty_mx'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
