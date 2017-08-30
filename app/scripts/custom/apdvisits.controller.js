@@ -1217,10 +1217,15 @@
 
         table.appendRow(newRow);
 
+        $('#brand-table>tfoot>tr').each(function(index, elem){
+            if( index == 0 ) $(elem).remove();
+        });
+        $('#brand-table>tfoot').prepend($scope.fillBrandRecord(data.data.totals, true));
+
         $('#brand-count').html('&nbsp;(' + data.data.recordCount + ')');
     }
 
-    $scope.fillBrandRecord = function(obj) {
+    $scope.fillBrandRecord = function(obj, bold = false) {
 
         var formatter1 = new Intl.NumberFormat('en-US');
         var formatter2 = new Intl.NumberFormat('en-US', {
@@ -1233,18 +1238,20 @@
             maximumFractionDigits: 2 /* this might not be necessary */
         });
 
+        var b1 = bold == true ? "<b>" : "";
+        var b2 = bold == true ? "</b>" : "";
 
         var row = '<tr>'
-                + '<td data-value="' + obj.title + '">' + obj.title + '</td>'
-                + '<td data-value="' + obj.peasants + '"><center>' + formatter1.format(obj.peasants) + '</center></td>'
-                + '<td data-value="' + obj.visitors + '"><center>' +  formatter1.format(obj.visitors) + '</center></td>'
-                + '<td data-value="' + obj.tickets + '"><center>' +  formatter1.format(obj.tickets) + '</center></td>'
-                + '<td data-value="' + obj.revenue + '"><center>' +  formatter2.format(obj.revenue) + '</center></td>'
-                + '<td data-value="' + obj.visitsConversion + '"><center>' + formatter3.format(obj.visitsConversion) + '%' + '</center></td>'
-                + '<td data-value="' + obj.ticketsConversion + '"><center>' + formatter3.format(obj.ticketsConversion) + '%' + '</center></td>'
-                + '<td data-value="' + obj.higherDay + '"><center>' + obj.higherDay + '</center></td>'
-                + '<td data-value="' + obj.lowerDay + '"><center>' + obj.lowerDay + '</center></td>'
-                + '<td data-value="' + obj.averagePermanence + '"><center>' + formatter1.format(obj.averagePermanence) + ' mins' + '</center></td>'
+                + '<td data-value="' + obj.title + '">' + b1 + obj.title + b2 + '</td>'
+                + '<td data-value="' + obj.peasants + '"><center>'  + b1 + formatter1.format(obj.peasants) + b2 + '</center></td>'
+                + '<td data-value="' + obj.visitors + '"><center>'  + b1 +  formatter1.format(obj.visitors) + b2 + '</center></td>'
+                + '<td data-value="' + obj.tickets + '"><center>'  + b1 +  formatter1.format(obj.tickets) + b2 + '</center></td>'
+                + '<td data-value="' + obj.revenue + '"><center>'  + b1 +  formatter2.format(obj.revenue) + b2 + '</center></td>'
+                + '<td data-value="' + obj.visitsConversion + '"><center>'  + b1 + formatter3.format(obj.visitsConversion) + '%' + b2 + '</center></td>'
+                + '<td data-value="' + obj.ticketsConversion + '"><center>'  + b1 + formatter3.format(obj.ticketsConversion) + '%' + b2 + '</center></td>'
+                + '<td data-value="' + obj.higherDay + '"><center>'  + b1 + obj.higherDay + b2 + '</center></td>'
+                + '<td data-value="' + obj.lowerDay + '"><center>'  + b1 + obj.lowerDay + b2 + '</center></td>'
+                + '<td data-value="' + obj.averagePermanence + '"><center>'  + b1 + formatter1.format(obj.averagePermanence) + ' mins' + b2 + '</center></td>'
                 + '</tr>';
         return row;
     }
