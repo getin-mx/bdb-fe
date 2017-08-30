@@ -1212,7 +1212,7 @@
         var newRow = '';
         for(var i = 0; i < data.data.data.length; i++) {
             var obj = data.data.data[i];
-            newRow += $scope.fillBrandRecord(obj);
+            newRow += $scope.fillBrandRecord(obj, false);
         }
 
         table.appendRow(newRow);
@@ -1225,7 +1225,7 @@
         $('#brand-count').html('&nbsp;(' + data.data.recordCount + ')');
     }
 
-    $scope.fillBrandRecord = function(obj, bold = false) {
+    $scope.fillBrandRecord = function(obj, bold) {
 
         var formatter1 = new Intl.NumberFormat('en-US');
         var formatter2 = new Intl.NumberFormat('en-US', {
