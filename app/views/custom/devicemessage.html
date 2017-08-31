@@ -8,10 +8,24 @@
 				<!-- Tabla -->
                     <form class="form-horizontal">
 						<div class="input-group">
+
+						<div>
+							<label class="col-sm-3 control-label">Tipo de Envío</label>
+							<div class="col-sm-9"><select ng-model="type" ng-change="typeChange()" data-ng-options="o.name for o in types" class="input form-control"></select></div>
+						</div>
+
+						<div class="col-sm-12"><br/></div>
+
+						<div ng-class="typeDevice">
+							<label class="col-sm-3 control-label">Dispositivo</label>
+		                    <div class="col-sm-9"><input type="text" ng-model="deviceUUID" class="form-control"></div>
+						</div>
 	
-						<label class="col-sm-3 control-label">Dispositivo</label>
-	                    <div class="col-sm-9"><input type="text" ng-model="deviceUUID" class="form-control"></div>
-	
+						<div ng-class="typeUser">
+							<label class="col-sm-3 control-label">Usuario</label>
+		                    <div class="col-sm-9"><input type="text" ng-model="userId" class="form-control"></div>
+						</div>
+
 						<label class="col-sm-3 control-label">Titulo</label>
 	                    <div class="col-sm-9"><input type="text" ng-model="title" class="form-control"></div>
 
