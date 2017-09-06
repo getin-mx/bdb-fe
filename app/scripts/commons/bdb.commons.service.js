@@ -22,6 +22,37 @@ function CommonsService($http, $cookieStore, $rootScope) {
 		}
 	}
 
+	this.clone = function clone(obj) {
+    var copy;
+    // Handle the 3 simple types, and null or undefined
+    if (null == obj || "object" != typeof obj) return obj;
+    // Handle Date
+    if (obj instanceof Date) {
+        copy = new Date();
+        copy.setTime(obj.getTime());
+        return copy;
+    }
+    // Handle Array
+    if (obj instanceof Array) {
+        copy = [];
+        for (var i = 0, len = obj.length; i < len; i++) {
+            copy[i] = clone(obj[i]);
+        }
+        return copy;
+    }
+
+    // Handle Object
+    if (obj instanceof Object) {
+        copy = {};
+        for (var attr in obj) {
+            if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
+        }
+        return copy;
+    }
+
+    throw new Error("Unable to copy obj! Its type isn't supported.");
+	}
+
 	this.paginateCommonTable = function($scope, entity, data, status, role ) {
 		var strStatus;
 		var fnStatus;
@@ -32,7 +63,7 @@ function CommonsService($http, $cookieStore, $rootScope) {
 			fnStatus = $scope.fillTableActive;
 		} else {
 			strStatus = 'inactive';
-			fnStatus = $scope.fillTableInactive; 
+			fnStatus = $scope.fillTableInactive;
 		}
 
 		//get the footable object
@@ -50,9 +81,9 @@ function CommonsService($http, $cookieStore, $rootScope) {
 			$scope.status[idxStatus].ft = ft;
 			$scope.status[idxStatus].pageNumber = pageNumber;
 
-			$http.get(vm.getUrl('/' + entity) 
-				+ '&from=' + from 
-				+ '&to=' + to 
+			$http.get(vm.getUrl('/' + entity)
+				+ '&from=' + from
+				+ '&to=' + to
 				+ '&status=' + status
 				+ (role === undefined ? '' : '&role=' + role)
 				+ ($scope.country === undefined ? '' : '&country=' + $scope.country.id)
@@ -132,8 +163,8 @@ function CommonsService($http, $cookieStore, $rootScope) {
 
 	this.getTimestamp = function () {
 		if (!Date.now) {
-    		Date.now = function() { 
-    			return new Date().getTime(); 
+    		Date.now = function() {
+    			return new Date().getTime();
     		}
 		}
 
@@ -155,7 +186,7 @@ Date.daysBetween = function( date1, date2 ) {
   var difference_ms = date2_ms - date1_ms;
 
   // Convert back to days and return
-  return Math.round(difference_ms/one_day); 
+  return Math.round(difference_ms/one_day);
 }
 
 angular
