@@ -123,7 +123,8 @@
           'cafe_balcarce_ar',
           'ecobutik_mx',
           'fullsand_mx',
-          'sallybeauty_mx'
+          'sallybeauty_mx',
+          'delicafe_mx'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
@@ -151,7 +152,8 @@
           'cafe_balcarce_ar',
           'ecobutik_mx',
           'fullsand_mx',
-          'sallybeauty_mx'
+          'sallybeauty_mx',
+          'delicafe_mx'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
