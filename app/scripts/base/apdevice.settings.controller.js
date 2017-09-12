@@ -22,6 +22,7 @@
     var BAR_COLOR = "#ED5565";
     var BAR_COLOR_NEUTRAL = "#EEE";
 
+  $scope.remote = {};
 	$scope.obj = {
         visitPowerThreshold: -60,
 		    peasantPowerThreshold: -200,
@@ -227,13 +228,14 @@
 	}
 
     $scope.update = function() {
+
         $scope.loadingSubmit = true;
 
         $scope.obj.visitTimeThreshold = $scope.visitTimeThresholdObj.getFrom();
         $scope.obj.visitMaxThreshold = $scope.visitTimeThresholdObj.getTo();
         $scope.obj.visitCountThreshold = $scope.visitCountThresholdObj.getFrom();
         $scope.obj.visitGapThreshold = $scope.visitGapThresholdObj.getFrom();
-
+        
         $scope.obj.monitorStart = $scope.toTime($scope.monitorObj.getFrom());
         $scope.obj.monitorEnd = $scope.toTime($scope.monitorObj.getTo());
 
@@ -366,6 +368,7 @@
       $scope['visit'+formattedDay].to = $scope.fromTime($scope.obj['visitStart'+formattedDay]);
       $scope['visit'+formattedDay+'Obj'] = $('#visit'+formattedDay).data('ionRangeSlider');
       $scope['visit'+formattedDay+'Obj'].update($scope['visit'+formattedDay]);
+      //flag for day gets inverted
       $scope.obj[day.slice(0,3) + 'Inverted'] = true;
       $scope.invertDay(true, day);
     } else{
@@ -376,8 +379,11 @@
     }
   }
 
-  $scope.invert = function() {
+  $scope.invert = function(day) {
     console.log("inverting");
+    var invertedName = [day.slice(0,3) + 'Inverted'];
+    console.log($scope.obj[invertedName]);
+    $scope.invertDay($scope.obj[invertedName], day);
   }
 
   $scope.invertDay = function(invert, day) {

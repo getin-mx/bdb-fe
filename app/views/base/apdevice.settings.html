@@ -107,8 +107,8 @@
 					<div class="row monday-container">
 						<div class="col-sm-1">
 							<div class="checkbox checkbox-success topmargin20">
-								<input type="checkbox" ng-model="obj.monInverted" checked="">
-								<label></label>
+								<input id="invertedOnMon" type="checkbox" ng-model="obj.monInverted" ng-change="invert('monday')">
+								<label for="invertedOnMon"></label>
 							</div>
 
 						</div>
@@ -128,8 +128,8 @@
 					<div class="row tuesday-container">
 						<div class="col-sm-1">
 							<div class="checkbox checkbox-success topmargin20">
-								<input type="checkbox" ng-model="obj.tueInverted" checked="">
-								<label></label>
+								<input id="invertedOnTue" type="checkbox" ng-model="obj.tueInverted" ng-change="invert('tuesday')">
+								<label for="invertedOnTue"></label>
 							</div>
 
 						</div>
@@ -149,8 +149,8 @@
 					<div class="row wednesday-container">
 						<div class="col-sm-1">
 							<div class="checkbox checkbox-success topmargin20">
-								<input type="checkbox" ng-model="obj.wedInverted" checked="">
-								<label></label>
+								<input id="invertedOnWed" type="checkbox" ng-model="obj.wedInverted" ng-change="invert('wednesday')">
+								<label for="invertedOnWed"></label>
 							</div>
 
 						</div>
@@ -170,8 +170,8 @@
 					<div class="row thursday-container">
 						<div class="col-sm-1">
 							<div class="checkbox checkbox-success topmargin20">
-								<input type="checkbox" ng-model="obj.thuInverted" ng-click="console.log('haha')" >
-								<label></label>
+								<input id="invertedOnThu" type="checkbox" ng-model="obj.thuInverted" ng-change="invert('thursday')">
+								<label for="invertedOnThu"></label>
 							</div>
 
 						</div>
@@ -191,8 +191,8 @@
 					<div class="row friday-container">
 						<div class="col-sm-1">
 							<div class="checkbox checkbox-success topmargin20">
-								<input type="checkbox" ng-model="obj.friInverted" checked="">
-								<label></label>
+								<input id="invertedOnFri" type="checkbox" ng-model="obj.friInverted" ng-change="invert('friday')">
+								<label for="invertedOnFri"></label>
 							</div>
 						</div>
 						<div class="col-sm-2">
@@ -211,8 +211,8 @@
 					<div class="row saturday-container">
 						<div class="col-sm-1">
 							<div class="checkbox checkbox-success topmargin20">
-								<input type="checkbox" ng-model="obj.satInverted" checked="">
-								<label></label>
+								<input id="invertedOnSat" type="checkbox" ng-model="obj.satInverted" ng-change="invert('saturday')">
+								<label for="invertedOnSat"></label>
 							</div>
 
 						</div>
@@ -232,8 +232,8 @@
 					<div class="row sunday-container">
 						<div class="col-sm-1">
 							<div class="checkbox checkbox-success topmargin20">
-								<input type="checkbox" ng-model="obj.sunInverted" checked="">
-								<label></label>
+								<input id="invertedOnSun" type="checkbox" ng-model="obj.sunInverted" ng-change="invert('sunday')">
+								<label for="invertedOnSun"></label>
 							</div>
 
 						</div>
