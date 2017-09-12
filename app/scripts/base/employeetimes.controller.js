@@ -34,7 +34,7 @@
             // validate token
             if( data.status != 200 || data.data.error_code !== undefined )
                 AuthenticationService.logout(function(response) {
-                    $location.path('/login');    
+                    $location.path('/login');
                 });
 
             if( data.data.data.length == 1 ) {
@@ -60,7 +60,7 @@
         $scope.stores = new Array();
         $scope.loadingRefresh = true;
         $http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
-            + '&entityId=' + $scope.brand.id 
+            + '&entityId=' + $scope.brand.id
             + '&entityKind=1&onlyExternalIds=true')
             .then(function(data) {
                 $scope.updateStoreLabel();
@@ -84,7 +84,7 @@
 
         $scope.employees = new Array();
         $http.get(CommonsService.getUrl('/dashboard/assignedEmployeeList')
-            + '&entityId=' + $scope.brand.id 
+            + '&entityId=' + $scope.brand.id
             + '&entityKind=1')
             .then(function(data) {
                 var employee = {
@@ -108,7 +108,7 @@
 
     $scope.updateStoreLabel = function() {
         $http.get(CommonsService.getUrl('/dashboard/config')
-            + '&entityId=' + $scope.brandId 
+            + '&entityId=' + $scope.brandId
             + '&entityKind=1')
         .then(function(data){
             try {
@@ -141,7 +141,7 @@
             ekind = 1;
         } else {
             eid = $scope.store.id;
-            ekind = 1;
+            ekind = 3;
         }
 
         if( $scope.employee !== null && $scope.employee.id !== undefined ) {
@@ -151,9 +151,9 @@
         $.getJSON(
             CommonsService.getUrl('/dashboard/employeetimes')
             + '&entityId=' + eid
-            + '&entityKind=' + ekind 
+            + '&entityKind=' + ekind
             + '&employeeId=' + emp
-            + '&fromStringDate=' + $scope.fromDate 
+            + '&fromStringDate=' + $scope.fromDate
             + '&toStringDate=' + $scope.toDate ,
             function(data) {
 
