@@ -19,6 +19,7 @@
         'summernote',                   // Summernote text editor
         'angular-flot',                 // Flot Charts
         'angles',                       // Chartjs
-        'BrowserCache'
+        'BrowserCache',
+        'save2pdf'
     ])
 })();

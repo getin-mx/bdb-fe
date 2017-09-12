@@ -6,7 +6,10 @@
  	var vm = this;
 
 	// List variables
-	$scope.brands = null; 	
+  $scope.exportPDF = function() {
+    console.log('export to pdf');
+  };
+	$scope.brands = null;
 	$scope.brand = null;
 
 	$scope.stores = null;
@@ -70,12 +73,146 @@
 		$scope.generateGeneralInfo();
 		$scope.generateVisitsByHourChart();
 		$scope.generateTrafficByHourHeatmap();
+    $scope.generateConversionGauges();
 		$scope.generateOccupationHeatmap();
 		$scope.generatePermanenceEntryHeatmap();
 		$scope.generatePermanenceExitHeatmap();
 		$scope.generateBrandPerformanceTable();
 	}
 
+  $scope.generateConversionGauges = function() {
+    $('.conversion_tickets').highcharts({
+        chart: {
+          type: 'solidgauge'
+        },
+        title: null,
+        pane: {
+          center: ['50%', '90%'],
+          size: '100%',
+          startAngle: -90,
+          endAngle: 90,
+          background: {
+              backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+              innerRadius: '60%',
+              outerRadius: '100%',
+              shape: 'arc'
+          }
+        },
+        tooltip: {
+          enabled: false
+        },
+        // the value axis
+        yAxis: {
+          min: 0,
+          max: 100,
+          title: {
+              text: 'Conversión de tickets',
+              y: -70
+          },
+          stops: [
+              [0.1, '#137499'], // green
+              [0.5, '#137499'], // yellow
+              [0.9, '#137499'] // red
+          ],
+          lineWidth: 0,
+          minorTickInterval: null,
+          tickAmount: 2,
+          labels: {
+              y: 16
+          }
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            name: 'Speed',
+            data: [20],
+            dataLabels: {
+                format: '<div style="text-align:center"><span style="font-size:14px;color:' +
+                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}%</span><br/>' +
+                       '</div>'
+            },
+            tooltip: {
+                valueSuffix: ' km/h'
+            }
+        }],
+        plotOptions: {
+            solidgauge: {
+                dataLabels: {
+                    y: 5,
+                    borderWidth: 0,
+                    useHTML: true
+                }
+            }
+        }
+     });
+
+  $('.conversion_visits').highcharts({
+      chart: {
+        type: 'solidgauge'
+      },
+      title: null,
+      pane: {
+        center: ['50%', '90%'],
+        size: '100%',
+        startAngle: -90,
+        endAngle: 90,
+        background: {
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+            innerRadius: '60%',
+            outerRadius: '100%',
+            shape: 'arc'
+        }
+      },
+      tooltip: {
+        enabled: false
+      },
+      // the value axis
+      yAxis: {
+        min: 0,
+        max: 100,
+        title: {
+            text: 'Conversión de visitas',
+            y: -70
+        },
+        stops: [
+          [0.1, '#137499'], // green
+          [0.5, '#137499'], // yellow
+          [0.9, '#137499'] // red
+        ],
+        lineWidth: 0,
+        minorTickInterval: null,
+        tickAmount: 2,
+        labels: {
+            y: 16
+        }
+      },
+      credits: {
+          enabled: false
+      },
+      series: [{
+          name: 'Speed',
+          data: [80],
+          dataLabels: {
+              format: '<div style="text-align:center"><span style="font-size:14px;color:' +
+                  ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}%</span><br/>' +
+                     '</div>'
+          },
+          tooltip: {
+              valueSuffix: ' km/h'
+          }
+      }],
+      plotOptions: {
+          solidgauge: {
+              dataLabels: {
+                  y: 5,
+                  borderWidth: 0,
+                  useHTML: true
+              }
+          }
+      }
+   });
+  };
 
 	// Visits by hour
 	$scope.generateVisitsByHourChart = function() {
@@ -171,7 +308,7 @@
 					series: data.series
 				});
 			});
-	}
+	};
 
 
     $scope.generateTrafficByHourHeatmap = function() {
@@ -660,7 +797,7 @@
     };
 
     $scope.generateGeneralInfo = function() {
-        $http.get(CommonsService.getUrl('/dashboard/generalData') 
+        $http.get(CommonsService.getUrl('/dashboard/generalData')
             + '&entityId=' + $scope.brand.id
             + '&subentityId=' + $scope.store.id
             + '&entityKind=1'
@@ -709,7 +846,7 @@
     };
 
     $scope.generateBrandPerformanceTable = function() {
-        $http.get(CommonsService.getUrl('/dashboard/brandTableData') 
+        $http.get(CommonsService.getUrl('/dashboard/brandTableData')
             + '&entityId=' + $scope.brand.id
             + '&entityKind=1'
 			+ '&fromStringDate=' + $scope.fromDate
@@ -752,7 +889,7 @@
 
 	// Define available stores
 	$scope.setAvailableBrands = function() {
-		
+
 		$http.get(CommonsService.getUrl('/dashboard/assignedBrandList'))
 		.then(function(data) {
 
@@ -844,7 +981,7 @@
 		$scope.stores = new Array();
 		$scope.loadingSubmit = true;
 		$http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
-			+ '&entityId=' + $scope.brand.id 
+			+ '&entityId=' + $scope.brand.id
 			+ '&entityKind=1&onlyExternalIds=true')
 		.then(function(data) {
 
@@ -986,7 +1123,7 @@
 			if($scope.annualCalendar[i].fromDate <= d && $scope.annualCalendar[i].toDate >= d)
 				$scope.annualCalendarDate = $scope.annualCalendar[i];
 		}
-		
+
 		if( $scope.periodType.id == 'week') {
 			$scope.retailCalendarChange();
 		} else if( $scope.periodType.id == 'month') {
@@ -997,7 +1134,7 @@
 			$scope.annualCalendarChange();
 		}
 	}
-	
+
 	return vm;
 };
 
@@ -1008,22 +1145,22 @@
  function dashboardFlotTwo() {
 
  	var data1 = [
- 	[gd(2012, 1, 1), 7],
- 	[gd(2012, 1, 2), 6],
- 	[gd(2012, 1, 3), 4],
- 	[gd(2012, 1, 4), 8],
- 	[gd(2012, 1, 5), 9],
- 	[gd(2012, 1, 6), 7],
+ 	[gd(2012, 1, 1), 50],
+ 	[gd(2012, 1, 2), 66],
+ 	[gd(2012, 1, 3), 47],
+ 	[gd(2012, 1, 4), 89],
+ 	[gd(2012, 1, 5), 90],
+ 	[gd(2012, 1, 6), 24],
  	[gd(2012, 1, 7), 5],
- 	[gd(2012, 1, 8), 4],
- 	[gd(2012, 1, 9), 7],
+ 	[gd(2012, 1, 8), 45],
+ 	[gd(2012, 1, 9), 70],
  	[gd(2012, 1, 10), 8],
  	[gd(2012, 1, 11), 9],
- 	[gd(2012, 1, 12), 6],
- 	[gd(2012, 1, 13), 4],
- 	[gd(2012, 1, 14), 5],
- 	[gd(2012, 1, 15), 11],
- 	[gd(2012, 1, 16), 8],
+ 	[gd(2012, 1, 12), 40],
+ 	[gd(2012, 1, 13), 49],
+ 	[gd(2012, 1, 14), 53],
+ 	[gd(2012, 1, 15), 80],
+ 	[gd(2012, 1, 16), 70],
  	[gd(2012, 1, 17), 8],
  	[gd(2012, 1, 18), 11],
  	[gd(2012, 1, 19), 11],
@@ -1040,6 +1177,41 @@
  	[gd(2012, 1, 30), 8],
  	[gd(2012, 1, 31), 25]
  	];
+
+  var data3 = [
+  [gd(2012, 1, 1), 70],
+  [gd(2012, 1, 2), 60],
+  [gd(2012, 1, 3), 40],
+  [gd(2012, 1, 4), 80],
+  [gd(2012, 1, 5), 90],
+  [gd(2012, 1, 6), 70],
+  [gd(2012, 1, 7), 50],
+  [gd(2012, 1, 8), 40],
+  [gd(2012, 1, 9), 70],
+  [gd(2012, 1, 10), 80],
+  [gd(2012, 1, 11), 90],
+  [gd(2012, 1, 12), 60],
+  [gd(2012, 1, 13), 40],
+  [gd(2012, 1, 14), 50],
+  [gd(2012, 1, 15), 110],
+  [gd(2012, 1, 16), 80],
+  [gd(2012, 1, 17), 80],
+  [gd(2012, 1, 18), 110],
+  [gd(2012, 1, 19), 110],
+  [gd(2012, 1, 20), 60],
+  [gd(2012, 1, 21), 60],
+  [gd(2012, 1, 22), 80],
+  [gd(2012, 1, 23), 110],
+  [gd(2012, 1, 24), 130],
+  [gd(2012, 1, 25), 70],
+  [gd(2012, 1, 26), 90],
+  [gd(2012, 1, 27), 90],
+  [gd(2012, 1, 28), 80],
+  [gd(2012, 1, 29), 50],
+  [gd(2012, 1, 30), 80],
+  [gd(2012, 1, 31), 250]
+  ];
+
 
  	var data2 = [
  	[gd(2012, 1, 1), 800],
@@ -1078,7 +1250,7 @@
 
  	var dataset = [
  	{
- 		label: "Number of orders",
+ 		label: "Ventas",
  		grow:{stepMode:"linear"},
  		data: data2,
  		color: "#1ab394",
@@ -1090,23 +1262,45 @@
  		}
 
  	},
- 	{
- 		label: "Payments",
+  {
+ 		label: "Tickets",
  		grow:{stepMode:"linear"},
- 		data: data1,
+ 		data: data3,
  		yaxis: 2,
  		color: "#1C84C6",
  		lines: {
- 			lineWidth: 1,
+ 			lineWidth: 2,
  			show: true,
  			fill: true,
  			fillColor: {
  				colors: [
  				{
- 					opacity: 0.2
+ 					opacity: 0.1
  				},
  				{
- 					opacity: 0.2
+ 					opacity: 0.1
+ 				}
+ 				]
+ 			}
+ 		}
+ 	},
+ 	{
+ 		label: "Visitas",
+ 		grow:{stepMode:"linear"},
+ 		data: data1,
+ 		yaxis: 2,
+ 		color: "#ff4444",
+ 		lines: {
+ 			lineWidth: 2,
+ 			show: true,
+ 			fill: true,
+ 			fillColor: {
+ 				colors: [
+ 				{
+ 					opacity: 0.1
+ 				},
+ 				{
+ 					opacity: 0.1
  				}
  				]
  			}

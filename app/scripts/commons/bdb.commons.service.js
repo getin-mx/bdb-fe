@@ -53,6 +53,11 @@ function CommonsService($http, $cookieStore, $rootScope) {
     throw new Error("Unable to copy obj! Its type isn't supported.");
 	}
 
+
+	this.simulateKeyPress = function(character) {
+			jQuery.event.trigger({ type : 'keypress', which : character.charCodeAt(0) });
+	}
+
 	this.paginateCommonTable = function($scope, entity, data, status, role ) {
 		var strStatus;
 		var fnStatus;
@@ -65,6 +70,8 @@ function CommonsService($http, $cookieStore, $rootScope) {
 			strStatus = 'inactive';
 			fnStatus = $scope.fillTableInactive;
 		}
+
+
 
 		//get the footable object
 		var table = $('#' + entity + '-' + strStatus + '-table').data('footable');

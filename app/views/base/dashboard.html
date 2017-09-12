@@ -1,4 +1,5 @@
 <div class="wrapper wrapper-content animated fadeInRight" ng-controller="DashboardCtrl" data-ng-init="initDashboard()">
+<div save2pdf>
 
 	<!-- Header ***************************************************************************************************************** -->
 	<div class="row">
@@ -157,20 +158,18 @@
 				</div>
 				<div class="ibox-content">
 					<div class="row">
-						<div class="col-lg-9">
+						<div class="col-lg-8">
 							<div class="flot-chart" ng-controller="dashboardFlotTwo as chart">
 								<div flot class="flot-chart-content" dataset="chart.flotData" options="chart.flotOptions"></div>
 							</div>
 						</div>
-						<div class="col-lg-3">
+						<div class="col-lg-4">
 							<div class="row text-center" ng-controller="chartJsCtrl as chart">
-								<div class="col-lg-6" >
-									<canvas polarchart options="chart.polarOptions" data="chart.polarData" width="80" height="80"></canvas>
-									<h5>Kolter</h5>
+								<div class="col-lg-6">
+									<div class="conversion_visits" style="width: 100%; height: 200px; margin: auto 0;"></div>
 								</div>
 								<div class="col-lg-6">
-									<canvas doughnutchart options="chart.doughnutOptions" data="chart.doughnutData" width="78" height="78"></canvas>
-									<h5>Maxtor</h5>
+									<div class="conversion_tickets" style="width: 100%; height: 200px; margin: auto 0;"></div>
 								</div>
 							</div>
 						</div>
@@ -520,6 +519,13 @@
 				</div>
 			</div>
 		</div>
+		<div class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">
+			<button type="button" ng-click="exportPDF()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in">Exportar</button>
+		</div>
+
 	</div>
 
+	<!-- <a data-ng-click="savePdf()">Save to PDF</a> -->
+
+</div>
 </div>
