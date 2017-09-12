@@ -16,7 +16,7 @@
     var globals = AuthenticationService.getCredentials();
     var credentials = globals.currentUser;
 
-    $scope.storeLabel = '';
+    $scope.storeLabel = 'Tienda';
 
     $scope.init = function() {
 
@@ -32,7 +32,7 @@
             // validate token
             if( data.status != 200 || data.data.error_code !== undefined )
                 AuthenticationService.logout(function(response) {
-                    $location.path('/login');    
+                    $location.path('/login');
                 });
 
             if( data.data.data.length == 1 ) {
@@ -58,7 +58,7 @@
         $scope.stores = new Array();
         $scope.loadingRefresh = true;
         $http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
-            + '&entityId=' + $scope.brand.id 
+            + '&entityId=' + $scope.brand.id
             + '&entityKind=1&onlyExternalIds=true')
             .then($scope.postBrandChange);
     }
@@ -82,7 +82,7 @@
 
     $scope.updateStoreLabel = function() {
         $http.get(CommonsService.getUrl('/dashboard/config')
-            + '&entityId=' + $scope.brandId 
+            + '&entityId=' + $scope.brandId
             + '&entityKind=1')
         .then(function(data){
             try {
@@ -108,21 +108,23 @@
 
     $scope.updateTable = function(id, baseUrl, fromDate, toDate, entityId) {
         $.getJSON(
-            baseUrl 
+            baseUrl
             + '/dashboard/opentimes'
-            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + entityId
-            + '&entityKind=3' 
-            + '&fromStringDate=' + fromDate 
+            + '&entityKind=3'
+            + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate ,
             function(data) {
                 var tab = '';
-                tab = '<table class="table table-striped" style="text-align: center;" >';
+                tab = '<table class="table table-striped" style="text-align: center;">';
                 tab += '<tr style="font-weight:bold;">';
                 tab += '<td>' + $scope.storeLabel + '</td>';
+                tab += '<td>Apertura registrada</td>';
+                tab += '<td>Cierre registrado</td>';
                 tab += '<td>Dia</td>';
-                tab += '<td>Apertura</td>';
-                tab += '<td>Cierre</td>';
+                tab += '<td>Apertura reportada</td>';
+                tab += '<td>Cierre reportado</td>';
                 tab += '</tr>';
                 tab += '<tbody>';
                 for (var i = 1; i < data.length - 1; i++) {
