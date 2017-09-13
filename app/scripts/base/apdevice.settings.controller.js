@@ -229,58 +229,96 @@
 
     $scope.update = function() {
 
+        $scope.remote = angular.copy($scope.obj);
+
         $scope.loadingSubmit = true;
 
-        $scope.obj.visitTimeThreshold = $scope.visitTimeThresholdObj.getFrom();
-        $scope.obj.visitMaxThreshold = $scope.visitTimeThresholdObj.getTo();
-        $scope.obj.visitCountThreshold = $scope.visitCountThresholdObj.getFrom();
-        $scope.obj.visitGapThreshold = $scope.visitGapThresholdObj.getFrom();
-        
-        $scope.obj.monitorStart = $scope.toTime($scope.monitorObj.getFrom());
-        $scope.obj.monitorEnd = $scope.toTime($scope.monitorObj.getTo());
+        $scope.remote.visitTimeThreshold = $scope.visitTimeThresholdObj.getFrom();
+        $scope.remote.visitMaxThreshold = $scope.visitTimeThresholdObj.getTo();
+        $scope.remote.visitCountThreshold = $scope.visitCountThresholdObj.getFrom();
+        $scope.remote.visitGapThreshold = $scope.visitGapThresholdObj.getFrom();
 
-        $scope.obj.visitStartMon = $scope.toTime($scope.visitMonObj.getFrom());
-        $scope.obj.visitEndMon = $scope.toTime($scope.visitMonObj.getTo());
 
-        $scope.obj.visitStartTue = $scope.toTime($scope.visitTueObj.getFrom());
-        $scope.obj.visitEndTue = $scope.toTime($scope.visitTueObj.getTo());
+        $scope.remote.monitorStart = $scope.toTime($scope.monitorObj.getFrom());
+        $scope.remote.monitorEnd = $scope.toTime($scope.monitorObj.getTo());
 
-        $scope.obj.visitStartWed = $scope.toTime($scope.visitWedObj.getFrom());
-        $scope.obj.visitEndWed = $scope.toTime($scope.visitWedObj.getTo());
+        if($scope.remote.monInverted){
+            $scope.remote.visitStartMon =  $scope.toTime($scope.visitMonObj.getTo());
+            $scope.remote.visitEndMon = $scope.toTime($scope.visitMonObj.getFrom());
+        } else{
+              $scope.remote.visitStartMon = $scope.toTime($scope.visitMonObj.getFrom());
+              $scope.remote.visitEndMon = $scope.toTime($scope.visitMonObj.getTo());
+          }
 
-        $scope.obj.visitStartThu = $scope.toTime($scope.visitThuObj.getFrom());
-        $scope.obj.visitEndThu = $scope.toTime($scope.visitThuObj.getTo());
+        if($scope.remote.tueInverted){
+            $scope.remote.visitStartTue =  $scope.toTime($scope.visitTueObj.getTo());
+            $scope.remote.visitEndTue = $scope.toTime($scope.visitTueObj.getFrom());
+        } else{
+            $scope.remote.visitStartTue = $scope.toTime($scope.visitTueObj.getFrom());
+            $scope.remote.visitEndTue = $scope.toTime($scope.visitTueObj.getTo());
+        }
 
-        $scope.obj.visitStartFri = $scope.toTime($scope.visitFriObj.getFrom());
-        $scope.obj.visitEndFri = $scope.toTime($scope.visitFriObj.getTo());
+        if($scope.remote.wedInverted){
+            $scope.remote.visitStartWed =  $scope.toTime($scope.visitWedObj.getTo());
+            $scope.remote.visitEndWed = $scope.toTime($scope.visitWedObj.getFrom());
+        } else{
+            $scope.remote.visitStartWed = $scope.toTime($scope.visitWedObj.getFrom());
+            $scope.remote.visitEndWed = $scope.toTime($scope.visitWedObj.getTo());
+        }
 
-        $scope.obj.visitStartSat = $scope.toTime($scope.visitSatObj.getFrom());
-        $scope.obj.visitEndSat = $scope.toTime($scope.visitSatObj.getTo());
+        if($scope.remote.thuInverted){
+            $scope.remote.visitStartThu =  $scope.toTime($scope.visitThuObj.getTo());
+            $scope.remote.visitEndThu = $scope.toTime($scope.visitThuObj.getFrom());
+        } else{
+            $scope.remote.visitStartThu = $scope.toTime($scope.visitThuObj.getFrom());
+            $scope.remote.visitEndThu = $scope.toTime($scope.visitThuObj.getTo());
+        }
 
-        $scope.obj.visitStartSun = $scope.toTime($scope.visitSunObj.getFrom());
-        $scope.obj.visitEndSun = $scope.toTime($scope.visitSunObj.getTo());
+        if($scope.remote.friInverted){
+            $scope.remote.visitStartFri =  $scope.toTime($scope.visitFriObj.getTo());
+            $scope.remote.visitEndFri = $scope.toTime($scope.visitFriObj.getFrom());
+        } else{
+            $scope.remote.visitStartFri = $scope.toTime($scope.visitFriObj.getFrom());
+            $scope.remote.visitEndFri = $scope.toTime($scope.visitFriObj.getTo());
+        }
 
-        delete $scope.obj.lastInfoUpdate;
-        delete $scope.obj.mode;
-        delete $scope.obj.model;
-        delete $scope.obj.version;
-        delete $scope.obj.tunnelIp;
-        delete $scope.obj.lanIp;
-        delete $scope.obj.wanIp;
-        delete $scope.obj.publicIp;
-        delete $scope.obj.lastRecordDate;
-        delete $scope.obj.lastRecordCount;
-        delete $scope.obj.reportStatus;
+        if($scope.remote.satInverted){
+            $scope.remote.visitStartSat =  $scope.toTime($scope.visitSatObj.getTo());
+            $scope.remote.visitEndSat = $scope.toTime($scope.visitSatObj.getFrom());
+        } else{
+            $scope.remote.visitStartSat = $scope.toTime($scope.visitSatObj.getFrom());
+            $scope.remote.visitEndSat = $scope.toTime($scope.visitSatObj.getTo());
+        }
+
+        if($scope.remote.sunInverted){
+            $scope.remote.visitStartSun =  $scope.toTime($scope.visitSunObj.getTo());
+            $scope.remote.visitEndSun = $scope.toTime($scope.visitSunObj.getFrom());
+        } else{
+            $scope.remote.visitStartSun = $scope.toTime($scope.visitSunObj.getFrom());
+            $scope.remote.visitEndSun = $scope.toTime($scope.visitSunObj.getTo());
+        }
+
+        delete $scope.remote.lastInfoUpdate;
+        delete $scope.remote.mode;
+        delete $scope.remote.model;
+        delete $scope.remote.version;
+        delete $scope.remote.tunnelIp;
+        delete $scope.remote.lanIp;
+        delete $scope.remote.wanIp;
+        delete $scope.remote.publicIp;
+        delete $scope.remote.lastRecordDate;
+        delete $scope.remote.lastRecordCount;
+        delete $scope.remote.reportStatus;
 
         $scope.reportMailList = Array();
-        for( var x = 0; x < $scope.obj.reportMailList.length; x++ ) {
-            if( $scope.obj.reportMailList[x] !== undefined && $scope.obj.reportMailList[x].trim() != '' ) {
-                $scope.reportMailList.push($scope.obj.reportMailList[x].trim());
+        for( var x = 0; x < $scope.remote.reportMailList.length; x++ ) {
+            if( $scope.remote.reportMailList[x] !== undefined && $scope.remote.reportMailList[x].trim() != '' ) {
+                $scope.reportMailList.push($scope.remote.reportMailList[x].trim());
             }
         }
-        $scope.obj.reportMailList = $scope.reportMailList.slice();
+        $scope.remote.reportMailList = $scope.reportMailList.slice();
 
-        $http.post(CommonsService.getUrl('/apdevice/' + $scope.hostname), $scope.obj)
+        $http.post(CommonsService.getUrl('/apdevice/' + $scope.hostname), $scope.remote)
         .then($scope.postUpdate);
     }
 
