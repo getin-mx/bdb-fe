@@ -30,7 +30,7 @@
 <div class="panel-body wrapper wrapper-content animated fadeInRight">
 
 	<div class="row">
-		
+
 		<!-- Power & Threshold Configuration -->
 		<div class="col-lg-5">
 			<div class="ibox float-e-margins">
@@ -79,7 +79,7 @@
 				<div class="ibox-title">
 					<h5>D&iacute;as y Horarios</h5>
 				</div>
-				<div class="ibox-content">
+				<div class="ibox-content scheduling">
 					<div class="m-b-sm">
 						<strong>Horario de Monitoreo:</strong> Horarios en los que el sistema realizar&aacute; el monitoreo de paseantes.
 					</div>
@@ -94,8 +94,24 @@
 					<div class="m-b-sm m-t">
 						<strong>D&iacute;as y horarios de apertura:</strong> D&iacute;as y horarios en los que el sistema realizar&aacute; el monitoreo de visitantes.
 					</div>
-
 					<div class="row">
+						<div class="col-sm-1">
+							Invertir horario
+						</div>
+						<div class="col-sm-2">
+							Días
+						</div>
+						<div class="col-sm-9">
+						</div>
+					</div>
+					<div class="row monday-container">
+						<div class="col-sm-1">
+							<div class="checkbox checkbox-success topmargin20">
+								<input id="invertedOnMon" type="checkbox" ng-model="obj.monInverted" ng-change="invert('monday')">
+								<label for="invertedOnMon"></label>
+							</div>
+
+						</div>
 						<div class="col-sm-2">
 							<div class="checkbox checkbox-success topmargin20">
 								<input id="visitOnMon" ng-click="changeDay()" ng-model="obj.visitsOnMon" type="checkbox" checked="">
@@ -104,12 +120,19 @@
 								</label>
 							</div>
 						</div>
-						<div class="col-sm-10">
+						<div class="col-sm-9">
 							<div id="visitMon" ion-range-slider range-options="visitMon"></div>
 						</div>
 					</div>
 					<div class="hr-line-dashed-5p"></div>
-					<div class="row">
+					<div class="row tuesday-container">
+						<div class="col-sm-1">
+							<div class="checkbox checkbox-success topmargin20">
+								<input id="invertedOnTue" type="checkbox" ng-model="obj.tueInverted" ng-change="invert('tuesday')">
+								<label for="invertedOnTue"></label>
+							</div>
+
+						</div>
 						<div class="col-sm-2">
 							<div class="checkbox checkbox-success topmargin20">
 								<input id="visitOnTue" ng-click="changeDay()" ng-model="obj.visitsOnTue" type="checkbox" checked="">
@@ -118,12 +141,19 @@
 								</label>
 							</div>
 						</div>
-						<div class="col-sm-10">
+						<div class="col-sm-9">
 							<div id="visitTue" ion-range-slider range-options="visitTue"></div>
 						</div>
 					</div>
 					<div class="hr-line-dashed-5p"></div>
-					<div class="row">
+					<div class="row wednesday-container">
+						<div class="col-sm-1">
+							<div class="checkbox checkbox-success topmargin20">
+								<input id="invertedOnWed" type="checkbox" ng-model="obj.wedInverted" ng-change="invert('wednesday')">
+								<label for="invertedOnWed"></label>
+							</div>
+
+						</div>
 						<div class="col-sm-2">
 							<div class="checkbox checkbox-success topmargin20">
 								<input id="visitOnWed" ng-click="changeDay()" ng-model="obj.visitsOnWed" type="checkbox" checked="">
@@ -132,12 +162,19 @@
 								</label>
 							</div>
 						</div>
-						<div class="col-sm-10">
+						<div class="col-sm-9">
 							<div id="visitWed" ion-range-slider range-options="visitWed"></div>
 						</div>
 					</div>
 					<div class="hr-line-dashed-5p"></div>
-					<div class="row">
+					<div class="row thursday-container">
+						<div class="col-sm-1">
+							<div class="checkbox checkbox-success topmargin20">
+								<input id="invertedOnThu" type="checkbox" ng-model="obj.thuInverted" ng-change="invert('thursday')">
+								<label for="invertedOnThu"></label>
+							</div>
+
+						</div>
 						<div class="col-sm-2">
 							<div class="checkbox checkbox-success topmargin20">
 								<input id="visitOnThu" ng-click="changeDay()" ng-model="obj.visitsOnThu" type="checkbox" checked="">
@@ -146,12 +183,18 @@
 								</label>
 							</div>
 						</div>
-						<div class="col-sm-10">
+						<div class="col-sm-9">
 							<div id="visitThu" ion-range-slider range-options="visitThu"></div>
 						</div>
 					</div>
 					<div class="hr-line-dashed-5p"></div>
-					<div class="row">
+					<div class="row friday-container">
+						<div class="col-sm-1">
+							<div class="checkbox checkbox-success topmargin20">
+								<input id="invertedOnFri" type="checkbox" ng-model="obj.friInverted" ng-change="invert('friday')">
+								<label for="invertedOnFri"></label>
+							</div>
+						</div>
 						<div class="col-sm-2">
 							<div class="checkbox checkbox-success topmargin20">
 								<input id="visitOnFri" ng-click="changeDay()" ng-model="obj.visitsOnFri" type="checkbox" checked="">
@@ -160,12 +203,19 @@
 								</label>
 							</div>
 						</div>
-						<div class="col-sm-10">
+						<div class="col-sm-9">
 							<div id="visitFri" ion-range-slider range-options="visitFri"></div>
 						</div>
 					</div>
 					<div class="hr-line-dashed-5p"></div>
-					<div class="row">
+					<div class="row saturday-container">
+						<div class="col-sm-1">
+							<div class="checkbox checkbox-success topmargin20">
+								<input id="invertedOnSat" type="checkbox" ng-model="obj.satInverted" ng-change="invert('saturday')">
+								<label for="invertedOnSat"></label>
+							</div>
+
+						</div>
 						<div class="col-sm-2">
 							<div class="checkbox checkbox-success topmargin20">
 								<input id="visitOnSat" ng-click="changeDay()" ng-model="obj.visitsOnSat" type="checkbox" checked="">
@@ -174,12 +224,19 @@
 								</label>
 							</div>
 						</div>
-						<div class="col-sm-10">
+						<div class="col-sm-9">
 							<div id="visitSat" ion-range-slider range-options="visitSat"></div>
 						</div>
 					</div>
 					<div class="hr-line-dashed-5p"></div>
-					<div class="row">
+					<div class="row sunday-container">
+						<div class="col-sm-1">
+							<div class="checkbox checkbox-success topmargin20">
+								<input id="invertedOnSun" type="checkbox" ng-model="obj.sunInverted" ng-change="invert('sunday')">
+								<label for="invertedOnSun"></label>
+							</div>
+
+						</div>
 						<div class="col-sm-2">
 							<div class="checkbox checkbox-success topmargin20">
 								<input id="visitOnSun" ng-click="changeDay()" ng-model="obj.visitsOnSun" type="checkbox" checked="">
@@ -188,7 +245,7 @@
 								</label>
 							</div>
 						</div>
-						<div class="col-sm-10">
+						<div class="col-sm-9">
 							<div id="visitSun" ion-range-slider range-options="visitSun"></div>
 						</div>
 					</div>
@@ -207,7 +264,7 @@
 <div class="panel-body wrapper wrapper-content animated fadeInRight">
 
 	<div class="row">
-		
+
 		<!-- Status -->
 		<div class="col-lg-12">
 			<div class="ibox float-e-margins">
@@ -274,7 +331,7 @@
 <div class="panel-body wrapper wrapper-content animated fadeInRight">
 
 	<div class="row">
-		
+
 		<!-- Status -->
 		<div class="col-lg-5">
 			<div class="ibox float-e-margins">
