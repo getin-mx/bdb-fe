@@ -216,7 +216,7 @@
     $scope.processMinDate = moment("2017-01-01T12:00:00.000Z");
 
 	$scope.init = function() {
-        console.log($scope.processMinDate);
+        // console.log($scope.processMinDate);
         $scope.classNoActiveAssignations = 'hidden';
         $scope.classActiveAssignations = 'hidden';
 		if( $stateParams.hostname !== undefined ) {
@@ -323,8 +323,7 @@
     }
 
     $scope.postUpdate = function(data) {
-        console.log(data);
-
+        // console.log(data);
         if( data.status = 200
             && data.data.error_code === undefined ) {
             SweetAlert.swal({
@@ -351,9 +350,6 @@
 
 	$scope.postRefresh = function(data) {
 		angular.extend($scope.obj, data.data);
-    console.log("Scope Object");
-    console.log($scope.obj);
-    console.log("End of scope Object");
 
 		$scope.visitTimeThreshold.from = parseInt($scope.obj.visitTimeThreshold);
 		$scope.visitTimeThreshold.to = parseInt($scope.obj.visitMaxThreshold);
@@ -399,7 +395,6 @@
   $scope.initSlider = function(day) {
     formattedDay = day.slice(0,3);
     formattedDay = $scope.toTitleCase(formattedDay);
-    console.log(formattedDay);
 
     if($scope.hasInvertedDisplay($scope.obj['visitStart'+formattedDay], $scope.obj['visitEnd'+formattedDay])) {
       $scope['visit'+formattedDay].from = $scope.fromTime($scope.obj['visitEnd'+formattedDay]);
@@ -418,14 +413,11 @@
   }
 
   $scope.invert = function(day) {
-    console.log("inverting");
     var invertedName = [day.slice(0,3) + 'Inverted'];
-    console.log($scope.obj[invertedName]);
     $scope.invertDay($scope.obj[invertedName], day);
   }
 
   $scope.invertDay = function(invert, day) {
-    console.log($scope.obj);
     if(invert){
       $('.'+day+'-container .irs-line-mid').css('background', BAR_COLOR);
       $('.'+day+'-container .irs-line-left').css('background', BAR_COLOR);
