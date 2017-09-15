@@ -131,7 +131,7 @@
             $scope.showRevenue = false;
 
         $scope.updateStoreLabel();
-        $scope.updateStoreList('#store', config.dashUrl, $scope.brandId);
+        $scope.updateStoreList('#store', config.baseUrl, $scope.brandId);
         $scope.upadtePagination('#pags');
         $scope.updateAPDVisits();
     }
@@ -159,7 +159,7 @@
             $scope.showRevenue = false;
 
         $scope.updateStoreLabel();
-        $scope.updateStoreList('#store', config.dashUrl, $scope.brandId);
+        $scope.updateStoreList('#store', config.baseUrl, $scope.brandId);
         $scope.upadtePagination('#pags');
         $scope.updateAPDVisits();
         $scope.loadingSubmit = false;
@@ -304,7 +304,7 @@
         vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId, $scope.periodType);
         vm.updateVisitsByHourChart('#visits_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         if( brandId == 'grupopavel_mx') {
-            vm.updateRepetitionsChart('#repetitions', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
+            vm.updateRepetitionsChart('#repetitions', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         }
         vm.updatePermanenceByHourChart('#permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
@@ -635,7 +635,7 @@
         if( $scope.visitsOnly == true || vo == true ) {
             return;
             url = baseUrl
-            + '/dashoard/repetitions'
+            + '/dashboard/repetitions'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
@@ -649,7 +649,7 @@
             + '&timestamp=' + CommonsService.getTimestamp();
         } else
             url = baseUrl
-            + '/dashoard/repetitions'
+            + '/dashboard/repetitions'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind

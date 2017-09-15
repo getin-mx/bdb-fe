@@ -22,9 +22,9 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
         $scope.fromDate = $('#fromDate').val();
         $scope.toDate = $('#toDate').val();
 
-        var url =  config.baseUrl + '/dashboard/brandExport' 
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&brandId=' + $scope.brandId 
+        var url =  config.baseUrl + '/dashboard/brandExport'
+            + '?authToken=' + $rootScope.globals.currentUser.token
+            + '&brandId=' + $scope.brandId
             + '&storeId=' + $scope.storeId
             + '&fromStringDate=' + $scope.fromDate
             + '&toStringDate=' + $scope.toDate
@@ -58,10 +58,9 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
 
     this.updateStoreList = function(id, baseUrl, entityId) {
         $.getJSON(
-            CommonsService.getUrl('/dashboard/storesFilter')
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&toStringDate=' + toDate 
+            + '/dashboard/storesFilter?entityId=' + entityId
+            + '&entityKind=1'
+            + '&toStringDate=' + toDate
             + '&onlyExternalIds=true',
             function(data) {
                 $(id).empty();
@@ -83,17 +82,17 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
     }
     this.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
-            baseUrl 
+            baseUrl
             + '/dashoard/timelineData'
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&subentityId=' + subEntityId 
-            + '&elementId=apd_visitor' 
+            + '?authToken=' + $rootScope.globals.currentUser.token
+            + '&entityId=' + entityId
+            + '&entityKind=1'
+            + '&subentityId=' + subEntityId
+            + '&elementId=apd_visitor'
             + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
-            + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets' 
-            + '&fromStringDate=' + fromDate 
-            + '&toStringDate=' + toDate 
+            + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets'
+            + '&fromStringDate=' + fromDate
+            + '&toStringDate=' + toDate
             + '&eraseBlanks=false'
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
@@ -145,17 +144,17 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
     };
     this.updateVisitsByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
-            baseUrl 
+            baseUrl
             + '/dashoard/timelineHour'
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&subentityId=' + subEntityId 
-            + '&elementId=apd_visitor' 
+            + '?authToken=' + $rootScope.globals.currentUser.token
+            + '&entityId=' + entityId
+            + '&entityKind=1'
+            + '&subentityId=' + subEntityId
+            + '&elementId=apd_visitor'
             + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
-            + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android' 
-            + '&fromStringDate=' + fromDate 
-            + '&toStringDate=' + toDate 
+            + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android'
+            + '&fromStringDate=' + fromDate
+            + '&toStringDate=' + toDate
             + '&eraseBlanks=true'
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
@@ -207,19 +206,19 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
     };
     this.updatePermanenceByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
-            baseUrl 
+            baseUrl
             + '/dashoard/timelineHour'
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&subentityId=' + subEntityId 
-            + '&elementId=apd_permanence' 
+            + '?authToken=' + $rootScope.globals.currentUser.token
+            + '&entityId=' + entityId
+            + '&entityKind=1'
+            + '&subentityId=' + subEntityId
+            + '&elementId=apd_permanence'
             + '&subIdOrder=permanence_hourly_peasents,permanence_hourly_visits,permanence_hourly_peasents_ios,'
-            + 'permanence_hourly_peasents_android,permanence_hourly_visits_ios,permanence_hourly_visits_android' 
-            + '&fromStringDate=' + fromDate 
-            + '&toStringDate=' + toDate 
-            + '&average=true' 
-            + '&toMinutes=true' 
+            + 'permanence_hourly_peasents_android,permanence_hourly_visits_ios,permanence_hourly_visits_android'
+            + '&fromStringDate=' + fromDate
+            + '&toStringDate=' + toDate
+            + '&average=true'
+            + '&toMinutes=true'
             + '&eraseBlanks=true'
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
@@ -272,18 +271,18 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
     };
     this.updateHeatmapTraffic = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
-            baseUrl 
+            baseUrl
             + '/dashoard/heatmapTableHour'
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&subentityId=' + subEntityId 
-            + '&elementId=apd_visitor' 
+            + '?authToken=' + $rootScope.globals.currentUser.token
+            + '&entityId=' + entityId
+            + '&entityKind=1'
+            + '&subentityId=' + subEntityId
+            + '&elementId=apd_visitor'
             + '&elementSubId=visitor_total_visits,visitor_total_peasents'
-            + '&fromStringDate=' + fromDate 
-            + '&toStringDate=' + toDate 
-            + '&average=false' 
-            + '&toMinutes=false' 
+            + '&fromStringDate=' + fromDate
+            + '&toStringDate=' + toDate
+            + '&average=false'
+            + '&toMinutes=false'
             + '&eraseBlanks=true'
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
@@ -349,18 +348,18 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
     };
     this.updateHeatmapPermanence = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
-            baseUrl 
+            baseUrl
             + '/dashoard/heatmapTableHour'
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&subentityId=' + subEntityId 
-            + '&elementId=apd_permanence' 
-            + '&elementSubId=permanence_hourly_visits,permanence_hourly_peasents' 
-            + '&fromStringDate=' + fromDate 
-            + '&toStringDate=' + toDate 
-            + '&average=true' 
-            + '&toMinutes=true' 
+            + '?authToken=' + $rootScope.globals.currentUser.token
+            + '&entityId=' + entityId
+            + '&entityKind=1'
+            + '&subentityId=' + subEntityId
+            + '&elementId=apd_permanence'
+            + '&elementSubId=permanence_hourly_visits,permanence_hourly_peasents'
+            + '&fromStringDate=' + fromDate
+            + '&toStringDate=' + toDate
+            + '&average=true'
+            + '&toMinutes=true'
             + '&eraseBlanks=true'
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
@@ -444,34 +443,34 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
             vo = true;
         }
 
-        if( $scope.visitsOnly == true || vo == true ) 
-            url = baseUrl 
+        if( $scope.visitsOnly == true || vo == true )
+            url = baseUrl
             + '/dashoard/heatmapTableHour'
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + eid 
+            + '?authToken=' + $rootScope.globals.currentUser.token
+            + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + seid 
-            + '&elementId=apd_occupation' 
-            + '&elementSubId=occupation_hourly_visits' 
-            + '&fromStringDate=' + fromDate 
-            + '&toStringDate=' + toDate 
-            + '&average=true' 
-            + '&toMinutes=true' 
+            + '&subentityId=' + seid
+            + '&elementId=apd_occupation'
+            + '&elementSubId=occupation_hourly_visits'
+            + '&fromStringDate=' + fromDate
+            + '&toStringDate=' + toDate
+            + '&average=true'
+            + '&toMinutes=true'
             + '&eraseBlanks=true'
             + '&timestamp=' + CommonsService.getTimestamp();
-        else 
-            url = baseUrl 
+        else
+            url = baseUrl
             + '/dashoard/heatmapTableHour'
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + eid 
+            + '?authToken=' + $rootScope.globals.currentUser.token
+            + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + seid 
-            + '&elementId=apd_occupation' 
-            + '&elementSubId=occupation_hourly_visits,occupation_hourly_peasants' 
-            + '&fromStringDate=' + fromDate 
-            + '&toStringDate=' + toDate 
-            + '&average=true' 
-            + '&toMinutes=true' 
+            + '&subentityId=' + seid
+            + '&elementId=apd_occupation'
+            + '&elementSubId=occupation_hourly_visits,occupation_hourly_peasants'
+            + '&fromStringDate=' + fromDate
+            + '&toStringDate=' + toDate
+            + '&average=true'
+            + '&toMinutes=true'
             + '&eraseBlanks=true'
             + '&timestamp=' + CommonsService.getTimestamp();
 
@@ -543,13 +542,13 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
     };
     this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId) {
         $.getJSON(
-            baseUrl 
+            baseUrl
             + '/dashoard/brandTableData'
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&fromStringDate=' + fromDate 
-            + '&toStringDate=' + toDate 
+            + '?authToken=' + $rootScope.globals.currentUser.token
+            + '&entityId=' + entityId
+            + '&entityKind=1'
+            + '&fromStringDate=' + fromDate
+            + '&toStringDate=' + toDate
             + '&onlyExternalIds=true'
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
@@ -597,7 +596,7 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
             });
     };
 
-    this.updateStoreList('#store', config.dashUrl, $scope.brandId);
+    this.updateStoreList('#store', config.baseUrl, $scope.brandId);
     $scope.updateAPDVisits();
 
     return vm;

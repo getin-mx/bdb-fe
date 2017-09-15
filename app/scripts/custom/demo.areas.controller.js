@@ -50,7 +50,7 @@ function DemoAreasCtrl($scope, AuthenticationService) {
                 + '&elementId=heatmap'
                 + '&dayOfWeek=' + dayOfWeek
                 + '&top=15'
-                + '&fromStringDate=' + fromDate 
+                + '&fromStringDate=' + fromDate
                 + '&toStringDate=' + toDate, function(data) {
 
             vm.updateDescriptionTable(table, data.description);
@@ -58,8 +58,8 @@ function DemoAreasCtrl($scope, AuthenticationService) {
             for( var i = 0; i < data.description.length; i++) {
                 areas.push(data.description[i][1]);
             }
-            
-            
+
+
             $(id).highcharts({
                 chart: {
                     type: 'heatmap',
@@ -133,7 +133,7 @@ function DemoAreasCtrl($scope, AuthenticationService) {
         $(id).html(tab);
     };
 
-    //this.updateStoreList('#store', config.dashUrl, $scope.brandId);
+    //this.updateStoreList('#store', config.baseUrl, $scope.brandId);
     this.updateHeatmapTable('#afluencia', '#descriptionTable', 'http://api.allshoppings.mobi/appv2', '2015-07-01', '2015-07-07', 'cinepolis_mx', 'cinepolis_mx_339', 0);
 
     return vm;

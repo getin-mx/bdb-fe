@@ -35,9 +35,9 @@ function APDDetailsCtrl($rootScope, $scope, AuthenticationService, CommonsServic
 			$('#brandSelectorContainer').css('display','block');
 			for(var i = 0; i < data.data.data.length; i++) {
 				if( i == 0 ) selected = data.data.data[i].identifier;
-				$('#brandId').append($('<option>', { 
+				$('#brandId').append($('<option>', {
 					value: data.data.data[i].identifier,
-					text : data.data.data[i].name 
+					text : data.data.data[i].name
 				}));
 			}
 		}
@@ -45,7 +45,7 @@ function APDDetailsCtrl($rootScope, $scope, AuthenticationService, CommonsServic
 		$('#brandId').val(selected);
 		$scope.updateStoreLabel();
 
-		$scope.updateStoreList('#store', config.dashUrl, $scope.brandId);
+		$scope.updateStoreList('#store', config.baseUrl, $scope.brandId);
 		$scope.updateAPDVisits();
 	}
 
@@ -53,16 +53,16 @@ function APDDetailsCtrl($rootScope, $scope, AuthenticationService, CommonsServic
 		$scope.loadingSubmit = true;
 		$scope.brandId = $('#brandId').val();
 		$scope.updateStoreLabel();
-		$scope.updateStoreList('#store', config.dashUrl, $scope.brandId);
+		$scope.updateStoreList('#store', config.baseUrl, $scope.brandId);
 		$scope.updateAPDVisits();
 		$scope.loadingSubmit = false;
 	}
 
 	$scope.updateStoreLabel = function() {
 		$http.get(CommonsService.getUrl('/dashboard/config')
-			+ '&entityId=' + $scope.brandId 
+			+ '&entityId=' + $scope.brandId
 			+ '&entityKind=1')
-			.then($scope.postUpdateStoreLabel);        
+			.then($scope.postUpdateStoreLabel);
 	}
 
 	$scope.postUpdateStoreLabel = function(data) {
@@ -73,16 +73,16 @@ function APDDetailsCtrl($rootScope, $scope, AuthenticationService, CommonsServic
         } catch( e ) {
             $scope.storeLabel = 'Tienda';
         }
-	}    
+	}
 
 
 	$scope.exportAPDVisits = function() {
 		$scope.fromDate = $('#fromDate').val();
 		$scope.toDate = $('#toDate').val();
 
-		var url =  config.baseUrl + '/dashboard/visitDetailExport' 
-			+ '?authToken=' + $rootScope.globals.currentUser.token 
-			+ '&brandId=' + $scope.brandId 
+		var url =  config.baseUrl + '/dashboard/visitDetailExport'
+			+ '?authToken=' + $rootScope.globals.currentUser.token
+			+ '&brandId=' + $scope.brandId
 			+ '&storeId=' + $scope.storeId
 			+ '&fromStringDate=' + $scope.fromDate
 			+ '&toStringDate=' + $scope.toDate
@@ -118,7 +118,7 @@ function APDDetailsCtrl($rootScope, $scope, AuthenticationService, CommonsServic
 
 	$scope.updateStoreList = function(id, baseUrl, entityId) {
 		$http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
-			+ '&entityId=' + $scope.brandId 
+			+ '&entityId=' + $scope.brandId
 			+ '&entityKind=1&onlyExternalIds=true')
 			.then($scope.postUpdateStoreList);
 	}
@@ -141,17 +141,17 @@ function APDDetailsCtrl($rootScope, $scope, AuthenticationService, CommonsServic
 
 	this.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
 		$.getJSON(
-			baseUrl 
+			baseUrl
 			+ '/dashoard/timelineData'
-			+ '?authToken=' + $rootScope.globals.currentUser.token 
-			+ '&entityId=' + entityId 
-			+ '&entityKind=1' 
-			+ '&subentityId=' + subEntityId 
-			+ '&elementId=apd_visitor' 
+			+ '?authToken=' + $rootScope.globals.currentUser.token
+			+ '&entityId=' + entityId
+			+ '&entityKind=1'
+			+ '&subentityId=' + subEntityId
+			+ '&elementId=apd_visitor'
 			+ '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
-			+ 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets' 
-			+ '&fromStringDate=' + fromDate 
-			+ '&toStringDate=' + toDate 
+			+ 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets'
+			+ '&fromStringDate=' + fromDate
+			+ '&toStringDate=' + toDate
 			+ '&eraseBlanks=false',
 			function(data) {
 				// Disable extra options by default
@@ -202,17 +202,17 @@ function APDDetailsCtrl($rootScope, $scope, AuthenticationService, CommonsServic
 	};
 	this.updateVisitsByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
 		$.getJSON(
-			baseUrl 
+			baseUrl
 			+ '/dashoard/timelineHour'
-			+ '?authToken=' + $rootScope.globals.currentUser.token 
-			+ '&entityId=' + entityId 
-			+ '&entityKind=1' 
-			+ '&subentityId=' + subEntityId 
-			+ '&elementId=apd_visitor' 
+			+ '?authToken=' + $rootScope.globals.currentUser.token
+			+ '&entityId=' + entityId
+			+ '&entityKind=1'
+			+ '&subentityId=' + subEntityId
+			+ '&elementId=apd_visitor'
 			+ '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
-			+ 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android' 
-			+ '&fromStringDate=' + fromDate 
-			+ '&toStringDate=' + toDate 
+			+ 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android'
+			+ '&fromStringDate=' + fromDate
+			+ '&toStringDate=' + toDate
 			+ '&eraseBlanks=true',
 			function(data) {
 				// Disable extra options by default
@@ -263,17 +263,17 @@ function APDDetailsCtrl($rootScope, $scope, AuthenticationService, CommonsServic
 	};
     this.updateRepetitionsChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
-            baseUrl 
-            + '/dashoard/repetitions'
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=1' 
-            + '&subentityId=' + subEntityId 
-            + '&elementId=apd_visitor' 
+            baseUrl
+            + '/dashboard/repetitions'
+            + '?authToken=' + $rootScope.globals.currentUser.token
+            + '&entityId=' + entityId
+            + '&entityKind=1'
+            + '&subentityId=' + subEntityId
+            + '&elementId=apd_visitor'
             + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
-            + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android' 
-            + '&fromStringDate=' + fromDate 
-            + '&toStringDate=' + toDate 
+            + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android'
+            + '&fromStringDate=' + fromDate
+            + '&toStringDate=' + toDate
             + '&eraseBlanks=true',
             function(data) {
                 // Disable extra options by default
@@ -322,19 +322,19 @@ function APDDetailsCtrl($rootScope, $scope, AuthenticationService, CommonsServic
     };
 	this.updatePermanenceByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
 		$.getJSON(
-			baseUrl 
+			baseUrl
 			+ '/dashoard/timelineHour'
-			+ '?authToken=' + $rootScope.globals.currentUser.token 
-			+ '&entityId=' + entityId 
-			+ '&entityKind=1' 
-			+ '&subentityId=' + subEntityId 
-			+ '&elementId=apd_permanence' 
+			+ '?authToken=' + $rootScope.globals.currentUser.token
+			+ '&entityId=' + entityId
+			+ '&entityKind=1'
+			+ '&subentityId=' + subEntityId
+			+ '&elementId=apd_permanence'
 			+ '&subIdOrder=permanence_hourly_peasents,permanence_hourly_visits,permanence_hourly_peasents_ios,'
-			+ 'permanence_hourly_peasents_android,permanence_hourly_visits_ios,permanence_hourly_visits_android' 
-			+ '&fromStringDate=' + fromDate 
-			+ '&toStringDate=' + toDate 
-			+ '&average=true' 
-			+ '&toMinutes=true' 
+			+ 'permanence_hourly_peasents_android,permanence_hourly_visits_ios,permanence_hourly_visits_android'
+			+ '&fromStringDate=' + fromDate
+			+ '&toStringDate=' + toDate
+			+ '&average=true'
+			+ '&toMinutes=true'
 			+ '&eraseBlanks=true',
 			function(data) {
 				// Disable extra options by default
@@ -386,18 +386,18 @@ function APDDetailsCtrl($rootScope, $scope, AuthenticationService, CommonsServic
 	};
 	this.updateHeatmapTraffic = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
 		$.getJSON(
-			baseUrl 
+			baseUrl
 			+ '/dashoard/heatmapTableHour'
-			+ '?authToken=' + $rootScope.globals.currentUser.token 
-			+ '&entityId=' + entityId 
-			+ '&entityKind=1' 
-			+ '&subentityId=' + subEntityId 
-			+ '&elementId=apd_visitor' 
+			+ '?authToken=' + $rootScope.globals.currentUser.token
+			+ '&entityId=' + entityId
+			+ '&entityKind=1'
+			+ '&subentityId=' + subEntityId
+			+ '&elementId=apd_visitor'
             + '&elementSubId=visitor_total_visits,visitor_total_peasents'
-			+ '&fromStringDate=' + fromDate 
-			+ '&toStringDate=' + toDate 
-			+ '&average=false' 
-			+ '&toMinutes=false' 
+			+ '&fromStringDate=' + fromDate
+			+ '&toStringDate=' + toDate
+			+ '&average=false'
+			+ '&toMinutes=false'
 			+ '&eraseBlanks=true',
 			function(data) {
 
@@ -463,18 +463,18 @@ function APDDetailsCtrl($rootScope, $scope, AuthenticationService, CommonsServic
 	};
 	this.updateHeatmapPermanence = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
 		$.getJSON(
-			baseUrl 
+			baseUrl
 			+ '/dashoard/heatmapTableHour'
-			+ '?authToken=' + $rootScope.globals.currentUser.token 
-			+ '&entityId=' + entityId 
-			+ '&entityKind=1' 
-			+ '&subentityId=' + subEntityId 
-			+ '&elementId=apd_permanence' 
-            + '&elementSubId=permanence_hourly_visits,permanence_hourly_peasents' 
-			+ '&fromStringDate=' + fromDate 
-			+ '&toStringDate=' + toDate 
-			+ '&average=true' 
-			+ '&toMinutes=true' 
+			+ '?authToken=' + $rootScope.globals.currentUser.token
+			+ '&entityId=' + entityId
+			+ '&entityKind=1'
+			+ '&subentityId=' + subEntityId
+			+ '&elementId=apd_permanence'
+            + '&elementSubId=permanence_hourly_visits,permanence_hourly_peasents'
+			+ '&fromStringDate=' + fromDate
+			+ '&toStringDate=' + toDate
+			+ '&average=true'
+			+ '&toMinutes=true'
 			+ '&eraseBlanks=true',
 			function(data) {
 
@@ -539,13 +539,13 @@ function APDDetailsCtrl($rootScope, $scope, AuthenticationService, CommonsServic
 	};
 	this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId) {
 		$.getJSON(
-			baseUrl 
+			baseUrl
 			+ '/dashoard/brandTableData'
-			+ '?authToken=' + $rootScope.globals.currentUser.token 
-			+ '&entityId=' + entityId 
-			+ '&entityKind=1' 
-			+ '&fromStringDate=' + fromDate 
-			+ '&toStringDate=' + toDate 
+			+ '?authToken=' + $rootScope.globals.currentUser.token
+			+ '&entityId=' + entityId
+			+ '&entityKind=1'
+			+ '&fromStringDate=' + fromDate
+			+ '&toStringDate=' + toDate
 			+ '&onlyExternalIds=true',
 			function(data) {
 				var tab = '';

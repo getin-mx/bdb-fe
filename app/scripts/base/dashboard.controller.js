@@ -6,9 +6,7 @@
  	var vm = this;
 
 	// List variables
-  $scope.exportPDF = function() {
-    console.log('export to pdf');
-  };
+  $scope.loadedClientData = false;
 	$scope.brands = null;
 	$scope.brand = null;
 
@@ -44,7 +42,6 @@
 	$scope.formatter2 = new Intl.NumberFormat('en-US', {
 		style: 'currency',
 		currency: 'USD',
-		minimumFractionDigits: 2 /* this might not be necessary */
 	});
 	$scope.formatter3 = new Intl.NumberFormat('en-US', {
 		minimumFractionDigits: 2, /* this might not be necessary */
@@ -64,31 +61,31 @@
 
 		$scope.setPeriodTypes();
 		$scope.setStoreTypes();
-		$scope.setAvailableBrands();
-
+		$scope.setAvailableStores();
 	}
 
 	// Updates the dashboard to new information
 	$scope.updateDashboard = function() {
+    $scope.loadedClientData = true;
 		$scope.generateGeneralInfo();
 		$scope.generateVisitsByHourChart();
 		$scope.generateTrafficByHourHeatmap();
-    $scope.generateConversionGauges();
 		$scope.generateOccupationHeatmap();
 		$scope.generatePermanenceEntryHeatmap();
 		$scope.generatePermanenceExitHeatmap();
 		$scope.generateBrandPerformanceTable();
+    $scope.generateConversionGauges();
 	}
 
   $scope.generateConversionGauges = function() {
     $('.conversion_tickets').highcharts({
         chart: {
-          type: 'solidgauge'
+          type: 'solidgauge',
         },
         title: null,
         pane: {
-          center: ['50%', '90%'],
-          size: '100%',
+          center: ['50%', '50%'],
+          size: '70%',
           startAngle: -90,
           endAngle: 90,
           background: {
@@ -105,14 +102,10 @@
         yAxis: {
           min: 0,
           max: 100,
-          title: {
-              text: 'Conversión de tickets',
-              y: -70
-          },
           stops: [
-              [0.1, '#137499'], // green
-              [0.5, '#137499'], // yellow
-              [0.9, '#137499'] // red
+            [0.1, '#1ab394'], // green
+            [0.5, '#1ab394'], // yellow
+            [0.9, '#1ab394'] // red
           ],
           lineWidth: 0,
           minorTickInterval: null,
@@ -128,7 +121,7 @@
             name: 'Speed',
             data: [20],
             dataLabels: {
-                format: '<div style="text-align:center"><span style="font-size:14px;color:' +
+                format: '<div style="text-align:center"><span style="font-size:24px;color:grey;' +
                     ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}%</span><br/>' +
                        '</div>'
             },
@@ -139,7 +132,7 @@
         plotOptions: {
             solidgauge: {
                 dataLabels: {
-                    y: 5,
+                    y: 30,
                     borderWidth: 0,
                     useHTML: true
                 }
@@ -149,12 +142,12 @@
 
   $('.conversion_visits').highcharts({
       chart: {
-        type: 'solidgauge'
+        type: 'solidgauge',
       },
       title: null,
       pane: {
-        center: ['50%', '90%'],
-        size: '100%',
+        center: ['50%', '50%'],
+        size: '70%',
         startAngle: -90,
         endAngle: 90,
         background: {
@@ -171,14 +164,10 @@
       yAxis: {
         min: 0,
         max: 100,
-        title: {
-            text: 'Conversión de visitas',
-            y: -70
-        },
         stops: [
-          [0.1, '#137499'], // green
-          [0.5, '#137499'], // yellow
-          [0.9, '#137499'] // red
+          [0.1, '#1ab394'], // green
+          [0.5, '#1ab394'], // yellow
+          [0.9, '#1ab394'] // red
         ],
         lineWidth: 0,
         minorTickInterval: null,
@@ -194,7 +183,7 @@
           name: 'Speed',
           data: [80],
           dataLabels: {
-              format: '<div style="text-align:center"><span style="font-size:14px;color:' +
+              format: '<div style="text-align:center"><span style="font-size:26px;color:grey;' +
                   ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}%</span><br/>' +
                      '</div>'
           },
@@ -205,7 +194,7 @@
       plotOptions: {
           solidgauge: {
               dataLabels: {
-                  y: 5,
+                  y: 30,
                   borderWidth: 0,
                   useHTML: true
               }
@@ -888,11 +877,10 @@
     }
 
 	// Define available stores
-	$scope.setAvailableBrands = function() {
+	$scope.setAvailableStores = function() {
 
 		$http.get(CommonsService.getUrl('/dashboard/assignedBrandList'))
 		.then(function(data) {
-
 			$scope.brands = Array();
 			for( var i = 0; i < data.data.data.length; i++ ) {
 				var brand = {
@@ -903,9 +891,7 @@
 			}
 			$scope.brand = $scope.brands[0];
 			$scope.brandChange();
-
 		});
-
 	}
 
 	// Define period Types
@@ -1333,7 +1319,7 @@
  		yaxes: [
  		{
  			position: "left",
- 			max: 1070,
+ 			max: 900,
  			color: "#d5d5d5",
  			axisLabelUseCanvas: true,
  			axisLabelFontSizePixels: 12,
