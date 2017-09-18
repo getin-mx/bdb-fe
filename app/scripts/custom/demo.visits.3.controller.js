@@ -58,8 +58,8 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
 
     this.updateStoreList = function(id, baseUrl, entityId) {
         $.getJSON(
-            baseUrl 
-            + '/dashoard/storesFilter?entityId=' + entityId 
+            CommonsService.getUrl('/dashboard/storesFilter')
+            + '&entityId=' + entityId 
             + '&entityKind=1' 
             + '&toStringDate=' + toDate 
             + '&onlyExternalIds=true',
