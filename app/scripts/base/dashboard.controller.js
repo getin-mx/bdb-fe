@@ -16,6 +16,9 @@
 	$scope.periodType = null;
 	$scope.periodTypes = null;
 
+  $scope.xxy = null;
+  $scope.yyx = null;
+
 	$scope.retailCalendar = config.retailCalendar;
 	$scope.retailCalendarDate = null;
 
@@ -300,7 +303,7 @@
 	};
 
 
-    $scope.generateTrafficByHourHeatmap = function() {
+  $scope.generateTrafficByHourHeatmap = function() {
 		var params = null;
 
 		var eid;
@@ -786,12 +789,14 @@
     };
 
     $scope.generateGeneralInfo = function() {
+        console.log($scope.fromDate);
+        console.log($scope.toDate);
         $http.get(CommonsService.getUrl('/dashboard/generalData')
             + '&entityId=' + $scope.brand.id
             + '&subentityId=' + $scope.store.id
             + '&entityKind=1'
-			+ '&fromStringDate=' + $scope.fromDate
-			+ '&toStringDate=' + $scope.toDate
+            + '&fromStringDate=' + $scope.fromDate
+            + '&toStringDate=' + $scope.toDate
             + '&onlyExternalIds=true'
             + '&format=json'
             + '&timestamp=' + CommonsService.getTimestamp())
@@ -1022,33 +1027,53 @@
 			$scope.monthVisible = 'hidden';
 			$scope.quarterVisible = 'hidden';
 			$scope.annualVisible = 'hidden';
+      $scope.rangeCalendarChange();
 		} else if( $scope.periodType.id == 'week') {
 			$scope.rangeVisible = 'hidden';
 			$scope.weekVisible = '';
 			$scope.monthVisible = 'hidden';
 			$scope.quarterVisible = 'hidden';
 			$scope.annualVisible = 'hidden';
+      $scope.retailCalendarChange();
 		} else if( $scope.periodType.id == 'month') {
 			$scope.rangeVisible = 'hidden';
 			$scope.weekVisible = 'hidden';
 			$scope.monthVisible = '';
 			$scope.quarterVisible = 'hidden';
 			$scope.annualVisible = 'hidden';
+      $scope.monthCalendarChange();
 		} else if( $scope.periodType.id == 'quarter') {
 			$scope.rangeVisible = 'hidden';
 			$scope.weekVisible = 'hidden';
 			$scope.monthVisible = 'hidden';
 			$scope.quarterVisible = '';
 			$scope.annualVisible = 'hidden';
+      $scope.quarterCalendarChange();
 		} else if( $scope.periodType.id == 'annual') {
 			$scope.rangeVisible = 'hidden';
 			$scope.weekVisible = 'hidden';
 			$scope.monthVisible = 'hidden';
 			$scope.quarterVisible = 'hidden';
 			$scope.annualVisible = '';
+      $scope.annualCalendarChange();
 		}
-
 	}
+
+  $scope.rangeCalendarChange = function(modelName, time) {
+    //$scope.xxy = $('#fromDate').val();
+    //$scope.yyx = $('#toDate').val();
+    console.log(modelName);
+    if(modelName == "from") {
+      $scope.fromDate = moment(time).format("YYYY-MM-DD");
+    }
+    if(modelName == "to") {
+      $scope.toDate = moment(time).format("YYYY-MM-DD");
+    }
+    console.log($scope.fromDate);
+    console.log($scope.toDate);
+    console.log(time);
+    console.log(moment(time));
+  }
 
 	// Change on retail calendar
 	$scope.retailCalendarChange = function() {
@@ -1083,6 +1108,7 @@
 	// Change on annual calendar
 	$scope.annualCalendarChange = function() {
 		if($scope.annualCalendarDate != null ) {
+      console.log($scope.annualCalendarChange);
 			$scope.toDate = $scope.annualCalendarDate.toDate;
 			$('#toDate').val($scope.toDate);
 			$scope.fromDate = $scope.annualCalendarDate.fromDate;

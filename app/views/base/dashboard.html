@@ -42,11 +42,35 @@
 						</div>
 
 						<div ng-class="rangeVisible" class="col-lg-4 col-md-5">
-							<label class="font-noraml">Rango de Fechas:</label>
+							<h3><b>Rango de Fechas:</b><h3>
 							<div class="input-group date" style="max-width: 400px;">
-								<input type="datetime" id="fromDate" ng-model="fromDate" class="form-control datelistener" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
+								<input
+									date-time
+									watch-direct-changes
+									type="text"
+									id="fromDate"
+									ng-model="from"
+									date-change="rangeCalendarChange"
+									class="form-control datelistener"
+									view="month"
+									min-view="date"
+									auto-close="true"
+									format="YYYY-MM-DD"
+									>
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-								<input type="datetime" id="toDate" ng-model="toDate" class="form-control datelistener" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
+								<input
+									date-time
+									watch-direct-changes
+									type="text"
+									id="toDate"
+									ng-model="to"
+									date-change="rangeCalendarChange"
+									class="form-control datelistener"
+									view="month"
+									min-view="date"
+									auto-close="true"
+									format="YYYY-MM-DD"
+									>
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 							</div>
 						</div>
