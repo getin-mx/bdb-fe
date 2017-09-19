@@ -23,6 +23,7 @@
     "angular-ladda": "~0.4.2",
     "angular-datetime": "~3.2.2",
     "angular-datepicker": "~2.0.3",
+    "angular-sweetalert": "~1.1.2",
     "angular-knob": "~0.0.3",
     "angular-summernote": "~0.8.1",
     "angular-browser-cache-manager": "~0.0.5",
@@ -51,8 +52,7 @@
     "flot": "~0.8.3",
     "chartjs": "~1.0.1",
     "icheck": "~1.0.2",
-    "blueimp-gallery": "~2.22.0",
-    "angular-sweetalert": "latest"
+    "blueimp-gallery": "~2.22.0"
   },
   "resolutions": {
     "jquery": "~2.1.4",
