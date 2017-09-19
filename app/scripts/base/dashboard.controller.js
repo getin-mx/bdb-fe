@@ -16,9 +16,6 @@
 	$scope.periodType = null;
 	$scope.periodTypes = null;
 
-  $scope.xxy = null;
-  $scope.yyx = null;
-
 	$scope.retailCalendar = config.retailCalendar;
 	$scope.retailCalendarDate = null;
 
