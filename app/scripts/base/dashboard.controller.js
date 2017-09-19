@@ -6,7 +6,8 @@
  	var vm = this;
 
 	// List variables
-	$scope.brands = null; 	
+  $scope.loadedClientData = false;
+	$scope.brands = null;
 	$scope.brand = null;
 
 	$scope.stores = null;
@@ -41,7 +42,6 @@
 	$scope.formatter2 = new Intl.NumberFormat('en-US', {
 		style: 'currency',
 		currency: 'USD',
-		minimumFractionDigits: 2 /* this might not be necessary */
 	});
 	$scope.formatter3 = new Intl.NumberFormat('en-US', {
 		minimumFractionDigits: 2, /* this might not be necessary */
@@ -61,12 +61,12 @@
 
 		$scope.setPeriodTypes();
 		$scope.setStoreTypes();
-		$scope.setAvailableBrands();
-
+		$scope.setAvailableStores();
 	}
 
 	// Updates the dashboard to new information
 	$scope.updateDashboard = function() {
+    $scope.loadedClientData = true;
 		$scope.generateGeneralInfo();
 		$scope.generateVisitsByHourChart();
 		$scope.generateTrafficByHourHeatmap();
@@ -74,8 +74,134 @@
 		$scope.generatePermanenceEntryHeatmap();
 		$scope.generatePermanenceExitHeatmap();
 		$scope.generateBrandPerformanceTable();
+    $scope.generateConversionGauges();
 	}
 
+  $scope.generateConversionGauges = function() {
+    $('.conversion_tickets').highcharts({
+        chart: {
+          type: 'solidgauge',
+        },
+        title: null,
+        pane: {
+          center: ['50%', '50%'],
+          size: '70%',
+          startAngle: -90,
+          endAngle: 90,
+          background: {
+              backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+              innerRadius: '60%',
+              outerRadius: '100%',
+              shape: 'arc'
+          }
+        },
+        tooltip: {
+          enabled: false
+        },
+        // the value axis
+        yAxis: {
+          min: 0,
+          max: 100,
+          stops: [
+            [0.1, '#1ab394'], // green
+            [0.5, '#1ab394'], // yellow
+            [0.9, '#1ab394'] // red
+          ],
+          lineWidth: 0,
+          minorTickInterval: null,
+          tickAmount: 2,
+          labels: {
+              y: 16
+          }
+        },
+        credits: {
+            enabled: false
+        },
+        series: [{
+            name: 'Speed',
+            data: [20],
+            dataLabels: {
+                format: '<div style="text-align:center"><span style="font-size:24px;color:grey;' +
+                    ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}%</span><br/>' +
+                       '</div>'
+            },
+            tooltip: {
+                valueSuffix: ' km/h'
+            }
+        }],
+        plotOptions: {
+            solidgauge: {
+                dataLabels: {
+                    y: 30,
+                    borderWidth: 0,
+                    useHTML: true
+                }
+            }
+        }
+     });
+
+  $('.conversion_visits').highcharts({
+      chart: {
+        type: 'solidgauge',
+      },
+      title: null,
+      pane: {
+        center: ['50%', '50%'],
+        size: '70%',
+        startAngle: -90,
+        endAngle: 90,
+        background: {
+            backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+            innerRadius: '60%',
+            outerRadius: '100%',
+            shape: 'arc'
+        }
+      },
+      tooltip: {
+        enabled: false
+      },
+      // the value axis
+      yAxis: {
+        min: 0,
+        max: 100,
+        stops: [
+          [0.1, '#1ab394'], // green
+          [0.5, '#1ab394'], // yellow
+          [0.9, '#1ab394'] // red
+        ],
+        lineWidth: 0,
+        minorTickInterval: null,
+        tickAmount: 2,
+        labels: {
+            y: 16
+        }
+      },
+      credits: {
+          enabled: false
+      },
+      series: [{
+          name: 'Speed',
+          data: [80],
+          dataLabels: {
+              format: '<div style="text-align:center"><span style="font-size:26px;color:grey;' +
+                  ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}%</span><br/>' +
+                     '</div>'
+          },
+          tooltip: {
+              valueSuffix: ' km/h'
+          }
+      }],
+      plotOptions: {
+          solidgauge: {
+              dataLabels: {
+                  y: 30,
+                  borderWidth: 0,
+                  useHTML: true
+              }
+          }
+      }
+   });
+  };
 
 	// Visits by hour
 	$scope.generateVisitsByHourChart = function() {
@@ -171,10 +297,10 @@
 					series: data.series
 				});
 			});
-	}
+	};
 
 
-    $scope.generateTrafficByHourHeatmap = function() {
+  $scope.generateTrafficByHourHeatmap = function() {
 		var params = null;
 
 		var eid;
@@ -660,12 +786,12 @@
     };
 
     $scope.generateGeneralInfo = function() {
-        $http.get(CommonsService.getUrl('/dashboard/generalData') 
+        $http.get(CommonsService.getUrl('/dashboard/generalData')
             + '&entityId=' + $scope.brand.id
             + '&subentityId=' + $scope.store.id
             + '&entityKind=1'
-			+ '&fromStringDate=' + $scope.fromDate
-			+ '&toStringDate=' + $scope.toDate
+            + '&fromStringDate=' + $scope.fromDate
+            + '&toStringDate=' + $scope.toDate
             + '&onlyExternalIds=true'
             + '&format=json'
             + '&timestamp=' + CommonsService.getTimestamp())
@@ -709,7 +835,7 @@
     };
 
     $scope.generateBrandPerformanceTable = function() {
-        $http.get(CommonsService.getUrl('/dashboard/brandTableData') 
+        $http.get(CommonsService.getUrl('/dashboard/brandTableData')
             + '&entityId=' + $scope.brand.id
             + '&entityKind=1'
 			+ '&fromStringDate=' + $scope.fromDate
@@ -751,11 +877,10 @@
     }
 
 	// Define available stores
-	$scope.setAvailableBrands = function() {
-		
+	$scope.setAvailableStores = function() {
+
 		$http.get(CommonsService.getUrl('/dashboard/assignedBrandList'))
 		.then(function(data) {
-
 			$scope.brands = Array();
 			for( var i = 0; i < data.data.data.length; i++ ) {
 				var brand = {
@@ -766,9 +891,7 @@
 			}
 			$scope.brand = $scope.brands[0];
 			$scope.brandChange();
-
 		});
-
 	}
 
 	// Define period Types
@@ -844,7 +967,7 @@
 		$scope.stores = new Array();
 		$scope.loadingSubmit = true;
 		$http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
-			+ '&entityId=' + $scope.brand.id 
+			+ '&entityId=' + $scope.brand.id
 			+ '&entityKind=1&onlyExternalIds=true')
 		.then(function(data) {
 
@@ -899,33 +1022,46 @@
 			$scope.monthVisible = 'hidden';
 			$scope.quarterVisible = 'hidden';
 			$scope.annualVisible = 'hidden';
+      $scope.rangeCalendarChange();
 		} else if( $scope.periodType.id == 'week') {
 			$scope.rangeVisible = 'hidden';
 			$scope.weekVisible = '';
 			$scope.monthVisible = 'hidden';
 			$scope.quarterVisible = 'hidden';
 			$scope.annualVisible = 'hidden';
+      $scope.retailCalendarChange();
 		} else if( $scope.periodType.id == 'month') {
 			$scope.rangeVisible = 'hidden';
 			$scope.weekVisible = 'hidden';
 			$scope.monthVisible = '';
 			$scope.quarterVisible = 'hidden';
 			$scope.annualVisible = 'hidden';
+      $scope.monthCalendarChange();
 		} else if( $scope.periodType.id == 'quarter') {
 			$scope.rangeVisible = 'hidden';
 			$scope.weekVisible = 'hidden';
 			$scope.monthVisible = 'hidden';
 			$scope.quarterVisible = '';
 			$scope.annualVisible = 'hidden';
+      $scope.quarterCalendarChange();
 		} else if( $scope.periodType.id == 'annual') {
 			$scope.rangeVisible = 'hidden';
 			$scope.weekVisible = 'hidden';
 			$scope.monthVisible = 'hidden';
 			$scope.quarterVisible = 'hidden';
 			$scope.annualVisible = '';
+      $scope.annualCalendarChange();
 		}
-
 	}
+
+  $scope.rangeCalendarChange = function(modelName, time) {
+    if(modelName == "from") {
+      $scope.fromDate = moment(time).format("YYYY-MM-DD");
+    }
+    if(modelName == "to") {
+      $scope.toDate = moment(time).format("YYYY-MM-DD");
+    }
+  }
 
 	// Change on retail calendar
 	$scope.retailCalendarChange = function() {
@@ -960,6 +1096,7 @@
 	// Change on annual calendar
 	$scope.annualCalendarChange = function() {
 		if($scope.annualCalendarDate != null ) {
+      console.log($scope.annualCalendarChange);
 			$scope.toDate = $scope.annualCalendarDate.toDate;
 			$('#toDate').val($scope.toDate);
 			$scope.fromDate = $scope.annualCalendarDate.fromDate;
@@ -986,7 +1123,7 @@
 			if($scope.annualCalendar[i].fromDate <= d && $scope.annualCalendar[i].toDate >= d)
 				$scope.annualCalendarDate = $scope.annualCalendar[i];
 		}
-		
+
 		if( $scope.periodType.id == 'week') {
 			$scope.retailCalendarChange();
 		} else if( $scope.periodType.id == 'month') {
@@ -997,7 +1134,7 @@
 			$scope.annualCalendarChange();
 		}
 	}
-	
+
 	return vm;
 };
 
@@ -1008,22 +1145,22 @@
  function dashboardFlotTwo() {
 
  	var data1 = [
- 	[gd(2012, 1, 1), 7],
- 	[gd(2012, 1, 2), 6],
- 	[gd(2012, 1, 3), 4],
- 	[gd(2012, 1, 4), 8],
- 	[gd(2012, 1, 5), 9],
- 	[gd(2012, 1, 6), 7],
+ 	[gd(2012, 1, 1), 50],
+ 	[gd(2012, 1, 2), 66],
+ 	[gd(2012, 1, 3), 47],
+ 	[gd(2012, 1, 4), 89],
+ 	[gd(2012, 1, 5), 90],
+ 	[gd(2012, 1, 6), 24],
  	[gd(2012, 1, 7), 5],
- 	[gd(2012, 1, 8), 4],
- 	[gd(2012, 1, 9), 7],
+ 	[gd(2012, 1, 8), 45],
+ 	[gd(2012, 1, 9), 70],
  	[gd(2012, 1, 10), 8],
  	[gd(2012, 1, 11), 9],
- 	[gd(2012, 1, 12), 6],
- 	[gd(2012, 1, 13), 4],
- 	[gd(2012, 1, 14), 5],
- 	[gd(2012, 1, 15), 11],
- 	[gd(2012, 1, 16), 8],
+ 	[gd(2012, 1, 12), 40],
+ 	[gd(2012, 1, 13), 49],
+ 	[gd(2012, 1, 14), 53],
+ 	[gd(2012, 1, 15), 80],
+ 	[gd(2012, 1, 16), 70],
  	[gd(2012, 1, 17), 8],
  	[gd(2012, 1, 18), 11],
  	[gd(2012, 1, 19), 11],
@@ -1040,6 +1177,41 @@
  	[gd(2012, 1, 30), 8],
  	[gd(2012, 1, 31), 25]
  	];
+
+  var data3 = [
+  [gd(2012, 1, 1), 70],
+  [gd(2012, 1, 2), 60],
+  [gd(2012, 1, 3), 40],
+  [gd(2012, 1, 4), 80],
+  [gd(2012, 1, 5), 90],
+  [gd(2012, 1, 6), 70],
+  [gd(2012, 1, 7), 50],
+  [gd(2012, 1, 8), 40],
+  [gd(2012, 1, 9), 70],
+  [gd(2012, 1, 10), 80],
+  [gd(2012, 1, 11), 90],
+  [gd(2012, 1, 12), 60],
+  [gd(2012, 1, 13), 40],
+  [gd(2012, 1, 14), 50],
+  [gd(2012, 1, 15), 110],
+  [gd(2012, 1, 16), 80],
+  [gd(2012, 1, 17), 80],
+  [gd(2012, 1, 18), 110],
+  [gd(2012, 1, 19), 110],
+  [gd(2012, 1, 20), 60],
+  [gd(2012, 1, 21), 60],
+  [gd(2012, 1, 22), 80],
+  [gd(2012, 1, 23), 110],
+  [gd(2012, 1, 24), 130],
+  [gd(2012, 1, 25), 70],
+  [gd(2012, 1, 26), 90],
+  [gd(2012, 1, 27), 90],
+  [gd(2012, 1, 28), 80],
+  [gd(2012, 1, 29), 50],
+  [gd(2012, 1, 30), 80],
+  [gd(2012, 1, 31), 250]
+  ];
+
 
  	var data2 = [
  	[gd(2012, 1, 1), 800],
@@ -1078,7 +1250,7 @@
 
  	var dataset = [
  	{
- 		label: "Number of orders",
+ 		label: "Ventas",
  		grow:{stepMode:"linear"},
  		data: data2,
  		color: "#1ab394",
@@ -1090,23 +1262,45 @@
  		}
 
  	},
- 	{
- 		label: "Payments",
+  {
+ 		label: "Tickets",
  		grow:{stepMode:"linear"},
- 		data: data1,
+ 		data: data3,
  		yaxis: 2,
  		color: "#1C84C6",
  		lines: {
- 			lineWidth: 1,
+ 			lineWidth: 2,
  			show: true,
  			fill: true,
  			fillColor: {
  				colors: [
  				{
- 					opacity: 0.2
+ 					opacity: 0.1
  				},
  				{
- 					opacity: 0.2
+ 					opacity: 0.1
+ 				}
+ 				]
+ 			}
+ 		}
+ 	},
+ 	{
+ 		label: "Visitas",
+ 		grow:{stepMode:"linear"},
+ 		data: data1,
+ 		yaxis: 2,
+ 		color: "#ff4444",
+ 		lines: {
+ 			lineWidth: 2,
+ 			show: true,
+ 			fill: true,
+ 			fillColor: {
+ 				colors: [
+ 				{
+ 					opacity: 0.1
+ 				},
+ 				{
+ 					opacity: 0.1
  				}
  				]
  			}
@@ -1139,7 +1333,7 @@
  		yaxes: [
  		{
  			position: "left",
- 			max: 1070,
+ 			max: 900,
  			color: "#d5d5d5",
  			axisLabelUseCanvas: true,
  			axisLabelFontSizePixels: 12,

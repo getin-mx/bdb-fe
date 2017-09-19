@@ -5,62 +5,106 @@
 		<div class="col-lg-12">
 			<div class="ibox float-e-margins">
 				<div class="ibox-content">
+					<h2><b>Reporte general</b></h2>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
 					<div class="row">
-						<div class="col-lg-3 col-md-4">
-							Cadena:<br>
+						<div class="col-lg-3 col-md-6">
+							<h3><b>Cadena:</b></h3>
 							<select data-placeholder="Selecciona Cadena..." ng-model="brand" ng-change="brandChange()" data-ng-options="o.name for o in brands" class="input form-control"></select>
 						</div>
 
-						<div class="col-lg-3 col-md-4">
-							Tipo de Per&iacute;odo:<br>
+						<div class="col-lg-3 col-md-6">
+							<h3><b>{{storeLabel}}:</b></h3>
+							<select data-placeholder="Selecciona {{storeLabel}}..." ng-model="store" ng-change="storeChange()" data-ng-options="o.name for o in stores" class="input form-control"></select>
+						</div>
+
+
+						<div class="col-lg-3 col-md-6">
+							<h3><b>Tipo de {{storeLabel}}:</b></h3>
+							<select data-placeholder="Selecciona Tipo..." ng-model="storeType" ng-change="storeTypeChange()" data-ng-options="o.name for o in storeTypes" class="input form-control"></select>
+						</div>
+					</div>
+
+					<hr />
+
+					<div class="row">
+
+						<div class="col-lg-3 col-md-6">
+							<h3><b>Tipo de Per&iacute;odo:</b></h3>
 							<select data-placeholder="Selecciona Tipo de Periodo..." ng-model="periodType" ng-change="periodTypeChange()" data-ng-options="o.name for o in periodTypes" class="input form-control"></select>
 						</div>
 
-						<div class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">
-							<button type="button" ng-click="updateDashboard()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in">Filtrar</button>
-						</div>
-
-					</div>
-
-					<div class="row">
 						<div ng-class="rangeVisible" class="col-lg-4 col-md-5">
-							<label class="font-noraml">Rango de Fechas:</label>
+							<h3><b>Rango de Fechas:</b><h3>
 							<div class="input-group date" style="max-width: 400px;">
-								<input type="datetime" id="fromDate" ng-model="fromDate" class="form-control datelistener" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
+								<input
+									date-time
+									watch-direct-changes
+									type="text"
+									id="fromDate"
+									ng-model="from"
+									date-change="rangeCalendarChange"
+									class="form-control datelistener"
+									view="month"
+									min-view="date"
+									auto-close="true"
+									format="YYYY-MM-DD"
+									>
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-								<input type="datetime" id="toDate" ng-model="toDate" class="form-control datelistener" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
+								<input
+									date-time
+									watch-direct-changes
+									type="text"
+									id="toDate"
+									ng-model="to"
+									date-change="rangeCalendarChange"
+									class="form-control datelistener"
+									view="month"
+									min-view="date"
+									auto-close="true"
+									format="YYYY-MM-DD"
+									>
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 							</div>
 						</div>
 
-						<div ng-class="weekVisible" class="col-lg-4 col-md-5">
-							Semana:<br>
+						<div ng-class="weekVisible" class="col-lg-6 col-md-6">
+							<h3><b>Semana:</b></h3>
 							<select ng-model="retailCalendarDate" ng-change="retailCalendarChange()" data-ng-options="o.name for o in retailCalendar"  data-placeholder="Selecciona Semana..." class="input form-control"></select>
 						</div>
 
-						<div ng-class="monthVisible" class="col-lg-4 col-md-5">
-							Mes:<br>
+						<div ng-class="monthVisible" class="col-lg-6 col-md-6">
+							<h3><b>Mes:</b></h3>
 							<select ng-model="monthCalendarDate" ng-change="monthCalendarChange()" data-ng-options="o.name for o in monthCalendar"  data-placeholder="Selecciona Mes..." class="input form-control"></select>
 						</div>
 
-						<div ng-class="quarterVisible" class="col-lg-4 col-md-5">
-							Trimestre:<br>
+						<div ng-class="quarterVisible" class="col-lg-6 col-md-6">
+							<h3><b>Trimestre:</b></h3>
 							<select ng-model="quarterCalendarDate" ng-change="quarterCalendarChange()" data-ng-options="o.name for o in quarterCalendar"  data-placeholder="Selecciona Trimestre..." class="input form-control"></select>
 						</div>
 
-						<div ng-class="annualVisible" class="col-lg-4 col-md-5">
-							Año:<br>
+						<div ng-class="annualVisible" class="col-lg-6 col-md-6">
+							<h3><b>Año:</b></h3>
 							<select ng-model="annualCalendarDate" ng-change="annualCalendarChange()" data-ng-options="o.name for o in annualCalendar"  data-placeholder="Selecciona Año..." class="input form-control"></select>
 						</div>
 
-						<div class="col-lg-3 col-md-4">
-							{{storeLabel}}:<br>
-							<select data-placeholder="Selecciona {{storeLabel}}..." ng-model="store" ng-change="storeChange()" data-ng-options="o.name for o in stores" class="input form-control"></select>
-						</div>
 
-						<div class="col-lg-3 col-md-4">
-							Tipo de {{storeLabel}}:<br>
-							<select data-placeholder="Selecciona Tipo..." ng-model="storeType" ng-change="storeTypeChange()" data-ng-options="o.name for o in storeTypes" class="input form-control"></select>
+
+
+					</div>
+
+					<div class="row justify-content-end">
+						<div class="col-lg-12 col-md-12">
+							<div class="input-group" style="float:right; margin-top: 18px; margin-left: 10px;">
+								<button type="button" ng-click="updateDashboard()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in">Generar Reporte</button>
+							</div>
 						</div>
 					</div>
 
@@ -73,7 +117,7 @@
 
 	<div class="row">
 		<div class="col-lg-25">
-			<div class="ibox float-e-margins">
+			<div ng-show="loadedClientData" class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>Ventas</h5>
 					<div ibox-tools></div>
@@ -86,7 +130,7 @@
 		</div>
 
 		<div class="col-lg-25">
-			<div class="ibox float-e-margins">
+			<div ng-show="loadedClientData" class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>Paseantes</h5>
 					<div ibox-tools></div>
@@ -99,7 +143,7 @@
 		</div>
 
 		<div class="col-lg-25">
-			<div class="ibox float-e-margins">
+			<div ng-show="loadedClientData" class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>Visitas</h5>
 					<div ibox-tools></div>
@@ -112,7 +156,7 @@
 		</div>
 
 		<div class="col-lg-25">
-			<div class="ibox float-e-margins">
+			<div ng-show="loadedClientData" class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>Tickets</h5>
 					<div ibox-tools></div>
@@ -125,7 +169,7 @@
 		</div>
 
 		<div class="col-lg-25">
-			<div class="ibox float-e-margins">
+			<div ng-show="loadedClientData" class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>Tickets Promedio</h5>
 					<div ibox-tools></div>
@@ -141,7 +185,7 @@
 	<!-- Line 2 ***************************************************************************************************************** -->
 
 	<div class="row">
-		<div class="col-lg-12">
+		<div ng-show="loadedClientData" class="col-lg-8">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>Visitas</h5>
@@ -156,29 +200,36 @@
 					</div>
 				</div>
 				<div class="ibox-content">
-					<div class="row">
-						<div class="col-lg-9">
 							<div class="flot-chart" ng-controller="dashboardFlotTwo as chart">
 								<div flot class="flot-chart-content" dataset="chart.flotData" options="chart.flotOptions"></div>
 							</div>
-						</div>
-						<div class="col-lg-3">
-							<div class="row text-center" ng-controller="chartJsCtrl as chart">
-								<div class="col-lg-6" >
-									<canvas polarchart options="chart.polarOptions" data="chart.polarData" width="80" height="80"></canvas>
-									<h5>Kolter</h5>
-								</div>
-								<div class="col-lg-6">
-									<canvas doughnutchart options="chart.doughnutOptions" data="chart.doughnutData" width="78" height="78"></canvas>
-									<h5>Maxtor</h5>
-								</div>
-							</div>
-						</div>
-					</div>
-
 				</div>
 			</div>
 		</div>
+
+		<div class="" ng-controller="chartJsCtrl as chart">
+			<div class="col-lg-2 col-md-6">
+				<div ng-show="loadedClientData" class="ibox float-e-margins">
+					<div class="ibox-title">
+						Conversion de visitas
+					</div>
+					<div class="ibox-content">
+						<div class="conversion_visits" style="width: 150px; height: 200px; margin: auto 0;"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-2 col-md-6">
+				<div ng-show="loadedClientData" class="ibox float-e-margins">
+					<div class="ibox-title">
+						Conversion de tickets
+					</div>
+					<div class="ibox-content">
+						<div class="conversion_tickets" style="width: 150px; height: 200px; margin: auto 0;"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 	</div>
 
 	<!-- Boxes 1 ***************************************************************************************************************** -->
@@ -186,7 +237,7 @@
 	<div class="row">
 
 		<div class="col-lg-3">
-			<div class="ibox float-e-margins">
+			<div ng-show="loadedClientData" class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>Permanencia</h5>
 					<div ibox-tools></div>
@@ -197,7 +248,7 @@
 				</div>
 			</div>
 
-			<div class="ibox float-e-margins">
+			<div ng-show="loadedClientData" class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>Visitas</h5>
 					<div ibox-tools></div>
@@ -208,7 +259,7 @@
 				</div>
 			</div>
 
-			<div class="ibox float-e-margins">
+			<div ng-show="loadedClientData" class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>Dia Alto</h5>
 					<div ibox-tools></div>
@@ -219,7 +270,7 @@
 				</div>
 			</div>
 
-			<div class="ibox float-e-margins">
+			<div ng-show="loadedClientData" class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>Dia Bajo</h5>
 					<div ibox-tools></div>
@@ -236,7 +287,7 @@
 		<div class="col-lg-9">
 
 			<div class="col-lg-6">
-				<div class="ibox float-e-margins">
+				<div ng-show="loadedClientData" class="ibox float-e-margins">
 					<div class="ibox-title">
 						<h5>D&iacute;as Altos vs D&iacute;as Bajos</h5>
 						<div ibox-tools></div>
@@ -313,7 +364,7 @@
 			<!-- Boxes 3 ***************************************************************************************************************** -->
 
 			<div class="col-lg-6">
-				<div class="ibox float-e-margins">
+				<div ng-show="loadedClientData" class="ibox float-e-margins">
 					<div class="ibox-title">
 						<h5>Antenas Apagadas</h5>
 						<div ibox-tools></div>
@@ -389,7 +440,7 @@
 			<!-- Hour Chart ***************************************************************************************************************** -->
 
 			<div class="col-lg-12">
-				<div class="ibox float-e-margins">
+				<div ng-show="loadedClientData" class="ibox float-e-margins">
 					<div class="ibox-title">
 						<h5>Paseantes y Visitas por Horario</h5>
 						<div ibox-tools></div>
@@ -410,7 +461,7 @@
 
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="ibox float-e-margins">
+			<div ng-show="loadedClientData" class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>Entradas por Hora</h5>
 					<div ibox-tools></div>
@@ -428,7 +479,7 @@
 
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="ibox float-e-margins">
+			<div ng-show="loadedClientData" class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>Ocupaci&oacute;n por Hora</h5>
 					<div ibox-tools></div>
@@ -446,7 +497,7 @@
 
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="ibox float-e-margins">
+			<div ng-show="loadedClientData" class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>Permanencia por Hora: Entrada</h5>
 					<div ibox-tools></div>
@@ -463,7 +514,7 @@
 	<!-- Permanence By Exit Heatmap ***************************************************************************************************************** -->
 
 	<div class="row">
-		<div class="col-lg-12">
+		<div ng-show="loadedClientData" class="col-lg-12">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>Permanencia por Hora: Salida</h5>
@@ -481,7 +532,7 @@
 	<!-- Table Data ******************************************************************************************************************************** -->
 
 	<div class="row">
-		<div class="col-lg-12">
+		<div ng-show="loadedClientData" class="col-lg-12">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>Datos Generales</h5>
@@ -520,6 +571,14 @@
 				</div>
 			</div>
 		</div>
+
+		<div  ng-show="loadedClientData" class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">
+			<button type="button" ng-click="exportPDF()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in">Exportar</button>
+		</div>
+
 	</div>
 
+	<!-- <a data-ng-click="savePdf()">Save to PDF</a> -->
+
+</div>
 </div>

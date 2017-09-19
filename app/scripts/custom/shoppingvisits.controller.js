@@ -32,9 +32,9 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
             $('#shoppingSelectorContainer').css('display','block');
             for(var i = 0; i < data.data.data.length; i++) {
                 if( i == 0 ) selected = data.data.data[i].identifier;
-                $('#shoppingId').append($('<option>', { 
+                $('#shoppingId').append($('<option>', {
                     value: data.data.data[i].identifier,
-                    text : data.data.data[i].name 
+                    text : data.data.data[i].name
                 }));
             }
         }
@@ -47,7 +47,7 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
 
     $scope.updateZoneList = function(id, entityId) {
         $http.get(CommonsService.getUrl('/dashboard/innerZoneList')
-            + '&entityId=' + $scope.shoppingId 
+            + '&entityId=' + $scope.shoppingId
             + '&entityKind=0')
         .then(function(data) {
             $(id).empty();
@@ -76,9 +76,9 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
         $scope.fromDate = $('#fromDate').val();
         $scope.toDate = $('#toDate').val();
 
-        var url =  config.baseUrl + '/dashboard/visitDetailExport' 
-        + '?authToken=' + $rootScope.globals.currentUser.token 
-        + '&shoppingId=' + $scope.shoppingId 
+        var url =  config.baseUrl + '/dashboard/visitDetailExport'
+        + '?authToken=' + $rootScope.globals.currentUser.token
+        + '&shoppingId=' + $scope.shoppingId
         + '&fromStringDate=' + $scope.fromDate
         + '&toStringDate=' + $scope.toDate
 
@@ -125,17 +125,17 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
         }
 
         $.getJSON(
-            baseUrl 
+            baseUrl
             + '/dashoard/timelineData'
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + eid 
+            + '?authToken=' + $rootScope.globals.currentUser.token
+            + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + eid 
-            + '&elementId=apd_visitor' 
+            + '&subentityId=' + eid
+            + '&elementId=apd_visitor'
             + '&subIdOrder=visitor_total_visits,'
-            + 'visitor_total_visits_ios,visitor_total_visits_android' 
-            + '&fromStringDate=' + fromDate 
-            + '&toStringDate=' + toDate 
+            + 'visitor_total_visits_ios,visitor_total_visits_android'
+            + '&fromStringDate=' + fromDate
+            + '&toStringDate=' + toDate
             + '&eraseBlanks=false'
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
@@ -198,17 +198,17 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
         }
 
         $.getJSON(
-            baseUrl 
+            baseUrl
             + '/dashoard/timelineHour'
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + eid 
-            + '&entityKind=' + kind 
+            + '?authToken=' + $rootScope.globals.currentUser.token
+            + '&entityId=' + eid
+            + '&entityKind=' + kind
             + '&subentityId=' + eid
-            + '&elementId=apd_visitor' 
+            + '&elementId=apd_visitor'
             + '&subIdOrder=visitor_total_visits,'
-            + 'visitor_total_visits_ios,visitor_total_visits_android' 
-            + '&fromStringDate=' + fromDate 
-            + '&toStringDate=' + toDate 
+            + 'visitor_total_visits_ios,visitor_total_visits_android'
+            + '&fromStringDate=' + fromDate
+            + '&toStringDate=' + toDate
             + '&eraseBlanks=true'
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
@@ -271,19 +271,19 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
         }
 
         $.getJSON(
-            baseUrl 
+            baseUrl
             + '/dashoard/timelineHour'
-            + '?authToken=' + $rootScope.globals.currentUser.token 
+            + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
-            + '&entityKind=' + kind 
-            + '&subentityId=' + eid 
-            + '&elementId=apd_permanence' 
+            + '&entityKind=' + kind
+            + '&subentityId=' + eid
+            + '&elementId=apd_permanence'
             + '&subIdOrder=permanence_hourly_visits,'
-            + 'permanence_hourly_visits_ios,permanence_hourly_visits_android' 
-            + '&fromStringDate=' + fromDate 
-            + '&toStringDate=' + toDate 
-            + '&average=true' 
-            + '&toMinutes=true' 
+            + 'permanence_hourly_visits_ios,permanence_hourly_visits_android'
+            + '&fromStringDate=' + fromDate
+            + '&toStringDate=' + toDate
+            + '&average=true'
+            + '&toMinutes=true'
             + '&eraseBlanks=true'
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
@@ -335,17 +335,17 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
     };
     this.updateRepetitionsChart = function(id, baseUrl, fromDate, toDate, entityId, subentityId) {
         $.getJSON(
-            baseUrl 
-            + '/dashoard/repetitions'
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
+            baseUrl
+            + '/dashboard/repetitions'
+            + '?authToken=' + $rootScope.globals.currentUser.token
+            + '&entityId=' + entityId
             + '&entityKind=0'
-            + '&subentityId=' + entityId 
-            + '&elementId=apd_visitor' 
+            + '&subentityId=' + entityId
+            + '&elementId=apd_visitor'
             + '&subIdOrder=visitor_total_visits,'
-            + 'visitor_total_visits_ios,visitor_total_visits_android' 
-            + '&fromStringDate=' + fromDate 
-            + '&toStringDate=' + toDate 
+            + 'visitor_total_visits_ios,visitor_total_visits_android'
+            + '&fromStringDate=' + fromDate
+            + '&toStringDate=' + toDate
             + '&eraseBlanks=true'
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
@@ -415,18 +415,18 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
         }
 
         $.getJSON(
-            baseUrl 
+            baseUrl
             + '/dashoard/heatmapTableHour'
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + eid 
-            + '&entityKind=' + kind 
-            + '&subentityId=' + eid 
-            + '&elementId=apd_visitor' 
-            + '&elementSubId=visitor_total_visits' 
-            + '&fromStringDate=' + fromDate 
-            + '&toStringDate=' + toDate 
-            + '&average=false' 
-            + '&toMinutes=false' 
+            + '?authToken=' + $rootScope.globals.currentUser.token
+            + '&entityId=' + eid
+            + '&entityKind=' + kind
+            + '&subentityId=' + eid
+            + '&elementId=apd_visitor'
+            + '&elementSubId=visitor_total_visits'
+            + '&fromStringDate=' + fromDate
+            + '&toStringDate=' + toDate
+            + '&average=false'
+            + '&toMinutes=false'
             + '&eraseBlanks=true'
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
@@ -491,18 +491,18 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
         }
 
         $.getJSON(
-            baseUrl 
+            baseUrl
             + '/dashoard/heatmapTableHour'
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + eid 
-            + '&entityKind=' + kind 
-            + '&subentityId=' + eid 
-            + '&elementId=apd_permanence' 
-            + '&elementSubId=permanence_hourly_visits' 
-            + '&fromStringDate=' + fromDate 
-            + '&toStringDate=' + toDate 
-            + '&average=true' 
-            + '&toMinutes=true' 
+            + '?authToken=' + $rootScope.globals.currentUser.token
+            + '&entityId=' + eid
+            + '&entityKind=' + kind
+            + '&subentityId=' + eid
+            + '&elementId=apd_permanence'
+            + '&elementSubId=permanence_hourly_visits'
+            + '&fromStringDate=' + fromDate
+            + '&toStringDate=' + toDate
+            + '&average=true'
+            + '&toMinutes=true'
             + '&eraseBlanks=true'
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
@@ -556,13 +556,13 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
     };
     this.updateShoppingPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId) {
         $.getJSON(
-            baseUrl 
+            baseUrl
             + '/dashoard/shoppingTableData'
-            + '?authToken=' + $rootScope.globals.currentUser.token 
-            + '&entityId=' + entityId 
-            + '&entityKind=0' 
-            + '&fromStringDate=' + fromDate 
-            + '&toStringDate=' + toDate 
+            + '?authToken=' + $rootScope.globals.currentUser.token
+            + '&entityId=' + entityId
+            + '&entityKind=0'
+            + '&fromStringDate=' + fromDate
+            + '&toStringDate=' + toDate
             + '&onlyExternalIds=true'
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
