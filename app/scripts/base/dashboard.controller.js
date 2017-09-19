@@ -789,8 +789,6 @@
     };
 
     $scope.generateGeneralInfo = function() {
-        console.log($scope.fromDate);
-        console.log($scope.toDate);
         $http.get(CommonsService.getUrl('/dashboard/generalData')
             + '&entityId=' + $scope.brand.id
             + '&subentityId=' + $scope.store.id
@@ -1060,19 +1058,12 @@
 	}
 
   $scope.rangeCalendarChange = function(modelName, time) {
-    //$scope.xxy = $('#fromDate').val();
-    //$scope.yyx = $('#toDate').val();
-    console.log(modelName);
     if(modelName == "from") {
       $scope.fromDate = moment(time).format("YYYY-MM-DD");
     }
     if(modelName == "to") {
       $scope.toDate = moment(time).format("YYYY-MM-DD");
     }
-    console.log($scope.fromDate);
-    console.log($scope.toDate);
-    console.log(time);
-    console.log(moment(time));
   }
 
 	// Change on retail calendar
