@@ -1206,6 +1206,7 @@
     };
 
     $scope.fillBrandTable = function(data) {
+        console.log(data);
         $('#brand-table>tbody>tr').each(function(index, elem){$(elem).remove();});
 
         //get the footable object
@@ -1248,6 +1249,7 @@
                 + '<td data-value="' + obj.peasants + '"><center>'  + b1 + formatter1.format(obj.peasants) + b2 + '</center></td>'
                 + '<td data-value="' + obj.visitors + '"><center>'  + b1 +  formatter1.format(obj.visitors) + b2 + '</center></td>'
                 + '<td data-value="' + obj.tickets + '"><center>'  + b1 +  formatter1.format(obj.tickets) + b2 + '</center></td>'
+                + '<td data-value="' + obj.items + '"><center>'  + b1 +  formatter1.format(obj.items) + b2 + '</center></td>'
                 + '<td data-value="' + obj.revenue + '"><center>'  + b1 +  formatter2.format(obj.revenue) + b2 + '</center></td>'
                 + '<td data-value="' + obj.visitsConversion + '"><center>'  + b1 + formatter3.format(obj.visitsConversion) + '%' + b2 + '</center></td>'
                 + '<td data-value="' + obj.ticketsConversion + '"><center>'  + b1 + formatter3.format(obj.ticketsConversion) + '%' + b2 + '</center></td>'
