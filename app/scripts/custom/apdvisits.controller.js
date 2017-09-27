@@ -1206,7 +1206,6 @@
     };
 
     $scope.fillBrandTable = function(data) {
-        console.log(data);
         $('#brand-table>tbody>tr').each(function(index, elem){$(elem).remove();});
 
         //get the footable object
