@@ -124,7 +124,8 @@
           'ecobutik_mx',
           'fullsand_mx',
           'sallybeauty_mx',
-          'delicafe_mx'
+          'delicafe_mx',
+          'prada_mx'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
@@ -153,7 +154,8 @@
           'ecobutik_mx',
           'fullsand_mx',
           'sallybeauty_mx',
-          'delicafe_mx'
+          'delicafe_mx',
+          'prada_mx'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
