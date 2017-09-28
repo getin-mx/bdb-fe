@@ -875,6 +875,12 @@
                 var p = new Array();
                 for( var i = 0; i < data.data.length; i++) {
                     var ob = data.data[i];
+                    for (var z = 0; z < ob.length ; z++){
+                      if (ob[z] === null) {
+                        ob[z] = 0;
+                      }
+                    }
+
                     var p1 = p[ob[0]];
                     if( p1 === null || p1 === undefined )  {
                         p1 = new Array();
@@ -887,6 +893,11 @@
                 var q = new Array();
                 for( var i = 0; i < data.data.length; i++) {
                     var ob = data.data[i];
+                    for (var z = 0; z < ob.length ; z++){
+                      if (ob[z] === null) {
+                        ob[z] = 0;
+                      }
+                    }
                     var q1 = q[ob[0]];
                     if( q1 === null || q1 === undefined )  {
                         q1 = new Array();
