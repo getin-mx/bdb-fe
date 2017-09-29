@@ -8,13 +8,13 @@
  */
 var config = {};
 
-config.baseUrl = 'http://api.allshoppings.mobi/bdb';
-config.dashUrl = 'http://api.allshoppings.mobi/appv2';
-config.uploadUrl = 'http://api.allshoppings.mobi/bdb/img/upload'
+// config.baseUrl = 'http://api.allshoppings.mobi/bdb';
+// config.dashUrl = 'http://api.allshoppings.mobi/appv2';
+// config.uploadUrl = 'http://api.allshoppings.mobi/bdb/img/upload'
 
-// config.baseUrl = 'http://staging.getin.mx/bdb';
-// config.dashUrl = 'http://staging.getin.mx/appv2';
-// config.uploadUrl = 'http://staging.getin.mx/bdb/img/upload'
+config.baseUrl = 'http://staging.getin.mx/bdb';
+config.dashUrl = 'http://staging.getin.mx/appv2';
+config.uploadUrl = 'http://staging.getin.mx/bdb/img/upload'
 
 // config.baseUrl = 'http://alpha.getin.mx/bdb';
 // config.dashUrl = 'http://alpha.getin.mx/appv2';
