@@ -125,7 +125,8 @@
           'fullsand_mx',
           'sallybeauty_mx',
           'delicafe_mx',
-          'prada_mx'
+          'prada_mx',
+          'grupopavel_mx'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
@@ -155,7 +156,8 @@
           'fullsand_mx',
           'sallybeauty_mx',
           'delicafe_mx',
-          'prada_mx'
+          'prada_mx',
+          'grupopavel_mx'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
