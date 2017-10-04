@@ -80,32 +80,64 @@
 
   $scope.generateVisitsGraph = function() {
     $('#visits_by_date').html('');
-    $scope.updateVisitsByDateChart('#visits_by_date', config.dashUrl, $scope.fromDate, $scope.toDate, $scope.brandId, $scope.storeId, $scope.zoneId, $scope.periodType);
+    $scope.updateVisitsByDateChart('#visits_by_date', config.baseUrl, $scope.fromDate, $scope.toDate, $scope.brandId, $scope.storeId, $scope.zoneId, $scope.periodType);
   }
 
   $scope.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, periodType) {
       var url = null;
-
       var eid;
       var seid;
       var kind;
       var vo = false;
 
-      if( zoneId === undefined || zoneId == '') {
-          eid = entityId;
-          seid = subEntityId;
-          kind = 1;
-          vo = false;
+      // if( zoneId === undefined || zoneId == '') {
+      //     eid = entityId;
+      //     seid = subEntityId;
+      //     kind = 1;
+      //     vo = false;
+      // } else {
+      //     eid = zoneId;
+      //     seid = zoneId;
+      //     kind = 20;
+      //     vo = true;
+      // }
+
+      if( $scope.zoneId === undefined || $scope.zoneId == '') {
+        eid = $scope.brand.id;
+        seid = $scope.store.id;
+        kind = 1;
+        vo = false;
       } else {
-          eid = zoneId;
-          seid = zoneId;
-          kind = 20;
-          vo = true;
+        eid = $scope.zoneId;
+        seid = $scope.zoneId;
+        kind = 20;
+        vo = true;
       }
+
+      $scope.updateGraphs = function(periodType) {
+          $scope.periodType = periodType;
+
+          $('#btnGraphDaily').removeClass('active');
+          $('#btnGraphWeekly').removeClass('active');
+          $('#btnGraphMonthly').removeClass('active');
+
+          if( periodType == 'D' ) {
+              $('#btnGraphDaily').addClass('active');
+          } else if( periodType == 'W' ) {
+              $('#btnGraphWeekly').addClass('active');
+          } else if( periodType == 'M' ) {
+              $('#btnGraphMonthly').addClass('active');
+          }
+
+          $('#visits_by_date').html('');
+          $scope.updateVisitsByDateChart('#visits_by_date', config.baseUrl, $scope.fromDate, $scope.toDate, $scope.brandId, $scope.storeId, $scope.zoneId, $scope.periodType);
+      }
+
+      $scope.showRevenue = true;
 
       if( $scope.visitsOnly == true || vo == true )
           url = baseUrl
-          + '/dashoard/timelineData'
+          + '/dashboard/timelineData'
           + '?authToken=' + $rootScope.globals.currentUser.token
           + '&entityId=' + eid
           + '&entityKind=' + kind
@@ -121,7 +153,7 @@
       else
           if( $scope.showRevenue == true )
               url = baseUrl
-              + '/dashoard/timelineData'
+              + '/dashboard/timelineData'
               + '?authToken=' + $rootScope.globals.currentUser.token
               + '&entityId=' + eid
               + '&entityKind=' + kind
@@ -136,7 +168,7 @@
               + '&timestamp=' + CommonsService.getTimestamp();
           else
               url = baseUrl
-              + '/dashoard/timelineData'
+              + '/dashboard/timelineData'
               + '?authToken=' + $rootScope.globals.currentUser.token
               + '&entityId=' + eid
               + '&entityKind=' + kind
@@ -154,7 +186,7 @@
       $.getJSON( url,
           function(data) {
               // Disable extra options by default
-
+              const subarray = data.series.slice(0,3);
               var from = 2;
               if( $scope.visitsOnly == true ) from = 1;
               if( $scope.showRevenue == true ) {
@@ -162,6 +194,7 @@
                   data.series[0].color = 'rgba(26, 179, 148, 0.5)';
                   // data.series[0].color = "#1ab394";
               }
+              //restrict to first 3 results
               for( var i = from; i < data.series.length; i++){
                   data.series[i].visible = false;
               }
@@ -173,7 +206,7 @@
                       marginRight: 200
                   },
                   title: {
-                      text: 'Tráfico por Día'
+                      text: ''
                   },
                   xAxis: {
                       categories: data.categories
@@ -210,12 +243,12 @@
                   plotOptions: {
                       line: {
                           dataLabels: {
-                              enabled: true
+                              enabled: false
                           },
                           enableMouseTracking: false
                       }
                   },
-                  series: data.series
+                  series: subarray
               });
           });
   };
@@ -388,7 +421,7 @@
 			+ '&eraseBlanks=true'
 			+ '&timestamp=' + CommonsService.getTimestamp();
 
-		$http.get(CommonsService.getDashUrl('/dashoard/timelineHour') + params)
+		$http.get(CommonsService.getUrl('/dashboard/timelineHour') + params)
 			.then(function(res) {
 
 				var data = res.data;
@@ -488,7 +521,7 @@
             + '&eraseBlanks=true'
             + '&timestamp=' + CommonsService.getTimestamp();
 
-		$http.get(CommonsService.getDashUrl('/dashoard/heatmapTableHour') + params)
+		$http.get(CommonsService.getUrl('/dashboard/heatmapTableHour') + params)
 			.then(function(res) {
 
 				var data = res.data;
@@ -616,7 +649,7 @@
             + '&eraseBlanks=true'
             + '&timestamp=' + CommonsService.getTimestamp();
 
-		$http.get(CommonsService.getDashUrl('/dashoard/heatmapTableHour') + params)
+		$http.get(CommonsService.getUrl('/dashboard/heatmapTableHour') + params)
 			.then(function(res) {
 
 				var data = res.data;
@@ -743,7 +776,7 @@
             + '&eraseBlanks=true'
             + '&timestamp=' + CommonsService.getTimestamp();
 
-		$http.get(CommonsService.getDashUrl('/dashoard/heatmapTableHour') + params)
+		$http.get(CommonsService.getUrl('/dashboard/heatmapTableHour') + params)
 			.then(function(res) {
 
 				var data = res.data;
@@ -858,7 +891,7 @@
             + '&eraseBlanks=true'
             + '&timestamp=' + CommonsService.getTimestamp();
 
-		$http.get(CommonsService.getDashUrl('/dashoard/heatmapTableHour') + params)
+		$http.get(CommonsService.getUrl('/dashboard/heatmapTableHour') + params)
 			.then(function(res) {
 
 				var data = res.data;

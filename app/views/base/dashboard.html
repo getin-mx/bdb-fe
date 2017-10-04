@@ -31,16 +31,12 @@
 							<select data-placeholder="Selecciona Tipo..." ng-model="storeType" ng-change="storeTypeChange()" data-ng-options="o.name for o in storeTypes" class="input form-control"></select>
 						</div>
 					</div>
-
-					<hr />
-
+					<hr/>
 					<div class="row">
-
 						<div class="col-lg-3 col-md-6">
 							<h3><b>Tipo de Per&iacute;odo:</b></h3>
 							<select data-placeholder="Selecciona Tipo de Periodo..." ng-model="periodType" ng-change="periodTypeChange()" data-ng-options="o.name for o in periodTypes" class="input form-control"></select>
 						</div>
-
 						<div ng-class="rangeVisible" class="col-lg-4 col-md-5">
 							<h3><b>Rango de Fechas:</b><h3>
 							<div class="input-group date" style="max-width: 400px;">
@@ -192,10 +188,10 @@
 
 					<div class="pull-right">
 						<div class="btn-group">
-							<button type="button" class="btn btn-xs btn-white active">Diario</button>
-							<button type="button" class="btn btn-xs btn-white">Semanal</button>
-							<button type="button" class="btn btn-xs btn-white">Mensual</button>
-							<button type="button" class="btn btn-xs btn-white">Anual</button>
+							<button type="button" id="btnGraphDaily"  ng-click="updateGraphs('D')" class="btn btn-xs btn-white active">Diario</button>
+							<button type="button" id="btnGraphWeekly"  ng-click="updateGraphs('W')" class="btn btn-xs btn-white">Semanal</button>
+							<button type="button" id="btnGraphMonthly"  ng-click="updateGraphs('M')" class="btn btn-xs btn-white">Mensual</button>
+							<button type="button" ng-click="updateGraphs('Y')" class="btn btn-xs btn-white">Anual</button>
 						</div>
 					</div>
 				</div>
@@ -203,7 +199,7 @@
 						<!-- <div class="flot-chart" ng-controller="dashboardFlotTwo as chart">
 							<div flot class="flot-chart-content" dataset="chart.flotData" options="chart.flotOptions"></div>
 						</div> -->
-						<div id="visits_by_date"></div>
+						<div id="visits_by_date" style="height: 300px;"></div>
 				</div>
 			</div>
 		</div>
@@ -215,7 +211,7 @@
 						Conversion de visitas
 					</div>
 					<div class="ibox-content">
-						<div class="conversion_visits" style="width: 150px; height: 200px; margin: auto 0;"></div>
+						<div class="conversion_visits" style="width: 150px; height: 300px; margin: auto 0;"></div>
 					</div>
 				</div>
 			</div>
@@ -225,12 +221,11 @@
 						Conversion de tickets
 					</div>
 					<div class="ibox-content">
-						<div class="conversion_tickets" style="width: 150px; height: 200px; margin: auto 0;"></div>
+						<div class="conversion_tickets" style="width: 150px; height: 300px; margin: auto 0;"></div>
 					</div>
 				</div>
 			</div>
 		</div>
-
 	</div>
 
 	<!-- Boxes 1 ***************************************************************************************************************** -->
