@@ -75,7 +75,183 @@
 		$scope.generatePermanenceExitHeatmap();
 		$scope.generateBrandPerformanceTable();
     $scope.generateConversionGauges();
+    $scope.generateVisitsGraph();
 	}
+
+  $scope.generateVisitsGraph = function() {
+    $('#visits_by_date').html('');
+    $scope.updateVisitsByDateChart('#visits_by_date', config.baseUrl, $scope.fromDate, $scope.toDate, $scope.brandId, $scope.storeId, $scope.zoneId, $scope.periodType);
+  }
+
+  $scope.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, periodType) {
+      var url = null;
+      var eid;
+      var seid;
+      var kind;
+      var vo = false;
+
+      // if( zoneId === undefined || zoneId == '') {
+      //     eid = entityId;
+      //     seid = subEntityId;
+      //     kind = 1;
+      //     vo = false;
+      // } else {
+      //     eid = zoneId;
+      //     seid = zoneId;
+      //     kind = 20;
+      //     vo = true;
+      // }
+
+      if( $scope.zoneId === undefined || $scope.zoneId == '') {
+        eid = $scope.brand.id;
+        seid = $scope.store.id;
+        kind = 1;
+        vo = false;
+      } else {
+        eid = $scope.zoneId;
+        seid = $scope.zoneId;
+        kind = 20;
+        vo = true;
+      }
+
+      $scope.updateGraphs = function(periodType) {
+          $scope.periodType = periodType;
+
+          $('#btnGraphDaily').removeClass('active');
+          $('#btnGraphWeekly').removeClass('active');
+          $('#btnGraphMonthly').removeClass('active');
+
+          if( periodType == 'D' ) {
+              $('#btnGraphDaily').addClass('active');
+          } else if( periodType == 'W' ) {
+              $('#btnGraphWeekly').addClass('active');
+          } else if( periodType == 'M' ) {
+              $('#btnGraphMonthly').addClass('active');
+          }
+
+          $('#visits_by_date').html('');
+          $scope.updateVisitsByDateChart('#visits_by_date', config.baseUrl, $scope.fromDate, $scope.toDate, $scope.brandId, $scope.storeId, $scope.zoneId, $scope.periodType);
+      }
+
+      $scope.showRevenue = true;
+
+      if( $scope.visitsOnly == true || vo == true )
+          url = baseUrl
+          + '/dashboard/timelineData'
+          + '?authToken=' + $rootScope.globals.currentUser.token
+          + '&entityId=' + eid
+          + '&entityKind=' + kind
+          + '&subentityId=' + seid
+          + '&elementId=apd_visitor'
+          + '&subIdOrder=visitor_total_visits,'
+          + 'visitor_total_visits_ios,visitor_total_visits_android'
+          + '&fromStringDate=' + fromDate
+          + '&toStringDate=' + toDate
+          + '&periodType=' + periodType
+          + '&eraseBlanks=false'
+          + '&timestamp=' + CommonsService.getTimestamp();
+      else
+          if( $scope.showRevenue == true )
+              url = baseUrl
+              + '/dashboard/timelineData'
+              + '?authToken=' + $rootScope.globals.currentUser.token
+              + '&entityId=' + eid
+              + '&entityKind=' + kind
+              + '&subentityId=' + seid
+              + '&elementId=apd_visitor'
+              + '&subIdOrder=visitor_total_revenue,visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
+              + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets,visitor_total_items'
+              + '&fromStringDate=' + fromDate
+              + '&toStringDate=' + toDate
+              + '&periodType=' + periodType
+              + '&eraseBlanks=false'
+              + '&timestamp=' + CommonsService.getTimestamp();
+          else
+              url = baseUrl
+              + '/dashboard/timelineData'
+              + '?authToken=' + $rootScope.globals.currentUser.token
+              + '&entityId=' + eid
+              + '&entityKind=' + kind
+              + '&subentityId=' + seid
+              + '&elementId=apd_visitor'
+              + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
+              + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets,visitor_total_items'
+              + '&fromStringDate=' + fromDate
+              + '&toStringDate=' + toDate
+              + '&periodType=' + periodType
+              + '&eraseBlanks=false'
+              + '&timestamp=' + CommonsService.getTimestamp();
+
+
+      $.getJSON( url,
+          function(data) {
+              // Disable extra options by default
+              const subarray = data.series.slice(0,3);
+              var from = 2;
+              if( $scope.visitsOnly == true ) from = 1;
+              if( $scope.showRevenue == true ) {
+                  from = 3;
+                  data.series[0].color = 'rgba(26, 179, 148, 0.5)';
+                  // data.series[0].color = "#1ab394";
+              }
+              //restrict to first 3 results
+              for( var i = from; i < data.series.length; i++){
+                  data.series[i].visible = false;
+              }
+
+              $(id).highcharts({
+                  chart: {
+                      zoomType: 'xy',
+                      marginLeft: 200,
+                      marginRight: 200
+                  },
+                  title: {
+                      text: ''
+                  },
+                  xAxis: {
+                      categories: data.categories
+                  },
+                  yAxis: [{
+                      title: {
+                          text: 'Tráfico por Día'
+                      },
+                      plotLines: [{
+                          value: 0,
+                          width: 1,
+                          color: '#808080'
+                      }]
+                  },{ // Secondary yAxis
+                      title: {
+                          text: 'Ventas'
+                      },
+                      plotLines: [{
+                          value: 0,
+                          width: 1,
+                          color: '#808080'
+                      }],
+                      opposite: true
+                  }],
+                  tooltip: {
+                      valueSuffix: ''
+                  },
+                  legend: {
+                      layout: 'vertical',
+                      align: 'right',
+                      verticalAlign: 'middle',
+                      borderWidth: 0
+                  },
+                  plotOptions: {
+                      line: {
+                          dataLabels: {
+                              enabled: false
+                          },
+                          enableMouseTracking: false
+                      }
+                  },
+                  series: subarray
+              });
+          });
+  };
 
   $scope.generateConversionGauges = function() {
     $('.conversion_tickets').highcharts({
@@ -245,7 +421,7 @@
 			+ '&eraseBlanks=true'
 			+ '&timestamp=' + CommonsService.getTimestamp();
 
-		$http.get(CommonsService.getDashUrl('/dashoard/timelineHour') + params)
+		$http.get(CommonsService.getUrl('/dashboard/timelineHour') + params)
 			.then(function(res) {
 
 				var data = res.data;
@@ -345,7 +521,7 @@
             + '&eraseBlanks=true'
             + '&timestamp=' + CommonsService.getTimestamp();
 
-		$http.get(CommonsService.getDashUrl('/dashoard/heatmapTableHour') + params)
+		$http.get(CommonsService.getUrl('/dashboard/heatmapTableHour') + params)
 			.then(function(res) {
 
 				var data = res.data;
@@ -473,7 +649,7 @@
             + '&eraseBlanks=true'
             + '&timestamp=' + CommonsService.getTimestamp();
 
-		$http.get(CommonsService.getDashUrl('/dashoard/heatmapTableHour') + params)
+		$http.get(CommonsService.getUrl('/dashboard/heatmapTableHour') + params)
 			.then(function(res) {
 
 				var data = res.data;
@@ -600,7 +776,7 @@
             + '&eraseBlanks=true'
             + '&timestamp=' + CommonsService.getTimestamp();
 
-		$http.get(CommonsService.getDashUrl('/dashoard/heatmapTableHour') + params)
+		$http.get(CommonsService.getUrl('/dashboard/heatmapTableHour') + params)
 			.then(function(res) {
 
 				var data = res.data;
@@ -715,7 +891,7 @@
             + '&eraseBlanks=true'
             + '&timestamp=' + CommonsService.getTimestamp();
 
-		$http.get(CommonsService.getDashUrl('/dashoard/heatmapTableHour') + params)
+		$http.get(CommonsService.getUrl('/dashboard/heatmapTableHour') + params)
 			.then(function(res) {
 
 				var data = res.data;

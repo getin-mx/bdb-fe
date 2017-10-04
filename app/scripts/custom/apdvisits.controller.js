@@ -294,7 +294,7 @@
         }
 
         $('#visits_by_date').html('');
-        vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, $scope.fromDate, $scope.toDate, $scope.brandId, $scope.storeId, $scope.zoneId, $scope.periodType);
+        vm.updateVisitsByDateChart('#visits_by_date', config.baseUrl, $scope.fromDate, $scope.toDate, $scope.brandId, $scope.storeId, $scope.zoneId, $scope.periodType);
     }
 
     this.filterAPDVisits = function(brandId, storeId, fromDate, toDate) {
@@ -307,15 +307,15 @@
         $('#heatmap_occupation_by_hour').html('');
         $('#heatmap_permanence_by_hour').html('');
 
-        vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId, $scope.periodType);
-        vm.updateVisitsByHourChart('#visits_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
+        vm.updateVisitsByDateChart('#visits_by_date', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId, $scope.periodType);
+        vm.updateVisitsByHourChart('#visits_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         if( brandId == 'grupopavel_mx') {
             vm.updateRepetitionsChart('#repetitions', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         }
-        vm.updatePermanenceByHourChart('#permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
-        vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
-        vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
-        vm.updateHeatmapOccupation('#heatmap_occupation_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
+        vm.updatePermanenceByHourChart('#permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
+        vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
+        vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
+        vm.updateHeatmapOccupation('#heatmap_occupation_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
         vm.updateBrandPerformanceTable('#brand_performance_table', config.baseUrl, fromDate, toDate, brandId);
     }
 
@@ -404,7 +404,7 @@
 
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
-            + '/dashoard/timelineData'
+            + '/dashboard/timelineData'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
@@ -420,7 +420,7 @@
         else
             if( $scope.showRevenue == true )
                 url = baseUrl
-                + '/dashoard/timelineData'
+                + '/dashboard/timelineData'
                 + '?authToken=' + $rootScope.globals.currentUser.token
                 + '&entityId=' + eid
                 + '&entityKind=' + kind
@@ -435,7 +435,7 @@
                 + '&timestamp=' + CommonsService.getTimestamp();
             else
                 url = baseUrl
-                + '/dashoard/timelineData'
+                + '/dashboard/timelineData'
                 + '?authToken=' + $rootScope.globals.currentUser.token
                 + '&entityId=' + eid
                 + '&entityKind=' + kind
@@ -540,7 +540,7 @@
 
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
-            + '/dashoard/timelineHour'
+            + '/dashboard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
@@ -554,7 +554,7 @@
             + '&timestamp=' + CommonsService.getTimestamp();
         else
             url = baseUrl
-            + '/dashoard/timelineHour'
+            + '/dashboard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
@@ -736,7 +736,7 @@
 
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
-            + '/dashoard/timelineHour'
+            + '/dashboard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
@@ -753,7 +753,7 @@
 
         else
             url = baseUrl
-            + '/dashoard/timelineHour'
+            + '/dashboard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
@@ -844,7 +844,7 @@
 
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
-            + '/dashoard/heatmapTableHour'
+            + '/dashboard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
@@ -859,7 +859,7 @@
             + '&timestamp=' + CommonsService.getTimestamp();
         else
             url = baseUrl
-            + '/dashoard/heatmapTableHour'
+            + '/dashboard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
@@ -984,7 +984,7 @@
 
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
-            + '/dashoard/heatmapTableHour'
+            + '/dashboard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
@@ -999,7 +999,7 @@
             + '&timestamp=' + CommonsService.getTimestamp();
         else
             url = baseUrl
-            + '/dashoard/heatmapTableHour'
+            + '/dashboard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
@@ -1101,7 +1101,7 @@
 
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
-            + '/dashoard/heatmapTableHour'
+            + '/dashboard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
@@ -1116,7 +1116,7 @@
             + '&timestamp=' + CommonsService.getTimestamp();
         else
             url = baseUrl
-            + '/dashoard/heatmapTableHour'
+            + '/dashboard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind

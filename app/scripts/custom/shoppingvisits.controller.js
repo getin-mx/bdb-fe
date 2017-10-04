@@ -102,12 +102,12 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
         $('#heatmap_permanence_by_hour').html('');
         $('#shopping_performance_table').html('');
 
-        vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, fromDate, toDate, shoppingId, zoneId);
-        vm.updateVisitsByHourChart('#visits_by_hour', config.dashUrl, fromDate, toDate, shoppingId, zoneId);
-        vm.updatePermanenceByHourChart('#permanence_by_hour', config.dashUrl, fromDate, toDate, shoppingId, zoneId);
+        vm.updateVisitsByDateChart('#visits_by_date', config.baseUrl, fromDate, toDate, shoppingId, zoneId);
+        vm.updateVisitsByHourChart('#visits_by_hour', config.baseUrl, fromDate, toDate, shoppingId, zoneId);
+        vm.updatePermanenceByHourChart('#permanence_by_hour', config.baseUrl, fromDate, toDate, shoppingId, zoneId);
         // vm.updateRepetitionsChart('#repetitions', config.dashUrl, fromDate, toDate, shoppingId, zoneId);
-        vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.dashUrl, fromDate, toDate, shoppingId, zoneId);
-        vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.dashUrl, fromDate, toDate, shoppingId, zoneId);
+        vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.baseUrl, fromDate, toDate, shoppingId, zoneId);
+        vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.baseUrl, fromDate, toDate, shoppingId, zoneId);
         vm.updateShoppingPerformanceTable('#shopping_performance_table', config.dashUrl, fromDate, toDate, shoppingId);
     }
 
@@ -126,7 +126,7 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
 
         $.getJSON(
             baseUrl
-            + '/dashoard/timelineData'
+            + '/dashboard/timelineData'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
@@ -199,7 +199,7 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
 
         $.getJSON(
             baseUrl
-            + '/dashoard/timelineHour'
+            + '/dashboard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
@@ -272,7 +272,7 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
 
         $.getJSON(
             baseUrl
-            + '/dashoard/timelineHour'
+            + '/dashboard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
@@ -416,7 +416,7 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
 
         $.getJSON(
             baseUrl
-            + '/dashoard/heatmapTableHour'
+            + '/dashboard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
@@ -492,7 +492,7 @@ function ShoppingVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsSe
 
         $.getJSON(
             baseUrl
-            + '/dashoard/heatmapTableHour'
+            + '/dashboard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind

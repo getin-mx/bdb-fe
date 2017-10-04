@@ -48,12 +48,12 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
         $('#heatmap_permanence_by_hour').html('');
         $('#brand_performance_table').html('');
 
-        vm.updateVisitsByDateChart('#visits_by_date', config.dashUrl, fromDate, toDate, brandId, storeId);
-        vm.updateVisitsByHourChart('#visits_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId);
-        vm.updatePermanenceByHourChart('#permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId);
-        vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId);
-        vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.dashUrl, fromDate, toDate, brandId, storeId);
-        vm.updateBrandPerformanceTable('#brand_performance_table', config.dashUrl, fromDate, toDate, brandId);
+        vm.updateVisitsByDateChart('#visits_by_date', config.baseUrl, fromDate, toDate, brandId, storeId);
+        vm.updateVisitsByHourChart('#visits_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId);
+        vm.updatePermanenceByHourChart('#permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId);
+        vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId);
+        vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId);
+        vm.updateBrandPerformanceTable('#brand_performance_table', config.baseUrl, fromDate, toDate, brandId);
     }
 
     this.updateStoreList = function(id, baseUrl, entityId) {
@@ -83,7 +83,7 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
     this.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
             baseUrl
-            + '/dashoard/timelineData'
+            + '/dashboard/timelineData'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + entityId
             + '&entityKind=1'
@@ -145,7 +145,7 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
     this.updateVisitsByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
             baseUrl
-            + '/dashoard/timelineHour'
+            + '/dashboard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + entityId
             + '&entityKind=1'
@@ -207,7 +207,7 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
     this.updatePermanenceByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
             baseUrl
-            + '/dashoard/timelineHour'
+            + '/dashboard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + entityId
             + '&entityKind=1'
@@ -272,7 +272,7 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
     this.updateHeatmapTraffic = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
             baseUrl
-            + '/dashoard/heatmapTableHour'
+            + '/dashboard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + entityId
             + '&entityKind=1'
@@ -349,7 +349,7 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
     this.updateHeatmapPermanence = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
         $.getJSON(
             baseUrl
-            + '/dashoard/heatmapTableHour'
+            + '/dashboard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + entityId
             + '&entityKind=1'
@@ -445,7 +445,7 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
 
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
-            + '/dashoard/heatmapTableHour'
+            + '/dashboard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
@@ -460,7 +460,7 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
             + '&timestamp=' + CommonsService.getTimestamp();
         else
             url = baseUrl
-            + '/dashoard/heatmapTableHour'
+            + '/dashboard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
