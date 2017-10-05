@@ -31,8 +31,11 @@
 	$scope.storeType = null;
 	$scope.storeTypes = null;
 
-    $scope.storeLabel = '';
-    $scope.info = {};
+  $scope.storeLabel = '';
+  $scope.info = {
+    conversionVisits: 0.0,
+    conversionTickets: 0.0
+  };
 
 	// Global variables
 	var globals = AuthenticationService.getCredentials();
@@ -120,6 +123,7 @@
           $('#btnGraphDaily').removeClass('active');
           $('#btnGraphWeekly').removeClass('active');
           $('#btnGraphMonthly').removeClass('active');
+          $('#btnGraphYearly').removeClass('active');
 
           if( periodType == 'D' ) {
               $('#btnGraphDaily').addClass('active');
@@ -127,6 +131,8 @@
               $('#btnGraphWeekly').addClass('active');
           } else if( periodType == 'M' ) {
               $('#btnGraphMonthly').addClass('active');
+          } else if( periodType == 'Y' ) {
+              $('#btnGraphYearly').addClass('active');
           }
 
           $('#visits_by_date').html('');
@@ -294,8 +300,8 @@
             enabled: false
         },
         series: [{
-            name: 'Speed',
-            data: [20],
+            name: 'Tickets',
+            data: [$scope.info.conversionTickets],
             dataLabels: {
                 format: '<div style="text-align:center"><span style="font-size:24px;color:grey;' +
                     ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}%</span><br/>' +
@@ -356,8 +362,8 @@
           enabled: false
       },
       series: [{
-          name: 'Speed',
-          data: [80],
+          name: 'Conversion Visits',
+          data: [$scope.info.conversionVisits],
           dataLabels: {
               format: '<div style="text-align:center"><span style="font-size:26px;color:grey;' +
                   ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}%</span><br/>' +
@@ -982,8 +988,12 @@
             		avgTickets: $scope.formatter1.format(data.data.avgTickets),
             		permanenceMedian: $scope.formatter1.format(data.data.permanenceMedian) + ' mins',
             		lowerDate: data.data.lowerDate,
-            		higherDate: data.data.higherDate
+            		higherDate: data.data.higherDate,
+                conversionVisits: Math.round((data.data.visits / data.data.peasants) * 100),
+                conversionTickets: Math.round((data.data.tickets / data.data.visits) * 100)
             	};
+
+            $scope.generateConversionGauges();
 
 		        $('#lower-days-table>tbody>tr').each(function(index, elem){$(elem).remove();});
 
