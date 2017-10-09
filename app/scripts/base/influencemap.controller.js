@@ -24,14 +24,14 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 
 	$scope.init = function() {
 
-		$scope.checkGpsWork = true;
-		$scope.checkGpsHome = true;
-		$scope.checkPeasantWork = true;
-		$scope.checkPeasantHome = true;
-		$scope.checkOriginWork = true;
-		$scope.checkDestinyWork = true;
-		$scope.checkOriginHome = true;
-		$scope.checkDestinyHome = true;
+		$scope.checkGpsWork = false;
+		$scope.checkGpsHome = false;
+		$scope.checkPeasantWork = false;
+		$scope.checkPeasantHome = false;
+		$scope.checkOriginWork = false;
+		$scope.checkDestinyWork = false;
+		$scope.checkOriginHome = false;
+		$scope.checkDestinyHome = false;
 
 
 		$scope.brands = new Array();
@@ -240,6 +240,15 @@ function InfluenceMapCtrl($scope, $http, $location, CommonsService, Authenticati
 		  var result = getDestinyHome(lat, lon, map);
 		}
 
+		if( $scope.checkIsochroneWeekWorkFive == true  ) {
+			var result = getIsochrone(lat, lon, map, 5, 'black');
+		}
+		if( $scope.checkIsochroneWeekWorkTen == true  ) {
+			var result = getIsochrone(lat, lon, map, 10, '#9806CC');
+		}
+		if( $scope.checkIsochroneWeekWorkFifteen == true  ) {
+			var result = getIsochrone(lat, lon, map, 15, '#FE0006');
+		}
 		if( $scope.checkIsochroneWeekWorkTwenty == true  ) {
 		  var result = getIsochrone(lat, lon, map, 20, '#ed5565');
 		}
