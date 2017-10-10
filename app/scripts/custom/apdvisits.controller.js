@@ -1164,7 +1164,7 @@
                         marginRight: 200
                     },
                     title: {
-                        text: 'Ocupacion por Hora'
+                        text: 'Ocupación por Hora'
                     },
                     xAxis: {
                         categories: data.xCategories
@@ -1299,7 +1299,7 @@
                     if( entityId != 'volaris_mx' ) {
                         tab += '<td>Ventas</td>';                   // 4
                     }
-                    tab += '<td>Paseantes/Visitantes</td>';         // 5
+                    tab += '<td>Visitantes/Paseantes</td>';         // 5
                     tab += '<td>Visitantes/Tickets</td>';           // 6
                 }
                 tab += '<td>Día más Alto</td>';                     // 7
