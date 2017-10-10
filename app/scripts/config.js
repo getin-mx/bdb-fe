@@ -7,7 +7,7 @@
  * General configuration
  */
 var config = {};
-//
+
 // config.baseUrl = 'http://api.allshoppings.mobi/bdb';
 // config.dashUrl = 'http://api.allshoppings.mobi/appv2';
 // config.uploadUrl = 'http://api.allshoppings.mobi/bdb/img/upload'
