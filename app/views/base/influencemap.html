@@ -1,72 +1,156 @@
 <div ng-controller="InfluenceMapCtrl" class="wrapper wrapper-content animated fadeInRight">
 	<div class="row">
-		<div class="col-lg-9 ibox-content" data-ng-init="init()">
-			<div class="form-group" style="height: 50px;">
-				<div class="input-group" style="float:left;">
-					Cadena:<br>
-					<select  ng-model="brand" ng-change="brandChange()" data-ng-options="o.name for o in brands" class="input-sm form-control" style="width: 250px;"></select>
+		<div class="col-lg-3">
+			<div class="ibox float-e-margins">
+	      <div class="ibox-title">
+	          <h5>Visitantes</h5>
+	      </div>
+				<div class="ibox-content" >
+					<!-- Tabla -->
+	            <form class="form-horizontal">
+								<div class="input-group">
+                	<div>
+										<label>
+											<input icheck type="checkbox" ng-model="checkGpsWork">
+                  		<b>Visitantes en el d&iacute;a</b>
+										</label>
+										<div class="rounded-color" style="background-color: #c3af05"></div>
+									</div>
+
+									<div>
+										<label>
+											<input icheck type="checkbox" ng-model="checkGpsHome">
+											<b>Visitantes en la noche</b>
+										</label>
+										<div class="rounded-color" style="background-color: #0000ff"></div>
+									</div>
+
+                  <div>
+										<label>
+											<input icheck type="checkbox" ng-model="checkPeasantWork">
+											<b>Paseantes en el d&iacute;a</b>
+										</label>
+										<div class="rounded-color" style="background-color: #800080"></div>
+									</div>
+
+									<div>
+										<label>
+											<input icheck type="checkbox" ng-model="checkPeasantHome">
+											<b>Paseantes en la noche</b>
+										</label>
+										<div class="rounded-color" style="background-color: #FFA500"></div>
+									</div>
+								</div>
+		           </form>
+						</div>
 				</div>
-				<div class="input-group" style="float:left; margin-left: 10px;">
-					{{storeLabel}}:<br>
-					<select  ng-model="store" data-ng-options="o.name for o in stores" class="input-sm form-control" style="width: 250px;"></select>
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+							<h5>Vehículos</h5>
+					</div>
+					<div class="ibox-content" >
+						<!-- Tabla -->
+								<form class="form-horizontal">
+								<div class="input-group">
+									<div>
+										<label>
+											<input icheck type="checkbox" ng-model="checkOriginWork">
+											<b>Origen de vehiculos en el d&iacute;a.</b>
+										</label>
+										<div class="rounded-color" style="background-color: #b9390f"></div>
+									</div>
+
+									<div>
+										<label>
+											<input icheck type="checkbox" ng-model="checkOriginHome">
+											<b>Origen de vehiculos en la noche</b>
+										</label>
+										<div class="rounded-color" style="background-color: #c3af05"></div>
+									</div>
+
+									<div>
+										<label>
+											<input icheck type="checkbox" ng-model="checkDestinyWork">
+											<b>Destino de vehiculos en el d&iacute;a</b>
+										</label>
+										<div class="rounded-color" style="background-color: #777"></div>
+									</div>
+
+									<div>
+										<label>
+											<input icheck type="checkbox" ng-model="checkDestinyHome">
+											<b>Destino de vehiculos en la noche</b>
+										</label>
+										<div class="rounded-color" style="background-color: #1ab394"></div>
+									</div>
+								</div>
+						</form>
+					</div>
 				</div>
-				<div class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">
-					<button ng-click="refresh()" type="button" ladda="loadingRefresh" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Filtrar</button>
+				<div class="ibox float-e-margins">
+					<div class="ibox-title">
+							<h5>Isocronos</h5>
+					</div>
+					<div class="ibox-content">
+						<!-- Tabla -->
+						<form class="form-horizontal">
+							<div class="input-group">
+								<div>
+									<label>
+										<input icheck type="checkbox" ng-model="checkIsochroneWeekWorkFive">
+										<b>Isocronos 5 minutos</b>
+									</label>
+									<div class="rounded-color" style="background-color:black;"></div>
+								</div>
+								<div>
+									<label>
+										<input icheck type="checkbox" ng-model="checkIsochroneWeekWorkTen">
+										<b>Isocronos 10 minutos</b>
+									</label>
+									<div class="rounded-color" style="background-color:red;"></div>
+								</div>
+								<div>
+									<label>
+										<input icheck type="checkbox" ng-model="checkIsochroneWeekWorkFifteen">
+										<b>Isocronos 15 minutos</b>
+									</label>
+									<div class="rounded-color" style="background-color: #9806CC;"></div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+	</div>
+	<div class="col-lg-9" data-ng-init="init()">
+		<div class="ibox">
+			<div class="ibox-title">
+				<div class="form-group" style="height: 50px;">
+					<div class="row">
+						<div class="col-lg-4">
+							<div class="input-group">
+								Cadena:<br>
+								<select  ng-model="brand" ng-change="brandChange()" data-ng-options="o.name for o in brands" class="input-sm form-control" style="width: 250px;"></select>
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<div class="input-group" style="margin-left: 10px;">
+								{{storeLabel}}:<br>
+								<select  ng-model="store" data-ng-options="o.name for o in stores" class="input-sm form-control" style="width: 250px;"></select>
+							</div>
+						</div>
+						<div class="col-lg-4">
+							<div class="input-group" style="margin-top: 18px; margin-left: 10px;">
+								<button ng-click="refresh()" type="button" ladda="loadingRefresh" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Filtrar</button>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<!-- funnel convertion-->
 			<div class="ibox-content" id="map" style="padding-left: 0px; height: 500px;">
 			</div>
-			<!-- fin funnel -->
 		</div>
-
-		<div class="col-lg-3">
-            <div class="ibox-title">
-                <h5>Referencias</h5>
-            </div>
-			<div class="ibox-content" >
-				<!-- Tabla -->
-                    <form class="form-horizontal">
-						<div class="input-group">
-
-                        <div><label> <input icheck type="checkbox" ng-model="checkGpsWork">
-                        <span style="color: #00ff00;">Verde:<br> </span>Ubicaci&oacute;n de los visitantes en el d&iacute;a. </label></div>
-                        <br>
-                        <div><label> <input icheck type="checkbox" ng-model="checkGpsHome">
-                        <span style="color: #0000ff;">Azul:<br> </span>Ubicaci&oacute;n de los visitantes en la noche. </label></div>
-                        <br>
-                        <div><label> <input icheck type="checkbox" ng-model="checkPeasantWork">
-                        <span style="color: #800080;">Morado:<br> </span>Ubicaci&oacute;n de los paseantes en el d&iacute;a. </label></div>
-                        <br>
-                        <div><label> <input icheck type="checkbox" ng-model="checkPeasantHome">
-                        <span style="color: #FFA500;">Naranja:<br> </span>Ubicaci&oacute;n de los paseantes en la noche. </label></div>
-                        <br>
-                        <div><label> <input icheck type="checkbox" ng-model="checkOriginWork">
-                        <span style="color: #b9390f;">Cafe:<br> </span>Origen de vehiculos en el d&iacute;a. </label></div>
-                        <br>
-                        <div><label> <input icheck type="checkbox" ng-model="checkDestinyWork">
-                        <span style="color: #777;">Gris:<br> </span>Destino de vehiculos en el d&iacute;a. </label></div>
-                        <br>
-                        <div><label> <input icheck type="checkbox" ng-model="checkOriginHome">
-                        <span style="color: #c3af05;">Amarillo:<br> </span>Origen de vehiculos en la noche. </label></div>
-                         <br>
-                        <div><label> <input icheck type="checkbox" ng-model="checkDestinyHome">
-                        <span style="color: #1ab394;">Azul Metalico:<br> </span>Destino de vehiculos en la noche. </label></div>
-												<br>
-												<div><label> <input icheck type="checkbox" ng-model="checkIsochroneWeekWorkTwenty">
-												<span style="color: #ed5565;">Rosa:<br> </span>Isocronos en 20 minutos.</label></div>
-												<br>
-												<div><label> <input icheck type="checkbox" ng-model="checkIsochroneWeekWorkThirty">
-												<span style="color: #32CD32;">Verde lima:<br> </span>Isocronos en 30 minutos.</label></div>
-												<br>
-												<div><label> <input icheck type="checkbox" ng-model="checkIsochroneWeekWorkFourty">
-												<span style="color: #CFB53B;">Oro:<br> </span>Isocronos en 40 minutos.</label></div>
-
-						<div class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">
-						<button ng-click="refresh()" type="button" ladda="loadingRefresh" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Actualizar</button>
-						</div>
-	                </form>
-			</div>
-		</div>
+		<!-- fin funnel -->
 	</div>
+</div>
 </div>

@@ -41,6 +41,16 @@
 	var globals = AuthenticationService.getCredentials();
 	var credentials = globals.currentUser;
 
+  var filterResponseByName = function(evalArray, options = []) {
+    var newArray = [];
+    newArray = evalArray.filter(function(dataset) {
+      if(options.includes(dataset["name"])){
+        return dataset;
+      }
+    });
+    return newArray;
+  };
+
 	$scope.formatter1 = new Intl.NumberFormat('en-US');
 	$scope.formatter2 = new Intl.NumberFormat('en-US', {
 		style: 'currency',
@@ -61,7 +71,6 @@
 
 	// Init Dashboard
 	$scope.initDashboard = function() {
-
 		$scope.setPeriodTypes();
 		$scope.setStoreTypes();
 		$scope.setAvailableStores();
@@ -192,18 +201,19 @@
       $.getJSON( url,
           function(data) {
               // Disable extra options by default
-              const subarray = data.series.slice(0,3);
+              const subarray = filterResponseByName(data.series, ["Revenue", "Paseantes", "Visitas", "Tickets", "Items Vendidos"]
+            );
               var from = 2;
               if( $scope.visitsOnly == true ) from = 1;
               if( $scope.showRevenue == true ) {
                   from = 3;
-                  data.series[0].color = 'rgba(26, 179, 148, 0.5)';
+                  subarray[0].color = 'rgba(26, 179, 148, 0.5)';
                   // data.series[0].color = "#1ab394";
               }
               //restrict to first 3 results
-              for( var i = from; i < data.series.length; i++){
-                  data.series[i].visible = false;
-              }
+              // for( var i = from; i < data.series.length; i++){
+              //     subarray[i].visible = false;
+              // }
 
               $(id).highcharts({
                   chart: {
@@ -266,7 +276,7 @@
         },
         title: null,
         pane: {
-          center: ['50%', '50%'],
+          center: ['70%', '50%'],
           size: '70%',
           startAngle: -90,
           endAngle: 90,
@@ -314,7 +324,7 @@
         plotOptions: {
             solidgauge: {
                 dataLabels: {
-                    y: 30,
+                    y: 70,
                     borderWidth: 0,
                     useHTML: true
                 }
@@ -328,7 +338,7 @@
       },
       title: null,
       pane: {
-        center: ['50%', '50%'],
+        center: ['70%', '50%'],
         size: '70%',
         startAngle: -90,
         endAngle: 90,
@@ -376,7 +386,7 @@
       plotOptions: {
           solidgauge: {
               dataLabels: {
-                  y: 30,
+                  y: 70,
                   borderWidth: 0,
                   useHTML: true
               }
@@ -436,7 +446,6 @@
 				if( $scope.visitsOnly == true ) from = 1;
 				for( var i = from; i < data.series.length; i++)
 					data.series[i].visible = false;
-
 				$('#visits_by_hour').highcharts({
 					chart: {
 						marginLeft: 50,
@@ -985,7 +994,7 @@
             		visits: $scope.formatter1.format(data.data.visits),
             		tickets: $scope.formatter1.format(data.data.tickets),
             		avgVisits: $scope.formatter1.format(data.data.avgVisits),
-            		avgTickets: $scope.formatter1.format(data.data.avgTickets),
+            		avgTickets: $scope.formatter2.format(data.data.avgTickets),
             		permanenceMedian: $scope.formatter1.format(data.data.permanenceMedian) + ' mins',
             		lowerDate: data.data.lowerDate,
             		higherDate: data.data.higherDate,
