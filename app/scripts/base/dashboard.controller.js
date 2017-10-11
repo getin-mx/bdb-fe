@@ -92,7 +92,8 @@
 
   $scope.generateVisitsGraph = function() {
     $('#visits_by_date').html('');
-    $scope.updateVisitsByDateChart('#visits_by_date', config.baseUrl, $scope.fromDate, $scope.toDate, $scope.brandId, $scope.storeId, $scope.zoneId, $scope.periodType);
+    $scope.updateVisitsByDateChart('#visits_by_date', config.baseUrl, $scope.fromDate, $scope.toDate,
+      $scope.brandId, $scope.storeId, $scope.zoneId, $scope.periodType);
   }
 
   $scope.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, periodType) {
@@ -145,7 +146,8 @@
           }
 
           $('#visits_by_date').html('');
-          $scope.updateVisitsByDateChart('#visits_by_date', config.baseUrl, $scope.fromDate, $scope.toDate, $scope.brandId, $scope.storeId, $scope.zoneId, $scope.periodType);
+          $scope.updateVisitsByDateChart('#visits_by_date', config.baseUrl, $scope.fromDate, $scope.toDate,
+            $scope.brandId, $scope.storeId, $scope.zoneId, $scope.periodType);
       }
 
       $scope.showRevenue = true;
@@ -977,6 +979,7 @@
     };
 
     $scope.generateGeneralInfo = function() {
+        console.log($scope.storeType)
         $http.get(CommonsService.getUrl('/dashboard/generalData')
             + '&entityId=' + $scope.brand.id
             + '&subentityId=' + $scope.store.id
@@ -1137,7 +1140,7 @@
 
 		$scope.storeTypes.push({
 			id: '1',
-			name: 'Calle'
+			name: 'A pie de calle'
 		});
 
 		$scope.storeTypes.push({
@@ -1147,8 +1150,28 @@
 
 		$scope.storeTypes.push({
 			id: '3',
-			name: 'Metro'
+			name: 'En CETRAM / Metro'
 		});
+
+    $scope.storeTypes.push({
+      id: '4',
+      name: 'Kiosko'
+    });
+
+    $scope.storeTypes.push({
+      id: '5',
+      name: 'En tienda departamental'
+    });
+
+    $scope.storeTypes.push({
+      id: '6',
+      name: 'En tienda de autoservicio'
+    });
+
+    $scope.storeTypes.push({
+      id: '7',
+      name: 'En aereopuerto'
+    });
 
 		$scope.storeType = $scope.storeTypes[0];
 
@@ -1161,8 +1184,9 @@
 
 		$scope.stores = new Array();
 		$scope.loadingSubmit = true;
-		$http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
+    $http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
 			+ '&entityId=' + $scope.brand.id
+      + '&storeType=' + $scope.storeType.id
 			+ '&entityKind=1&onlyExternalIds=true')
 		.then(function(data) {
 
@@ -1184,6 +1208,40 @@
 			$scope.loadingSubmit = false;
 		});
 	}
+
+  // Update Stores when a Store Type is changed
+  $scope.storeTypeChange = function() {
+
+    //$scope.updateStoreLabel(); //TODO remove?
+
+    $scope.stores = new Array();
+    $scope.loadingSubmit = true;
+    $http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
+      + '&entityId=' + $scope.brand.id
+      + '&storeType=' + $scope.storeType.id
+      + '&entityKind=1&onlyExternalIds=true')
+    .then(function(data) {
+
+      $scope.stores = Array();
+      var store = {
+        id: null,
+        name: 'Todas'
+      }
+      $scope.stores.push(store);
+
+      for( var i = 0; i < data.data.data.length; i++ ) {
+        //if(data.data.data[i].storeType == $scope.storeType.id) {
+          var store = {
+            id: data.data.data[i].identifier,
+            name: data.data.data[i].name
+          }
+          $scope.stores.push(store);
+        //} // TODO removes
+      }
+      $scope.store = $scope.stores[0];
+      $scope.loadingSubmit = false;
+    });
+  }
 
 	$scope.updateStoreLabel = function() {
 		$http.get(CommonsService.getUrl('/dashboard/config')
