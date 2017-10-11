@@ -167,12 +167,12 @@
 		<div class="col-lg-25">
 			<div ng-show="loadedClientData" class="ibox float-e-margins">
 				<div class="ibox-title">
-					<h5>Tickets Promedio</h5>
+					<h5>Ticket Promedio</h5>
 					<div ibox-tools></div>
 				</div>
 				<div class="ibox-content">
 					<h1 class="no-margins">{{info.avgTickets}}</h1>
-					<small>Tickets Promedio</small>
+					<small>Ticket Promedio</small>
 				</div>
 			</div>
 		</div>
@@ -181,7 +181,7 @@
 	<!-- Line 2 ***************************************************************************************************************** -->
 
 	<div class="row">
-		<div ng-show="loadedClientData" class="col-lg-8">
+		<div ng-show="loadedClientData" class="col-lg-10">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
 					<h5>Visitas</h5>
@@ -199,29 +199,31 @@
 						<!-- <div class="flot-chart" ng-controller="dashboardFlotTwo as chart">
 							<div flot class="flot-chart-content" dataset="chart.flotData" options="chart.flotOptions"></div>
 						</div> -->
-						<div id="visits_by_date" style="height: 300px;"></div>
+						<div id="visits_by_date" style="height: 400px;"></div>
 				</div>
 			</div>
 		</div>
 
 		<div class="" ng-controller="chartJsCtrl as chart">
 			<div class="col-lg-2 col-md-6">
-				<div ng-show="loadedClientData" class="ibox float-e-margins">
-					<div class="ibox-title">
-						Conversion de visitas
-					</div>
-					<div class="ibox-content">
-						<div class="conversion_visits" style="width: 150px; height: 300px; margin: auto 0;"></div>
-					</div>
+				<div class="row">
+						<div ng-show="loadedClientData" class="ibox float-e-margins">
+							<div class="ibox-title">
+								Conversion de visitas
+							</div>
+							<div class="ibox-content">
+								<div class="conversion_visits" style="width: 150px; height: 150px; margin: auto 0;"></div>
+							</div>
+						</div>
 				</div>
-			</div>
-			<div class="col-lg-2 col-md-6">
-				<div ng-show="loadedClientData" class="ibox float-e-margins">
-					<div class="ibox-title">
-						Conversion de tickets
-					</div>
-					<div class="ibox-content">
-						<div class="conversion_tickets" style="width: 150px; height: 300px; margin: auto 0;"></div>
+				<div class="row">
+					<div ng-show="loadedClientData" class="ibox float-e-margins">
+						<div class="ibox-title">
+							Conversion de tickets
+						</div>
+						<div class="ibox-content">
+							<div class="conversion_tickets" style="width: 150px; height: 150px; margin: auto 0;"></div>
+						</div>
 					</div>
 				</div>
 			</div>
