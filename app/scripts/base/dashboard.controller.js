@@ -1212,8 +1212,6 @@
   // Update Stores when a Store Type is changed
   $scope.storeTypeChange = function() {
 
-    //$scope.updateStoreLabel(); //TODO remove?
-
     $scope.stores = new Array();
     $scope.loadingSubmit = true;
     $http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
@@ -1230,13 +1228,11 @@
       $scope.stores.push(store);
 
       for( var i = 0; i < data.data.data.length; i++ ) {
-        //if(data.data.data[i].storeType == $scope.storeType.id) {
           var store = {
             id: data.data.data[i].identifier,
             name: data.data.data[i].name
           }
           $scope.stores.push(store);
-        //} // TODO removes
       }
       $scope.store = $scope.stores[0];
       $scope.loadingSubmit = false;
