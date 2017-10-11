@@ -41,7 +41,7 @@
 	var globals = AuthenticationService.getCredentials();
 	var credentials = globals.currentUser;
 
-  var filterResponseByName = function(evalArray, options = []) {
+  var filterResponseByName = function(evalArray, options) {
     var newArray = [];
     newArray = evalArray.filter(function(dataset) {
       if(options.includes(dataset["name"])){
