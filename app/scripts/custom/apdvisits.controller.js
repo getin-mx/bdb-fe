@@ -67,6 +67,29 @@
         }
     }
 
+    $scope.storeTypeChange = function() {
+        $scope.loadingSubmit = true;
+        $http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
+            + '&entityId=' + $scope.brandId
+            + '&storeType=' + $scope.storeType
+            + '&entityKind=1&onlyExternalIds=true')
+        .then(function(data) {
+            id = '#store';
+            $(id).empty();
+            $(id).append($('<option>', {
+                value: '',
+                text: 'Todas'
+            }));
+            for( var i = 0; i < data.data.data.length; i++ ) {
+                $(id).append($('<option>', {
+                    value: data.data.data[i].identifier,
+                    text: data.data.data[i].name
+                }));
+            }
+            $scope.loadingSubmit = false;
+        });
+    }
+
     $scope.initAPDVisits = function(visitsOnly) {
 
         if( visitsOnly == true ) $scope.visitsOnly = true;
@@ -137,6 +160,7 @@
         $scope.updateStoreList('#store', config.baseUrl, $scope.brandId);
         $scope.upadtePagination('#pags');
         $scope.updateAPDVisits();
+        $scope.updateStoreType('#storeType');
     }
 
     $scope.updateBrand = function() {
@@ -168,6 +192,7 @@
         $scope.updateStoreList('#store', config.baseUrl, $scope.brandId);
         $scope.upadtePagination('#pags');
         $scope.updateAPDVisits();
+        $scope.updateStoreType('#storeType');
         $scope.loadingSubmit = false;
     }
 
@@ -270,6 +295,7 @@
     }
 
     $scope.updateAPDVisits = function() {
+        // TODO only selected storeType
         $scope.fromDate = $('#fromDate').val();
         $scope.toDate = $('#toDate').val();
 
@@ -380,6 +406,20 @@
         }));
       }
 
+    }
+
+    $scope.updateStoreType = function(id) {
+        $(id).empty();
+
+        var values = [0, 1, 2, 3, 4, 5, 6, 7];
+        var text = ['Todas', 'Calle', 'Centro Comercial', 'CETRAM', 'Kiosko', 'Dentro de una tienda departamental',
+                'Dentro de una tienda de autoservicios', 'Aeropuerto'];
+        for(var i = 0; i < values.length; i++) {
+            $(id).append($('<option>', {
+                value: values[i],
+                text: text[i]
+            }));
+        }
     }
 
     this.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, periodType) {

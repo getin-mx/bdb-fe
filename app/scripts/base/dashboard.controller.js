@@ -979,7 +979,6 @@
     };
 
     $scope.generateGeneralInfo = function() {
-        console.log($scope.storeType)
         $http.get(CommonsService.getUrl('/dashboard/generalData')
             + '&entityId=' + $scope.brand.id
             + '&subentityId=' + $scope.store.id
@@ -1140,7 +1139,7 @@
 
 		$scope.storeTypes.push({
 			id: '1',
-			name: 'A pie de calle'
+			name: 'Calle'
 		});
 
 		$scope.storeTypes.push({
@@ -1150,7 +1149,7 @@
 
 		$scope.storeTypes.push({
 			id: '3',
-			name: 'En CETRAM / Metro'
+			name: 'CETRAM'
 		});
 
     $scope.storeTypes.push({
@@ -1160,17 +1159,17 @@
 
     $scope.storeTypes.push({
       id: '5',
-      name: 'En tienda departamental'
+      name: 'Dentro de una tienda departamental'
     });
 
     $scope.storeTypes.push({
       id: '6',
-      name: 'En tienda de autoservicio'
+      name: 'Dentro de una tienda de autoservicios'
     });
 
     $scope.storeTypes.push({
       id: '7',
-      name: 'En aereopuerto'
+      name: 'Aeropuerto'
     });
 
 		$scope.storeType = $scope.storeTypes[0];

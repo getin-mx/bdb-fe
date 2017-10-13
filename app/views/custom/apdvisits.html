@@ -53,6 +53,14 @@
 								</select>
 							</div>
 						</div>
+						<div class="form-group col-lg-6">
+							<label class="font-noraml">Tipo de Tienda:</label>
+							<div class="input-group date">
+								<select name="storeType" ng-model="storeType" ng-change="storeTypeChange()" id="storeType" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;">
+									<option value="0">Todas</option>
+								</select>
+							</div>
+						</div>
 						<div class="form-group col-lg-6" ng-class="zoneAble">
 							<label class="font-noraml">Zona:</label>
 							<div class="input-group date">
