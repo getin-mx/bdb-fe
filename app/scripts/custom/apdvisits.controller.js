@@ -69,6 +69,7 @@
 
     $scope.storeTypeChange = function() {
         $scope.loadingSubmit = true;
+        $scope.storeType = $('#storeType').val();
         $http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
             + '&entityId=' + $scope.brandId
             + '&storeType=' + $scope.storeType
@@ -295,13 +296,13 @@
     }
 
     $scope.updateAPDVisits = function() {
-        // TODO only selected storeType
         $scope.fromDate = $('#fromDate').val();
         $scope.toDate = $('#toDate').val();
+        $scope.storeType = $('#storeType').val();
 
         $('#brand-table').data( "page-size",  $scope.pagination);
 
-        vm.filterAPDVisits($scope.brandId, $scope.storeId, $scope.fromDate, $scope.toDate);
+        vm.filterAPDVisits($scope.brandId, $scope.storeId, $scope.fromDate, $scope.toDate, $scope.storeType);
     }
 
     $scope.updateGraphs = function(periodType) {
@@ -323,7 +324,7 @@
         vm.updateVisitsByDateChart('#visits_by_date', config.baseUrl, $scope.fromDate, $scope.toDate, $scope.brandId, $scope.storeId, $scope.zoneId, $scope.periodType);
     }
 
-    this.filterAPDVisits = function(brandId, storeId, fromDate, toDate) {
+    this.filterAPDVisits = function(brandId, storeId, fromDate, toDate, storeType) {
 
         $('#visits_by_date').html('');
         $('#visits_by_hour').html('');
@@ -333,16 +334,23 @@
         $('#heatmap_occupation_by_hour').html('');
         $('#heatmap_permanence_by_hour').html('');
 
-        vm.updateVisitsByDateChart('#visits_by_date', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId, $scope.periodType);
-        vm.updateVisitsByHourChart('#visits_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
+        vm.updateVisitsByDateChart('#visits_by_date', config.baseUrl, fromDate, toDate, brandId, storeId,
+            $scope.zoneId, $scope.periodType, storeType);
+        vm.updateVisitsByHourChart('#visits_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId,
+            sotreType);
         if( brandId == 'grupopavel_mx') {
-            vm.updateRepetitionsChart('#repetitions', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
+            vm.updateRepetitionsChart('#repetitions', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId,
+                storeType);
         }
-        vm.updatePermanenceByHourChart('#permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
-        vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
-        vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
-        vm.updateHeatmapOccupation('#heatmap_occupation_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId);
-        vm.updateBrandPerformanceTable('#brand_performance_table', config.baseUrl, fromDate, toDate, brandId);
+        vm.updatePermanenceByHourChart('#permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
+            $scope.zoneId, storeType);
+        vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
+            $scope.zoneId, storeType);
+        vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
+            $scope.zoneId, storeType);
+        vm.updateHeatmapOccupation('#heatmap_occupation_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
+            $scope.zoneId, storeType);
+        vm.updateBrandPerformanceTable('#brand_performance_table', config.baseUrl, fromDate, toDate, brandId, storeType);
     }
 
     $scope.updateZoneList = function(id, entityId) {
@@ -422,7 +430,9 @@
         }
     }
 
-    this.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, periodType) {
+    this.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, periodType,
+        storeType) {
+        // TODO remove storeType ???
         var url = null;
 
         var eid;
@@ -493,6 +503,7 @@
         $.getJSON( url,
             function(data) {
                 // Disable extra options by default
+                // TODO the story type matters?
 
                 var from = 2;
                 if( $scope.visitsOnly == true ) from = 1;
@@ -558,7 +569,8 @@
                 });
             });
     };
-    this.updateVisitsByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId) {
+    this.updateVisitsByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, storeType) {
+        // TODO use storeType
         var url = null;
 
         var eid;
@@ -658,7 +670,8 @@
                 });
             });
     };
-    this.updateRepetitionsChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId) {
+    this.updateRepetitionsChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, storeType) {
+        // TODO use storeType
         var url = null;
 
         var eid;
@@ -754,7 +767,8 @@
                 });
             });
     };
-    this.updatePermanenceByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId) {
+    this.updatePermanenceByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, storeType) {
+        // TODO use storeType
         var url = null;
 
         var eid;
@@ -862,7 +876,8 @@
                 });
             });
     };
-    this.updateHeatmapTraffic = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId) {
+    this.updateHeatmapTraffic = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, storeType) {
+        // TODO use storeType
         var url = null;
 
         var eid;
@@ -1002,7 +1017,8 @@
                 });
             });
     };
-    this.updateHeatmapPermanence = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId) {
+    this.updateHeatmapPermanence = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, storeType) {
+        // TODO use storeType
         var url = null;
 
         var eid;
@@ -1119,7 +1135,8 @@
                 });
             });
     };
-    this.updateHeatmapOccupation = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId) {
+    this.updateHeatmapOccupation = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, storeType) {
+        // TODO use store type
         var url = null;
 
         var eid;
@@ -1248,7 +1265,8 @@
                 });
             });
     };
-    this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId) {
+    this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId, storeType) {
+        // TODO use store type
         $http.get(CommonsService.getUrl('/dashboard/brandTableData')
             + '&entityId=' + entityId
             + '&entityKind=1'
@@ -1315,7 +1333,7 @@
     }
 
 
-    this.backup_updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId) {
+    this.backup_updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId, sotreType) {
         $.getJSON(
             baseUrl
             + '/dashboard/brandTableData'
