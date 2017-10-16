@@ -337,7 +337,7 @@
         vm.updateVisitsByDateChart('#visits_by_date', config.baseUrl, fromDate, toDate, brandId, storeId,
             $scope.zoneId, $scope.periodType, storeType);
         vm.updateVisitsByHourChart('#visits_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId,
-            sotreType);
+            storeType);
         if( brandId == 'grupopavel_mx') {
             vm.updateRepetitionsChart('#repetitions', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId,
                 storeType);
