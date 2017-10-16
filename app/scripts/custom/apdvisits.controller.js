@@ -75,7 +75,7 @@
             + '&storeType=' + $scope.storeType
             + '&entityKind=1&onlyExternalIds=true')
         .then(function(data) {
-            id = '#store';
+            /*id = '#store';
             $(id).empty();
             $(id).append($('<option>', {
                 value: '',
@@ -87,7 +87,7 @@
                     text: data.data.data[i].name
                 }));
             }
-            $scope.loadingSubmit = false;
+            $scope.loadingSubmit = false;*/
         });
     }
 
