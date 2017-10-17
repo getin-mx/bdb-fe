@@ -150,7 +150,8 @@
           'sallybeauty_mx',
           'delicafe_mx',
           'prada_mx',
-          'grupopavel_mx'
+          'grupopavel_mx',
+          'atelier_mx'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
@@ -182,7 +183,8 @@
           'sallybeauty_mx',
           'delicafe_mx',
           'prada_mx',
-          'grupopavel_mx'
+          'grupopavel_mx',
+          'atelier_mx'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
