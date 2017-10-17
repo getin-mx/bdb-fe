@@ -152,7 +152,8 @@
           'prada_mx',
           'grupopavel_mx',
           'atelier_mx',
-          'mt_sport_mx'
+          'mt_sport_mx',
+          'sbarro_mx'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
@@ -186,7 +187,8 @@
           'prada_mx',
           'grupopavel_mx',
           'atelier_mx',
-          'mt_sport_mx'
+          'mt_sport_mx',
+          'sbarro_mx'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
