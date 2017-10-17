@@ -153,7 +153,8 @@
           'grupopavel_mx',
           'atelier_mx',
           'mt_sport_mx',
-          'sbarro_mx'
+          'sbarro_mx',
+          'franquicias_edmond_bcprint_mx'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
@@ -188,7 +189,8 @@
           'grupopavel_mx',
           'atelier_mx',
           'mt_sport_mx',
-          'sbarro_mx'
+          'sbarro_mx',
+          'franquicias_edmond_bcprint_mx'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
