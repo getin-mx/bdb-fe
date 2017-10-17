@@ -151,7 +151,8 @@
           'delicafe_mx',
           'prada_mx',
           'grupopavel_mx',
-          'atelier_mx'
+          'atelier_mx',
+          'mt_sport_mx'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
@@ -184,7 +185,8 @@
           'delicafe_mx',
           'prada_mx',
           'grupopavel_mx',
-          'atelier_mx'
+          'atelier_mx',
+          'mt_sport_mx'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
