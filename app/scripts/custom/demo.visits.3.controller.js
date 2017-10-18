@@ -57,8 +57,11 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
     }
 
     this.updateStoreList = function(id, baseUrl, entityId) {
+        debugger;
         $.getJSON(
+            baseUrl
             + '/dashboard/storesFilter?entityId=' + entityId
+            + '&authToken=' + $rootScope.globals.currentUser.token
             + '&entityKind=1'
             + '&toStringDate=' + toDate
             + '&onlyExternalIds=true',
@@ -543,7 +546,7 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
     this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId) {
         $.getJSON(
             baseUrl
-            + '/dashoard/brandTableData'
+            + '/dashboard/brandTableData'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + entityId
             + '&entityKind=1'
