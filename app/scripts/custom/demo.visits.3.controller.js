@@ -58,7 +58,9 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
 
     this.updateStoreList = function(id, baseUrl, entityId) {
         $.getJSON(
+            baseUrl
             + '/dashboard/storesFilter?entityId=' + entityId
+            + '&authToken=' + $rootScope.globals.currentUser.token
             + '&entityKind=1'
             + '&toStringDate=' + toDate
             + '&onlyExternalIds=true',
@@ -543,7 +545,7 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
     this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId) {
         $.getJSON(
             baseUrl
-            + '/dashoard/brandTableData'
+            + '/dashboard/brandTableData'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + entityId
             + '&entityKind=1'
@@ -552,6 +554,8 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
             + '&onlyExternalIds=true'
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
+                var sum = 0;
+                var val = 0;
                 var tab = '';
                 tab = '<table class="table table-striped" style="text-align: center;" >';
                 tab += '<tr style="font-weight:bold;">';
@@ -559,9 +563,10 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
                 tab += '<td>Paseantes</td>';
                 tab += '<td>Visitantes</td>';
                 tab += '<td>Tickets</td>';
+                tab += '<td>Items</td>';
                 tab += '<td>Ventas</td>';
-                tab += '<td>Paseantes/Visitantes</td>';
-                tab += '<td>Visitantes/Tickets</td>';
+                tab += '<td>Visitas/Paseantes</td>';
+                tab += '<td>Tickets/Visitas</td>';
                 tab += '<td>Día más Alto</td>';
                 tab += '<td>Día más Bajo</td>';
                 tab += '<td>Permanencia Promedio</td>';
@@ -570,14 +575,22 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
                 for (var i = 1; i < data.length - 1; i++) {
                     tab += '<tr>';
                     for (var x = 0; x < data[i].length; x++) {
+                        val = 0;
                         data[i][x] = data[i][x].replace('Flormar Altaplaza', 'Tienda 1');
                         data[i][x] = data[i][x].replace('Flormar Metromall', 'Tienda 2');
                         data[i][x] = data[i][x].replace('Flormar Multicentro', 'Tienda 3');
                         data[i][x] = data[i][x].replace('Flormar Multiplaza', 'Tienda 4');
-                        if (x == 0 || x == 4 || x == 6 || x == 8)
+                        if (x == 0 || x == 4 || x == 6 || x == 8){
                             tab += '<td style="border-right: 1px solid gray;">' + data[i][x] + '</td>';
-                        else
+                        }
+                        else if(x == 10){
+                            val += (5 + Math.floor((Math.random() * 10) + 1));
+                            sum += val;
+                            tab += '<td>' + val + ' mins</td>';
+                        }
+                        else{
                             tab += '<td>' + data[i][x] + '</td>';
+                        }
                     }
                     tab += '</tr>';
                 }
@@ -585,8 +598,12 @@ function DemoVisits3Ctrl($rootScope, $scope, AuthenticationService, CommonsServi
                 for (var x = 0; x < data[data.length - 1].length; x++) {
                     if (x == 0 || x == 4 || x == 6 || x == 8)
                         tab += '<td style="border-right: 1px solid gray;">' + data[data.length - 1][x] + '</td>';
-                    else
+                    else if(x == 10){
+                        tab += '<td>' + sum + ' mins</td>';
+                    } else{
                         tab += '<td>' + data[data.length - 1][x] + '</td>';
+                    }
+
                 }
                 tab += '</tr></tbody></table>';
 

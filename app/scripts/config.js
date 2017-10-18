@@ -17,6 +17,7 @@ config.baseUrl = 'http://staging.getin.mx/bdb';
 config.dashUrl = 'http://staging.getin.mx/appv2';
 config.uploadUrl = 'http://staging.getin.mx/bdb/img/upload'
 
+// config.baseUrl = 'http://staging.getin.mx/bdb';
 // config.baseUrl = 'http://localhost:8081/bdb';
 // config.dashUrl = 'http://localhost:8081/appv2';
 // config.uploadUrl = 'http://localhost:8081/bdb/img/upload'
@@ -59,7 +60,7 @@ function angularConfig($stateProvider, $urlRouterProvider) {
         })
         .state('login', {
             url: "/login",
-            templateUrl: "views/login.html",
+            templateUrl: "views/login_two_columns.html",
             data: { pageTitle: 'Login', specialClass: 'gray-bg' }
         })
         .state('404', {
