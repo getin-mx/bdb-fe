@@ -58,7 +58,7 @@ function angularConfig($stateProvider, $urlRouterProvider) {
         })
         .state('login', {
             url: "/login",
-            templateUrl: "views/login.html",
+            templateUrl: "views/login_two_columns.html",
             data: { pageTitle: 'Login', specialClass: 'gray-bg' }
         })
         .state('404', {
