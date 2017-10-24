@@ -154,7 +154,7 @@
           'atelier_mx',
           'mt_sport_mx',
           'sbarro_mx',
-          'franquicias_edmond_bcprint_mx'
+          'aditivo_franquicias_mx'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
