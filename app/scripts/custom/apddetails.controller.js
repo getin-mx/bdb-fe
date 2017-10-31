@@ -556,7 +556,7 @@ function APDDetailsCtrl($rootScope, $scope, AuthenticationService, CommonsServic
 				tab += '<td>Visitantes</td>';
 				tab += '<td>Tickets</td>';
 				tab += '<td>Paseantes/Visitantes</td>';
-				tab += '<td>Visitantes/Tickets</td>';
+				tab += '<td>Tickets/Visitantes</td>';
 				tab += '<td>Día más Alto</td>';
 				tab += '<td>Día más Bajo</td>';
 				tab += '<td>Permanencia Promedio</td>';

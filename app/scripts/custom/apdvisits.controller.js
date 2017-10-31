@@ -1366,7 +1366,7 @@
                         tab += '<td>Ventas</td>';                   // 4
                     }
                     tab += '<td>Visitantes/Paseantes</td>';         // 5
-                    tab += '<td>Visitantes/Tickets</td>';           // 6
+                    tab += '<td>Tickets/Visitantes</td>';           // 6
                 }
                 tab += '<td>Día más Alto</td>';                     // 7
                 tab += '<td>Día más Bajo</td>';                     // 8
