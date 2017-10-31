@@ -1,7 +1,7 @@
 /**
- * DemoVisitsCtrl - controller
+ * DemoVisitsDevlin - controller
  */
-function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
+function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsService, $rootScope, $http) {
 
     var vm = this;
 
@@ -14,9 +14,27 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
     $('#fromDate').val($scope.fromDate);
     $scope.storeId = '';
 
+    $scope.types = [
+      {
+        name:"Todas",
+        value: 0
+      },
+      { name:"Exhibición",
+        value: 1
+      },
+      {
+        name:"Gabinete",
+        value: 2
+    }];
+    $scope.selected = $scope.types[0];
+
+    $scope.zoneChanged = function(){
+      console.log($scope.selected.value);
+    }
+
     var globals = AuthenticationService.getCredentials();
     var credentials = globals.currentUser;
-    $scope.brandId = 'sportium_mx';
+    $scope.brandId = 'devlyn_mx';
 
     $scope.exportAPDVisits = function() {
         $scope.fromDate = $('#fromDate').val();
@@ -60,6 +78,7 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
         $.getJSON(
             baseUrl
             + '/dashboard/storesFilter?entityId=' + entityId
+            + '&authToken=' + $rootScope.globals.currentUser.token
             + '&entityKind=1'
             + '&toStringDate=' + toDate
             + '&onlyExternalIds=true',
@@ -69,16 +88,10 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
                     value: '',
                     text: 'Todas'
                 }));
+
                 $.each(data, function(idx, item) {
-                    item.name = item.name.replace('Sportium Arboledas', 'Tienda 1');
-                    item.name = item.name.replace('Sportium Coyoacan', 'Tienda 2');
-                    item.name = item.name.replace('Sportium Cuautitlan', 'Tienda 3');
-                    item.name = item.name.replace('Sportium Del Valle', 'Tienda 4');
-                    item.name = item.name.replace('Sportium Desierto', 'Tienda 5');
-                    item.name = item.name.replace('Sportium Lomas Verdes', 'Tienda 6');
-                    item.name = item.name.replace('Sportium San Angel', 'Tienda 7');
-                    item.name = item.name.replace('Sportium Santa Fe', 'Tienda 8');
-                    item.name = item.name.replace('Sportium Satelite', 'Tienda 9');
+                    item.name = item.name.replace('Tony Moly Oasis Coyoacan', 'Devlyn Perisur');
+                    item.name = item.name.replace('Tony Moly Paseo Acoxpa', 'Devlyn Parque Delta');
                     $(id).append($('<option>', {
                         value: item.identifier,
                         text: item.name
@@ -103,8 +116,11 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 // Disable extra options by default
-                for( var i = 2; i < data.series.length; i++)
-                    data.series[i].visible = false;
+                if($scope.selected.value === 2){
+                  data.series = data.series.slice(1,2);
+                } else{
+                  data.series = data.series.slice(0,2);
+                }
 
                 $(id).highcharts({
                     chart: {
@@ -165,8 +181,13 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 // Disable extra options by default
-                for( var i = 2; i < data.series.length; i++)
-                    data.series[i].visible = false;
+                if($scope.selected.value === 2){
+                  data.series = data.series.slice(1,2);
+                } else{
+                  data.series = data.series.slice(0,2);
+                }
+                // for( var i = 2; i < data.series.length; i++)
+                //     data.series[i].visible = false;
 
                 $(id).highcharts({
                     chart: {
@@ -229,9 +250,11 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 // Disable extra options by default
-                data.series[0].visible = false;
-                for( var i = 2; i < data.series.length; i++)
-                    data.series[i].visible = false;
+                if($scope.selected.value === 2){
+                  data.series = data.series.slice(1,2);
+                } else{
+                  data.series = data.series.slice(0,2);
+                }
 
                 $(id).highcharts({
                     chart: {
@@ -429,65 +452,315 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
                 });
             });
     };
-    this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId) {
-        $.getJSON(
-            baseUrl
-            + '/dashoard/brandTableData'
+    this.updateHeatmapOccupation = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId) {
+        var url = null;
+
+        var eid;
+        var seid;
+        var kind;
+        var vo = false;
+
+        if( zoneId === undefined || zoneId == '') {
+            eid = entityId;
+            seid = subEntityId;
+            kind = 1;
+            vo = false;
+        } else {
+            eid = zoneId;
+            seid = zoneId;
+            kind = 20;
+            vo = true;
+        }
+
+        if( $scope.visitsOnly == true || vo == true )
+            url = baseUrl
+            + '/dashboard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
-            + '&entityId=' + entityId
-            + '&entityKind=1'
+            + '&entityId=' + eid
+            + '&entityKind=' + kind
+            + '&subentityId=' + seid
+            + '&elementId=apd_occupation'
+            + '&elementSubId=occupation_hourly_visits'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
-            + '&onlyExternalIds=true'
-            + '&timestamp=' + CommonsService.getTimestamp(),
+            + '&average=true'
+            + '&toMinutes=true'
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp();
+        else
+            url = baseUrl
+            + '/dashboard/heatmapTableHour'
+            + '?authToken=' + $rootScope.globals.currentUser.token
+            + '&entityId=' + eid
+            + '&entityKind=' + kind
+            + '&subentityId=' + seid
+            + '&elementId=apd_occupation'
+            + '&elementSubId=occupation_hourly_visits,occupation_hourly_peasants'
+            + '&fromStringDate=' + fromDate
+            + '&toStringDate=' + toDate
+            + '&average=true'
+            + '&toMinutes=true'
+            + '&eraseBlanks=true'
+            + '&timestamp=' + CommonsService.getTimestamp();
 
+        $.getJSON(url,
             function(data) {
-                var tab = '';
-                tab = '<table class="table table-striped" style="text-align: center;" >';
-                tab += '<tr style="font-weight:bold;">';
-                tab += '<td>Tienda</td>';
-                tab += '<td>Paseantes</td>';
-                tab += '<td>Visitantes</td>';
-                tab += '<td>Tickets</td>';
-                tab += '<td>Paseantes/Visitantes</td>';
-                tab += '<td>Tickets/Visitantes</td>';
-                tab += '<td>Día más Alto</td>';
-                tab += '<td>Día más Bajo</td>';
-                tab += '<td>Permanencia Promedio</td>';
-                tab += '</tr>';
-                tab += '<tbody>';
-                for (var i = 1; i < data.length - 1; i++) {
-                    tab += '<tr>';
-                    for (var x = 0; x < data[i].length; x++) {
-                        data[i][x] = data[i][x].replace('Sportium Arboledas', 'Tienda 1');
-                        data[i][x] = data[i][x].replace('Sportium Coyoacan', 'Tienda 2');
-                        data[i][x] = data[i][x].replace('Sportium Cuautitlan', 'Tienda 3');
-                        data[i][x] = data[i][x].replace('Sportium Del Valle', 'Tienda 4');
-                        data[i][x] = data[i][x].replace('Sportium Desierto', 'Tienda 5');
-                        data[i][x] = data[i][x].replace('Sportium Lomas Verdes', 'Tienda 6');
-                        data[i][x] = data[i][x].replace('Sportium San Angel', 'Tienda 7');
-                        data[i][x] = data[i][x].replace('Sportium Santa Fe', 'Tienda 8');
-                        data[i][x] = data[i][x].replace('Sportium Satelite', 'Tienda 9');
-                        if (x == 0 || x == 3 || x == 5 || x == 7)
-                            tab += '<td style="border-right: 1px solid gray;">' + data[i][x] + '</td>';
-                        else
-                            tab += '<td>' + data[i][x] + '</td>';
-                    }
-                    tab += '</tr>';
-                }
-                tab += '<tr style="font-weight:bold;">';
-                for (var x = 0; x < data[data.length - 1].length; x++) {
-                    if (x == 0 || x == 3 || x == 5 || x == 7)
-                        tab += '<td style="border-right: 1px solid gray;">' + data[data.length - 1][x] + '</td>';
-                    else
-                        tab += '<td>' + data[data.length - 1][x] + '</td>';
-                }
-                tab += '</tr></tbody></table>';
 
-                tab += '</tbody>';
-                tab += '</table>';
-                $(id).html(tab);
+                var p = new Array();
+                for( var i = 0; i < data.data.length; i++) {
+                    var ob = data.data[i];
+                    var p1 = p[ob[0]];
+                    if( p1 === null || p1 === undefined )  {
+                        p1 = new Array();
+                        p[ob[0]] = p1;
+                    }
+                    var val = ob[3];
+                    p1[ob[1]] = val;
+                }
+
+                $(id).highcharts({
+                    chart: {
+                        type: 'heatmap',
+                        marginLeft: 200,
+                        marginRight: 200
+                    },
+                    title: {
+                        text: 'Ocupacion por Hora'
+                    },
+                    xAxis: {
+                        categories: data.xCategories
+                    },
+                    yAxis: {
+                        categories: data.yCategories,
+                        title: 'Horarios'
+                    },
+                    colorAxis: {
+                        min: 0,
+                        minColor: '#FFFFFF',
+                        //maxColor: Highcharts.getOptions().colors[0]
+                        maxColor: '#137499'
+                    },
+                    legend: {
+                        align: 'right',
+                        layout: 'vertical',
+                        margin: 0,
+                        verticalAlign: 'top',
+                        y: 25,
+                        symbolHeight: 280
+                    },
+                    tooltip: {
+                        formatter: function() {
+                            if( $scope.visitsOnly == true || vo == true ) {
+                                return this.point.value + ' <strong>Visitantes</strong>';
+                            } else {
+                                return this.point.value + ' <strong>Visitantes</strong> <br/>' + p[this.point.x][this.point.y]    + ' <strong>Paseantes</strong>';
+                            }
+                        }
+                    },
+                    series: [{
+                        borderWidth: 1,
+                        borderColor: '#137499',
+                        data: data.data,
+                        dataLabels: {
+                            enabled: false,
+                            color: '#000000'
+                        }
+                    }]
+                });
             });
+    };
+
+    this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId) {
+      var emmitSubRow = function(data, i, x, multiplier, type, replaceFrom, replaceTo){
+      var val = 0;
+      sum = 0;
+      console.log(replaceTo);
+      result = [];
+      output = "";
+      for (var x = 0; x < data[i].length; x++) {
+          val = 0;
+          var td = '<td>';
+          var td_style = '<td style="border-right: 1px solid gray;">';
+          // data[i][x] = data[i][x].replace(replaceFrom, replaceTo);
+
+          if (x === 1 && type === 'gabinete'){
+            output += td + '</td>';
+            continue;
+          }
+
+          if (x === 0 && type === 'gabinete'){
+            output += td_style + 'Gabinete</td>';
+            continue;
+          }
+
+          if (x === 7 && type === 'gabinete'){
+            output += td_style + '</td>';
+            continue;
+          }
+
+          if ((x === 3 || x === 6 || x === 7) && type === 'gabinete'){
+            output += td + '</td>';
+            continue;
+          }
+
+          if ((x === 3) && type === 'exhibicion'){
+            output += td + data[i][x] + '</td>';
+            continue;
+          }
+
+          if ((x === 10) && type === 'gabinete'){
+            val += (15 + Math.floor((Math.random() * 45)));
+            sum += val;
+            output += '<td>' + val + ' mins</td>';
+            continue;
+          }
+
+          if (x === 0 && type === 'exhibicion'){
+            output += td_style + 'Exhibición</td>';
+            continue;
+          }
+
+          if (x === 1 && type === 'exhibicion'){
+            output += td + data[i][x] + '</td>';
+            continue;
+          }
+
+
+
+          if (x === 0 || x === 5 || x === 7 || x === 9){
+              td = '<td style="border-right: 1px solid gray;">';
+          }
+
+          if(x == 10){
+              val += (5 + Math.floor((Math.random() * 2) + 1));
+              sum += val;
+              output += '<td>' + val + ' mins</td>';
+          }
+          else {
+            if(isNaN(data[i][x])) {
+              output += td + data[i][x]  + '</td>';
+            } else{
+              output += td + (data[i][x] * multiplier).toFixed(1);  + '</td>';
+            }
+          }
+      }
+      result[0] = output;
+      result[1] = sum;
+      return result;
+      }
+
+      var emmitRow = function(data, i, replaceFrom, replaceTo){
+        var time = 0;
+        var sum = 0;
+        var cellValue = NaN;
+        var result = [];
+        output = "";
+        for (var x = 0; x < data[i].length; x++) {
+            var td = '<td>';
+            cellValue = data[i][x];
+            val = 0;
+            // cellValue = cellValue.replace(replaceFrom, replaceTo);
+
+            if (x == 0 || x == 5 || x == 7 || x == 9){
+                td = '<td style="border-right: 1px solid gray;">';
+            }
+            if(x == 10){
+                time += (5 + Math.floor((Math.random() * 2) + 1));
+                sum += time;
+                output += '<td>' + time + ' mins</td>';
+            }
+            else{
+              if(isNaN(cellValue)) {
+                output += td + cellValue  + '</td>';
+              } else{
+                cellValue = Number(cellValue);
+                output += td + cellValue.toFixed(1);  + '</td>';
+              }
+            }
+        }
+        result[0] = output;
+        result[1] = sum;
+        return result;
+      }
+      $.getJSON(
+          baseUrl
+          + '/dashboard/brandTableData'
+          + '?authToken=' + $rootScope.globals.currentUser.token
+          + '&entityId=' + entityId
+          + '&entityKind=1'
+          + '&fromStringDate=' + fromDate
+          + '&toStringDate=' + toDate
+          + '&onlyExternalIds=true'
+          + '&timestamp=' + CommonsService.getTimestamp(),
+          function(data) {
+              var sum = 0;
+              var tab = '';
+              tab = '<table class="table table-striped" style="text-align: center;" >';
+              tab += '<tr style="font-weight:bold;">';
+              tab += '<td>Tienda</td>';
+              tab += '<td>Paseantes</td>';
+              tab += '<td>Visitantes</td>';
+              tab += '<td>Tickets</td>';
+              tab += '<td>Items</td>';
+              tab += '<td>Ventas</td>';
+              tab += '<td>Visitas/Paseantes</td>';
+              tab += '<td>Tickets/Visitas</td>';
+              tab += '<td>Día más Alto</td>';
+              tab += '<td>Día más Bajo</td>';
+              tab += '<td>Permanencia Promedio</td>';
+              tab += '</tr>';
+              tab += '<tbody>';
+              for (var i = 1; i < data.length - 1; i++) {
+                  if(i === 2){
+                      var res;
+                      tab += '<tr style="background-color: lightblue;">';
+                      res = emmitRow(data, i, 'Tanya Moss Aeropuerto CDMX Terminal 2', 'Devlyn Perisur');
+                      sum += res[1];
+                      tab += res[0];
+                      tab += '</tr>';
+                      tab += '<tr>';
+                      tab += emmitSubRow(data, i, x, .60, 'gabinete','Tanya Moss Aeropuerto CDMX Terminal 2', 'Gabinete')[0];
+                      tab += '</tr>';
+                      tab += '<tr>';
+                      tab += emmitSubRow(data, i, x, .75, 'exhibicion', 'Gabinete', 'Exhibición')[0];
+                      tab += '</tr>';
+                  }
+                  if(i === 3){
+                    tab += '<tr style="background-color: lightblue;">';
+                    res = emmitRow(data, i, 'Tanya Moss Aeropuerto Guadalajara', 'Devlyn Parque Delta');
+                    sum += res[1];
+                    tab += res[0];
+                    tab += '</tr>';
+                    tab += '<tr>';
+                    tab += emmitSubRow(data, i, x, .70,  'gabinete', 'Tanya Moss Aeropuerto Guadalajara', 'Gabinete')[0];
+                    tab += '</tr>';
+                    tab += '<tr>';
+                    tab += emmitSubRow(data, i, x, .65,  'exhibicion', 'Gabinete', 'Exhibición')[0];
+                    tab += '</tr>';
+                  }
+                  if(i === 1 || i > 3){
+                    tab += '<tr style="background-color: lightblue;">';
+                    res = emmitRow(data, i, 'Tanya Moss Altavista', 'Devlyn Soriana');
+                    sum += res[1];
+                    tab += res[0];
+                    tab += '</tr>';
+                  }
+              }
+              tab += '<tr style="font-weight:bold;">';
+              for (var x = 0; x < data[data.length - 1].length; x++) {
+                  if (x == 0 || x == 5 || x == 7 || x == 9)
+                      tab += '<td style="border-right: 1px solid gray;">' + data[data.length - 1][x] + '</td>';
+                  else if(x == 10){
+                      tab += '<td>' + sum + ' mins</td>';
+                  } else{
+                      tab += '<td>' + data[data.length - 1][x] + '</td>';
+                  }
+              }
+              tab += '</tr></tbody></table>';
+              tab += '</tbody>';
+              tab += '</table>';
+              $(id).html(tab);
+          });
     };
 
     this.updateStoreList('#store', config.baseUrl, $scope.brandId);
@@ -498,4 +771,4 @@ function DemoVisitsCtrl($scope, AuthenticationService, $rootScope, $http) {
 
 angular
     .module('bdb')
-    .controller('DemoVisitsCtrl', DemoVisitsCtrl);
+    .controller('DemoVisitsDevlin', DemoVisitsDevlin);

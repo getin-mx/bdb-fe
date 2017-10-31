@@ -1,4 +1,4 @@
-<div class="wrapper wrapper-content animated fadeInRight" ng-controller="DemoVisits3Ctrl">
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="DemoVisitsDevlin">
 	<!-- filtro -->
 	<div class="row">
 		<div class="col-lg-12">
@@ -6,6 +6,7 @@
 				<div id="detalle">
 					<div class="row">
 						<div class="form-group col-lg-6">
+							Devlyn
 							<label class="font-noraml">Rango de Fechas:</label>
 							<div class="input-group date" style="max-width: 400px;">
 								<input type="datetime" id="fromDate" ng-model="fromDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
@@ -17,9 +18,16 @@
 						<div class="form-group col-lg-6">
 							<label class="font-noraml">Tienda:</label>
 							<div class="input-group date">
-								<select name="store" ng-model="storeId" id="store" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;">
-									<option value="">Todas</option>
-								</select>
+								<select name="store" ng-model="storeId" id="store" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;"></select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="form-group col-lg-6"></div>
+						<div class="form-group col-lg-6">
+							<label class="font-noraml">Zona:</label>
+							<div class="input-group date">
+								<select ng-model="selected" ng-options="type as type.name for type in types track by type.value" ng-change="zoneChanged()" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;">								</select>
 							</div>
 						</div>
 					</div>
