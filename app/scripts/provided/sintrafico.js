@@ -282,7 +282,7 @@ function getIsochrone(lat, lon, mapa, length, color, success, fail) {
 							'key': 'e3d5b3f4b180e43558c1908b04f85f9e73de94b31777a8eb2ab844fd9296f177',
 							'lat': lat,
 							'lon': lon,
-							'insideOut': 'true',
+							'insideOut': 'false',
 							'range': 'weekday_evening',
 							'combined': 'true',
 							'length': length,
