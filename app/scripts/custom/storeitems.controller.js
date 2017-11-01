@@ -1,7 +1,7 @@
 /**
  * StoreItemCtrl - controller
  */
-function StoreItemCtrl($scope, $http, $location, CommonsService, AuthenticationService, SweetAlert) {
+function StoreItemCtrl($scope, $http, $location, CommonsService, AuthenticationService ) {
 
 	var vm = this;
 
@@ -134,14 +134,14 @@ function StoreItemCtrl($scope, $http, $location, CommonsService, AuthenticationS
 
 		if( data.status = 200 
 			&& data.data.error_code === undefined ) {
-			SweetAlert.swal({
+			swal({
 				title: "Ok!",
 				text: "Los Item del "+ $scope.fromDate
 			+ ' al ' + $scope.toDate+" han sido actualizados con éxito",
 				type: "success"
 			});
 		} else {
-			SweetAlert.swal({
+			swal({
 				title: "Error!",
 				text: "Ocurrio un problema, no se han podido guardar el Item.",
 				type: "error"

@@ -1,7 +1,7 @@
 /**
  * APDAssignationCtrl - controller
  */
- function APDAssignationCtrl($rootScope, $scope, $http, $stateParams, $location, CommonsService, AuthenticationService, SweetAlert, $timeout, $filter) {
+ function APDAssignationCtrl($rootScope, $scope, $http, $stateParams, $location, CommonsService, AuthenticationService , $timeout, $filter) {
 
     var vm = this;
 
@@ -117,13 +117,13 @@
 
         if( data.status = 200 
             && data.data.error_code === undefined ) {
-            SweetAlert.swal({
+            swal({
                 title: "Ok!",
                 text: "La asignación fue salvada con éxito",
                 type: "success"
             });
         } else {
-            SweetAlert.swal({
+            swal({
                 title: "Error!",
                 text: "La asignación no pudo salvarse",
                 type: "error"

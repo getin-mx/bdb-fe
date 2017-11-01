@@ -1,7 +1,7 @@
 /**
  * APDVAnalysisCtrl - controller
  */
-function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, AuthenticationService, SweetAlert, $window) {
+function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, AuthenticationService , $window) {
 
 	var vm = this;
 	$scope.search = '';

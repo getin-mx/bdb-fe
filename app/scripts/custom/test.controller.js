@@ -1,7 +1,7 @@
 /**
  * TestCtrl - controller
  */
-function TestCtrl($scope, $http, $location, CommonsService, AuthenticationService, SweetAlert) {
+function TestCtrl($scope, $http, $location, CommonsService, AuthenticationService ) {
 
 	var vm = this;
 

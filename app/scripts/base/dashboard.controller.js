@@ -1,7 +1,7 @@
 /**
  * DashboardCtrl - controller
  */
- function DashboardCtrl($rootScope, $scope, $http, $stateParams, $location, CommonsService, AuthenticationService, SweetAlert, $timeout, $filter) {
+ function DashboardCtrl($rootScope, $scope, $http, $stateParams, $location, CommonsService, AuthenticationService , $timeout, $filter) {
 
  	var vm = this;
 

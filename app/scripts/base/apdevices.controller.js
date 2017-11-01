@@ -1,7 +1,7 @@
 /**
  * APDevicesCtrl - controller
  */
-function APDevicesCtrl($scope, $rootScope, $http, $location, $uibModal, CommonsService, AuthenticationService, SweetAlert) {
+function APDevicesCtrl($scope, $rootScope, $http, $location, $uibModal, CommonsService, AuthenticationService ) {
 
 	var vm = this;
 	$scope.search = '';
@@ -181,7 +181,7 @@ function APDevicesCtrl($scope, $rootScope, $http, $location, $uibModal, CommonsS
 		$('.apdevicedisable').click(function(e) {
 			e.preventDefault();
 
-            SweetAlert.swal({
+            swal({
                 title: "Estas seguro?",
                 text: "Quieres dar de baja esta antena?",
                 type: "warning",
@@ -198,7 +198,7 @@ function APDevicesCtrl($scope, $rootScope, $http, $location, $uibModal, CommonsS
                             data.data.status = 1;
                             $http.post((CommonsService.getUrl('/apdevice')), data.data)
                                 .then(function(data) {
-                                    SweetAlert.swal("Dada de Baja!", "La antena fue dada de baja", "success");
+                                    swal("Dada de Baja!", "La antena fue dada de baja", "success");
                                     $scope.refresh();
                                 })
                         })
@@ -210,7 +210,7 @@ function APDevicesCtrl($scope, $rootScope, $http, $location, $uibModal, CommonsS
         $('.apdevicedelete').click(function(e) {
             e.preventDefault();
 
-            SweetAlert.swal({
+            swal({
                 title: "Estas seguro?",
                 text: "Si se elimina esta antena se perderá toda la configuración asociada a ella!",
                 type: "warning",
@@ -224,7 +224,7 @@ function APDevicesCtrl($scope, $rootScope, $http, $location, $uibModal, CommonsS
                 if (isConfirm) {
                     $http.delete(CommonsService.getUrl('/apdevice/' + $(e.currentTarget).data('value')))
                         .then(function(data) {
-                            SweetAlert.swal("Eliminado!", "La antena fue eliminada.", "success");
+                            swal("Eliminado!", "La antena fue eliminada.", "success");
                             $scope.refresh();
                         });
                 }

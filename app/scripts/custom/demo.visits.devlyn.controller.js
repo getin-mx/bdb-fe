@@ -116,8 +116,19 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 // Disable extra options by default
+                var copy = Object.assign([], data.series);
+                var copy2 = Object.assign([], data.series);
+                var series = [];
                 if($scope.selected.value === 2){
                   data.series = data.series.slice(1,2);
+                }
+                if($scope.selected.value === 1){
+                  series = data.series.slice(0,2);
+                  console.log(copy);
+                  var chunk = series.concat(copy.slice(6,7));
+                  // console.log(copy2.slice(7,8));
+                  console.log(series);
+                  data.series = chunk;
                 } else{
                   data.series = data.series.slice(0,2);
                 }
@@ -250,11 +261,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 // Disable extra options by default
-                if($scope.selected.value === 2){
-                  data.series = data.series.slice(1,2);
-                } else{
-                  data.series = data.series.slice(0,2);
-                }
+                data.series = data.series.slice(1,2);
 
                 $(id).highcharts({
                     chart: {
@@ -635,14 +642,23 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
               val += (5 + Math.floor((Math.random() * 2) + 1));
               sum += val;
               output += '<td>' + val + ' mins</td>';
+              continue;
           }
-          else {
-            if(isNaN(data[i][x])) {
-              output += td + data[i][x]  + '</td>';
-            } else{
-              output += td + (data[i][x] * multiplier).toFixed(1);  + '</td>';
-            }
+          cellValue = data[i][x];
+          if(isNaN(cellValue)) {
+            output += td + cellValue  + '</td>';
           }
+          else{
+           cellValue = Number(cellValue);
+           if (x == 1 || x == 2 || x == 3){
+             cellValue *= multiplier;
+             cellValue = parseInt(cellValue);
+           } else{
+             cellValue = cellValue.toFixed(2);
+           }
+
+           output += td + cellValue + '</td>';
+           }
       }
       result[0] = output;
       result[1] = sum;
@@ -674,8 +690,15 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
                 output += td + cellValue  + '</td>';
               } else{
                 cellValue = Number(cellValue);
-                output += td + cellValue.toFixed(1);  + '</td>';
-              }
+                if (x == 1 || x == 2 || x == 3){
+                  cellValue = parseInt(cellValue);
+
+                } else{
+                  cellValue = cellValue.toFixed(2);
+                }
+
+                output += td + cellValue + '</td>';
+                }
             }
         }
         result[0] = output;
@@ -695,7 +718,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
           function(data) {
               var sum = 0;
               var tab = '';
-              tab = '<table class="table table-striped" style="text-align: center;" >';
+              tab = '<table class="table" style="text-align: center;" >';
               tab += '<tr style="font-weight:bold;">';
               tab += '<td>Tienda</td>';
               tab += '<td>Paseantes</td>';
@@ -710,7 +733,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
               tab += '<td>Permanencia Promedio</td>';
               tab += '</tr>';
               tab += '<tbody>';
-              for (var i = 1; i < data.length - 1; i++) {
+              for (var i = 2; i < data.length - 3; i++) {
                   if(i === 2){
                       var res;
                       tab += '<tr style="background-color: lightblue;">';
