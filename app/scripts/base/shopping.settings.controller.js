@@ -1,7 +1,7 @@
 /**
  * ShoppingSettingsCtrl - controller
  */
- function ShoppingSettingsCtrl($rootScope, $scope, $http, $stateParams, $location, CommonsService, AuthenticationService, SweetAlert, $timeout, $filter) {
+ function ShoppingSettingsCtrl($rootScope, $scope, $http, $stateParams, $location, CommonsService, AuthenticationService , $timeout, $filter) {
 
 	var vm = this;
 
@@ -106,13 +106,13 @@
     $scope.postUpdate = function(data) {
         if( data.status = 200 
             && data.data.error_code === undefined ) {
-            SweetAlert.swal({
+            swal({
                 title: "Ok!",
                 text: "La configuración del centro comercial fue salvada con éxito",
                 type: "success"
             });
         } else {
-            SweetAlert.swal({
+            swal({
                 title: "Error!",
                 text: "La configuración del centro comercial no pudo salvarse",
                 type: "error"

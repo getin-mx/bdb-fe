@@ -114,7 +114,7 @@ function LoginCtrl($scope, $location, AuthenticationService) {
 /**
  * Logout - controller
  */
-function SessionCtrl($scope, $rootScope, $location, AuthenticationService, CommonsService, $uibModal, SweetAlert, $http) {
+function SessionCtrl($scope, $rootScope, $location, AuthenticationService, CommonsService, $uibModal , $http) {
     $scope.init = function() {
         var globals = AuthenticationService.getCredentials();
         var credentials = globals.currentUser;
@@ -164,18 +164,18 @@ function SessionCtrl($scope, $rootScope, $location, AuthenticationService, Commo
         }
 
         if( message !== undefined ) {
-            SweetAlert.swal("Error!", message, "error");
+            swal("Error!", message, "error");
         } else {
             $scope.loadingSubmit = true;
             $http.post((CommonsService.getUrl('/pass')), $scope.obj)
                 .then(function(data) {
                     if(data.data.error_code === undefined) {
-                        SweetAlert.swal("Contraseña Cambiada", "La contraseña fue cambiada con éxito", "success");
+                        swal("Contraseña Cambiada", "La contraseña fue cambiada con éxito", "success");
                         $rootScope.passModalInstance.close();
                     } else if(data.data.error_code == 407) {
-                        SweetAlert.swal("Error", "La contraseña actual es incorrecta", "error");
+                        swal("Error", "La contraseña actual es incorrecta", "error");
                     } else {
-                        SweetAlert.swal("Error", "Ocurrió un error al cambiar la contraseña. Por favor, inténtalo más tarde", "error");
+                        swal("Error", "Ocurrió un error al cambiar la contraseña. Por favor, inténtalo más tarde", "error");
                     }
                     $scope.loadingSubmit = false;
                 })

@@ -1,7 +1,7 @@
 /**
  * APDeviceSettingsCtrl - controller
  */
- function APDeviceSettingsCtrl($rootScope, $scope, $http, $stateParams, $location, CommonsService, AuthenticationService, SweetAlert, $timeout, $filter) {
+ function APDeviceSettingsCtrl($rootScope, $scope, $http, $stateParams, $location, CommonsService, AuthenticationService , $timeout, $filter, Alertify) {
 
 	var vm = this;
 
@@ -326,17 +326,23 @@
         // console.log(data);
         if( data.status = 200
             && data.data.error_code === undefined ) {
-            SweetAlert.swal({
-                title: "Ok!",
-                text: "La configuración de la antena fue salvada con éxito",
-                type: "success"
-            });
+            // swal({
+            //     title: "Ok!",
+            //     text: "La configuración de la antena fue salvada con éxito",
+            //     type: "success"
+            // });
+            Alertify.confirm('Are you sure?').then(
+                function onOk() { Alertify.success('Cool');},
+                function onCancel() { Alertify.success('Not cool');}
+            );
+
         } else {
-            SweetAlert.swal({
-                title: "Error!",
-                text: "La configuración de la antena no pudo salvarse",
-                type: "error"
-            });
+            // swal({
+            //     title: "Error!",
+            //     text: "La configuración de la antena no pudo salvarse",
+            //     type: "error"
+            // });
+            Alertify.success('Hello world!');
         }
 
         $scope.loadingSubmit = false;
@@ -712,32 +718,33 @@
         $('.apdassignationdelete').click(function(e) {
             e.preventDefault();
 
-            SweetAlert.swal({
-                title: "Estas seguro?",
-                text: "Si se elimina la asignación ya no podrá recuperarse!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Si, eliminalo!",
-                cancelButtonText: "No, me arrepiento...",
-                closeOnConfirm: false,
-                closeOnCancel: true },
-            function (isConfirm) {
-                if (isConfirm) {
-                    $http.delete(CommonsService.getUrl('/apdassignation/' + $(e.currentTarget).data('value')))
-                        .then(function(data) {
-                            SweetAlert.swal("Eliminado!", "La asignación fue eliminada.", "success");
-                            $scope.refreshAssignations();
-                        });
-                }
-            });
+            // swal({
+            //     title: "Estas seguro?",
+            //     text: "Si se elimina la asignación ya no podrá recuperarse!",
+            //     type: "warning",
+            //     showCancelButton: true,
+            //     confirmButtonColor: "#DD6B55",
+            //     confirmButtonText: "Si, eliminalo!",
+            //     cancelButtonText: "No, me arrepiento...",
+            //     closeOnConfirm: false,
+            //     closeOnCancel: true },
+            // function (isConfirm) {
+            //     if (isConfirm) {
+            //         $http.delete(CommonsService.getUrl('/apdassignation/' + $(e.currentTarget).data('value')))
+            //             .then(function(data) {
+            //                 swal("Eliminado!", "La asignación fue eliminada.", "success");
+            //                 $scope.refreshAssignations();
+            //             });
+            //     }
+            // });
+            Alertify.success('Hello world!');
         });
 
         // Define apdassignationdelete click response
         $('.apdassignationremove').click(function(e) {
             e.preventDefault();
 
-            SweetAlert.swal({
+            swal({
                 title: "Estas seguro?",
                 text: "Quieres desasignar esta antena?",
                 type: "warning",
@@ -754,7 +761,7 @@
                             data.data.toDate = 'now';
                             $http.post((CommonsService.getUrl('/apdassignation')), data.data)
                                 .then(function(data) {
-                                    SweetAlert.swal("Desasignado!", "La antena fue desasignada", "success");
+                                    swal("Desasignado!", "La antena fue desasignada", "success");
                                     $scope.refreshAssignations();
                                 })
                         })
@@ -863,7 +870,7 @@
 
         var tmpDate = moment($scope.processFromDate);
         if( tmpDate < $scope.processMinDate ) {
-            SweetAlert.swal({
+            swal({
                 title: "Error!",
                 text: "La fecha de inicio del reproceso es menor al primero de enero!",
                 type: "error"
@@ -874,7 +881,7 @@
 
         tmpDate = moment($scope.processToDate);
         if( tmpDate < $scope.processMinDate ) {
-            SweetAlert.swal({
+            swal({
                 title: "Error!",
                 text: "La fecha de fin del reproceso es menor al primero de enero!",
                 type: "error"
@@ -884,7 +891,7 @@
         }
 
         if( Date.daysBetween(new Date($scope.processFromDate), new Date($scope.processToDate)) > 31 ) {
-            SweetAlert.swal({
+            swal({
                 title: "Error!",
                 text: "No puede reprocesarse más de un mes!",
                 type: "error"
@@ -894,7 +901,7 @@
         }
 
         if( moment($scope.processToDate) <= moment($scope.processFromDate)) {
-            SweetAlert.swal({
+            swal({
                 title: "Error!",
                 text: "La fecha de fin de reproceso tiene que ser mayor a la de inicio!",
                 type: "error"
@@ -920,13 +927,13 @@
 
         if( data.status = 200
             && data.data.error_code === undefined ) {
-            SweetAlert.swal({
+            swal({
                 title: "Ok!",
                 text: "Se ha emitido el reproceso! Espera hasta que el proceso se encuentre en estado finalizado",
                 type: "success"
             });
         } else {
-            SweetAlert.swal({
+            swal({
                 title: "Error!",
                 text: "No pudo emitirse el reproceso! Asegúrate de que la antena esté asignada y que las fechas de proceso sean correctas",
                 type: "error"

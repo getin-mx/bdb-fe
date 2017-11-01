@@ -12,7 +12,7 @@
         'angular-ladda',				        // Ladda plugin
         'datePicker',					          // Angular Date Pciker
         'ui.footable',					        // Foo Tables
-        'oitozero.ngSweetAlert',		    // SweetAlert
+        'Alertify',
         'ui.knob',                      // jsKnob
         'ui.bootstrap',                 // ui-bootstrap
         'localytics.directives',        // angular-chosen (just provided... not in repo)

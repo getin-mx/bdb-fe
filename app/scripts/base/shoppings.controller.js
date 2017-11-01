@@ -106,7 +106,7 @@ function ShoppingsCtrl($scope, $http, $location, CommonsService, AuthenticationS
 	    $('.shoppingdelete').click(function(e) {
 	        e.preventDefault();
 
-	        SweetAlert.swal({
+	        swal({
 	            title: "Estas seguro?",
 	            text: "Si se elimina centro comercial se perderá toda la configuración asociada a el!",
 	            type: "warning",
@@ -120,7 +120,7 @@ function ShoppingsCtrl($scope, $http, $location, CommonsService, AuthenticationS
 	            if (isConfirm) {
 	                $http.delete(CommonsService.getUrl('/shopping/' + $(e.currentTarget).data('value')))
 	                    .then(function(data) {
-	                        SweetAlert.swal("Eliminado!", "El centro comercial fue eliminada.", "success");
+	                        swal("Eliminado!", "El centro comercial fue eliminada.", "success");
 	                        $scope.refresh();
 	                    });
 	            }

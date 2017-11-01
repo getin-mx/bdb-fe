@@ -1,7 +1,7 @@
 /**
  * StoreTicketsCtrl - controller
  */
-function StoreTicketsCtrl($scope, $http, $location, CommonsService, AuthenticationService, SweetAlert) {
+function StoreTicketsCtrl($scope, $http, $location, CommonsService, AuthenticationService ) {
 
 	var vm = this;
 
@@ -181,14 +181,14 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 
 		if( data.status = 200 
 			&& data.data.error_code === undefined ) {
-			SweetAlert.swal({
+			swal({
 				title: "Ok!",
 				text: "Los tickets del "+ $scope.fromDate
 			+ ' al ' + $scope.toDate+" han sido actualizados con éxito",
 				type: "success"
 			});
 		} else {
-			SweetAlert.swal({
+			swal({
 				title: "Error!",
 				text: "Ocurrio un problema, no se han podido guardar los tickets.",
 				type: "error"
@@ -251,13 +251,13 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 
 		if( data.status = 200 
 			&& data.data.error_code === undefined ) {
-			SweetAlert.swal({
+			swal({
 				title: "Ok!",
 				text: "La previsualización de tickets fue generada con éxito. Los tickets aun no están guardados. Por favor, revisa los datos y luego haz un click en el botón Confirmar para guardar los datos.",
 				type: "success"
 			});
 		} else {
-			SweetAlert.swal({
+			swal({
 				title: "Error!",
 				text: "Ocurrio un problema, no se han podido guardar los tickets.",
 				type: "error"
@@ -294,13 +294,13 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 
 		if( data.status = 200 
 			&& data.data.error_code === undefined ) {
-			SweetAlert.swal({
+			swal({
 				title: "Ok!",
 				text: "La carga de tickets ha sido generada con éxito.",
 				type: "success"
 			});
 		} else {
-			SweetAlert.swal({
+			swal({
 				title: "Error!",
 				text: "Ocurrio un problema, no se han podido guardar los tickets.",
 				type: "error"

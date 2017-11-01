@@ -1,7 +1,7 @@
 /**
  * APDMAEmployeeSettingsCtrl - controller
  */
- function APDMAEmployeeSettingsCtrl($rootScope, $scope, $http, $stateParams, $location, CommonsService, AuthenticationService, SweetAlert, $timeout, $filter) {
+ function APDMAEmployeeSettingsCtrl($rootScope, $scope, $http, $stateParams, $location, CommonsService, AuthenticationService , $timeout, $filter) {
 
 	var vm = this;
 
@@ -76,7 +76,7 @@
 
         if( data.status = 200 
             && data.data.error_code === undefined ) {
-            SweetAlert.swal({
+            swal({
                 title: "Ok!",
                 text: "La configuración del empleado fue salvada con éxito",
                 type: "success"
@@ -86,7 +86,7 @@
             $rootScope.$emit('apdmaemployee.update')
 
         } else {
-            SweetAlert.swal({
+            swal({
                 title: "Error!",
                 text: "La configuración del empleado no pudo salvarse",
                 type: "error"

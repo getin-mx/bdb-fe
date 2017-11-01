@@ -1,7 +1,7 @@
 /**
  * ÀPDMAEmployeesCtrl - controller
  */
-function ÀPDMAEmployeesCtrl($scope, $rootScope, $http, $location, $uibModal, CommonsService, AuthenticationService, SweetAlert, $filter) {
+function ÀPDMAEmployeesCtrl($scope, $rootScope, $http, $location, $uibModal, CommonsService, AuthenticationService , $filter) {
 
 	var vm = this;
 	$scope.search = '';
@@ -172,7 +172,7 @@ function ÀPDMAEmployeesCtrl($scope, $rootScope, $http, $location, $uibModal, Co
         $('.delete').click(function(e) {
             e.preventDefault();
 
-            SweetAlert.swal({
+            swal({
                 title: "Estas seguro?",
                 text: "Si se elimina este empleado no podrá recuperarse!",
                 type: "warning",
@@ -186,7 +186,7 @@ function ÀPDMAEmployeesCtrl($scope, $rootScope, $http, $location, $uibModal, Co
                 if (isConfirm) {
                     $http.delete(CommonsService.getUrl('/apdmaemployee/' + $(e.currentTarget).data('value')))
                         .then(function(data) {
-                            SweetAlert.swal("Eliminado!", "El empleado fue eliminado.", "success");
+                            swal("Eliminado!", "El empleado fue eliminado.", "success");
                             $scope.refresh();
                         });
                 }

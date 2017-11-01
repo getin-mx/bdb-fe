@@ -1,7 +1,7 @@
 /**
  * StorePlacerCtrl - controller
  */
-function StorePlacerCtrl($scope, $http, $location, CommonsService, AuthenticationService, SweetAlert) {
+function StorePlacerCtrl($scope, $http, $location, CommonsService, AuthenticationService ) {
 
 	var vm = this;
 
@@ -133,13 +133,13 @@ function StorePlacerCtrl($scope, $http, $location, CommonsService, Authenticatio
 
 		if( data.status = 200 
 			&& data.data.error_code === undefined ) {
-			SweetAlert.swal({
+			swal({
 				title: "Ok!",
 				text: "La configuración fue salvada con éxito",
 				type: "success"
 			});
 		} else {
-			SweetAlert.swal({
+			swal({
 				title: "Error!",
 				text: "La configuración no pudo salvarse",
 				type: "error"

@@ -1,7 +1,7 @@
 /**
  * DeviceMessageCtrl - controller
  */
-function DeviceMessageCtrl($scope, $http, $location, CommonsService, AuthenticationService, SweetAlert) {
+function DeviceMessageCtrl($scope, $http, $location, CommonsService, AuthenticationService ) {
 
 	var vm = this;
 
@@ -86,13 +86,13 @@ function DeviceMessageCtrl($scope, $http, $location, CommonsService, Authenticat
 
 		if( data.status = 200 
 			&& data.data.error_code === undefined ) {
-			SweetAlert.swal({
+			swal({
 				title: "Ok!",
 				text: "Mensaje enviado con éxito",
 				type: "success"
 			});
 		} else {
-			SweetAlert.swal({
+			swal({
 				title: "Error!",
 				text: "No pudo enviarse el mensaje",
 				type: "error"

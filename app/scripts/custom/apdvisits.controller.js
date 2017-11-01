@@ -1,7 +1,7 @@
 /**
  * APDVisitsCtrl - controller
  */
- function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService, $rootScope, $http, SweetAlert) {
+ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService, $rootScope, $http, Alertify) {
 
     var vm = this;
 
@@ -243,20 +243,22 @@
         .then(function(data) {
 
             if( data.status = 200 && data.data.error_code === undefined ) {
-                SweetAlert.swal({
-                    title: "Ok!",
-                    text: "Los comentarios fueron salvados con éxito",
-                    type: "success"
-                });
+                // swal({
+                //     title: "Ok!",
+                //     text: "Los comentarios fueron salvados con éxito",
+                //     type: "success"
+                // });
+                Alertify.success('Hello world!');
 
                 $scope.loadingSubmit = false;
 
             } else {
-                SweetAlert.swal({
-                    title: "Error!",
-                    text: "Los comentarios no pudieron salvarse",
-                    type: "error"
-                });
+                // swal({
+                //     title: "Error!",
+                //     text: "Los comentarios no pudieron salvarse",
+                //     type: "error"
+                // });
+                Alertify.success('Hello world!');
             }
         });
     }
