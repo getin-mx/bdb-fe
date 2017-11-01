@@ -88,14 +88,17 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
                     value: '',
                     text: 'Todas'
                 }));
-
+                var i = 0;
                 $.each(data, function(idx, item) {
-                    item.name = item.name.replace('Tony Moly Oasis Coyoacan', 'Devlyn Perisur');
-                    item.name = item.name.replace('Tony Moly Paseo Acoxpa', 'Devlyn Parque Delta');
-                    $(id).append($('<option>', {
-                        value: item.identifier,
-                        text: item.name
-                    }));
+                    if(i === 0 || i === 4 || i === 5 ){
+                      i ++;
+                    } else{
+                      $(id).append($('<option>', {
+                          value: item.identifier,
+                          text: item.name
+                      }));
+                      i++;
+                    }
                 });
             });
     }
