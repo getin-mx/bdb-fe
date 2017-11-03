@@ -496,7 +496,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
                     },
                     tooltip: {
                         formatter: function() {
-                            return this.point.value + ' <strong>Visitantes</strong> <br/>' + p[this.point.x][this.point.y]    + ' <strong>Paseantes</strong>';
+                            return this.point.value + ' <strong>Visitantes</strong> <br/>' + p[this.point.x][this.point.y]    + ' <strong>Mirador</strong>';
                         }
                     },
                     series: [{
@@ -573,7 +573,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
                     },
                     tooltip: {
                         formatter: function() {
-                            return '<strong>Visitantes: </strong>' + this.point.value + ' minutos <br/> <strong>Paseantes: </strong>' + p[this.point.x][this.point.y]    + ' minutos';
+                            return '<strong>Visitantes: </strong>' + this.point.value + ' minutos <br/> <strong>Mirador: </strong>' + p[this.point.x][this.point.y]    + ' minutos';
                         }
                     },
                     series: [{
@@ -689,7 +689,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
                             if( $scope.visitsOnly == true || vo == true ) {
                                 return this.point.value + ' <strong>Visitantes</strong>';
                             } else {
-                                return this.point.value + ' <strong>Visitantes</strong> <br/>' + p[this.point.x][this.point.y]    + ' <strong>Paseantes</strong>';
+                                return this.point.value + ' <strong>Visitantes</strong> <br/>' + p[this.point.x][this.point.y]    + ' <strong>Mirador</strong>';
                             }
                         }
                     },
