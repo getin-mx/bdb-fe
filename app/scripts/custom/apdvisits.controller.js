@@ -680,6 +680,7 @@
                 });
             });
     };
+    
     this.updateRepetitionsChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, storeType) {
         // TODO use storeType
         var url = null;

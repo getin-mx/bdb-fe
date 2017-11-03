@@ -8,6 +8,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
     var dToDate = new Date(new Date().getTime() - config.oneDay);
     var dFromDate = new Date(dToDate.getTime() - config.oneWeek);
 
+    $scope.gabineteFactor = 0.85;
     $scope.toDate = dToDate.format("yyyy-mm-dd", null);
     $('#toDate').val($scope.toDate);
     $scope.fromDate = dFromDate.format("yyyy-mm-dd", null);
@@ -26,10 +27,107 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
         name:"Gabinete",
         value: 2
     }];
+
+    $scope.regions = [
+      {
+        name:"Todas",
+        value: 0
+      },
+      { name:"Centro 1",
+        value: 1
+      },
+      {
+        name:"Centro 2",
+        value: 2
+      }];
+
+    $scope.districts = [
+      {
+        name:"Todas",
+        value: 0
+      },
+      { name:"Distrito 3",
+        value: 1
+      },
+      {
+        name:"Distrito 5",
+        value: 2
+      },
+      {
+        name: "Distrito 7",
+        value: 3
+      },
+      {
+        name: "Distrito 9",
+        value: 4
+      },
+      {
+        name: "Distrito 10",
+        value: 5
+      },
+      {
+        name: "Distrito 11",
+        value: 6
+      }];
+
+    $scope.formats = [
+      {
+        name:"Todas",
+        value: 0
+      },
+      { name:"Chedraui",
+        value: 1
+      },
+      {
+        name:"City Club",
+        value: 2
+      },
+      {
+        name: "Coppel",
+        value: 3
+      },{
+        name: "Devlyn",
+        value: 4
+      },
+      {
+        name: "In Moda",
+        value: 5
+      },
+      {
+        name: "Optimart",
+        value: 6
+      },
+      {
+        name: "Sams",
+        value: 7
+      },
+      {
+        name: "Sears Optica",
+        value: 8
+      },
+      {
+        name: "Soriana",
+        value: 9
+      },
+      {
+        name: "Virtual",
+        value: 10
+      }, {
+        name: "Wal Mart",
+        value: 11
+      }];
+
+
     $scope.selected = $scope.types[0];
+    $scope.regionSelected = $scope.regions[0];
+    $scope.districtSelected = $scope.districts[0];
+    $scope.formatSelected = $scope.formats[0];
 
     $scope.zoneChanged = function(){
       console.log($scope.selected.value);
+    }
+    $scope.regionChanged = function(){
+      console.log($scope.regionSelected.value);
     }
 
     var globals = AuthenticationService.getCredentials();
@@ -72,6 +170,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
         vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId);
         vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId);
         vm.updateBrandPerformanceTable('#brand_performance_table', config.baseUrl, fromDate, toDate, brandId);
+        vm.updateHeatmapOccupation('#heatmap_occupation_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId);
     }
 
     this.updateStoreList = function(id, baseUrl, entityId) {
@@ -127,27 +226,32 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
                 }
                 if($scope.selected.value === 1){
                   series = data.series.slice(0,2);
+                  // series[0].yAxis = 1;
                   console.log(copy);
-                  var chunk = series.concat(copy.slice(6,7));
+                  var tickets = copy.slice(6,7);
+                  var chunk = series.concat(tickets);
                   // console.log(copy2.slice(7,8));
                   console.log(series);
                   data.series = chunk;
+                  debugger;
                 } else{
                   data.series = data.series.slice(0,2);
                 }
 
                 $(id).highcharts({
                     chart: {
+                        zoomType: 'xy',
                         marginLeft: 200,
                         marginRight: 200
                     },
                     title: {
-                        text: 'Tráfico por Día'
+                        text: ''
                     },
                     xAxis: {
                         categories: data.categories
                     },
-                    yAxis: {
+                    yAxis: [{
+                        type: 'logarithmic',
                         title: {
                             text: 'Tráfico por Día'
                         },
@@ -156,7 +260,30 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
                             width: 1,
                             color: '#808080'
                         }]
-                    },
+                    }
+                    // ,{ // Secondary yAxis
+                    //     type: 'logarithmic',
+                    //     minorTickInterval: 0.1,
+                    //     title: {
+                    //         text: '',
+                    //         style: {
+                    //           color: '#87ED84'
+                    //         }
+                    //     },
+                    //     labels: {
+                    //       format: '{value}',
+                    //       style: {
+                    //           color: '#87ED84'
+                    //         }
+                    //       },
+                    //     plotLines: [{
+                    //         value: 0,
+                    //         width: 1,
+                    //         color: '#808080'
+                    //     }],
+                    //     opposite: true
+                    // }
+                  ],
                     tooltip: {
                         valueSuffix: ''
                     },
@@ -169,7 +296,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
                     plotOptions: {
                         line: {
                             dataLabels: {
-                                enabled: true
+                                enabled: false
                             },
                             enableMouseTracking: false
                         }
@@ -535,7 +662,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
                         marginRight: 200
                     },
                     title: {
-                        text: 'Ocupacion por Hora'
+                        text: 'Ocupación por Hora'
                     },
                     xAxis: {
                         categories: data.xCategories
@@ -668,7 +795,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
       return result;
       }
 
-      var emmitRow = function(data, i, replaceFrom, replaceTo){
+      var emmitRow = function(data, i){
         var time = 0;
         var sum = 0;
         var cellValue = NaN;
@@ -680,32 +807,62 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             val = 0;
             // cellValue = cellValue.replace(replaceFrom, replaceTo);
 
-            if (x == 0 || x == 5 || x == 7 || x == 9){
+            if(x == 0 || x == 3 || x == 6 || x == 9 || x == 11){
                 td = '<td style="border-right: 1px solid gray;">';
             }
-            if(x == 10){
-                time += (5 + Math.floor((Math.random() * 2) + 1));
-                sum += time;
-                output += '<td>' + time + ' mins</td>';
-            }
-            else{
-              if(isNaN(cellValue)) {
-                output += td + cellValue  + '</td>';
+            if(isNaN(cellValue)) {
+              output += td + cellValue  + '</td>';
+            } else{
+              cellValue = Number(cellValue);
+              if (x == 1 || x == 2 || x == 3){
+                cellValue = parseInt(cellValue);
+
               } else{
-                cellValue = Number(cellValue);
-                if (x == 1 || x == 2 || x == 3){
-                  cellValue = parseInt(cellValue);
+                cellValue = cellValue.toFixed(2);
+              }
 
-                } else{
-                  cellValue = cellValue.toFixed(2);
-                }
-
-                output += td + cellValue + '</td>';
-                }
-            }
+              output += td + cellValue + '</td>';
+              }
         }
         result[0] = output;
         result[1] = sum;
+        return result;
+      }
+      var insertColumn = function(data, column, index){
+        for (var i = 0; i < data.length; i++){
+          var row = data[i];
+          row.splice(index, 0, column[i]);
+        }
+      }
+      var substituteColumn = function(data, column, index){
+        for (var i = 0; i < data.length; i++){
+          var row = data[i];
+          row.splice(index, 1, column[i]);
+        }
+      }
+      var getColumnValues = function(data, index){
+        var clone = [];
+        for (var i = 1; i < data.length; i++){
+          clone.push(data[i][index]);
+        }
+        return clone;
+      }
+
+      var deleteRow = function(data, index){
+        data.splice(index, 1);
+      }
+      var substituteRow = function(data, row, index){
+        data.splice(index, 1, row);
+      }
+
+
+      var twoColumnProd = function(data, a, b, func){
+        var colA = getColumnValues(data, a);
+        var colB = getColumnValues(data, b);
+        var result = [];
+        for(var i=0; i< colA.length; i++) {
+          result.push(func(colA[i], colB[i]));
+        }
         return result;
       }
       $.getJSON(
@@ -719,54 +876,72 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
           + '&onlyExternalIds=true'
           + '&timestamp=' + CommonsService.getTimestamp(),
           function(data) {
+
+
+              deleteRow(data, 1);
+              deleteRow(data, 4);
+              deleteRow(data, 4);
+              substituteRow(data, ["Óptica", "Mirador", "Visitas", "OVs", "Piezas", "Ventas", "Visitantes/Mirador", "Gabinete/Visitas", "Día más Alto", "Día más Bajo", "Permanencia Óptica"], 0);
+
+              //insertColumn(data, ["Sup",0,0,0,0], 2);
+              // var tickets = getColumn(data, 3);
+
+              //substituteColumn(data, ["Piezas",11,12,13,14], 4);
+              // substituteColumn(data, ["ABC", 11,12,13,14], 4);
+              // insertColumn(data, , 4);
+
+              // substituteColumn(data, , 4);
+              var gabinete = getColumnValues(data, 2).map(function(x) {
+                reduced =  x * $scope.gabineteFactor;
+                return parseInt(reduced)
+              });
+              gabinete.splice(0,0,"Gabinete");
+              insertColumn(data, gabinete, 3);
+
+              substituteColumn(data, ["Piezas",15,10,15,40], 5);
+
+              var product = function(a,b){
+                return Number(a)*Number(b);
+              }
+
+              var ventas = twoColumnProd(data, 4, 5, product);
+              ventas.splice(0,0,"Ventas");
+              substituteColumn(data, ventas, 6);
+
+              insertColumn(data, ["Ovs/Visitas","20%","20%","20%","33%"], 9);
+              insertColumn(data, ["Permanencia Exhibición","5 mins","10 mins","20 mins","11.5 mins"], 12);
+              insertColumn(data, ["Permanencia Gabinete","12 mins","10 mins","20 mins","12 mins"], 13);
+              substituteColumn(data, ["Permanencia Óptica","12 mins","10 mins","20 mins","12 mins"], 14);
+
+              var titles = data[0];
               var sum = 0;
-              var tab = '';
-              tab = '<table class="table" style="text-align: center;" >';
+              tab = '<table class="devlyn-brand-table table table-striped" style="text-align: left;" >';
               tab += '<tr style="font-weight:bold;">';
-              tab += '<td>Tienda</td>';
-              tab += '<td>Paseantes</td>';
-              tab += '<td>Visitantes</td>';
-              tab += '<td>Tickets</td>';
-              tab += '<td>Items</td>';
-              tab += '<td>Ventas</td>';
-              tab += '<td>Visitas/Paseantes</td>';
-              tab += '<td>Tickets/Visitas</td>';
-              tab += '<td>Día más Alto</td>';
-              tab += '<td>Día más Bajo</td>';
-              tab += '<td>Permanencia Promedio</td>';
+              for (var i = 0; i < titles.length; i++) {
+
+                tab +=  '<td>'+ titles[i] +'</td>';
+              }
               tab += '</tr>';
               tab += '<tbody>';
-              for (var i = 2; i < data.length - 3; i++) {
+              for (var i = 0; i < data.length -1 ; i++) {
                   if(i === 2){
                       var res;
-                      tab += '<tr style="background-color: lightblue;">';
-                      res = emmitRow(data, i, 'Tanya Moss Aeropuerto CDMX Terminal 2', 'Devlyn Perisur');
+                      tab += '<tr>';
+                      res = emmitRow(data, i);
                       sum += res[1];
                       tab += res[0];
                       tab += '</tr>';
-                      tab += '<tr>';
-                      tab += emmitSubRow(data, i, x, .60, 'gabinete','Tanya Moss Aeropuerto CDMX Terminal 2', 'Gabinete')[0];
-                      tab += '</tr>';
-                      tab += '<tr>';
-                      tab += emmitSubRow(data, i, x, .75, 'exhibicion', 'Gabinete', 'Exhibición')[0];
-                      tab += '</tr>';
                   }
                   if(i === 3){
-                    tab += '<tr style="background-color: lightblue;">';
-                    res = emmitRow(data, i, 'Tanya Moss Aeropuerto Guadalajara', 'Devlyn Parque Delta');
+                    tab += '<tr>';
+                    res = emmitRow(data, i);
                     sum += res[1];
                     tab += res[0];
                     tab += '</tr>';
-                    tab += '<tr>';
-                    tab += emmitSubRow(data, i, x, .70,  'gabinete', 'Tanya Moss Aeropuerto Guadalajara', 'Gabinete')[0];
-                    tab += '</tr>';
-                    tab += '<tr>';
-                    tab += emmitSubRow(data, i, x, .65,  'exhibicion', 'Gabinete', 'Exhibición')[0];
-                    tab += '</tr>';
                   }
                   if(i === 1 || i > 3){
-                    tab += '<tr style="background-color: lightblue;">';
-                    res = emmitRow(data, i, 'Tanya Moss Altavista', 'Devlyn Soriana');
+                    tab += '<tr>';
+                    res = emmitRow(data, i);
                     sum += res[1];
                     tab += res[0];
                     tab += '</tr>';
@@ -774,17 +949,14 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
               }
               tab += '<tr style="font-weight:bold;">';
               for (var x = 0; x < data[data.length - 1].length; x++) {
-                  if (x == 0 || x == 5 || x == 7 || x == 9)
+                  if (x == 0 || x == 3 || x == 6 || x == 9 || x == 11)
                       tab += '<td style="border-right: 1px solid gray;">' + data[data.length - 1][x] + '</td>';
-                  else if(x == 10){
-                      tab += '<td>' + sum + ' mins</td>';
-                  } else{
+                  else{
                       tab += '<td>' + data[data.length - 1][x] + '</td>';
                   }
               }
               tab += '</tr></tbody></table>';
-              tab += '</tbody>';
-              tab += '</table>';
+
               $(id).html(tab);
           });
     };
