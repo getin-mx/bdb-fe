@@ -244,7 +244,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
                         marginRight: 200
                     },
                     title: {
-                        text: ''
+                        text: 'Tráfico por día'
                     },
                     xAxis: {
                         categories: data.categories
