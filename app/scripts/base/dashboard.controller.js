@@ -216,7 +216,6 @@
               // for( var i = from; i < data.series.length; i++){
               //     subarray[i].visible = false;
               // }
-              debugger;
               $(id).highcharts({
                   chart: {
                       zoomType: 'xy',
