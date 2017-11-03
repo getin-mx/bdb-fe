@@ -189,6 +189,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
                 }));
                 var i = 0;
                 $.each(data, function(idx, item) {
+                    item.name = item.name.replace('Opticas Devlyn Perisur', 'Opticas Devlyn Chedraui');
                     if(i === 0 || i === 4 || i === 5 ){
                       i ++;
                     } else{
@@ -224,8 +225,9 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
                 if($scope.selected.value === 2){
                   data.series = data.series.slice(1,2);
                 }
-                if($scope.selected.value === 1){
+                else if($scope.selected.value === 1){
                   series = data.series.slice(0,2);
+                  series[0].name = "Mirador";
                   // series[0].yAxis = 1;
                   console.log(copy);
                   var tickets = copy.slice(6,7);
@@ -235,6 +237,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
                   data.series = chunk;
                 } else{
                   data.series = data.series.slice(0,2);
+                  data.series[0].name = "Mirador";
                 }
 
                 $(id).highcharts({
@@ -260,28 +263,6 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
                             color: '#808080'
                         }]
                     }
-                    // ,{ // Secondary yAxis
-                    //     type: 'logarithmic',
-                    //     minorTickInterval: 0.1,
-                    //     title: {
-                    //         text: '',
-                    //         style: {
-                    //           color: '#87ED84'
-                    //         }
-                    //     },
-                    //     labels: {
-                    //       format: '{value}',
-                    //       style: {
-                    //           color: '#87ED84'
-                    //         }
-                    //       },
-                    //     plotLines: [{
-                    //         value: 0,
-                    //         width: 1,
-                    //         color: '#808080'
-                    //     }],
-                    //     opposite: true
-                    // }
                   ],
                     tooltip: {
                         valueSuffix: ''
@@ -325,6 +306,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
                   data.series = data.series.slice(1,2);
                 } else{
                   data.series = data.series.slice(0,2);
+                  data.series[0].name = "Mirador";
                 }
                 // for( var i = 2; i < data.series.length; i++)
                 //     data.series[i].visible = false;
@@ -804,7 +786,9 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             var td = '<td>';
             cellValue = data[i][x];
             val = 0;
-            // cellValue = cellValue.replace(replaceFrom, replaceTo);
+
+            if(x === 0)
+            cellValue = cellValue.replace('Opticas Devlyn Perisur', 'Opticas Devlyn Chedraui');
 
             if(x == 0 || x == 3 || x == 6 || x == 9 || x == 11){
                 td = '<td style="border-right: 1px solid gray;">';
@@ -813,13 +797,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
               output += td + cellValue  + '</td>';
             } else{
               cellValue = Number(cellValue);
-              if (x == 1 || x == 2 || x == 3){
-                cellValue = parseInt(cellValue);
-
-              } else{
-                cellValue = cellValue.toFixed(2);
-              }
-
+              cellValue = parseInt(cellValue);
               output += td + cellValue + '</td>';
               }
         }
@@ -855,7 +833,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
       }
 
 
-      var twoColumnProd = function(data, a, b, func){
+      var twoColumnFunc = function(data, a, b, func){
         var colA = getColumnValues(data, a);
         var colB = getColumnValues(data, b);
         var result = [];
@@ -897,24 +875,43 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
               gabinete.splice(0,0,"Gabinete");
               insertColumn(data, gabinete, 3);
 
-              substituteColumn(data, ["Piezas",15,10,15,40], 5);
+              var piezas = [18, 12, 23, 53];
+              piezas.splice(0,0,"Piezas");
+              substituteColumn(data, piezas, 5);
 
-              var product = function(a,b){
-                return Number(a)*Number(b);
+              var productFormatted = function(a,b){
+                res = Number(a)*Number(b);
+                return "$" + res.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
               }
 
-              var ventas = twoColumnProd(data, 4, 5, product);
+              var divisionPercent = function(a,b){
+                return (Number(a)/Number(b)*100).toFixed(2) + "%";
+              }
+
+
+              var ventas = twoColumnFunc(data, 4, 5, productFormatted);
               ventas.splice(0,0,"Ventas");
               substituteColumn(data, ventas, 6);
 
-              insertColumn(data, ["Ovs/Visitas","20%","20%","20%","33%"], 9);
-              insertColumn(data, ["Permanencia Exhibición","5 mins","10 mins","20 mins","11.5 mins"], 12);
-              insertColumn(data, ["Permanencia Gabinete","12 mins","10 mins","20 mins","12 mins"], 13);
-              substituteColumn(data, ["Permanencia Óptica","12 mins","10 mins","20 mins","12 mins"], 14);
+              var v_over_m = twoColumnFunc(data, 2, 1, divisionPercent);
+              v_over_m.splice(0,0,"Visitantes/Mirador");
+              substituteColumn(data, v_over_m, 7);
+
+              var g_over_v = twoColumnFunc(data, 3, 2, divisionPercent);
+              g_over_v.splice(0,0,"Gabinete/Visitas");
+              substituteColumn(data, g_over_v, 8);
+
+              var ov_over_v = twoColumnFunc(data, 4, 2, divisionPercent);
+              ov_over_v.splice(0,0,"Ovs/Visitas");
+              insertColumn(data, ov_over_v, 9);
+
+              insertColumn(data, ["Permanencia Exhibición","5 mins","10 mins","20 mins","11.6 mins"], 12);
+              insertColumn(data, ["Permanencia Gabinete","24 mins","10 mins","40 mins","24.66 mins"], 13);
+              substituteColumn(data, ["Permanencia Óptica","12 mins","8 mins","5 mins","8.33 mins"], 14);
 
               var titles = data[0];
               var sum = 0;
-              tab = '<table class="devlyn-brand-table table table-striped" style="text-align: left;" >';
+              tab = '<table class="devlyn-brand-table table table-striped" style="text-align: center;" >';
               tab += '<tr style="font-weight:bold;">';
               for (var i = 0; i < titles.length; i++) {
 
