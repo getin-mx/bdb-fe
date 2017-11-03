@@ -216,7 +216,6 @@
               // for( var i = from; i < data.series.length; i++){
               //     subarray[i].visible = false;
               // }
-
               $(id).highcharts({
                   chart: {
                       zoomType: 'xy',
@@ -1868,8 +1867,6 @@
 	 	datasetStrokeWidth : 2,
 	 	datasetFill : true
 	 };
-
-
 	};
 
 	angular
