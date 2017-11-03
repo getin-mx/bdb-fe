@@ -796,9 +796,10 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             if(isNaN(cellValue)) {
               output += td + cellValue  + '</td>';
             } else{
-              cellValue = Number(cellValue);
-              cellValue = parseInt(cellValue);
-              output += td + cellValue + '</td>';
+              var formatted = Number(cellValue);
+              formatted = parseInt(formatted);
+              formatted = formatted.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+              output += td + formatted + '</td>';
               }
         }
         result[0] = output;
@@ -945,10 +946,14 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
               }
               tab += '<tr style="font-weight:bold;">';
               for (var x = 0; x < data[data.length - 1].length; x++) {
+                  var value = data[data.length - 1][x];
+                  if (x == 1 || x === 2 || x === 3){
+                    value = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                  }
                   if (x == 0 || x == 3 || x == 6 || x == 9 || x == 11)
-                      tab += '<td style="border-right: 1px solid gray;">' + data[data.length - 1][x] + '</td>';
+                      tab += '<td style="border-right: 1px solid gray;">' + value + '</td>';
                   else{
-                      tab += '<td>' + data[data.length - 1][x] + '</td>';
+                      tab += '<td>' + value + '</td>';
                   }
               }
               tab += '</tr></tbody></table>';
