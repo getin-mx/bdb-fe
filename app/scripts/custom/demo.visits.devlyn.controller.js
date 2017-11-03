@@ -233,7 +233,6 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
                   // console.log(copy2.slice(7,8));
                   console.log(series);
                   data.series = chunk;
-                  debugger;
                 } else{
                   data.series = data.series.slice(0,2);
                 }
