@@ -2,44 +2,68 @@
 	<!-- filtro -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="ibox-content">
-				<div id="detalle">
-					<div class="row">
-						<div class="form-group col-lg-6">
-							Devlyn
-							<label class="font-noraml">Rango de Fechas:</label>
-							<div class="input-group date" style="max-width: 400px;">
-								<input type="datetime" id="fromDate" ng-model="fromDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
-								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-								<input type="datetime" id="toDate" ng-model="toDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
-								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
+					<div id="detalle">
+						<div class="row">
+							<div class="form-group col-lg-12">
+								<div class="row">
+									<div class="form-group devlyn-container col-lg-12">
+										<h1 class="devlyn-text">Ópticas Devlyn</h1>
+										<br>
+									</div>
+								</div>
+								<label class="font-noraml">Rango de Fechas:</label>
+								<div class="input-group date" style="max-width: 400px;">
+									<input type="datetime" id="fromDate" ng-model="fromDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									<input type="datetime" id="toDate" ng-model="toDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+								</div>
 							</div>
 						</div>
-						<div class="form-group col-lg-6">
-							<label class="font-noraml">Tienda:</label>
-							<div class="input-group date">
-								<select name="store" ng-model="storeId" id="store" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;"></select>
+						<div class="row">
+							<div class="form-group col-lg-2">
+								<label class="font-noraml">Región:</label>
+								<div class="input-group date">
+									<select ng-model="regionSelected" ng-options="region as region.name for region in regions track by region.value" ng-change="regionChanged()" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 200px;"></select>
+								</div>
+							</div>
+							<div class="form-group col-lg-2">
+								<label class="font-noraml">Distrito:</label>
+								<div class="input-group date">
+									<select ng-model="districtSelected" ng-options="district as district.name for district in districts track by district.value" ng-change="districtChanged()" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 200px;"></select>
+								</div>
+							</div>
+							<div class="form-group col-lg-2">
+								<label class="font-noraml">Formato:</label>
+								<div class="input-group date">
+									<select ng-model="formatSelected" ng-options="format as format.name for format in formats track by format.value" ng-change="formatChanged()" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 200px;"></select>
+								</div>
+							</div>
+							<div class="form-group col-lg-2">
+								<label class="font-noraml">Óptica:</label>
+								<div class="input-group date">
+									<select name="store" ng-model="storeId" id="store" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 200px;"></select>
+								</div>
+							</div>
+							<div class="form-group col-lg-2">
+								<label class="font-noraml">Zona:</label>
+								<div class="input-group date">
+									<select ng-model="selected" ng-options="type as type.name for type in types track by type.value" ng-change="zoneChanged()" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 200px;"></select>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="row">
-						<div class="form-group col-lg-6"></div>
-						<div class="form-group col-lg-6">
-							<label class="font-noraml">Zona:</label>
-							<div class="input-group date">
-								<select ng-model="selected" ng-options="type as type.name for type in types track by type.value" ng-change="zoneChanged()" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;">								</select>
+						<div class="row">
+							<div class="form-group col-lg-6">
+								<div class="form-group" style="height: 50px;">
+									<button type="button" ng-click="updateAPDVisits()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Filtrar</button>
+								</div>
 							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="form-group col-lg-6">
-							<div class="form-group" style="height: 50px;">
-								<button type="button" ng-click="updateAPDVisits()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Filtrar</button>
-							</div>
-						</div>
-						<div class="form-group col-lg-6">
-							<div class="form-group" style="height: 50px;">
-								<button type="button" ng-click="exportAPDVisits()" ladda="loadingExcel" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Exportar a Excel</button>
+							<div class="form-group col-lg-6">
+								<div class="form-group" style="height: 50px;">
+									<button type="button" ng-click="exportAPDVisits()" ladda="loadingExcel" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Exportar a Excel</button>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -48,77 +72,89 @@
 		</div>
 	</div>
 	<!-- table -->
+
+
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="ibox-content">
 				<div class="ibox float-e-margins">
-					<div class="table-responsive" id="brand_performance_table">
-						<table class="table" style="text-align: center;" >
-							<tr style="font-weight:bold;">
-								<td>Tienda</td>
-								<td>Paseantes</td>
-								<td>Visitantes</td>
-								<td>Tickets</td>
-								<td>Ventas</td>
-								<td>Paseantes/Visitantes</td>
-								<td>Tickets/Visitantes</td>
-								<td>Día más Alto</td>
-								<td>Día más Bajo</td>
-								<td>Permanencia Promedio</td>
-							</tr>
-						</table>
+					<div class="ibox-content">
+						<div class="" id="brand_performance_table">
+							<table class="table" style="text-align: center;" >
+								<tr style="font-weight:bold;">
+								</tr>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 	<!-- fin table -->
 	<!-- visits_by_date -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div id="visits_by_date"></div>
+				<div class="ibox float-e-margins">
+					<div class="ibox-content">
+						<div id="visits_by_date"></div>
+					</div>
+				</div>
 		</div>
 	</div>
 	<!-- fin visits_by_date -->
 	<!-- visits_by_hour -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div id="visits_by_hour"></div>
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
+					<div id="visits_by_hour"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- fin visits_by_hour -->
 	<!-- permanence_by_hour -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div id="permanence_by_hour"></div>
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
+					<div id="permanence_by_hour"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- fin permanence_by_hour -->
 	<!-- heatmap_traffic_by_hour -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div id="heatmap_traffic_by_hour"></div>
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
+					<div id="heatmap_traffic_by_hour"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- fin heatmap_traffic_by_hour -->
 	<!-- heatmap_occupation_by_hour -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div id="heatmap_occupation_by_hour"></div>
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
+					<div id="heatmap_occupation_by_hour"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- fin heatmap_occupation_by_hour -->
 	<!-- heatmap_permanence_by_hour -->
 	<div class="row">
 		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
 			<div id="heatmap_permanence_by_hour"></div>
 		</div>
 	</div>
+</div>
+</div>
 	<!-- fin heatmap_permanence_by_hour -->
 	<!-- footer -->
-	<div class="row">
-		<div class="col-lg-12" style="height: 50px;">
-		</div>
-	</div>
 	<!-- fin footer -->
 </div>
