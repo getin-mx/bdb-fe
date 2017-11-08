@@ -330,9 +330,11 @@ function run($rootScope, $state, $cookieStore, $http, $location) {
         var loggedIn = $rootScope.globals.currentUser;
         var restrictedLogin = $.inArray($location.path(), ['/loginAdmin', 'main']) === 0;
 
+        console.log($location.$$host);
+
         if (restrictedLogin) {
           $location.path('/loginAdmin');
-        } else if (!loggedIn || !loggedIn.role || (loggedIn.role !== 1 && ($location.$$host !== 'localhost' || $location.$$host !== 'anakin.getin.mx'))){
+        } else if (!loggedIn || !loggedIn.role || (loggedIn.role !== 1 && ($location.$$host !== 'localhost' && $location.$$host !== 'anakin.getin.mx'))){
           $location.path('/maintenance');
         }
     });
