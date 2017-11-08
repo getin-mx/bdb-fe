@@ -213,6 +213,7 @@
     }
 
     $scope.postUpdateStoreLabel = function(data) {
+      debugger;
         try {
             $scope.storeLabel = data.data.storeLabel;
             if( $scope.storeLabel === undefined || $scope.storeLabel == null )
@@ -232,7 +233,7 @@
 
     $scope.updateComments = function() {
         $scope.loadingSubmit = true;
-
+        debugger;
         $scope.dashboard = {
             entityId: $scope.brandId,
             entityKind: 1,
@@ -680,7 +681,7 @@
                 });
             });
     };
-    
+
     this.updateRepetitionsChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, storeType) {
         // TODO use storeType
         var url = null;

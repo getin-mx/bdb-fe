@@ -24,7 +24,7 @@ function BrandsCtrl($scope, $http, $location, CommonsService, AuthenticationServ
 		// validate token
 		if( data.status != 200 || data.data.error_code !== undefined )
 	        AuthenticationService.logout(function(response) {
-	            $location.path('/login');    
+	            $location.path('/loginAdmin');    
 	        });
 
 	    for( var i = 0; i < data.data.data.length; i++ ) {
