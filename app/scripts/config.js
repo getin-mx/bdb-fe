@@ -330,7 +330,6 @@ function run($rootScope, $state, $cookieStore, $http, $location) {
         var loggedIn = $rootScope.globals.currentUser;
         var restrictedLogin = $.inArray($location.path(), ['/loginAdmin', 'main']) === 0;
 
-        debugger;
         if (restrictedLogin) {
           $location.path('/loginAdmin');
         } else if (!loggedIn || !loggedIn.role || loggedIn.role !== 1){
