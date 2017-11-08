@@ -8,7 +8,6 @@
  */
 var config = {};
 
-//
 config.baseUrl = 'http://api.getin.mx/bdb';
 config.dashUrl = 'http://api.getin.mx/appv2';
 config.uploadUrl = 'http://api.getin.mx/bdb/img/upload'
@@ -17,7 +16,6 @@ config.uploadUrl = 'http://api.getin.mx/bdb/img/upload'
 // config.dashUrl = 'http://staging.getin.mx/appv2';
 // config.uploadUrl = 'http://staging.getin.mx/bdb/img/upload'
 
-// config.baseUrl = 'http://staging.getin.mx/bdb';
 // config.baseUrl = 'http://localhost:8081/bdb';
 // config.dashUrl = 'http://localhost:8081/appv2';
 // config.uploadUrl = 'http://localhost:8081/bdb/img/upload'
@@ -58,8 +56,13 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             templateUrl: "views/minor.html",
             data: { pageTitle: 'Example view' }
         })
-        .state('login', {
-            url: "/login",
+        .state('maintenance', {
+            url: "/maintenance",
+            templateUrl: "views/maintenance.html",
+            data: { pageTitle: 'Maintenance', specialClass: 'gray-bg' }
+        })
+        .state('loginAdmin', {
+            url: "/loginAdmin",
             templateUrl: "views/login_two_columns.html",
             data: { pageTitle: 'Login', specialClass: 'gray-bg' }
         })
@@ -325,10 +328,17 @@ function run($rootScope, $state, $cookieStore, $http, $location) {
         // redirect to login page if not logged in and trying to access a restricted page
         var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
         var loggedIn = $rootScope.globals.currentUser;
-        if (restrictedPage && !loggedIn) {
-            $location.path('/login');
+        var restrictedLogin = $.inArray($location.path(), ['/loginAdmin', 'main']) === 0;
+
+        debugger;
+        if (restrictedLogin) {
+          $location.path('/loginAdmin');
+        } else if (!loggedIn || !loggedIn.role || loggedIn.role !== 1){
+          $location.path('/maintenance');
         }
+        // }
     });
+
 
     // Moment.js locale configuration
     moment.locale(moment.locale(), {invalidDate: ""});
