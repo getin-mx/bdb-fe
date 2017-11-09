@@ -385,7 +385,7 @@
     }
 
     $scope.updateStoreList = function(id, baseUrl, entityId) {
-        if( $scope.brandId == 'volaris_mx') {
+        if( $scope.brandId == 'volaris_mx' || 'bestbuy_mx') {
             $scope.zoneAble = '';
         } else {
             $scope.zoneAble = 'hidden';
