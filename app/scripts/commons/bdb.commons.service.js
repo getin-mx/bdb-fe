@@ -14,6 +14,10 @@ function CommonsService($http, $cookieStore, $rootScope) {
 		}
 	}
 
+	this.close = function(bulean){
+		console.log("closing");
+	}
+
 	this.getDashUrl = function(service) {
 		if( $rootScope.globals.currentUser ) {
 			return config.dashUrl + service + '?authToken=' + $rootScope.globals.currentUser.token;

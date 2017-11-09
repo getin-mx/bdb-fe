@@ -12,9 +12,8 @@
         'angular-ladda',				        // Ladda plugin
         'datePicker',					          // Angular Date Pciker
         'ui.footable',					        // Foo Tables
-        'Alertify',
         'ui.knob',                      // jsKnob
-        'ui.bootstrap',                 // ui-bootstrap
+        'angularModalService',
         'localytics.directives',        // angular-chosen (just provided... not in repo)
         'summernote',                   // Summernote text editor
         'angular-flot',                 // Flot Charts
