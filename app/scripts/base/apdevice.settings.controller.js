@@ -1,7 +1,7 @@
 /**
  * APDeviceSettingsCtrl - controller
  */
- function APDeviceSettingsCtrl($rootScope, $scope, $http, $stateParams, $location, CommonsService, AuthenticationService , $timeout, $filter, Alertify) {
+ function APDeviceSettingsCtrl($rootScope, $scope, $http, $stateParams, $location, CommonsService, AuthenticationService , $timeout, $filter, ModalService) {
 
 	var vm = this;
 
@@ -323,7 +323,7 @@
     }
 
     $scope.postUpdate = function(data) {
-        // console.log(data);
+        console.log(data);
         if( data.status = 200
             && data.data.error_code === undefined ) {
             // swal({
@@ -331,22 +331,28 @@
             //     text: "La configuración de la antena fue salvada con éxito",
             //     type: "success"
             // });
-            Alertify.confirm('Are you sure?').then(
-                function onOk() { Alertify.success('Cool');},
-                function onCancel() { Alertify.success('Not cool');}
-            );
+            ModalService.showModal({
+              templateUrl: "views/modal_standard.html",
+              controller: "APDeviceSettingsCtrl"
+            }).then(function(modal) {
 
-        } else {
+              //it's a bootstrap element, use 'modal' to show it
+              modal.element.modal();
+              modal.close.then(function(result) {
+                console.log(result);
+              });
+            });
+
+
             // swal({
             //     title: "Error!",
             //     text: "La configuración de la antena no pudo salvarse",
             //     type: "error"
             // });
-            Alertify.success('Hello world!');
-        }
 
         $scope.loadingSubmit = false;
         $scope.postRefresh(data);
+      }
     }
 
 	$scope.refresh = function() {
@@ -737,36 +743,34 @@
             //             });
             //     }
             // });
-            Alertify.success('Hello world!');
         });
 
         // Define apdassignationdelete click response
         $('.apdassignationremove').click(function(e) {
             e.preventDefault();
-
-            swal({
-                title: "Estas seguro?",
-                text: "Quieres desasignar esta antena?",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Si, desasignar!",
-                cancelButtonText: "No, me arrepiento...",
-                closeOnConfirm: false,
-                closeOnCancel: true },
-            function (isConfirm) {
-                if (isConfirm) {
-                    $http.get((CommonsService.getUrl('/apdassignation/' + $(e.currentTarget).data('value'))))
-                        .then(function(data) {
-                            data.data.toDate = 'now';
-                            $http.post((CommonsService.getUrl('/apdassignation')), data.data)
-                                .then(function(data) {
-                                    swal("Desasignado!", "La antena fue desasignada", "success");
-                                    $scope.refreshAssignations();
-                                })
-                        })
-                }
-            });
+            // swal({
+            //     title: "Estas seguro?",
+            //     text: "Quieres desasignar esta antena?",
+            //     type: "warning",
+            //     showCancelButton: true,
+            //     confirmButtonColor: "#DD6B55",
+            //     confirmButtonText: "Si, desasignar!",
+            //     cancelButtonText: "No, me arrepiento...",
+            //     closeOnConfirm: false,
+            //     closeOnCancel: true },
+            // function (isConfirm) {
+            //     if (isConfirm) {
+            //         $http.get((CommonsService.getUrl('/apdassignation/' + $(e.currentTarget).data('value'))))
+            //             .then(function(data) {
+            //                 data.data.toDate = 'now';
+            //                 $http.post((CommonsService.getUrl('/apdassignation')), data.data)
+            //                     .then(function(data) {
+            //                         swal("Desasignado!", "La antena fue desasignada", "success");
+            //                         $scope.refreshAssignations();
+            //                     })
+            //             })
+            //     }
+            // });
         });
 
         $scope.loadingRefresh = false;
@@ -870,22 +874,22 @@
 
         var tmpDate = moment($scope.processFromDate);
         if( tmpDate < $scope.processMinDate ) {
-            swal({
-                title: "Error!",
-                text: "La fecha de inicio del reproceso es menor al primero de enero!",
-                type: "error"
-            });
+            // swal({
+            //     title: "Error!",
+            //     text: "La fecha de inicio del reproceso es menor al primero de enero!",
+            //     type: "error"
+            // });
             $scope.loadingUpdate = false;
             return;
         }
 
         tmpDate = moment($scope.processToDate);
         if( tmpDate < $scope.processMinDate ) {
-            swal({
-                title: "Error!",
-                text: "La fecha de fin del reproceso es menor al primero de enero!",
-                type: "error"
-            });
+            // swal({
+            //     title: "Error!",
+            //     text: "La fecha de fin del reproceso es menor al primero de enero!",
+            //     type: "error"
+            // });
             $scope.loadingUpdate = false;
             return;
         }

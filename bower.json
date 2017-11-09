@@ -53,7 +53,7 @@
     "chartjs": "~1.0.1",
     "icheck": "~1.0.2",
     "blueimp-gallery": "~2.22.0",
-    "ng-alertify": "^1.0.2"
+    "angular-modal-service": "^0.13.0"
   },
   "resolutions": {
     "jquery": "~2.1.4",

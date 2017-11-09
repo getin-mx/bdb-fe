@@ -1,7 +1,7 @@
 /**
  * APDVisitsCtrl - controller
  */
- function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService, $rootScope, $http, Alertify) {
+ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService, $rootScope, $http, ModalService) {
 
     var vm = this;
 
@@ -249,7 +249,19 @@
                 //     text: "Los comentarios fueron salvados con éxito",
                 //     type: "success"
                 // });
-                Alertify.success('Hello world!');
+
+                ModalService.showModal({
+                  templateUrl: "template.html",
+                  controller: "CommonsService"
+                }).then(function(modal) {
+
+                  //it's a bootstrap element, use 'modal' to show it
+                  modal.element.modal();
+                  modal.close.then(function(result) {
+                    console.log(result);
+                  });
+                });
+
 
                 $scope.loadingSubmit = false;
 
@@ -259,7 +271,7 @@
                 //     text: "Los comentarios no pudieron salvarse",
                 //     type: "error"
                 // });
-                Alertify.success('Hello world!');
+
             }
         });
     }
