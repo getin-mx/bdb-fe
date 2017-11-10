@@ -38,7 +38,7 @@ function MainCtrl($scope, AuthenticationService) {
     })();
 
     $scope.$on('credentialsUpdated', function(event, args) {
-      $scope.updateCredentials();  
+      $scope.updateCredentials();
     });
 
     return main;
@@ -62,7 +62,6 @@ function TranslateCtrl($translate, $scope) {
         $scope.language = langKey;
     };
 };
-
 
 
 /**
@@ -136,7 +135,7 @@ function SessionCtrl($scope, $rootScope, $location, AuthenticationService, Commo
 
     $scope.logout = function(){
         AuthenticationService.logout(function(response) {
-            $location.path('/loginAdmin');    
+            $location.path('/loginAdmin');
         });
     };
 

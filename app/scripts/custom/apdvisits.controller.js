@@ -213,7 +213,7 @@
     }
 
     $scope.postUpdateStoreLabel = function(data) {
-      debugger;
+
         try {
             $scope.storeLabel = data.data.storeLabel;
             if( $scope.storeLabel === undefined || $scope.storeLabel == null )
@@ -233,7 +233,7 @@
 
     $scope.updateComments = function() {
         $scope.loadingSubmit = true;
-        debugger;
+
         $scope.dashboard = {
             entityId: $scope.brandId,
             entityKind: 1,
@@ -252,16 +252,19 @@
 
                 ModalService.showModal({
                   templateUrl: "template.html",
-                  controller: "CommonsService"
+                  controller: "ModalCtrl",
+                  inputs: {
+                    name: "Fry",
+                    year: 3001
+                  }
                 }).then(function(modal) {
-
                   //it's a bootstrap element, use 'modal' to show it
                   modal.element.modal();
-                  modal.close.then(function(result) {
+                  modal.close.then(function($scope, result) {
+
                     console.log(result);
                   });
                 });
-
 
                 $scope.loadingSubmit = false;
 
@@ -1452,6 +1455,7 @@
 
     return vm;
 };
+
 
 angular
 .module('bdb')

@@ -39,7 +39,7 @@ function APDevicesCtrl($scope, $rootScope, $http, $location, $uibModal, CommonsS
         });
 	}
 
-	$scope.modalSettings = function(hostname) {
+	$rootScope.modalSettings = function(hostname) {
 		document.getElementById('hostnameParam').value = hostname;
         var modalInstance = $uibModal.open({
             templateUrl: 'views/base/apdevice.settings.html',
@@ -54,8 +54,8 @@ function APDevicesCtrl($scope, $rootScope, $http, $location, $uibModal, CommonsS
     }
 
     $scope.export = function() {
-        var url =  config.baseUrl + '/dashboard/apdeviceExport' 
-        + '?authToken=' + $rootScope.globals.currentUser.token 
+        var url =  config.baseUrl + '/dashboard/apdeviceExport'
+        + '?authToken=' + $rootScope.globals.currentUser.token
         + '&status=0'
 
         window.open(url);
@@ -89,16 +89,16 @@ function APDevicesCtrl($scope, $rootScope, $http, $location, $uibModal, CommonsS
 	    	var obj = data.data.data[i];
 	    	var newRow = '<tr>'
 	    			   + '<td data-value="' + obj.hostname + '">' + obj.hostname + '</td>'
-	    			   + '<td data-value="' + (obj.description === undefined ? '' : obj.description) 
+	    			   + '<td data-value="' + (obj.description === undefined ? '' : obj.description)
 	    			   				 + '">' + (obj.description === undefined ? '-' : obj.description) + '</td>'
-	    			   + '<td data-value="' + (obj.model === undefined ? '' : obj.model) 
+	    			   + '<td data-value="' + (obj.model === undefined ? '' : obj.model)
 	    			   				 + '">' + (obj.model === undefined ? '-' : obj.model) + '</td>'
-	    			   + '<td data-value="' + (obj.mode === undefined ? '' : obj.mode) 
+	    			   + '<td data-value="' + (obj.mode === undefined ? '' : obj.mode)
 	    			   				 + '">' + (obj.mode === undefined ? '-' : obj.mode) + '</td>'
-	    			   + '<td data-value="' + (obj.version === undefined ? '' : obj.version) 
+	    			   + '<td data-value="' + (obj.version === undefined ? '' : obj.version)
 	    			   				 + '">' + (obj.version === undefined ? '-' : obj.version) + '</td>'
 	    			   + '<td data-value="' + obj.lastRecordDate + '">' + obj.lastRecordDate + '</td>'
-	    			   
+
 	    			   + '<td data-value="' + obj.hostname + '">'
 
 	    			   + '<a class="aplocation" style="margin-left: 10px;" href="#" '
@@ -174,7 +174,7 @@ function APDevicesCtrl($scope, $rootScope, $http, $location, $uibModal, CommonsS
 		// Define apdevicesettings click response
 		$('.apdevicesettings').click(function(e) {
 			e.preventDefault();
-			$scope.modalSettings($(e.currentTarget).data('value'));
+			$rootScope.modalSettings($(e.currentTarget).data('value'));
 		})
 
 		// Define apdevicedisable click response
