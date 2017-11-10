@@ -212,7 +212,6 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 			ModalService.showModal({
 				templateUrl: "views/modal_alert.html",
 				controller: function($scope, from, to, close) {
-					debugger;
 					this.title = "Success";
 					this.body = "Los tickets del "+ from + ' al ' + to +" han sido actualizados con éxito";
 					this.primary = "Ok";
