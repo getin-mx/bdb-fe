@@ -332,13 +332,19 @@
             //     type: "success"
             // });
             ModalService.showModal({
-              templateUrl: "views/modal_standard.html",
-              controller: "APDeviceSettingsCtrl"
+              templateUrl: "views/modal_alert.html",
+              controller: function($scope, close) {
+                //
+                this.title = "Success";
+                this.body = "La configuración de la antena fue salvada con éxito";
+                this.primary = "Ok";
+                this.action = function(){
+                  console.log("did stuff");
+                };
+              },controllerAs: "alerta"
             }).then(function(modal) {
-
-              //it's a bootstrap element, use 'modal' to show it
               modal.element.modal();
-              modal.close.then(function(result) {
+              modal.close.then(function($scope, result) {
                 console.log(result);
               });
             });
@@ -895,21 +901,21 @@
         }
 
         if( Date.daysBetween(new Date($scope.processFromDate), new Date($scope.processToDate)) > 31 ) {
-            swal({
-                title: "Error!",
-                text: "No puede reprocesarse más de un mes!",
-                type: "error"
-            });
+            // swal({
+            //     title: "Error!",
+            //     text: "No puede reprocesarse más de un mes!",
+            //     type: "error"
+            // });
             $scope.loadingUpdate = false;
             return;
         }
 
         if( moment($scope.processToDate) <= moment($scope.processFromDate)) {
-            swal({
-                title: "Error!",
-                text: "La fecha de fin de reproceso tiene que ser mayor a la de inicio!",
-                type: "error"
-            });
+            // swal({
+            //     title: "Error!",
+            //     text: "La fecha de fin de reproceso tiene que ser mayor a la de inicio!",
+            //     type: "error"
+            // });
             $scope.loadingUpdate = false;
             return;
         }
@@ -931,17 +937,17 @@
 
         if( data.status = 200
             && data.data.error_code === undefined ) {
-            swal({
-                title: "Ok!",
-                text: "Se ha emitido el reproceso! Espera hasta que el proceso se encuentre en estado finalizado",
-                type: "success"
-            });
+            // swal({
+            //     title: "Ok!",
+            //     text: "Se ha emitido el reproceso! Espera hasta que el proceso se encuentre en estado finalizado",
+            //     type: "success"
+            // });
         } else {
-            swal({
-                title: "Error!",
-                text: "No pudo emitirse el reproceso! Asegúrate de que la antena esté asignada y que las fechas de proceso sean correctas",
-                type: "error"
-            });
+            // swal({
+            //     title: "Error!",
+            //     text: "No pudo emitirse el reproceso! Asegúrate de que la antena esté asignada y que las fechas de proceso sean correctas",
+            //     type: "error"
+            // });
         }
 
         $scope.loadingUpdate = false;

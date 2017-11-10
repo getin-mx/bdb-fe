@@ -44,7 +44,14 @@
 						<div class="ibox-content form-group">
 							<div ng-repeat="(i, day) in listdays track by $index">
 								<label class="col-lg-2 col-sm-3" style="text-align: center; margin-top: 7px;">{{day.date}}</label>
-								<div class="col-lg-2 col-sm-3"><input ng-model="listdays[i].numberoftickets" class="form-control"></div>
+								<div class="col-lg-2 col-sm-3">
+									<div ng-if="blocked[i] === 1">
+										<input ng-model="listdays[i].numberoftickets" class="form-control" readonly>
+									</div>
+									<div ng-if="blocked[i] === 0">
+										<input ng-model="listdays[i].numberoftickets" class="form-control">
+									</div>
+								</div>
 							</div>
 							<div class="col-lg-12" ng-class="formTicketsClass">
 								&nbsp;

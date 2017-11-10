@@ -1,7 +1,7 @@
 /**
  * StoreTicketsCtrl - controller
  */
-function StoreTicketsCtrl($scope, $http, $location, CommonsService, AuthenticationService ) {
+function StoreTicketsCtrl($scope, $http, $location, CommonsService, AuthenticationService, ModalService) {
 
 	var vm = this;
 
@@ -53,7 +53,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 		// validate token
 		if( data.status != 200 || data.data.error_code !== undefined )
 			AuthenticationService.logout(function(response) {
-				$location.path('/loginAdmin');    
+				$location.path('/loginAdmin');
 			});
 
 		for( var i = 0; i < data.data.data.length; i++ ) {
@@ -73,7 +73,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 		$scope.stores = new Array();
 		$scope.loadingRefresh = true;
 		$http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
-			+ '&entityId=' + $scope.brand.id 
+			+ '&entityId=' + $scope.brand.id
 			+ '&entityKind=1&onlyExternalIds=true')
 			.then($scope.postBrandChange);
 	}
@@ -94,6 +94,30 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 
 	}
 
+	$scope.getBlockedTickets = function(array, toDate) {
+		//restrict to tanyaMoss stores
+		var tanyaMoss = 'tanyamoss_mx';
+		var currentUser = $scope.globals.currentUser;
+
+		var weekInMinutes = 10080;
+		var blocked = [];
+		var date = "";
+
+		for (var i = 0; i <= array.length; i++){
+			if($scope.brand.id !== tanyaMoss && currentUser.email !== 'brenda@tanyamoss.com' && currentUser.email !== 'lupita@tanyamoss.com'){
+				blocked.push(0);
+				continue;
+			}
+			date = moment(array[i]);
+			if( moment().diff(date, 'minutes') > weekInMinutes){
+				blocked.push(1);
+			} else {
+				blocked.push(0);
+			}
+		}
+		return blocked;
+	}
+
 	$scope.loadTickets = function(data) {
 
 		$scope.listdays = new Array();
@@ -101,11 +125,12 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
         $scope.fromDate = $('#fromDate').val();
         $scope.toDate = $('#toDate').val();
 		$http.get(CommonsService.getUrl('/dashboard/storeTicketData')
-			+ '&storeId=' + this.store.id 
+			+ '&storeId=' + this.store.id
 			+ '&fromDate=' + $scope.fromDate
 			+ '&toDate=' + $scope.toDate)
 			.then(function(data) {
 				$scope.obj = data.data;
+				$scope.blocked = $scope.getBlockedTickets($scope.obj.dates, $scope.obj.toDate);
 				for( var i = 0; i < data.data.data.length; i++ ) {
 					//generar la lista de dias/ticket
 					var day = {
@@ -114,6 +139,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 					}
 					$scope.listdays.push(day);
 				}
+
 				$scope.formTicketsClass = '';
 				$scope.loadingloadUpdate = false;
 			});
@@ -125,7 +151,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
         $scope.loadingloadUpdate = true;
         $scope.date = $('#date').val();
 		$http.get(CommonsService.getUrl('/dashboard/storeTicketByHourData')
-			+ '&storeId=' + this.store.id 
+			+ '&storeId=' + this.store.id
 			+ '&date=' + $scope.date
 			+ '&fromHour=' + $scope.fromHour.id
 			+ '&toHour=' + $scope.toHour.id)
@@ -163,38 +189,67 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 		$http.post(CommonsService.getUrl('/dashboard/storeTicketData'), $scope.obj)
 			.then($scope.postUpdateTickets);
 
-	}		
-	
+	}
+
 	$scope.updateTicketsByHour = function(){
 		$scope.loadingexecUpdate = true;
 		$scope.obj2.data = new Array();
+
 		for( var i = 0; i < $scope.listhours.length; i++ ) {
 			$scope.obj2.data.push($scope.listhours[i].numberoftickets)
 		}
 		$http.post(CommonsService.getUrl('/dashboard/storeTicketByHourData'), $scope.obj2)
 			.then($scope.postUpdateTickets);
 
-	}		
+	}
 
 	$scope.postUpdateTickets = function(data){
 		$scope.loadingexecUpdate = false;
 
-		if( data.status = 200 
+		if( data.status = 200
 			&& data.data.error_code === undefined ) {
-			swal({
-				title: "Ok!",
-				text: "Los tickets del "+ $scope.fromDate
-			+ ' al ' + $scope.toDate+" han sido actualizados con éxito",
-				type: "success"
+
+			ModalService.showModal({
+				templateUrl: "views/modal_alert.html",
+				controller: function($scope, from, to, close) {
+					debugger;
+					this.title = "Success";
+					this.body = "Los tickets del "+ from + ' al ' + to +" han sido actualizados con éxito";
+					this.primary = "Ok";
+					this.action = function(){
+						console.log("did stuff");
+					};
+				},controllerAs: "alerta",
+				inputs: {
+					from: $scope.fromDate,
+					to: $scope.toDate
+			}
+			}).then(function(modal) {
+				modal.element.modal();
+				modal.close.then(function($scope, result) {
+					console.log(result);
+				});
 			});
 		} else {
-			swal({
-				title: "Error!",
-				text: "Ocurrio un problema, no se han podido guardar los tickets.",
-				type: "error"
+			ModalService.showModal({
+				templateUrl: "views/modal_alert.html",
+				controller: function($scope, close) {
+					//
+					this.title = "Success";
+					this.body = "Error al cargar tickets, error #" + data.status;
+					this.primary = "Ok";
+					this.action = function(){
+						console.log("did stuff");
+					};
+				},controllerAs: "alerta"
+			}).then(function(modal) {
+				modal.element.modal();
+				modal.close.then(function($scope, result) {
+					console.log(result);
+				});
 			});
 		}
-		
+
 	}
 
 	$scope.update = function() {
@@ -222,13 +277,13 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 
 		$scope.liststores = new Array();
 		$scope.listdates = new Array();
-	
+
 		var obj = {
 			method: 'previewFileUpdate',
 			brandId: $scope.brand.id,
 			period: $scope.period,
 			imageId: response.name
-		}		
+		}
 
 		$http.post(CommonsService.getUrl('/dashboard/storeTicketData'), obj)
 			.then($scope.postPreview);
@@ -249,7 +304,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 		$scope.formTicketsClass = '';
 		$scope.loadingexecUpdate = false;
 
-		if( data.status = 200 
+		if( data.status = 200
 			&& data.data.error_code === undefined ) {
 			swal({
 				title: "Ok!",
@@ -263,7 +318,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 				type: "error"
 			});
 		}
-		
+
 	}
 
 	$scope.fileUpdate = function() {
@@ -274,13 +329,13 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 		$scope.listdates = new Array();
 
         $scope.period = $('#period').val();
-	
+
 		var obj = {
 			method: 'doFileUpdate',
 			brandId: $scope.brand.id,
 			period: $scope.period,
 			imageId: $scope.image
-		}		
+		}
 
 		$http.post(CommonsService.getUrl('/dashboard/storeTicketData'), obj)
 			.then($scope.postFileUpdate);
@@ -292,7 +347,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 		$scope.loadingexecUpdate = false;
 		$scope.fileUpdateDisabled = true;
 
-		if( data.status = 200 
+		if( data.status = 200
 			&& data.data.error_code === undefined ) {
 			swal({
 				title: "Ok!",
@@ -306,7 +361,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 				type: "error"
 			});
 		}
-		
+
 	}
 	return vm;
 };
