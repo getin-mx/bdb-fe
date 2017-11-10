@@ -104,7 +104,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 		var date = "";
 
 		for (var i = 0; i <= array.length; i++){
-			if($scope.brand.id !== tanyaMoss && currentUser.email !== 'brenda@tanyamoss.com' && currentUser.email !== 'lupita@tanyamoss.com'){
+			if($scope.brand.id !== tanyaMoss && currentUser.email !== 'victor@tanyamoss.com' && currentUser.email !== 'lupita@tanyamoss.com' || currentUser.role === 1){
 				blocked.push(0);
 				continue;
 			}
