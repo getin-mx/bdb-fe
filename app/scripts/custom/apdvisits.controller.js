@@ -214,6 +214,9 @@
 
     $scope.postUpdateStoreLabel = function(data) {
 
+
+      var visitsComments = data.data.visitsComments.split("\n");
+
         try {
             $scope.storeLabel = data.data.storeLabel;
             if( $scope.storeLabel === undefined || $scope.storeLabel == null )
@@ -222,7 +225,7 @@
             $scope.storeLabel = 'Tienda';
         }
         try {
-            $scope.visitsComments = data.data.visitsComments;
+            $scope.visitsComments = visitsComments;
         } catch( e ) {
         }
 
