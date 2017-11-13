@@ -1,4 +1,16 @@
 <div class="wrapper wrapper-content animated fadeInRight" ng-controller="APDVisitsCtrl" data-ng-init="initAPDVisits()">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox-content">
+				<div ng-repeat="comment in visitsComments">
+					<div class="alert inspinia-notify alert-warning alert-dismissible">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			 			<p><span class="glyphicon glyphicon glyphicon-info-sign"></span>&nbsp;{{comment}}</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div id="brandSelectorContainer" class="row" style="margin-bottom: 15px; display: none;">
 		<div class="col-lg-12">
 			<div class="ibox-content">
@@ -133,11 +145,11 @@
                 <br/>
 				<button type="button" ng-click="updateComments()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Guardar</button>
 			</div>
-			<div class="ibox-content" ng-class="classUser">
+			<!-- <div class="ibox-content" ng-class="classUser">
                 <p class="font-bold  alert alert-warning m-b-sm">
                 	{{visitsComments}}
                 </p>
-			</div>
+			</div> -->
 		</div>
 	</div>
 	<!-- fin table -->
