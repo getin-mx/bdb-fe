@@ -254,17 +254,19 @@
                 // });
 
                 ModalService.showModal({
-                  templateUrl: "template.html",
-                  controller: "ModalCtrl",
-                  inputs: {
-                    name: "Fry",
-                    year: 3001
-                  }
+                  templateUrl: "views/modal_alert.html",
+                  controller: function($scope, close) {
+                    //
+                    this.title = "Success";
+                    this.body = "Los comentarios fueron salvados con éxito";
+                    this.primary = "Ok";
+                    this.action = function(){
+                      console.log("did stuff");
+                    };
+                  },controllerAs: "alerta"
                 }).then(function(modal) {
-                  //it's a bootstrap element, use 'modal' to show it
                   modal.element.modal();
                   modal.close.then(function($scope, result) {
-
                     console.log(result);
                   });
                 });
