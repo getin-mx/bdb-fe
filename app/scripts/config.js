@@ -61,8 +61,8 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             templateUrl: "views/maintenance.html",
             data: { pageTitle: 'Maintenance', specialClass: 'gray-bg' }
         })
-        .state('loginAdmin', {
-            url: "/loginAdmin",
+        .state('login', {
+            url: "/login",
             templateUrl: "views/login_two_columns.html",
             data: { pageTitle: 'Login', specialClass: 'gray-bg' }
         })
@@ -328,14 +328,8 @@ function run($rootScope, $state, $cookieStore, $http, $location) {
         // redirect to login page if not logged in and trying to access a restricted page
         var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
         var loggedIn = $rootScope.globals.currentUser;
-        var restrictedLogin = $.inArray($location.path(), ['/loginAdmin', 'main']) === 0;
-
-        console.log($location.$$host);
-
-        if (restrictedLogin) {
-          $location.path('/loginAdmin');
-        } else if (!loggedIn || !loggedIn.role || (loggedIn.role !== 1 && ($location.$$host !== 'localhost' && $location.$$host !== 'anakin.getin.mx'))){
-          $location.path('/maintenance');
+        if (restrictedPage && !loggedIn) {
+          $location.path('/login');
         }
     });
 

@@ -135,7 +135,7 @@ function SessionCtrl($scope, $rootScope, $location, AuthenticationService, Commo
 
     $scope.logout = function(){
         AuthenticationService.logout(function(response) {
-            $location.path('/loginAdmin');
+            $location.path('/login');
         });
     };
 
