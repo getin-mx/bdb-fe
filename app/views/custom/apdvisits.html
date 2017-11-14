@@ -1,27 +1,24 @@
 <div class="wrapper wrapper-content animated fadeInRight" ng-controller="APDVisitsCtrl" data-ng-init="initAPDVisits()">
-	<div class="row">
+	<div id="brandSelectorContainer" class="row" style="display: none;">
 		<div class="col-lg-12">
-			<div class="ibox-content">
-				<div ng-repeat="comment in visitsComments">
-					<div class="alert inspinia-notify alert-warning alert-dismissible">
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			 			<p><span class="glyphicon glyphicon glyphicon-info-sign"></span>&nbsp;{{comment}}</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div id="brandSelectorContainer" class="row" style="margin-bottom: 15px; display: none;">
-		<div class="col-lg-12">
-			<div class="ibox-content">
-				<div class="form-group" style="height: 50px;">
-					<div class="input-group" style="float:left;">
-						Cadena:<br>
-						<select name="venue" id="brandId" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;">
-						</select>
-					</div>
-					<div class="input-group" style="float:left; margin-top: 18px; margin-left: 10px;">
-						<button type="button" ng-click="updateBrand()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Filtrar</button>
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
+					<div class="form-group" style="height: 50px;">
+						<div class="row">
+							<div class="col-lg-3">
+								<div class="input-group">
+									Cadena:<br>
+									<select name="venue" id="brandId" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;">
+									</select>
+								</div>
+							</div>
+							<div class="col-lg-3">
+								<div class="input-group">
+									<br>
+									<button type="button" ng-click="updateBrand()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Filtrar</button>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -30,8 +27,8 @@
 	<!-- filtro -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="ibox-content">
-				<div id="detalle">
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
 					<div class="row">
 						<div class="form-group col-lg-6">
 							<label class="font-noraml">Rango de Fechas:</label>
@@ -44,6 +41,13 @@
 							<div class="input-group" style="max-width: 400px;">
 								<select ng-model="retailCalendarDate" ng-change="retailCalendarChange()" data-ng-options="o.name for o in retailCalendar" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 400px;">
 								</select>
+							</div>
+							<br>
+							<div class="input-group" style="max-width: 400px;">
+								<label class="font-noraml">Tipo de Tienda:</label>
+									<select name="storeType" ng-model="storeType" ng-change="storeTypeChange()" id="storeType" data-placeholder="Filtrar.." class="chosen-select form-control">
+										<option value="0">Todas</option>
+									</select>
 							</div>
 						</div>
 						<div class="form-group col-lg-6">
@@ -65,14 +69,6 @@
 								</select>
 							</div>
 						</div>
-						<div class="form-group col-lg-6">
-							<label class="font-noraml">Tipo de Tienda:</label>
-							<div class="input-group date">
-								<select name="storeType" ng-model="storeType" ng-change="storeTypeChange()" id="storeType" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;">
-									<option value="0">Todas</option>
-								</select>
-							</div>
-						</div>
 						<div class="form-group col-lg-6" ng-class="zoneAble">
 							<label class="font-noraml">Zona:</label>
 							<div class="input-group date">
@@ -83,29 +79,32 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="form-group col-lg-6">
-							<div class="form-group" style="height: 50px;">
-								<button type="button" ng-click="updateAPDVisits()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Filtrar</button>
+						<div class="col-lg-12">
+							<div class="form-group col-lg-3 col-lg-push-3">
+								<div class="form-group">
+									<button type="button" ng-click="updateAPDVisits()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Filtrar</button>
+								</div>
 							</div>
-						</div>
-						<div class="form-group col-lg-6">
-							<div class="form-group" style="height: 50px;">
-								<button type="button" ng-click="exportAPDVisits()" ladda="loadingExcel" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Exportar a Excel</button>
-								<span id="exportDetails">
-<!-- 								<button type="button" ng-class="detailsExportable" ng-click="exportDetails()" ladda="loadingExcel" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Exportar MACs</button> -->
-								<button type="button" ng-class="detailsExportable" ng-click="exportReport()" ladda="loadingExcel" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Exportar Reporte</button></span>
+							<div class="col-lg-6 col-lg-push-3">
+								<div class="row">
+									<button type="button" style="float:left;" ng-click="exportAPDVisits()" ladda="loadingExcel" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Exportar a Excel</button>
+									<span id="exportDetails">
+	<!-- 						<button type="button" ng-class="detailsExportable" ng-click="exportDetails()" ladda="loadingExcel" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Exportar MACs</button> -->
+									<button type="button" style="float:left; margin-left:2em;" ng-class="detailsExportable" ng-click="exportReport()" ladda="loadingExcel" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Exportar Reporte</button>
+									</span>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 			</div>
+		</div>
 		</div>
 	</div>
 	<!-- table -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="ibox-content">
-				<div class="ibox float-e-margins">
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
 					<div class="table-responsive" id="brand_performance_table">
 						<table  id="brand-table" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10" data-limit-navigation="5">
 							<thead>
@@ -139,31 +138,47 @@
 					</div>
 				</div>
 			</div>
-			<div class="ibox-content" class="form-group" ng-class="classAdmin">
-                <label>Comentarios</label>
-                <textarea class="form-control" ng-model="visitsComments" placeholder="Tus comentarios" rows="3"></textarea>
-                <br/>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-content" class="form-group" ng-class="classAdmin">
+          <label>Comentarios</label>
+          <textarea class="form-control" ng-model="visitsComments" placeholder="Tus comentarios" rows="3"></textarea>
+          <br/>
 				<button type="button" ng-click="updateComments()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Guardar</button>
 			</div>
-			<!-- <div class="ibox-content" ng-class="classUser">
-                <p class="font-bold  alert alert-warning m-b-sm">
-                	{{visitsComments}}
-                </p>
-			</div> -->
+		</div>
+	</div>
+	<div class="row" ng-class="classUser">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-content ibox-notifications">
+					<h3>Notificaciones antenas</h3>
+					<div ng-repeat="comment in visitsComments">
+						<div class="alert inspinia-notify alert-warning alert-dismissible">
+				 			<p><span class="glyphicon glyphicon glyphicon-info-sign"></span>&nbsp;{{comment}}</p>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- fin table -->
 	<!-- visits_by_date -->
 	<div class="row">
 		<div class="col-lg-12">
-	        <div class="ibox-content">
-	            <div class="btn-group">
-	                <button type="button" id="btnGraphDaily" ng-click="updateGraphs('D')" class="btn btn-xs btn-white active">Diario</button>
-	                <button type="button" id="btnGraphWeekly" ng-click="updateGraphs('W')" class="btn btn-xs btn-white">Semanal</button>
-	                <button type="button" id="btnGraphMonthly" ng-click="updateGraphs('M')" class="btn btn-xs btn-white">Mensual</button>
-	            </div>
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
+	        <div class="btn-group">
+	            <button type="button" id="btnGraphDaily" ng-click="updateGraphs('D')" class="btn btn-xs btn-white active">Diario</button>
+	            <button type="button" id="btnGraphWeekly" ng-click="updateGraphs('W')" class="btn btn-xs btn-white">Semanal</button>
+	            <button type="button" id="btnGraphMonthly" ng-click="updateGraphs('M')" class="btn btn-xs btn-white">Mensual</button>
 	        </div>
-			<div id="visits_by_date"></div>
+	      </div>
+				<div id="visits_by_date"></div>
+			</div>
 		</div>
 	</div>
 	<!-- fin visits_by_date -->
@@ -177,42 +192,56 @@
 	<!-- repetitions -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div id="repetitions"></div>
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
+					<div id="repetitions"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- fin repetitions -->
 	<!-- permanence_by_hour -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div id="permanence_by_hour"></div>
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
+					<div id="permanence_by_hour"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- fin permanence_by_hour -->
 	<!-- heatmap_traffic_by_hour -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div id="heatmap_traffic_by_hour"></div>
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
+					<div id="heatmap_traffic_by_hour"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- fin heatmap_traffic_by_hour -->
 	<!-- heatmap_occupation_by_hour -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div id="heatmap_occupation_by_hour"></div>
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
+					<div id="heatmap_occupation_by_hour"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- fin heatmap_occupation_by_hour -->
 	<!-- heatmap_permanence_by_hour -->
 	<div class="row">
 		<div class="col-lg-12">
-			<div id="heatmap_permanence_by_hour"></div>
+			<div class="ibox float-e-margins">
+				<div class="ibox-content">
+					<div id="heatmap_permanence_by_hour"></div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<!-- fin heatmap_permanence_by_hour -->
-	<!-- footer -->
-	<div class="row">
-		<div class="col-lg-12" style="height: 50px;">
-		</div>
-	</div>
-	<!-- fin footer -->
 </div>
