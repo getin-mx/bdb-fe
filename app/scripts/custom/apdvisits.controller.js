@@ -25,7 +25,7 @@
     }
 
     $scope.findRetailCalendarDate = function() {
-        var d = new Date(new Date().getTime() - config.oneDay).format("yyyy-mm-dd");
+        var d = new Date(new Date().getTime() - config.threeWeeks).format("yyyy-mm-dd");
         for( var i = 0; i < $scope.retailCalendar.length; i++ ) {
             if($scope.retailCalendar[i].fromDate <= d && $scope.retailCalendar[i].toDate >= d)
                 $scope.retailCalendarDate = $scope.retailCalendar[i];
