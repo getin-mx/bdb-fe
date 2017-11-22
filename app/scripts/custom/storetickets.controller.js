@@ -99,7 +99,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 		var tanyaMoss = 'tanyamoss_mx';
 		var currentUser = $scope.globals.currentUser;
 
-		var weekInMinutes = 10080;
+		var weekInMinutes = 10080 * 3;
 		var blocked = [];
 		var date = "";
 
