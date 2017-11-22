@@ -15,7 +15,7 @@ function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, A
 	$scope.init = function() {
 
 		$scope.brands = new Array();
-		$scope.loadingRefresh = true;
+		$scope.loadingRefresh = false	;
 		$http.get(CommonsService.getUrl('/dashboard/assignedBrandList'))
 			.then($scope.postInit);
 
@@ -26,7 +26,7 @@ function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, A
 		// validate token
 		if( data.status != 200 || data.data.error_code !== undefined )
 			AuthenticationService.logout(function(response) {
-				$location.path('/login');    
+				$location.path('/login');
 			});
 
 		for( var i = 0; i < data.data.data.length; i++ ) {
@@ -37,7 +37,7 @@ function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, A
 			$scope.brands.push(brand);
 		}
 		$scope.brand = $scope.brands[0];
-		$scope.brandChange();
+		//$scope.brandChange();
 
 	}
 
@@ -46,7 +46,7 @@ function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, A
 		$scope.stores = new Array();
 		$scope.loadingRefresh = true;
 		$http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
-			+ '&entityId=' + $scope.brand.id 
+			+ '&entityId=' + $scope.brand.id
 			+ '&entityKind=1&onlyExternalIds=true')
 			.then($scope.postBrandChange);
 	}
@@ -63,7 +63,7 @@ function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, A
 		$scope.store = $scope.stores[0];
 		$scope.loadingRefresh = false;
 
-		$scope.refresh();
+		//$scope.refresh();
 
 	}
 
@@ -78,7 +78,7 @@ function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, A
 
 		$scope.loadingRefresh = true;
 		$scope.anDate = $('#anDate').val();
-		$http.get(CommonsService.getUrl('/apdvisit') 
+		$http.get(CommonsService.getUrl('/apdvisit')
 			+ '&entityId=' + $scope.store.id
 			+ '&date=' + $scope.anDate
 			+ '&entityKind=3&checkinType=2&order=mac&from=0&to=10&q=' + encodeURIComponent($scope.search))
@@ -94,36 +94,39 @@ function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, A
 	$scope.fillTable = function(data) {
 
 		var assignedCount = 0;
+		$scope.loadingRefresh = false;
 
 		//get the footable object
+		var apdvisitTable = $('#apdvisit-table');
 		var tableAssigned = $('#apdvisit-table').data('footable');
-		tableAssigned.pageCallback = function(ft, pageNumber, sort, callback) {
-			var $table = $(ft.table), data = $table.data();
-			var pageSize = data.pageSize || ft.options.pageSize;
-			var from = pageSize * pageNumber;
-			var to = from + pageSize;
-
-			$scope.loadingRefresh = true;
-			$scope.status.httpCallback = callback;
-			$scope.status.ft = ft;
-			$scope.status.pageNumber = pageNumber;
-
-			$http.get(CommonsService.getUrl('/apdvisit')  
-				+ '&from=' + from 
-				+ '&to=' + to 
-				+ '&entityId=' + $scope.store.id
-				+ '&date=' + $scope.anDate
-				+ '&entityKind=3&checkinType=2'
-				+ '&order=' + encodeURIComponent(sort)
-				+ '&q=' + encodeURIComponent($scope.search))
-				.then($scope.fillTable);
-		}
+		// tableAssigned.pageCallback = function(ft, pageNumber, sort, callback) {
+		// 	var $table = $(ft.table), data = $table.data();
+		// 	var pageSize = data.pageSize || ft.options.pageSize;
+		// 	var from = pageSize * pageNumber;
+		// 	var to = from + pageSize;
+		//
+		// 	$scope.loadingRefresh = true;
+		// 	$scope.status.httpCallback = callback;
+		// 	$scope.status.ft = ft;
+		// 	$scope.status.pageNumber = pageNumber;
+		//
+		// 	$http.get(CommonsService.getUrl('/apdvisit')
+		// 		+ '&from=' + from
+		// 		+ '&to=' + to
+		// 		+ '&entityId=' + $scope.store.id
+		// 		+ '&date=' + $scope.anDate
+		// 		+ '&entityKind=3&checkinType=2'
+		// 		+ '&order=' + encodeURIComponent(sort)
+		// 		+ '&q=' + encodeURIComponent($scope.search))
+		// 		.then($scope.fillTable);
+		// }
 
 	    $("#apdvisit-table>tbody>tr").each(function(index, elem){$(elem).remove();});
 
 	    tableAssignedRows = '';
 
 	    for(var i = 0; i < data.data.data.length; i++) {
+				console.log(data.data.data.length);
 	    	var obj = data.data.data[i];
 	    	var diff = 0;
 	    	try {
@@ -142,7 +145,7 @@ function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, A
 	    			   + '<td data-value="' + obj.checkinStarted + '">' + obj.checkinStarted + '</td>'
 	    			   + '<td data-value="' + obj.checkinFinished + '">' + obj.checkinFinished + '</td>'
 	    			   + '<td data-value="' + obj.identifier + '">' + diff + ' mins</td>'
-	    			   
+
 	    			   + '<td data-value="' + obj.hostname + '">'
 
 	    			   + '<a class="aphentry" style="margin-left: 10px;" href="#" '
@@ -157,21 +160,19 @@ function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, A
 	    }
 
 	    tableAssigned.appendRow(tableAssignedRows);
-
-		$('#apdvisit-table').data('current-page', '0');
-		$('#apdvisit-table').data('record-count', data.data.recordCount);
-
-		tableAssigned.redraw();
+			apdvisitTable.data('current-page', '0');
+			apdvisitTable.data('record-count', data.data.recordCount);
+			tableAssigned.redraw();
 
     	$("#apdvisit-count").html('&nbsp;(' + data.data.recordCount + ')');
 
-	    if( $scope.status.httpCallback !== undefined ) {
-	    	$scope.status.ft.pageInfo.currentPage = $scope.status.pageNumber;
-	    	$scope.status.httpCallback($scope.status.ft, $scope.status.pageNumber);
-	    	$scope.status.httpCallback = undefined;
-	    	$scope.status.ft = undefined;
-	    	$scope.status.pageNumber = undefined;
-	    }
+	    // if( $scope.status.httpCallback !== undefined ) {
+	    // 	$scope.status.ft.pageInfo.currentPage = $scope.status.pageNumber;
+	    // 	$scope.status.httpCallback($scope.status.ft, $scope.status.pageNumber);
+	    // 	$scope.status.httpCallback = undefined;
+	    // 	$scope.status.ft = undefined;
+	    // 	$scope.status.pageNumber = undefined;
+	    // }
 
 		$scope.loadingRefresh = false;
 
