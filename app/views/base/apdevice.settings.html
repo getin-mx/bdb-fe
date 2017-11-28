@@ -711,23 +711,31 @@
 		<div class="col-lg-4">
 			<div class="ibox float-e-margins">
 				<div class="ibox-title">
-					<h5>Solicitar reproceso para para {{entity.name}}</h5>
+					<h5>Solicitar reproceso para {{entity.name}}</h5>
 				</div>
 
 				<!-- apdassignations ABM -->
 				<div class="ibox-content form-horizontal">
 					<div class="form-group">
+							<div class="col-sm-3">
+								<label style="text-align: right; padding-top: 6px;">Generar APHEntries</label>
+							</div>
+							<div class="col-sm-9">
+								<div class="checkbox checkbox-success topmargin20">
+									<input id="aphe" type="checkbox" ng-model="obj.processAPHE">
+									<label for="aphe"></label>
+								</div>
+						</div>
+					</div>
+					<div class="form-group">
 						<label class="col-sm-3" style="text-align: right; padding-top: 6px;">Desde</label>
 						<div class="col-sm-9"><input type="datetime" id="processFromDate" ng-model="processFromDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD" min-date="processMinDate"></div>
 					</div>
-
 					<div class="form-group">
 						<label class="col-sm-3" style="text-align: right; padding-top: 6px;">Hasta</label>
 						<div class="col-sm-9"><input type="datetime" id="processToDate" ng-model="processToDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD" min-date="processMinDate"></div>
 					</div>
-
 				</div>
-
 				<div class="ibox-content form-horizontal">
 					<div class="form-group" style="margin-left: 10px; margin-right: 10px;">
 						<button type="button" ng-click="requestProcess()" ladda="loadingUpdate" class="col-sm-3 ladda-button btn btn-info block btn-w-m m-b" data-style="zoom-in" style="float: right;">Ejecutar</button>
