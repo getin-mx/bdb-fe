@@ -152,10 +152,10 @@ function APDevicesCtrl($scope, $rootScope, $http, $location, $uibModal, CommonsS
 		tableUnassigned.redraw();
 		tableDown.redraw();
 
-    	$("#apdevice-assigned-count").html('&nbsp;(' + assignedCount + ')');
-    	$("#apdevice-offline-count").html('&nbsp;(' + offlineCount + ')');
-    	$("#apdevice-unassigned-count").html('&nbsp;(' + unassignedCount + ')');
-    	$("#apdevice-down-count").html('&nbsp;(' + downCount + ')');
+  	$("#apdevice-assigned-count").html('&nbsp;(' + assignedCount + ')');
+  	$("#apdevice-offline-count").html('&nbsp;(' + offlineCount + ')');
+  	$("#apdevice-unassigned-count").html('&nbsp;(' + unassignedCount + ')');
+  	$("#apdevice-down-count").html('&nbsp;(' + downCount + ')');
 
 		$scope.loadingRefresh = false;
 

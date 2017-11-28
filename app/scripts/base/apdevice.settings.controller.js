@@ -877,6 +877,7 @@
         $scope.loadingUpdate = true;
         $scope.processFromDate = $('#processFromDate').val();
         $scope.processToDate = $('#processToDate').val();
+        $scope.processAPHE = $scope.obj.processAPHE;
 
         var tmpDate = moment($scope.processFromDate);
         if( tmpDate < $scope.processMinDate ) {
@@ -925,7 +926,8 @@
             entityKind : $scope.entity.kind,
             processType: 0,
             fromDate: $scope.processFromDate,
-            toDate: $scope.processToDate
+            toDate: $scope.processToDate,
+            processAPHE: $scope.processAPHE
         }
 
         $http.post(CommonsService.getUrl('/requestProcess' ), request)

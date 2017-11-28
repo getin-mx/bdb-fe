@@ -158,7 +158,7 @@ function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, A
     		tableAssignedRows += newRow;
     		assignedCount++;
 	    }
-
+			$scope.loadingRefresh = false;
 	    tableAssigned.appendRow(tableAssignedRows);
 			apdvisitTable.data('current-page', '0');
 			apdvisitTable.data('record-count', data.data.recordCount);
@@ -174,7 +174,6 @@ function APDVAnalysisCtrl($scope, $http, $location, $uibModal, CommonsService, A
 	    // 	$scope.status.pageNumber = undefined;
 	    // }
 
-		$scope.loadingRefresh = false;
 
 		// Define aplocation click response
 		$('.aphentry').click(function(e) {
