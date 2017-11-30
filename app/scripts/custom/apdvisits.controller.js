@@ -164,7 +164,7 @@
         $scope.updateStoreLabel();
         $scope.updateStoreList('#store', config.baseUrl, $scope.brandId);
         $scope.upadtePagination('#pags');
-        $scope.updateAPDVisits();
+        //$scope.updateAPDVisits();
         $scope.updateStoreType('#storeType');
     }
 
@@ -200,7 +200,7 @@
         $scope.updateStoreLabel();
         $scope.updateStoreList('#store', config.baseUrl, $scope.brandId);
         $scope.upadtePagination('#pags');
-        $scope.updateAPDVisits();
+        //$scope.updateAPDVisits();
         $scope.updateStoreType('#storeType');
         $scope.loadingSubmit = false;
     }
