@@ -492,7 +492,6 @@
             + '&subentityId=' + seid
             + '&elementId=apd_visitor'
             + '&subIdOrder=visitor_total_visits,'
-            + 'visitor_total_visits_ios,visitor_total_visits_android'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
             + '&periodType=' + periodType
@@ -507,8 +506,7 @@
                 + '&entityKind=' + kind
                 + '&subentityId=' + seid
                 + '&elementId=apd_visitor'
-                + '&subIdOrder=visitor_total_revenue,visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
-                + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets,visitor_total_items'
+                + '&subIdOrder=visitor_total_revenue,visitor_total_peasents,visitor_total_visits,visitor_total_tickets,visitor_total_items'
                 + '&fromStringDate=' + fromDate
                 + '&toStringDate=' + toDate
                 + '&periodType=' + periodType
@@ -522,8 +520,7 @@
                 + '&entityKind=' + kind
                 + '&subentityId=' + seid
                 + '&elementId=apd_visitor'
-                + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
-                + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets,visitor_total_items'
+                + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_tickets,visitor_total_items'
                 + '&fromStringDate=' + fromDate
                 + '&toStringDate=' + toDate
                 + '&periodType=' + periodType
@@ -630,7 +627,6 @@
             + '&subentityId=' + seid
             + '&elementId=apd_visitor'
             + '&subIdOrder=visitor_total_visits,'
-            + 'visitor_total_visits_ios,visitor_total_visits_android'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
             + '&eraseBlanks=true'
@@ -643,8 +639,7 @@
             + '&entityKind=' + kind
             + '&subentityId=' + seid
             + '&elementId=apd_visitor'
-            + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
-            + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_hourly_tickets'
+            + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_hourly_tickets'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
             + '&eraseBlanks=true'
@@ -733,7 +728,6 @@
             + '&subentityId=' + seid
             + '&elementId=apd_visitor'
             + '&subIdOrder=visitor_total_visits'
-            + 'visitor_total_visits_ios,visitor_total_visits_android'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
             + '&eraseBlanks=true'
@@ -746,8 +740,7 @@
             + '&entityKind=' + kind
             + '&subentityId=' + seid
             + '&elementId=apd_visitor'
-            + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
-            + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android'
+            + '&subIdOrder=visitor_total_peasents,visitor_total_visits,'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
             + '&eraseBlanks=true'
@@ -829,7 +822,6 @@
             + '&subentityId=' + seid
             + '&elementId=apd_permanence'
             + '&subIdOrder=permanence_hourly_visits,'
-            + 'permanence_hourly_visits_ios,permanence_hourly_visits_android'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
             + '&average=true'
@@ -845,8 +837,7 @@
             + '&entityKind=' + kind
             + '&subentityId=' + seid
             + '&elementId=apd_permanence'
-            + '&subIdOrder=permanence_hourly_peasents,permanence_hourly_visits,permanence_hourly_peasents_ios,'
-            + 'permanence_hourly_peasents_android,permanence_hourly_visits_ios,permanence_hourly_visits_android'
+            + '&subIdOrder=permanence_hourly_peasents,permanence_hourly_visits'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
             + '&average=true'
