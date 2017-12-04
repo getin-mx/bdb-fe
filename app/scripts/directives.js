@@ -150,7 +150,7 @@
  * ionRangeSlider - Directive for Ion Range Slider
  */
  function ionRangeSlider() {
- 	return { 
+ 	return {
  		restrict: 'A',
  		scope: {
  			rangeOptions: '='

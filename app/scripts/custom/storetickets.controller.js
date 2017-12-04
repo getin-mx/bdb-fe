@@ -99,7 +99,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 		var tanyaMoss = 'tanyamoss_mx';
 		var currentUser = $scope.globals.currentUser;
 
-		var weekInMinutes = 10080 * 3;
+		var eightWeekInMinutes = 10080 * 8;
 		var blocked = [];
 		var date = "";
 
@@ -109,7 +109,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 				continue;
 			}
 			date = moment(array[i]);
-			if( moment().diff(date, 'minutes') > weekInMinutes){
+			if( moment().diff(date, 'minutes') > eightWeekInMinutes){
 				blocked.push(1);
 			} else {
 				blocked.push(0);

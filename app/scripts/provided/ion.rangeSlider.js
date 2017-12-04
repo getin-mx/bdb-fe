@@ -746,7 +746,7 @@
                 this.is_finish = true;
                 this.callOnFinish();
             }
-            
+
             this.dragging = false;
         },
 
@@ -1994,7 +1994,7 @@
                 ampm = 'PM';
             }
 
-            if( hour < 10 ) 
+            if( hour < 10 )
                 shour = '0' + hour;
             else
                 shour = hour;
