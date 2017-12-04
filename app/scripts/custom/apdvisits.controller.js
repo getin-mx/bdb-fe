@@ -1314,7 +1314,6 @@
         }
 
         table.appendRow(newRow);
-
         $('#brand-table>tfoot>tr').each(function(index, elem){
             if( index == 0 ) $(elem).remove();
         });

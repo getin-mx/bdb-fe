@@ -3,7 +3,13 @@
  */
  function APDeviceSettingsCtrl($rootScope, $scope, $http, $stateParams, $location, CommonsService, AuthenticationService , $timeout, $filter, ModalService) {
 
-	var vm = this;
+	  var vm = this;
+
+    var twentyFourHourFormat = function (mins) {
+      var h = mins / 60 | 0,
+      m = mins % 60 | 0;
+      return moment.utc().hours(h).minutes(m).format("HH:mm");
+    };
 
     var STATUS_ENABLED = 0;
     var STATUS_DISABLED = 1;
@@ -108,9 +114,9 @@
         type: 'double',
         prefix: "",
         postfix: "",
-        prettify: true,
+        prettify: twentyFourHourFormat,
         hasGrid: true,
-        isTime: true,
+        isTime: false,
         from: 0,
         to: 1440
     };
@@ -122,9 +128,9 @@
         type: 'double',
         prefix: "",
         postfix: "",
-        prettify: true,
+        prettify: twentyFourHourFormat,
         hasGrid: true,
-        isTime: true,
+        isTime: false,
         from: 0,
         to: 1440
     };
@@ -136,9 +142,9 @@
         type: 'double',
         prefix: "",
         postfix: "",
-        prettify: true,
+        prettify: twentyFourHourFormat,
         hasGrid: true,
-        isTime: true,
+        isTime: false,
         from: 0,
         to: 1440
     };
@@ -150,9 +156,9 @@
         type: 'double',
         prefix: "",
         postfix: "",
-        prettify: true,
+        prettify: twentyFourHourFormat,
         hasGrid: true,
-        isTime: true,
+        isTime: false,
         from: 0,
         to: 1440
     };
@@ -164,9 +170,9 @@
         type: 'double',
         prefix: "",
         postfix: "",
-        prettify: true,
+        prettify: twentyFourHourFormat,
         hasGrid: true,
-        isTime: true,
+        isTime: false,
         from: 0,
         to: 1440
     };
@@ -178,9 +184,9 @@
         type: 'double',
         prefix: "",
         postfix: "",
-        prettify: true,
+        prettify: twentyFourHourFormat,
         hasGrid: true,
-        isTime: true,
+        isTime: false,
         from: 0,
         to: 1440
     };
@@ -192,9 +198,9 @@
         type: 'double',
         prefix: "",
         postfix: "",
-        prettify: true,
+        prettify: twentyFourHourFormat,
         hasGrid: true,
-        isTime: true,
+        isTime: false,
         from: 0,
         to: 1440
     };
@@ -206,9 +212,9 @@
         type: 'double',
         prefix: "",
         postfix: "",
-        prettify: true,
+        prettify: twentyFourHourFormat,
         hasGrid: true,
-        isTime: true,
+        isTime: false,
         from: 0,
         to: 1440
     };
