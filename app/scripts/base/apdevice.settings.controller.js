@@ -68,7 +68,8 @@
         monitorStart: '10:00',
         monitorEnd: '21:00',
         passStart: '04:00' ,
-        passEnd: '03:00'
+        passEnd: '03:00',
+        processAPHE: false
 	}
 
     $scope.visitCountThreshold = {
@@ -880,6 +881,7 @@
     }
 
     $scope.requestProcess = function() {
+        debugger;
         $scope.loadingUpdate = true;
         $scope.processFromDate = $('#processFromDate').val();
         $scope.processToDate = $('#processToDate').val();
