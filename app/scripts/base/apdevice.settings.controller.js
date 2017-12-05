@@ -888,7 +888,7 @@
         $scope.processAPHE = $scope.obj.processAPHE;
 
         var tmpDate = moment($scope.processFromDate);
-        if( tmpDate < $scope.processMinDate ) {
+        if( tmpDate <= $scope.processMinDate ) {
             // swal({
             //     title: "Error!",
             //     text: "La fecha de inicio del reproceso es menor al primero de enero!",
@@ -909,7 +909,7 @@
             return;
         }
 
-        if( Date.daysBetween(new Date($scope.processFromDate), new Date($scope.processToDate)) > 31 ) {
+        if( Date.daysBetween(new Date($scope.processFromDate), new Date($scope.processToDate)) > 186 ) {
             // swal({
             //     title: "Error!",
             //     text: "No puede reprocesarse más de un mes!",
