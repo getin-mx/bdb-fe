@@ -19,7 +19,7 @@ function PatternHeatmapCtrl($rootScope, $scope, $location, AuthenticationService
         token = $rootScope.globals.currentUser.token
 
         var mapData = indoormap.loadAndParseURL(config.baseUrl, token, KEY);
-        $('#map').css('background-image', 'url(http://api.allshoppings.mobi/img/' + mapData.imageId + ')');
+        $('#map').css('background-image', 'url(http://dashboard.getin.mx/img/' + mapData.imageId + ')');
         $('#floor_map_iframe').css('height', mapData.mapHeight + 'px');
         $('#floor_map_iframe').css('width', mapData.mapWidth + 'px');
         $('#map').css('height', mapData.mapHeight + 'px');
@@ -35,7 +35,7 @@ function PatternHeatmapCtrl($rootScope, $scope, $location, AuthenticationService
             $('#save').css('display', 'none');
             indoormap.drawLines(config.baseUrl, token, mapData, KEY, $('.mapContainer')[0], entityId, fromDate, toDate, dayOfWeek, timezone, 0, 20);
         }
-    
+
         $scope.mapData = mapData;
         $scope.KEY = KEY;
 
@@ -77,16 +77,16 @@ function PatternHeatmapCtrl($rootScope, $scope, $location, AuthenticationService
 
         var selected = 'mundoe';
         if( data.data.data.length == 0 ) {
-            $('#shoppingId').append($('<option>', { 
+            $('#shoppingId').append($('<option>', {
                 value: 'mundoe',
                 text : 'Centro Comercial MundoE'
             }));
         } else {
             for(var i = 0; i < data.data.data.length; i++) {
                 if( i == 0 ) selected = data.data.data[i].identifier;
-                $('#shoppingId').append($('<option>', { 
+                $('#shoppingId').append($('<option>', {
                     value: data.data.data[i].identifier,
-                    text : data.data.data[i].name 
+                    text : data.data.data[i].name
                 }));
             }
         }
@@ -102,16 +102,16 @@ function PatternHeatmapCtrl($rootScope, $scope, $location, AuthenticationService
 
     $scope.updateHeatmap = function() {
         vm.updateHeatmapParams();
-        vm.filterHeatmap($scope.heatmapParams.token, $scope.heatmapParams.entityId, 
-            $scope.heatmapParams.entityKind, $scope.heatmapParams.fromDate, 
-            $scope.heatmapParams.toDate, $scope.heatmapParams.dayOfWeek, 
+        vm.filterHeatmap($scope.heatmapParams.token, $scope.heatmapParams.entityId,
+            $scope.heatmapParams.entityKind, $scope.heatmapParams.fromDate,
+            $scope.heatmapParams.toDate, $scope.heatmapParams.dayOfWeek,
             $scope.heatmapParams.timezone);
     }
 
     this.filterHeatmap = function(token, entityId, entityKind, fromDate, toDate, dayOfWeek, timezone) {
         vm.updateHeatmapParent('#heatmapParent', token, config.dashUrl, entityId, entityKind, fromDate, toDate, dayOfWeek, timezone);
     }
-    
+
     this.updateHeatmapParams = function() {
         $scope.heatmapParams = {
             BASE_URL: config.dashUrl,
@@ -134,10 +134,10 @@ function PatternHeatmapCtrl($rootScope, $scope, $location, AuthenticationService
         $('#' + mapIdentifier).addClass('btActive');
         currentActiveMap = mapIdentifier;
 
-        $('#floor_map_iframe')[0].src = '#/patternheatmap_frame' 
-            + '?floormap=' + mapIdentifier 
-            + '&entityId=' + params.entityId 
-            + '&fromDate=' + params.fromDate 
+        $('#floor_map_iframe')[0].src = '#/patternheatmap_frame'
+            + '?floormap=' + mapIdentifier
+            + '&entityId=' + params.entityId
+            + '&fromDate=' + params.fromDate
             + '&toDate=' + params.toDate
             + '&dayOfWeek=' + params.dayOfWeek
             + '&noHeatMap=' + $scope.edit
@@ -149,11 +149,11 @@ function PatternHeatmapCtrl($rootScope, $scope, $location, AuthenticationService
 
     this.updateHeatmapParent = function(id, token, baseUrl, entityId, entityKind, fromDate, toDate, dayOfWeek, timezone) {
         $.getJSON(
-            baseUrl 
-            + '/dashoard/floormapData' 
+            baseUrl
+            + '/dashoard/floormapData'
             + '?authToken=' + token
             + '&entityId=' + entityId
-            + '&entityKind=' + entityKind, 
+            + '&entityKind=' + entityKind,
             function(data) {
 
             floormaps = data;
@@ -161,8 +161,8 @@ function PatternHeatmapCtrl($rootScope, $scope, $location, AuthenticationService
             for (var i = 0; i < floormaps.data.length; i++) {
                 var map = floormaps.data[i];
                 if (i != 0) tab += '  |  ';
-                tab += '<a  href="javascript:null"' + (i == 0 ? 'class="btActive"' : '') 
-                    + ' style="color: #666;" id="' + map.identifier + '" onclick=\'angular.element(document.getElementById("HeatmapView")).scope().changeHeatMap("' 
+                tab += '<a  href="javascript:null"' + (i == 0 ? 'class="btActive"' : '')
+                    + ' style="color: #666;" id="' + map.identifier + '" onclick=\'angular.element(document.getElementById("HeatmapView")).scope().changeHeatMap("'
                     + id + '", "' + map.identifier + '")\'>' + map.floor + '</a>';
             }
 
@@ -189,14 +189,14 @@ function PatternHeatmapCtrl($rootScope, $scope, $location, AuthenticationService
             var map = floormaps.data[0];
             tab += '<br/>';
             tab += '<div id="heatmap_container" style="height: 600px; overflow: auto; -webkit-overflow-scrolling: touch;">';
-            tab += '<iframe id="floor_map_iframe" class="floor_map_iframe" scrolling="no" style="border: 0px; min-height: 500px; min-width: 100%;" src="#/patternheatmap_frame' 
-                + '?floormap=' + map.identifier 
-                + '&entityId=' + entityId 
-                + '&fromDate=' + fromDate 
-                + '&toDate=' + toDate 
-                + '&dayOfWeek=' + dayOfWeek 
+            tab += '<iframe id="floor_map_iframe" class="floor_map_iframe" scrolling="no" style="border: 0px; min-height: 500px; min-width: 100%;" src="#/patternheatmap_frame'
+                + '?floormap=' + map.identifier
+                + '&entityId=' + entityId
+                + '&fromDate=' + fromDate
+                + '&toDate=' + toDate
+                + '&dayOfWeek=' + dayOfWeek
                 + '&noHeatMap=' + $scope.edit
-                + '&timezone=' + timezone 
+                + '&timezone=' + timezone
                 + '"></iframe>';
             tab += '<div>';
 
