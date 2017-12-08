@@ -53,10 +53,12 @@
     "chartjs": "~1.0.1",
     "icheck": "~1.0.2",
     "blueimp-gallery": "~2.22.0",
-    "angular-modal-service": "^0.13.0"
+    "angular-modal-service": "^0.13.0",
+    "angularjs-dropdown-multiselect": "^1.11.8"
   },
   "resolutions": {
     "jquery": "~2.1.4",
     "angular": "~1.5.0"
-  }
+  },
+  "devDependencies": {}
 }

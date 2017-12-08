@@ -14,6 +14,8 @@
     $scope.showRevenue = false;
     $scope.periodType = 'D';
     $scope.pagination = 0;
+    $scope.storeIdsData = [];
+    $scope.storeIdsSelected = [];
 
     var globals = AuthenticationService.getCredentials();
     var credentials = globals.currentUser;
@@ -419,18 +421,13 @@
     }
 
     $scope.postUpdateStoreList = function(data) {
-        id = '#store';
-        $(id).empty();
-        $(id).append($('<option>', {
-            value: '',
-            text: 'Todas'
-        }));
+        $scope.storeIdsData = [];
 
         for( var i = 0; i < data.data.data.length; i++ ) {
-            $(id).append($('<option>', {
-                value: data.data.data[i].identifier,
-                text: data.data.data[i].name
-            }));
+            $scope.storeIdsData.push({
+                id: data.data.data[i].identifier,
+                label: data.data.data[i].name
+            });
         }
     }
 
@@ -1289,9 +1286,15 @@
             });
     };
     this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId, storeType) {
-        // TODO use store type
+        var selected = $scope.storeIdsSelected;
+        var selectedArray = [];
+        var params = '';
+        for (var i=0; i< selected.length; i++){
+          selectedArray.push(selected[i].id);
+        }
+
         $http.get(CommonsService.getUrl('/dashboard/brandTableData')
-            + '&entityId=' + entityId
+            + '&storeIds=' + selectedArray.join(','),
             + '&entityKind=1'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate

@@ -13,6 +13,7 @@
         'datePicker',					          // Angular Date Pciker
         'ui.footable',					        // Foo Tables
         'ui.knob',                      // jsKnob
+        'angularjs-dropdown-multiselect',
         'angularModalService',
         'localytics.directives',        // angular-chosen (just provided... not in repo)
         'summernote',                   // Summernote text editor
