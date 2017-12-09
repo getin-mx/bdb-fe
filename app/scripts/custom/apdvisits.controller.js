@@ -1294,7 +1294,7 @@
         }
 
         $http.get(CommonsService.getUrl('/dashboard/brandTableData')
-            + '&storeIds=' + selectedArray.join(','),
+            + '&storeIds=' + selectedArray.join(',')
             + '&entityKind=1'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
