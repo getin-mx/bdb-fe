@@ -123,10 +123,10 @@
         $('#brandId').find('option').remove()
 
         if( data.data.data.length == 1 ) {
-            $('#brandSelectorContainer').css('display','none');
+            $('.brandSelectorContainer').css('display','none');
             selected = data.data.data[0].identifier;
         } else {
-            $('#brandSelectorContainer').css('display','block');
+            $('.brandSelectorContainer').css('display','block');
             for(var i = 0; i < data.data.data.length; i++) {
                 if( i == 0 ) selected = data.data.data[i].identifier;
                 $('#brandId').append($('<option>', {
