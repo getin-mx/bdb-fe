@@ -369,21 +369,22 @@
 
         vm.updateVisitsByDateChart('#visits_by_date', config.baseUrl, fromDate, toDate, brandId, storeId,
             $scope.zoneId, $scope.periodType, storeType);
-        vm.updateVisitsByHourChart('#visits_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId,
-            storeType);
+        vm.updateVisitsByHourChart('#visits_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
+            $scope.zoneId, storeType);
         if( brandId == 'grupopavel_mx') {
-            vm.updateRepetitionsChart('#repetitions', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId,
-                storeType);
+            vm.updateRepetitionsChart('#repetitions', config.baseUrl, fromDate, toDate, brandId, storeId,
+                $scope.zoneId, storeType);
         }
-        vm.updatePermanenceByHourChart('#permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
-            $scope.zoneId, storeType);
-        vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
-            $scope.zoneId, storeType);
-        vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
-            $scope.zoneId, storeType);
-        vm.updateHeatmapOccupation('#heatmap_occupation_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
-            $scope.zoneId, storeType);
-        vm.updateBrandPerformanceTable('#brand_performance_table', config.baseUrl, fromDate, toDate, brandId, storeType);
+        vm.updatePermanenceByHourChart('#permanence_by_hour', config.baseUrl, fromDate, toDate, brandId,
+            storeId, $scope.zoneId, storeType);
+        vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.baseUrl, fromDate, toDate, brandId,
+            storeId, $scope.zoneId, storeType);
+        vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.baseUrl, fromDate, toDate,
+            brandId, storeId, $scope.zoneId, storeType);
+        vm.updateHeatmapOccupation('#heatmap_occupation_by_hour', config.baseUrl, fromDate, toDate,
+            brandId, storeId, $scope.zoneId, storeType);
+        vm.updateBrandPerformanceTable('#brand_performance_table', config.baseUrl, fromDate, toDate,
+            brandId, storeType, brandId);
     }
 
     $scope.updateZoneList = function(id, entityId) {
@@ -1285,7 +1286,7 @@
                 });
             });
     };
-    this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId, storeType) {
+    this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId, storeType, brandId) {
         var selected = $scope.storeIdsSelected;
         var selectedArray = [];
         var params = '';
@@ -1300,7 +1301,8 @@
             + '&toStringDate=' + toDate
             + '&onlyExternalIds=true'
             + '&format=json'
-            + '&timestamp=' + CommonsService.getTimestamp())
+            + '&timestamp=' + CommonsService.getTimestamp()
+            + '&brandId=' + brandId)
             .then($scope.fillBrandTable);
     };
 
