@@ -143,7 +143,7 @@
                 // validate token
                 if( data.status != 200 || data.data.error_code !== undefined )
                     AuthenticationService.logout(function(response) {
-                        $location.path('/loginAdmin');    
+                        $location.path('/login');    
                     });
 
                 for( var i = 0; i < data.data.data.length; i++ ) {
@@ -174,7 +174,7 @@
                 // validate token
                 if( data.status != 200 || data.data.error_code !== undefined )
                     AuthenticationService.logout(function(response) {
-                        $location.path('/loginAdmin');    
+                        $location.path('/login');    
                     });
 
                 for( var i = 0; i < data.data.data.length; i++ ) {

@@ -1,27 +1,21 @@
 <div class="wrapper wrapper-content animated fadeInRight" ng-controller="APDVisitsCtrl" data-ng-init="initAPDVisits()">
-	<div  class="row">
+	<div id="brandSelectorContainer" class="row" style="display: none;">
 		<div class="col-lg-12">
 			<div class="ibox float-e-margins">
 				<div class="ibox-content">
 					<div class="form-group" style="height: 50px;">
 						<div class="row">
-							<div style="display: none;" class="col-lg-3 brandSelectorContainer">
+							<div class="col-lg-3">
 								<div class="input-group">
 									Cadena:<br>
 									<select name="venue" id="brandId" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;">
 									</select>
 								</div>
 							</div>
-							<div class="col-lg-3 brandSelectorContainer" style="display: none;">
+							<div class="col-lg-3">
 								<div class="input-group">
 									<br>
 									<button type="button" ng-click="updateBrand()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >updateBrand</button>
-								</div>
-							</div>
-							<div id="stores-multiselect-container" class="col-lg-6">
-								<label class="font-noraml">{{storeLabel}}:</label>
-								<div id="stores-multiselect" class="input-group date">
-									<div ng-dropdown-multiselect="" options="storeIdsData" selected-model="storeIdsSelected" style="width: 250px;"></div>
 								</div>
 							</div>
 						</div>
@@ -54,6 +48,14 @@
 									<select name="storeType" ng-model="storeType" ng-change="storeTypeChange()" id="storeType" data-placeholder="Filtrar.." class="chosen-select form-control">
 										<option value="0">Todas</option>
 									</select>
+							</div>
+						</div>
+						<div class="form-group col-lg-6">
+							<label class="font-noraml">{{storeLabel}}:</label>
+							<div class="input-group date">
+								<select name="store" ng-model="storeId" id="store" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;">
+									<option value="">Todas</option>
+								</select>
 							</div>
 						</div>
 						<div class="form-group col-lg-6">
