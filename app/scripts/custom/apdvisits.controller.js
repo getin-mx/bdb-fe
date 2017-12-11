@@ -14,8 +14,6 @@
     $scope.showRevenue = false;
     $scope.periodType = 'D';
     $scope.pagination = 0;
-    $scope.storeIdsData = [];
-    $scope.storeIdsSelected = [];
 
     var globals = AuthenticationService.getCredentials();
     var credentials = globals.currentUser;
@@ -123,10 +121,10 @@
         $('#brandId').find('option').remove()
 
         if( data.data.data.length == 1 ) {
-            $('.brandSelectorContainer').css('display','none');
+            $('#brandSelectorContainer').css('display','none');
             selected = data.data.data[0].identifier;
         } else {
-            $('.brandSelectorContainer').css('display','block');
+            $('#brandSelectorContainer').css('display','block');
             for(var i = 0; i < data.data.data.length; i++) {
                 if( i == 0 ) selected = data.data.data[i].identifier;
                 $('#brandId').append($('<option>', {
@@ -171,11 +169,6 @@
     }
 
     $scope.updateBrand = function() {
-        /*document.getElementById("stores-multiselect-container")
-            .removeChild(document.getElementById());*/
-        $scope.storeIdsSelected = [];
-
-
         $scope.loadingSubmit = true;
         $scope.brandId = $('#brandId').val();
 
@@ -374,22 +367,21 @@
 
         vm.updateVisitsByDateChart('#visits_by_date', config.baseUrl, fromDate, toDate, brandId, storeId,
             $scope.zoneId, $scope.periodType, storeType);
-        vm.updateVisitsByHourChart('#visits_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
-            $scope.zoneId, storeType);
+        vm.updateVisitsByHourChart('#visits_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId,
+            storeType);
         if( brandId == 'grupopavel_mx') {
-            vm.updateRepetitionsChart('#repetitions', config.baseUrl, fromDate, toDate, brandId, storeId,
-                $scope.zoneId, storeType);
+            vm.updateRepetitionsChart('#repetitions', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId,
+                storeType);
         }
-        vm.updatePermanenceByHourChart('#permanence_by_hour', config.baseUrl, fromDate, toDate, brandId,
-            storeId, $scope.zoneId, storeType);
-        vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.baseUrl, fromDate, toDate, brandId,
-            storeId, $scope.zoneId, storeType);
-        vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.baseUrl, fromDate, toDate,
-            brandId, storeId, $scope.zoneId, storeType);
-        vm.updateHeatmapOccupation('#heatmap_occupation_by_hour', config.baseUrl, fromDate, toDate,
-            brandId, storeId, $scope.zoneId, storeType);
-        vm.updateBrandPerformanceTable('#brand_performance_table', config.baseUrl, fromDate, toDate,
-            brandId, storeType, brandId);
+        vm.updatePermanenceByHourChart('#permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
+            $scope.zoneId, storeType);
+        vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
+            $scope.zoneId, storeType);
+        vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
+            $scope.zoneId, storeType);
+        vm.updateHeatmapOccupation('#heatmap_occupation_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
+            $scope.zoneId, storeType);
+        vm.updateBrandPerformanceTable('#brand_performance_table', config.baseUrl, fromDate, toDate, brandId, storeType);
     }
 
     $scope.updateZoneList = function(id, entityId) {
@@ -427,13 +419,18 @@
     }
 
     $scope.postUpdateStoreList = function(data) {
-        $scope.storeIdsData = [];
+        id = '#store';
+        $(id).empty();
+        $(id).append($('<option>', {
+            value: '',
+            text: 'Todas'
+        }));
 
         for( var i = 0; i < data.data.data.length; i++ ) {
-            $scope.storeIdsData.push({
-                id: data.data.data[i].identifier,
-                label: data.data.data[i].name
-            });
+            $(id).append($('<option>', {
+                value: data.data.data[i].identifier,
+                text: data.data.data[i].name
+            }));
         }
     }
 
@@ -486,25 +483,13 @@
             vo = true;
         }
 
-        var selected = $scope.storeIdsSelected;
-        var selectedArray = [];
-        var params = '';
-        for (var i=0; i< selected.length; i++){
-          selectedArray.push(selected[i].id);
-        }
-
-        var subEntityId = selectedArray.join(",")
-
-
-
-
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
             + '/dashboard/timelineData'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + subEntityId
+            + '&subentityId=' + seid
             + '&elementId=apd_visitor'
             + '&subIdOrder=visitor_total_visits,'
             + '&fromStringDate=' + fromDate
@@ -519,7 +504,7 @@
                 + '?authToken=' + $rootScope.globals.currentUser.token
                 + '&entityId=' + eid
                 + '&entityKind=' + kind
-                + '&subentityId=' + subEntityId
+                + '&subentityId=' + seid
                 + '&elementId=apd_visitor'
                 + '&subIdOrder=visitor_total_revenue,visitor_total_peasents,visitor_total_visits,visitor_total_tickets,visitor_total_items'
                 + '&fromStringDate=' + fromDate
@@ -533,7 +518,7 @@
                 + '?authToken=' + $rootScope.globals.currentUser.token
                 + '&entityId=' + eid
                 + '&entityKind=' + kind
-                + '&subentityId=' + subEntityId
+                + '&subentityId=' + seid
                 + '&elementId=apd_visitor'
                 + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_tickets,visitor_total_items'
                 + '&fromStringDate=' + fromDate
@@ -633,25 +618,13 @@
             vo = true;
         }
 
-
-        var selected = $scope.storeIdsSelected;
-        var selectedArray = [];
-        var params = '';
-        for (var i=0; i< selected.length; i++){
-          selectedArray.push(selected[i].id);
-        }
-
-        var subEntityId = selectedArray.join(",")
-
-
-
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
             + '/dashboard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + subEntityId
+            + '&subentityId=' + seid
             + '&elementId=apd_visitor'
             + '&subIdOrder=visitor_total_visits,'
             + '&fromStringDate=' + fromDate
@@ -664,7 +637,7 @@
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + subEntityId
+            + '&subentityId=' + seid
             + '&elementId=apd_visitor'
             + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_hourly_tickets'
             + '&fromStringDate=' + fromDate
@@ -840,23 +813,13 @@
             vo = true;
         }
 
-                var selected = $scope.storeIdsSelected;
-        var selectedArray = [];
-        var params = '';
-        for (var i=0; i< selected.length; i++){
-          selectedArray.push(selected[i].id);
-        }
-
-        var subEntityId = selectedArray.join(",")
-
-
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
             + '/dashboard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + subEntityId
+            + '&subentityId=' + seid
             + '&elementId=apd_permanence'
             + '&subIdOrder=permanence_hourly_visits,'
             + '&fromStringDate=' + fromDate
@@ -872,7 +835,7 @@
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + subEntityId
+            + '&subentityId=' + seid
             + '&elementId=apd_permanence'
             + '&subIdOrder=permanence_hourly_peasents,permanence_hourly_visits'
             + '&fromStringDate=' + fromDate
@@ -957,23 +920,13 @@
             vo = true;
         }
 
-
-        var selected = $scope.storeIdsSelected;
-        var selectedArray = [];
-        var params = '';
-        for (var i=0; i< selected.length; i++){
-          selectedArray.push(selected[i].id);
-        }
-
-        var subEntityId = selectedArray.join(",")
-
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
             + '/dashboard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + subEntityId
+            + '&subentityId=' + seid
             + '&elementId=apd_visitor'
             + '&elementSubId=visitor_total_visits'
             + '&fromStringDate=' + fromDate
@@ -988,7 +941,7 @@
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + subEntityId
+            + '&subentityId=' + seid
             + '&elementId=apd_visitor'
             + '&elementSubId=visitor_total_visits,visitor_total_peasents,visitor_hourly_tickets'
             + '&fromStringDate=' + fromDate
@@ -1108,23 +1061,13 @@
             vo = true;
         }
 
-
-        var selected = $scope.storeIdsSelected;
-        var selectedArray = [];
-        var params = '';
-        for (var i=0; i< selected.length; i++){
-          selectedArray.push(selected[i].id);
-        }
-
-        var subEntityId = selectedArray.join(",")
-
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
             + '/dashboard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + subEntityId
+            + '&subentityId=' + seid
             + '&elementId=apd_permanence'
             + '&elementSubId=permanence_hourly_visits'
             + '&fromStringDate=' + fromDate
@@ -1139,7 +1082,7 @@
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + subEntityId
+            + '&subentityId=' + seid
             + '&elementId=apd_permanence'
             + '&elementSubId=permanence_hourly_visits,permanence_hourly_peasents'
             + '&fromStringDate=' + fromDate
@@ -1236,21 +1179,13 @@
             vo = true;
         }
 
-        var selected = $scope.storeIdsSelected;
-        var selectedArray = [];
-        var params = '';
-        for (var i=0; i< selected.length; i++){
-          selectedArray.push(selected[i].id);
-        }
-        var subentityId = selectedArray.join(",");
-
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
             + '/dashboard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + subentityId
+            + '&subentityId=' + seid
             + '&elementId=apd_occupation'
             + '&elementSubId=occupation_hourly_visits'
             + '&fromStringDate=' + fromDate
@@ -1265,7 +1200,7 @@
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + subentityId
+            + '&subentityId=' + seid
             + '&elementId=apd_occupation,apd_visitor'
             + '&elementSubId=occupation_hourly_visits,occupation_hourly_peasants,visitor_hourly_tickets'
             + '&fromStringDate=' + fromDate
@@ -1353,23 +1288,16 @@
                 });
             });
     };
-    this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId, storeType, brandId) {
-        var selected = $scope.storeIdsSelected;
-        var selectedArray = [];
-        var params = '';
-        for (var i=0; i< selected.length; i++){
-          selectedArray.push(selected[i].id);
-        }
-
+    this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId, storeType) {
+        // TODO use store type
         $http.get(CommonsService.getUrl('/dashboard/brandTableData')
-            + '&storeIds=' + selectedArray.join(',')
+            + '&entityId=' + entityId
             + '&entityKind=1'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
             + '&onlyExternalIds=true'
             + '&format=json'
-            + '&timestamp=' + CommonsService.getTimestamp()
-            + '&brandId=' + brandId)
+            + '&timestamp=' + CommonsService.getTimestamp())
             .then($scope.fillBrandTable);
     };
 

@@ -8,9 +8,9 @@
  */
 var config = {};
 
-config.baseUrl = 'http://yoda.getin.mx/bdb';
-config.dashUrl = 'http://yoda.getin.mx/appv2';
-config.uploadUrl = 'http://yoda.getin.mx/bdb/img/upload'
+config.baseUrl = 'http://api.getin.mx/bdb';
+config.dashUrl = 'http://api.getin.mx/appv2';
+config.uploadUrl = 'http://api.getin.mx/bdb/img/upload'
 
 // config.baseUrl = 'http://staging.getin.mx/bdb';
 // config.dashUrl = 'http://staging.getin.mx/appv2';
@@ -62,8 +62,8 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             templateUrl: "views/maintenance.html",
             data: { pageTitle: 'Maintenance', specialClass: 'gray-bg' }
         })
-        .state('loginAdmin', {
-            url: "/loginAdmin",
+        .state('login', {
+            url: "/login",
             templateUrl: "views/login_two_columns.html",
             data: { pageTitle: 'Login', specialClass: 'gray-bg' }
         })
@@ -327,19 +327,12 @@ function run($rootScope, $state, $cookieStore, $http, $location) {
  
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
         // redirect to login page if not logged in and trying to access a restricted page
-        var restrictedPage = $.inArray($location.path(), ['/loginAdmin', '/register']) === -1;
+        var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
         var loggedIn = $rootScope.globals.currentUser;
-        var restrictedLogin = $.inArray($location.path(), ['/loginAdmin', 'main']) === 0;
-
-        if (restrictedLogin) {
-          $location.path('/loginAdmin');
-        } else if (!loggedIn || !loggedIn.role || loggedIn.role !== 1){
-          $location.path('/maintenance');
+        if (restrictedPage && !loggedIn) {
+          $location.path('/login');
         }
-        // }
     });
-
-
 
 
     // Moment.js locale configuration
