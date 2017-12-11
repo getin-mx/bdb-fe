@@ -171,6 +171,11 @@
     }
 
     $scope.updateBrand = function() {
+        /*document.getElementById("stores-multiselect-container")
+            .removeChild(document.getElementById());*/
+        $scope.storeIdsSelected = [];
+
+
         $scope.loadingSubmit = true;
         $scope.brandId = $('#brandId').val();
 
@@ -481,13 +486,25 @@
             vo = true;
         }
 
+        var selected = $scope.storeIdsSelected;
+        var selectedArray = [];
+        var params = '';
+        for (var i=0; i< selected.length; i++){
+          selectedArray.push(selected[i].id);
+        }
+
+        var subEntityId = selectedArray.join(",")
+
+
+
+
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
             + '/dashboard/timelineData'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + seid
+            + '&subentityId=' + subEntityId
             + '&elementId=apd_visitor'
             + '&subIdOrder=visitor_total_visits,'
             + '&fromStringDate=' + fromDate
@@ -502,7 +519,7 @@
                 + '?authToken=' + $rootScope.globals.currentUser.token
                 + '&entityId=' + eid
                 + '&entityKind=' + kind
-                + '&subentityId=' + seid
+                + '&subentityId=' + subEntityId
                 + '&elementId=apd_visitor'
                 + '&subIdOrder=visitor_total_revenue,visitor_total_peasents,visitor_total_visits,visitor_total_tickets,visitor_total_items'
                 + '&fromStringDate=' + fromDate
@@ -516,7 +533,7 @@
                 + '?authToken=' + $rootScope.globals.currentUser.token
                 + '&entityId=' + eid
                 + '&entityKind=' + kind
-                + '&subentityId=' + seid
+                + '&subentityId=' + subEntityId
                 + '&elementId=apd_visitor'
                 + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_tickets,visitor_total_items'
                 + '&fromStringDate=' + fromDate
@@ -616,13 +633,25 @@
             vo = true;
         }
 
+
+        var selected = $scope.storeIdsSelected;
+        var selectedArray = [];
+        var params = '';
+        for (var i=0; i< selected.length; i++){
+          selectedArray.push(selected[i].id);
+        }
+
+        var subEntityId = selectedArray.join(",")
+
+
+
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
             + '/dashboard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + seid
+            + '&subentityId=' + subEntityId
             + '&elementId=apd_visitor'
             + '&subIdOrder=visitor_total_visits,'
             + '&fromStringDate=' + fromDate
@@ -635,7 +664,7 @@
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + seid
+            + '&subentityId=' + subEntityId
             + '&elementId=apd_visitor'
             + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_hourly_tickets'
             + '&fromStringDate=' + fromDate
@@ -811,13 +840,23 @@
             vo = true;
         }
 
+                var selected = $scope.storeIdsSelected;
+        var selectedArray = [];
+        var params = '';
+        for (var i=0; i< selected.length; i++){
+          selectedArray.push(selected[i].id);
+        }
+
+        var subEntityId = selectedArray.join(",")
+
+
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
             + '/dashboard/timelineHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + seid
+            + '&subentityId=' + subEntityId
             + '&elementId=apd_permanence'
             + '&subIdOrder=permanence_hourly_visits,'
             + '&fromStringDate=' + fromDate
@@ -833,7 +872,7 @@
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + seid
+            + '&subentityId=' + subEntityId
             + '&elementId=apd_permanence'
             + '&subIdOrder=permanence_hourly_peasents,permanence_hourly_visits'
             + '&fromStringDate=' + fromDate
@@ -918,13 +957,23 @@
             vo = true;
         }
 
+
+        var selected = $scope.storeIdsSelected;
+        var selectedArray = [];
+        var params = '';
+        for (var i=0; i< selected.length; i++){
+          selectedArray.push(selected[i].id);
+        }
+
+        var subEntityId = selectedArray.join(",")
+
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
             + '/dashboard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + seid
+            + '&subentityId=' + subEntityId
             + '&elementId=apd_visitor'
             + '&elementSubId=visitor_total_visits'
             + '&fromStringDate=' + fromDate
@@ -939,7 +988,7 @@
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + seid
+            + '&subentityId=' + subEntityId
             + '&elementId=apd_visitor'
             + '&elementSubId=visitor_total_visits,visitor_total_peasents,visitor_hourly_tickets'
             + '&fromStringDate=' + fromDate
@@ -1059,13 +1108,23 @@
             vo = true;
         }
 
+
+        var selected = $scope.storeIdsSelected;
+        var selectedArray = [];
+        var params = '';
+        for (var i=0; i< selected.length; i++){
+          selectedArray.push(selected[i].id);
+        }
+
+        var subEntityId = selectedArray.join(",")
+
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
             + '/dashboard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + seid
+            + '&subentityId=' + subEntityId
             + '&elementId=apd_permanence'
             + '&elementSubId=permanence_hourly_visits'
             + '&fromStringDate=' + fromDate
@@ -1080,7 +1139,7 @@
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + seid
+            + '&subentityId=' + subEntityId
             + '&elementId=apd_permanence'
             + '&elementSubId=permanence_hourly_visits,permanence_hourly_peasents'
             + '&fromStringDate=' + fromDate
@@ -1177,13 +1236,21 @@
             vo = true;
         }
 
+        var selected = $scope.storeIdsSelected;
+        var selectedArray = [];
+        var params = '';
+        for (var i=0; i< selected.length; i++){
+          selectedArray.push(selected[i].id);
+        }
+        var subentityId = selectedArray.join(",");
+
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
             + '/dashboard/heatmapTableHour'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + seid
+            + '&subentityId=' + subentityId
             + '&elementId=apd_occupation'
             + '&elementSubId=occupation_hourly_visits'
             + '&fromStringDate=' + fromDate
@@ -1198,7 +1265,7 @@
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + eid
             + '&entityKind=' + kind
-            + '&subentityId=' + seid
+            + '&subentityId=' + subentityId
             + '&elementId=apd_occupation,apd_visitor'
             + '&elementSubId=occupation_hourly_visits,occupation_hourly_peasants,visitor_hourly_tickets'
             + '&fromStringDate=' + fromDate

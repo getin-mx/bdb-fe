@@ -18,9 +18,9 @@
 									<button type="button" ng-click="updateBrand()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >updateBrand</button>
 								</div>
 							</div>
-							<div class="col-lg-6">
+							<div id="stores-multiselect-container" class="col-lg-6">
 								<label class="font-noraml">{{storeLabel}}:</label>
-								<div class="input-group date">
+								<div id="stores-multiselect" class="input-group date">
 									<div ng-dropdown-multiselect="" options="storeIdsData" selected-model="storeIdsSelected" style="width: 250px;"></div>
 								</div>
 							</div>
