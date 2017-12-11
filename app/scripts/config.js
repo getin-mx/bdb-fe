@@ -62,8 +62,8 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             templateUrl: "views/maintenance.html",
             data: { pageTitle: 'Maintenance', specialClass: 'gray-bg' }
         })
-        .state('login', {
-            url: "/login",
+        .state('loginAdmin', {
+            url: "/loginAdmin",
             templateUrl: "views/login_two_columns.html",
             data: { pageTitle: 'Login', specialClass: 'gray-bg' }
         })
@@ -327,12 +327,19 @@ function run($rootScope, $state, $cookieStore, $http, $location) {
  
     $rootScope.$on('$locationChangeStart', function (event, next, current) {
         // redirect to login page if not logged in and trying to access a restricted page
-        var restrictedPage = $.inArray($location.path(), ['/login', '/register']) === -1;
+        var restrictedPage = $.inArray($location.path(), ['/loginAdmin', '/register']) === -1;
         var loggedIn = $rootScope.globals.currentUser;
-        if (restrictedPage && !loggedIn) {
-          $location.path('/login');
+        var restrictedLogin = $.inArray($location.path(), ['/loginAdmin', 'main']) === 0;
+
+        if (restrictedLogin) {
+          $location.path('/loginAdmin');
+        } else if (!loggedIn || !loggedIn.role || loggedIn.role !== 1){
+          $location.path('/maintenance');
         }
+        // }
     });
+
+
 
 
     // Moment.js locale configuration
