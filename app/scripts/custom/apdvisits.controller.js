@@ -421,10 +421,6 @@
     $scope.postUpdateStoreList = function(data) {
         id = '#store';
         $(id).empty();
-        $(id).append($('<option>', {
-            value: '',
-            text: 'Todas'
-        }));
 
         for( var i = 0; i < data.data.data.length; i++ ) {
             $(id).append($('<option>', {
