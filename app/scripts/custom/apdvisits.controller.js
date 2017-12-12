@@ -14,6 +14,8 @@
     $scope.showRevenue = false;
     $scope.periodType = 'D';
     $scope.pagination = 0;
+    $scope.stores = [];
+    $scope.storeId = undefined;
 
     var globals = AuthenticationService.getCredentials();
     var credentials = globals.currentUser;
@@ -116,8 +118,6 @@
 
     $scope.initAPDVisitsPhase2 = function(data) {
 
-        $scope.storeId = '';
-
         $('#brandId').find('option').remove()
 
         if( data.data.data.length == 1 ) {
@@ -164,8 +164,7 @@
         $scope.updateStoreLabel();
         $scope.updateStoreList('#store', config.baseUrl, $scope.brandId);
         $scope.upadtePagination('#pags');
-        //$scope.updateAPDVisits();
-        $scope.updateStoreType('#storeType');
+        //Removed store type
     }
 
     $scope.updateBrand = function() {
@@ -200,8 +199,6 @@
         $scope.updateStoreLabel();
         $scope.updateStoreList('#store', config.baseUrl, $scope.brandId);
         $scope.upadtePagination('#pags');
-        //$scope.updateAPDVisits();
-        $scope.updateStoreType('#storeType');
         $scope.loadingSubmit = false;
     }
 
@@ -291,7 +288,7 @@
         var url =  config.baseUrl + '/dashboard/brandExport'
         + '?authToken=' + $rootScope.globals.currentUser.token
         + '&brandId=' + $scope.brandId
-        + '&storeId=' + $scope.storeId
+        + '&storeId=' + $scope.storeId.identifier
         + '&fromStringDate=' + $scope.fromDate
         + '&toStringDate=' + $scope.toDate
 
@@ -305,7 +302,7 @@
         var url =  config.baseUrl + '/dashboard/reportExport'
         + '?authToken=' + $rootScope.globals.currentUser.token
         + '&brandId=' + $scope.brandId
-        + '&storeId=' + $scope.storeId
+        + '&storeId=' + $scope.storeId.identifier
         + '&fromStringDate=' + $scope.fromDate
         + '&toStringDate=' + $scope.toDate
 
@@ -319,7 +316,7 @@
         var url =  config.baseUrl + '/dashboard/visitDetailExport'
         + '?authToken=' + $rootScope.globals.currentUser.token
         + '&brandId=' + $scope.brandId
-        + '&storeId=' + $scope.storeId
+        + '&storeId=' + $scope.storeId.identifier
         + '&fromStringDate=' + $scope.fromDate
         + '&toStringDate=' + $scope.toDate
 
@@ -333,7 +330,7 @@
 
         $('#brand-table').data( "page-size",  $scope.pagination);
 
-        vm.filterAPDVisits($scope.brandId, $scope.storeId, $scope.fromDate, $scope.toDate, $scope.storeType);
+        vm.filterAPDVisits($scope.brandId, $scope.storeId.identifier, $scope.fromDate, $scope.toDate, $scope.storeType);
     }
 
     $scope.updateGraphs = function(periodType) {
@@ -422,12 +419,10 @@
         id = '#store';
         $(id).empty();
 
-        for( var i = 0; i < data.data.data.length; i++ ) {
-            $(id).append($('<option>', {
-                value: data.data.data[i].identifier,
-                text: data.data.data[i].name
-            }));
-        }
+        var result = data.data.data;
+        $scope.stores = result;
+        $scope.storeId = $scope.stores[0];
+
     }
 
     $scope.upadtePagination = function(id) {
@@ -1230,10 +1225,12 @@
                     var ob = data.data[i];
                     var p1 = p[ob[0]];
                     if( p1 === null || p1 === undefined )  {
-                        p1 = new Array();
-                        p[ob[0]] = p1;
+                        p1 = 0;
                     }
                     var val = ob[3];
+                    if( val === null || val === undefined )  {
+                        val = 0;
+                    }
                     p1[ob[1]] = val;
                 }
 
@@ -1242,10 +1239,12 @@
                     var ob = data.data[i];
                     var q1 = q[ob[0]];
                     if( q1 === null || q1 === undefined )  {
-                        q1 = new Array();
-                        q[ob[0]] = q1;
+                        q1 = 0;
                     }
                     var val = ob[4];
+                    if( val === null || val === undefined )  {
+                        val = 0;
+                    }
                     q1[ob[1]] = val;
                 }
 
