@@ -526,6 +526,15 @@
                 // Disable extra options by default
                 // TODO the story type matters?
 
+                var display = [];
+                var iterator = 0;
+
+                for( var iterator; iterator < data.series.length; iterator++){
+                  if("name" in data.series[iterator]){
+                    display.push(data.series[iterator]);
+                  }
+                }
+
                 var from = 2;
                 if( $scope.visitsOnly == true ) from = 1;
                 if( $scope.showRevenue == true ) {
@@ -586,7 +595,7 @@
                             enableMouseTracking: false
                         }
                     },
-                    series: data.series
+                    series: display
                 });
             });
     };
@@ -641,11 +650,21 @@
 
         $.getJSON( url,
             function(data) {
+                var display = [];
                 // Disable extra options by default
                 var from = 2;
+                var iterator = 0;
+
+                for( var iterator; iterator < data.series.length; iterator++){
+                  if("name" in data.series[iterator]){
+                    display.push(data.series[iterator]);
+                  }
+                }
+
                 if( $scope.visitsOnly == true ) from = 1;
-                for( var i = from; i < data.series.length; i++)
-                    data.series[i].visible = false;
+                for( var i = from; i < display.length; i++)
+                    display[i].visible = false;
+
 
                 $(id).highcharts({
                     chart: {
@@ -685,7 +704,7 @@
                             enableMouseTracking: false
                         }
                     },
-                    series: data.series
+                    series: display
                 });
             });
     };
