@@ -490,7 +490,6 @@
             + '&subIdOrder=visitor_total_visits,'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
-            + '&periodType=' + periodType
             + '&eraseBlanks=false'
             + '&timestamp=' + CommonsService.getTimestamp();
         else
@@ -505,7 +504,6 @@
                 + '&subIdOrder=visitor_total_revenue,visitor_total_peasents,visitor_total_visits,visitor_total_tickets,visitor_total_items'
                 + '&fromStringDate=' + fromDate
                 + '&toStringDate=' + toDate
-                + '&periodType=' + periodType
                 + '&eraseBlanks=false'
                 + '&timestamp=' + CommonsService.getTimestamp();
             else
@@ -519,7 +517,6 @@
                 + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_tickets,visitor_total_items'
                 + '&fromStringDate=' + fromDate
                 + '&toStringDate=' + toDate
-                + '&periodType=' + periodType
                 + '&eraseBlanks=false'
                 + '&timestamp=' + CommonsService.getTimestamp();
 
