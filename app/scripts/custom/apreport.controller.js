@@ -1,7 +1,7 @@
 /**
  * APDVisitsCtrl - controller
  */
- function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService, $rootScope, $http, ModalService) {
+ function APReportCtrl($rootScope, $scope, AuthenticationService, CommonsService, $rootScope, $http, ModalService) {
 
     var vm = this;
 
@@ -98,7 +98,8 @@
         });
     }
 
-    $scope.initAPDVisits = function(visitsOnly) {
+    $scope.initAPReport = function(visitsOnly) {
+        debugger;
 
         if( visitsOnly == true ) $scope.visitsOnly = true;
         else $scope.visitsOnly = false;
@@ -355,30 +356,7 @@
 
     this.filterAPDVisits = function(brandId, storeId, fromDate, toDate, storeType) {
 
-        $('#visits_by_date').html('');
-        $('#visits_by_hour').html('');
-        $('#repetitions').html('');
-        $('#permanence_by_hour').html('');
-        $('#heatmap_traffic_by_hour').html('');
-        $('#heatmap_occupation_by_hour').html('');
-        $('#heatmap_permanence_by_hour').html('');
-
-        vm.updateVisitsByDateChart('#visits_by_date', config.baseUrl, fromDate, toDate, brandId, storeId,
-            $scope.zoneId, $scope.periodType, storeType);
-        vm.updateVisitsByHourChart('#visits_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId,
-            storeType);
-        if( brandId == 'grupopavel_mx') {
-            vm.updateRepetitionsChart('#repetitions', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId,
-                storeType);
-        }
-        vm.updatePermanenceByHourChart('#permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
-            $scope.zoneId, storeType);
-        vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
-            $scope.zoneId, storeType);
-        vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
-            $scope.zoneId, storeType);
-        vm.updateHeatmapOccupation('#heatmap_occupation_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
-            $scope.zoneId, storeType);
+        vm.updateBrandPerformanceTable('#brand_performance_table', config.baseUrl, fromDate, toDate, brandId, storeType);
 
         $scope.loadedClientData = true;
     }
@@ -1372,7 +1350,6 @@
     return vm;
 };
 
-
 angular
 .module('bdb')
-.controller('APDVisitsCtrl', APDVisitsCtrl);
+.controller('APReportCtrl', APReportCtrl);

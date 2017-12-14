@@ -96,6 +96,12 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             data: { pageTitle: 'Visitas'}
         })
 
+        .state('index.apreport', {
+            url: "/apreport",
+            templateUrl: "views/custom/apreport.html",
+            data: { pageTitle: 'Reporte'}
+        })
+
         .state('index.apdvisitsonly', {
             url: "/apdvisitsonly",
             templateUrl: "views/custom/apdvisitsonly.html",

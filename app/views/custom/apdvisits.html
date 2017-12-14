@@ -2,60 +2,70 @@
 	<div id="brandSelectorContainer" class="row" style="display: none;">
 		<div class="col-lg-12">
 			<div class="ibox float-e-margins">
-				<div class="ibox-content">
-					<div class="form-group" style="height: 50px;">
-						<div class="row">
-							<div class="col-lg-3">
-								<div class="input-group">
-									Cadena:<br>
-									<select name="venue" id="brandId" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;">
-									</select>
-								</div>
-							</div>
-							<div class="col-lg-3">
-								<div class="input-group">
-									<br>
-									<button type="button" ng-click="updateBrand()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >updateBrand</button>
-								</div>
-							</div>
+				<div class="ibox-content" style="height: auto; min-height:100px;">
+					<div class="col-lg-2 col-md-6">
+						<div class="">
+							<label class="">Cadena:</label>
+							<select name="venue" ng-model="selectedBrand" ng-change="updateBrand()" ng-options="brand as brand.name for brand in brands track by brand.identifier" class="chosen-select form-control" style="width: 220px;"></select>
 						</div>
 					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- filtro -->
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="ibox float-e-margins">
-				<div class="ibox-content">
-					<div class="row">
-						<div class="form-group col-lg-6">
-							<label class="font-noraml">Rango de Fechas:</label>
-							<div class="input-group date" style="max-width: 400px;">
+					<div class="col-lg-2 col-md-6">
+						<div class="">
+							<label class="">{{storeLabel}}:</label>
+							<select name="store" ng-options="store as store.name for store in stores track by store.identifier" ng-model="storeId" id="store" data-placeholder="Filtrar.." class="form-control" style="width: 220px;"></select>
+						</div>
+					</div>
+					<div class="col-lg-3  col-md-6" ng-class="zoneAble">
+						<label class="">Zona:</label>
+						<div class="input-group date">
+							<select name="zone" ng-model="zoneId" id="zone" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;">
+								<option value="">Todas</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-lg-4 col-md-6">
+						<div class="form-group">
+							<label class="">Rango de Fechas:</label>
+							<div class="input-group date" style="max-width: 300px;">
 								<input type="datetime" id="fromDate" ng-model="fromDate" class="form-control datelistener" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 								<input type="datetime" id="toDate" ng-model="toDate" class="form-control datelistener" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 							</div>
-							<div class="input-group" style="max-width: 400px;">
-								<select ng-model="retailCalendarDate" ng-change="retailCalendarChange()" data-ng-options="o.name for o in retailCalendar" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 400px;">
+							<!-- <div class="input-group" style="max-width: 300px;">
+								<select ng-model="retailCalendarDate" ng-change="retailCalendarChange()" data-ng-options="o.name for o in retailCalendar" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 300px;">
 								</select>
-							</div>
-							<br>
-							<!-- <div class="input-group" style="max-width: 400px;">
-								<label class="font-noraml">Tipo de Tienda:</label>
-									<select name="storeType" ng-model="storeType" ng-change="storeTypeChange()" id="storeType" data-placeholder="Filtrar.." class="chosen-select form-control"></select>
 							</div> -->
+							<br>
 						</div>
-						<div class="form-group col-lg-6">
-							<label class="font-noraml">{{storeLabel}}:</label>
-							<div class="input-group date">
-								<select name="store" ng-options="store as store.name for store in stores track by store.identifier" ng-model="storeId" id="store" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;"></select>
-							</div>
+					</div>
+
+					<div class="">
+						<div class="dropdown align-right">
+						  <button class="btn btn-default dropdown-toggle export-custom-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						    Exportar
+						    <span class="caret"></span>
+						  </button>
+						  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+						    <li><a href="#">Descargar Excel</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="#">Generar Reporte</a></li>
+						  </ul>
 						</div>
-						<div class="form-group col-lg-6">
-							<label class="font-noraml">Cantidad:</label>
+					</div>
+
+					<div class="filter-alignment">
+						<button href="#" type="button" ng-click="updateAPDVisits()" ladda="loadingSubmit" class="btn filter-button" data-style="zoom-in" >Filtrar</button>
+					</div>
+
+					</div>
+				</div>
+			</div>
+	</div>
+	<!-- filtro -->
+
+						<!-- <div class="form-group col-lg-6">
+							<label class="font-noraml">Resultados en tabla:</label>
 							<div class="input-group date">
 								<select name="pags" ng-model="pagination" id="pags" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;">
 									<option value="">10</option>
@@ -64,89 +74,23 @@
 									<option value="">100</option>
 								</select>
 							</div>
-						</div>
-						<div class="form-group col-lg-12 col-lg-push-6" ng-class="zoneAble">
-							<label class="font-noraml">Zona:</label>
-							<div class="input-group date">
-								<select name="zone" ng-model="zoneId" id="zone" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;">
-									<option value="">Todas</option>
-								</select>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-lg-12">
-							<div class="form-group col-lg-3 col-lg-push-3">
-								<div class="form-group">
-									<button type="button" ng-click="updateAPDVisits()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Filtrar</button>
-								</div>
-							</div>
+						</div> -->
+					<!-- <div class="row">
+						<div class="col-lg-6">
 							<div class="col-lg-6 col-lg-push-3">
 								<div class="row">
 									<button type="button" style="float:left;" ng-click="exportAPDVisits()" ladda="loadingExcel" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Exportar a Excel</button>
 									<span id="exportDetails">
-	<!-- 						<button type="button" ng-class="detailsExportable" ng-click="exportDetails()" ladda="loadingExcel" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Exportar MACs</button> -->
+									<button type="button" ng-class="detailsExportable" ng-click="exportDetails()" ladda="loadingExcel" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Exportar MACs</button>
 									<button type="button" style="float:left; margin-left:2em;" ng-class="detailsExportable" ng-click="exportReport()" ladda="loadingExcel" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Exportar Reporte</button>
 									</span>
 								</div>
 							</div>
 						</div>
-					</div>
-			</div>
-		</div>
-		</div>
-	</div>
+					</div> -->
+
 	<!-- table -->
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="ibox float-e-margins">
-				<div class="ibox-content">
-					<div class="table-responsive" id="brand_performance_table">
-						<table  id="brand-table" class="footable table table-stripped toggle-arrow-tiny" data-page-size="10" data-limit-navigation="5">
-							<thead>
-								<tr>
-									<th data-sort-initial="true" data-toggle="true" data-sort-name="key">
-										{{storeLabel}}
-									</th>
-									<th>Paseantes</th>
-									<th>Visitantes</th>
-									<th>Tickets</th>
-									<th>Items</th>
-									<th>Ventas</th>
-									<th>Visitantes/Paseantes</th>
-									<th>Tickets/Visitantes</th>
-									<th>Día más Alto</th>
-									<th>Día más Bajo</th>
-									<th>Permanencia Promedio</th>
-								</tr>
-							</thead>
-							<tbody>
-							</tbody>
-							<tfoot>
-								<tr></tr>
-								<tr>
-									<td colspan="10">
-										<ul class="pagination pull-right"></ul>
-									</td>
-								</tr>
-							</tfoot>
-						</table>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="ibox float-e-margins">
-				<div class="ibox-content" class="form-group" ng-class="classAdmin">
-          <label>Comentarios</label>
-          <textarea class="form-control" ng-model="visitsComments" placeholder="Tus comentarios" rows="3"></textarea>
-          <br/>
-				<button type="button" ng-click="updateComments()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Guardar</button>
-			</div>
-		</div>
-	</div>
+
 	<div class="row" ng-class="classUser">
 		<div class="col-lg-12">
 			<div class="ibox-mask"></div>
@@ -164,7 +108,7 @@
 	</div>
 	<!-- fin table -->
 	<!-- visits_by_date -->
-	<div class="row">
+	<div class="row" ng-show="loadedClientData">
 		<div class="col-lg-12">
 			<div class="ibox float-e-margins">
 				<div class="ibox-content">
@@ -180,25 +124,16 @@
 	</div>
 	<!-- fin visits_by_date -->
 	<!-- visits_by_hour -->
-	<div class="row">
-		<div class="col-lg-12">
-			<div id="visits_by_hour"></div>
-		</div>
-	</div>
-	<!-- fin visits_by_hour -->
-	<!-- repetitions -->
-	<div class="row">
+	<div class="row" ng-show="loadedClientData">
 		<div class="col-lg-12">
 			<div class="ibox float-e-margins">
-				<div class="ibox-content">
-					<div id="repetitions"></div>
-				</div>
+				<div id="visits_by_hour"></div>
 			</div>
 		</div>
 	</div>
-	<!-- fin repetitions -->
+
 	<!-- permanence_by_hour -->
-	<div class="row">
+	<div class="row" ng-show="loadedClientData">
 		<div class="col-lg-12">
 			<div class="ibox float-e-margins">
 				<div class="ibox-content">
@@ -209,20 +144,18 @@
 	</div>
 	<!-- fin permanence_by_hour -->
 	<!-- heatmap_traffic_by_hour -->
-	<div class="row">
-		<div class="col-lg-12">
+	<div class="row" ng-show="loadedClientData">
+		<div class="col-lg-6">
 			<div class="ibox float-e-margins">
 				<div class="ibox-content">
 					<div id="heatmap_traffic_by_hour"></div>
 				</div>
 			</div>
 		</div>
-	</div>
 	<!-- fin heatmap_traffic_by_hour -->
 	<!-- heatmap_occupation_by_hour -->
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="ibox float-e-margins">
+		<div class="col-lg-6">
+			<div ng-show="loadedClientData" class="ibox float-e-margins">
 				<div class="ibox-content">
 					<div id="heatmap_occupation_by_hour"></div>
 				</div>
@@ -231,11 +164,22 @@
 	</div>
 	<!-- fin heatmap_occupation_by_hour -->
 	<!-- heatmap_permanence_by_hour -->
-	<div class="row">
-		<div class="col-lg-12">
+	<div class="row" ng-show="loadedClientData">
+		<div class="col-lg-6">
 			<div class="ibox float-e-margins">
 				<div class="ibox-content">
 					<div id="heatmap_permanence_by_hour"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-6">
+			<div class="ibox float-e-margins">
+				<div class="ibox-content" class="form-group" ng-class="classAdmin">
+          <label>Comentarios</label>
+          <textarea class="form-control" ng-model="visitsComments" placeholder="Tus comentarios" rows="3"></textarea>
+          <br/>
+					<button type="button" ng-click="updateComments()" ladda="loadingSubmit" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in" >Guardar</button>
 				</div>
 			</div>
 		</div>
