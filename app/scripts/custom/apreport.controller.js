@@ -6,6 +6,7 @@
     var vm = this;
 
     $scope.loadedClientData = false;
+    $scope.brandDataLoaded = false;
     $scope.classUser = 'hidden';
     $scope.classAdmin = 'hidden';
     $scope.visitsOnly = false;
@@ -355,9 +356,12 @@
 
     this.filterAPDVisits = function(brandId, storeId, fromDate, toDate, storeType) {
 
+        $scope.brandDataLoaded = false;
+        $scope.loadedClientData = true;
+
         vm.updateBrandPerformanceTable('#brand_performance_table', config.baseUrl, fromDate, toDate, brandId, storeType);
 
-        $scope.loadedClientData = true;
+
     }
 
     $scope.updateZoneList = function(id, entityId) {
@@ -1188,6 +1192,9 @@
     };
     this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId, storeType) {
         // TODO use store type
+        $('#brand-table>tbody').empty();
+        $('#brand-table>tfoot').empty();
+
         $http.get(CommonsService.getUrl('/dashboard/brandTableData')
             + '&entityId=' + entityId
             + '&entityKind=1'
@@ -1200,24 +1207,25 @@
     };
 
     $scope.fillBrandTable = function(data) {
-        $('#brand-table>tbody>tr').each(function(index, elem){$(elem).remove();});
+      $scope.brandDataLoaded = true;
+      $('#brand-table>tbody>tr').each(function(index, elem){$(elem).remove();});
 
-        //get the footable object
-        var table = $('#brand-table').data('footable');
+      //get the footable object
+      var table = $('#brand-table').data('footable');
 
-        var newRow = '';
-        for(var i = 0; i < data.data.data.length; i++) {
-            var obj = data.data.data[i];
-            newRow += $scope.fillBrandRecord(obj, false);
-        }
+      var newRow = '';
+      for(var i = 0; i < data.data.data.length; i++) {
+          var obj = data.data.data[i];
+          newRow += $scope.fillBrandRecord(obj, false);
+      }
 
-        table.appendRow(newRow);
-        $('#brand-table>tfoot>tr').each(function(index, elem){
-            if( index == 0 ) $(elem).remove();
-        });
-        $('#brand-table>tfoot').prepend($scope.fillBrandRecord(data.data.totals, true));
+      table.appendRow(newRow);
+      $('#brand-table>tfoot>tr').each(function(index, elem){
+          if( index == 0 ) $(elem).remove();
+      });
+      $('#brand-table>tfoot').prepend($scope.fillBrandRecord(data.data.totals, true));
 
-        $('#brand-count').html('&nbsp;(' + data.data.recordCount + ')');
+      $('#brand-count').html('&nbsp;(' + data.data.recordCount + ')');
     }
 
     $scope.fillBrandRecord = function(obj, bold) {
@@ -1253,98 +1261,6 @@
     }
 
 
-    this.backup_updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId, sotreType) {
-        $.getJSON(
-            baseUrl
-            + '/dashboard/brandTableData'
-            + '?authToken=' + $rootScope.globals.currentUser.token
-            + '&entityId=' + entityId
-            + '&entityKind=1'
-            + '&fromStringDate=' + fromDate
-            + '&toStringDate=' + toDate
-            + '&onlyExternalIds=true'
-            + '&timestamp=' + CommonsService.getTimestamp(),
-            function(data) {
-                var tab = '';
-                tab = '<table class="table table-striped" style="text-align: center;" >';
-                tab += '<tr style="font-weight:bold;">';
-                tab += '<td style="text-align: left; border-right: 1px solid gray;">' + $scope.storeLabel + '</td>';
-                if( $scope.visitsOnly == false )
-                    tab += '<td>Paseantes</td>';                    // 1
-                tab += '<td>Visitantes</td>';                       // 2
-                if( $scope.visitsOnly == false ) {
-                    tab += '<td>Tickets</td>';                      // 3
-                    if( entityId != 'volaris_mx' ) {
-                        tab += '<td>Ventas</td>';                   // 4
-                    }
-                    tab += '<td>Visitantes/Paseantes</td>';         // 5
-                    tab += '<td>Tickets/Visitantes</td>';           // 6
-                }
-                tab += '<td>Día más Alto</td>';                     // 7
-                tab += '<td>Día más Bajo</td>';                     // 8
-                tab += '<td>Permanencia Promedio</td>';             // 9
-                tab += '</tr>';
-                tab += '<tbody>';
-                for (var i = 1; i < data.length - 1; i++) {
-                    tab += '<tr>';
-                    tab += '<td style="text-align: left; border-right: 1px solid gray;">' + data[i][0] + '</td>';
-                    for (var x = 1; x < data[i].length; x++) {
-                        if ( $scope.visitsOnly == false ) {
-                            if ( x == 0 || x == 4 || x == 6 || x == 8 ) {
-                                if( $scope.visitsOnly == false || (x != 4 && x != 6) ) {
-                                    tab += '<td style="border-right: 1px solid gray;">' + data[i][x] + '</td>';
-                                }
-                            } else {
-                                if( $scope.visitsOnly == false || (x != 1 && x != 4) ) {
-                                    tab += '<td>' + data[i][x] + '</td>';
-                                }
-                            }
-                        }else{
-                            if (x == 0 || x == 3 || x == 5 || x == 7) {
-                                if( $scope.visitsOnly == false || (x != 3 && x != 5) ) {
-                                    tab += '<td style="border-right: 1px solid gray;">' + data[i][x] + '</td>';
-                                }
-                            } else {
-                                if( $scope.visitsOnly == false || (x != 1 && x != 4 && x != 6) ) {
-                                    tab += '<td>' + data[i][x] + '</td>';
-                                }
-                            }
-                        }
-                    }// end for
-                    tab += '</tr>';
-                }
-                tab += '<tr style="font-weight:bold;">';
-                tab += '<td style="text-align: left; border-right: 1px solid gray;">' + data[data.length - 1][0] + '</td>';
-                for (var x = 1; x < data[data.length - 1].length; x++) {
-                    if ($scope.visitsOnly == false ) {
-                        if (x == 0 || x == 4 || x == 6 || x == 8) {
-                            if( $scope.visitsOnly == false || (x != 4 && x != 6)) {
-                                tab += '<td style="border-right: 1px solid gray;">' + data[data.length - 1][x] + '</td>';
-                            }
-                        } else {
-                            if( $scope.visitsOnly == false || (x != 1 && x != 4)) {
-                                tab += '<td>' + data[data.length - 1][x] + '</td>';
-                            }
-                        }
-                    }else {
-                        if (x == 0 || x == 3 || x == 5 || x == 7) {
-                            if( $scope.visitsOnly == false || (x != 3 && x != 5)) {
-                                tab += '<td style="border-right: 1px solid gray;">' + data[data.length - 1][x] + '</td>';
-                            }
-                        } else {
-                            if( $scope.visitsOnly == false || (x != 1 && x != 4 && x != 6)) {
-                                tab += '<td>' + data[data.length - 1][x] + '</td>';
-                            }
-                        }
-                    }
-                }
-                tab += '</tr></tbody></table>';
-
-                tab += '</tbody>';
-                tab += '</table>';
-                $(id).html(tab);
-            });
-    };
 
     return vm;
 };
