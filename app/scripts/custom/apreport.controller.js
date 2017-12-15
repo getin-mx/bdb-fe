@@ -1194,6 +1194,7 @@
         // TODO use store type
         $('#brand-table>tbody').empty();
         $('#brand-table>tfoot').empty();
+        $('#brand-table>tfoot').append('<tr></tr><tr><td colspan="10"><ul class="pagination pull-right"></ul></td></tr>');
 
         $http.get(CommonsService.getUrl('/dashboard/brandTableData')
             + '&entityId=' + entityId
