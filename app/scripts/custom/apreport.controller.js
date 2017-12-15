@@ -99,7 +99,6 @@
     }
 
     $scope.initAPReport = function(visitsOnly) {
-        debugger;
 
         if( visitsOnly == true ) $scope.visitsOnly = true;
         else $scope.visitsOnly = false;

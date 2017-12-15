@@ -19,7 +19,6 @@ function HeatmapCtrl($rootScope, $scope, $location, AuthenticationService, Commo
         token = $rootScope.globals.currentUser.token
 
         var mapData = indoormap.loadAndParseURL(config.baseUrl, token, KEY);
-        debugger;
         $('#map').css('background-image', 'url('+ 'http://dashboard.getin.mx' + '/img/' + mapData.imageId + ')');
         $('#floor_map_iframe').css('height', mapData.mapHeight + 'px');
         $('#floor_map_iframe').css('width', mapData.mapWidth + 'px');
