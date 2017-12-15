@@ -100,6 +100,9 @@
 
     $scope.initAPDVisits = function(visitsOnly) {
 
+        Highcharts.setOptions({ colors: ["#7cb5ec", "#434348", "#DEC63B", "#f7a35c", "#8085e9", "#f15c80", "#e4d354", "#2b908f", "#f45b5b", "#91e8e1"]});
+
+
         if( visitsOnly == true ) $scope.visitsOnly = true;
         else $scope.visitsOnly = false;
 
