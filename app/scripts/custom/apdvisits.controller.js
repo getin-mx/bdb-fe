@@ -387,6 +387,11 @@
             + '&entityKind=1')
         .then(function(data) {
             $(id).empty();
+            if(data.data.data.length <= 0) {
+                $scope.zoneAble = 'hidden';
+                return;
+            }
+            $scope.zoneAble = '';
             $(id).append($('<option>', {
                 value: '',
                 text: 'Todas'
@@ -402,11 +407,11 @@
     }
 
     $scope.updateStoreList = function(id, baseUrl, entityId) {
-        if( $scope.brandId == 'volaris_mx' || $scope.brandId == 'bestbuy_mx') {
+        /*if( $scope.brandId == 'volaris_mx' || $scope.brandId == 'bestbuy_mx') {
             $scope.zoneAble = '';
         } else {
             $scope.zoneAble = 'hidden';
-        }
+        }*/
         $scope.updateZoneList('#zone', $scope.brandId);
 
         $http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
