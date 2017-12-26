@@ -32,11 +32,16 @@
 								<input type="datetime" id="toDate" ng-model="toDate" class="form-control datelistener" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
 								<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 							</div>
-							<!-- <div class="input-group" style="max-width: 300px;">
-								<select ng-model="retailCalendarDate" ng-change="retailCalendarChange()" data-ng-options="o.name for o in retailCalendar" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 300px;">
-								</select>
-							</div> -->
 							<br>
+						</div>
+					</div>
+
+					<div class="col-sm-12 col-md-12">
+						<div class="col-lg-6 col-md-4"></div>
+						<div class="col-lg-3 col-md-4">
+							<div class="input-group" style="max-width: 300px;">
+								<select ng-model="retailCalendarDate" ng-change="retailCalendarChange()" data-ng-options="o.name for o in retailCalendar" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 300px;"></select>
+							</div>
 						</div>
 					</div>
 
