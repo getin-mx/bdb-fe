@@ -1225,12 +1225,10 @@
                     var ob = data.data[i];
                     var p1 = p[ob[0]];
                     if( p1 === null || p1 === undefined )  {
-                        p1 = 0;
+                        p1 = new Array();
+                        p[ob[0]] = p1;
                     }
                     var val = ob[3];
-                    if( val === null || val === undefined )  {
-                        val = 0;
-                    }
                     p1[ob[1]] = val;
                 }
 
@@ -1239,12 +1237,10 @@
                     var ob = data.data[i];
                     var q1 = q[ob[0]];
                     if( q1 === null || q1 === undefined )  {
-                        q1 = 0;
+                        q1 = new Array();
+                        q[ob[0]] = q1;
                     }
                     var val = ob[4];
-                    if( val === null || val === undefined )  {
-                        val = 0;
-                    }
                     q1[ob[1]] = val;
                 }
 
