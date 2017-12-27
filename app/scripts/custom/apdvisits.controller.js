@@ -349,7 +349,7 @@
         }
 
         $('#visits_by_date').html('');
-        vm.updateVisitsByDateChart('#visits_by_date', config.baseUrl, $scope.fromDate, $scope.toDate, $scope.brandId, $scope.storeId, $scope.zoneId, $scope.periodType);
+        vm.updateVisitsByDateChart('#visits_by_date', config.baseUrl, $scope.fromDate, $scope.toDate, $scope.brandId, $scope.storeId.identifier, $scope.zoneId, $scope.periodType);
     }
 
     this.filterAPDVisits = function(brandId, storeId, fromDate, toDate, storeType) {
@@ -479,6 +479,8 @@
             vo = true;
         }
 
+        debugger;
+
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
             + '/dashboard/timelineData'
@@ -490,6 +492,7 @@
             + '&subIdOrder=visitor_total_visits,'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
+            + '&periodType=' + periodType
             + '&eraseBlanks=false'
             + '&timestamp=' + CommonsService.getTimestamp();
         else
@@ -504,6 +507,7 @@
                 + '&subIdOrder=visitor_total_revenue,visitor_total_peasents,visitor_total_visits,visitor_total_tickets,visitor_total_items'
                 + '&fromStringDate=' + fromDate
                 + '&toStringDate=' + toDate
+                + '&periodType=' + periodType
                 + '&eraseBlanks=false'
                 + '&timestamp=' + CommonsService.getTimestamp();
             else
@@ -517,6 +521,7 @@
                 + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_tickets,visitor_total_items'
                 + '&fromStringDate=' + fromDate
                 + '&toStringDate=' + toDate
+                + '&periodType=' + periodType
                 + '&eraseBlanks=false'
                 + '&timestamp=' + CommonsService.getTimestamp();
 
