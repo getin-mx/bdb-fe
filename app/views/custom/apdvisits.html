@@ -51,7 +51,7 @@
 						<div class="form-group col-lg-6">
 							<label class="font-noraml">{{storeLabel}}:</label>
 							<div class="input-group date">
-								<select name="store" ng-options="store as store.name for store in stores track by store.identifier" ng-model="storeId" id="store" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;"></select>
+								<select name="store" ng-change="storeChange()" ng-options="store as store.name for store in stores track by store.identifier" ng-model="storeId" id="store" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 250px;"></select>
 							</div>
 						</div>
 						<div class="form-group col-lg-6">

@@ -207,6 +207,14 @@
             + '&entityId=' + $scope.brandId
             + '&entityKind=1')
         .then($scope.postUpdateStoreLabel);
+
+
+    }
+
+
+    $scope.storeChange = function(){
+      $scope.updateZoneList('#zone', $scope.brandId);
+
     }
 
     $scope.postUpdateStoreLabel = function(data) {
@@ -381,9 +389,10 @@
         vm.updateBrandPerformanceTable('#brand_performance_table', config.baseUrl, fromDate, toDate, brandId, storeType);
     }
 
-    $scope.updateZoneList = function(id, entityId) {
+    $scope.updateZoneList = function(id, entityId, subEntityId) {
         $http.get(CommonsService.getUrl('/dashboard/innerZoneList')
             + '&entityId=' + entityId
+            + '&subEntityId=' + subEntityId
             + '&entityKind=1')
         .then(function(data) {
             $(id).empty();
