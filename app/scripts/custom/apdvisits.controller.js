@@ -488,7 +488,6 @@
             vo = true;
         }
 
-        debugger;
 
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
