@@ -18,7 +18,6 @@ module.exports = function (grunt) {
 
         // Project settings
         inspinia: appConfig,
-
         // The grunt server settings
         connect: {
             options: {
