@@ -2,7 +2,7 @@
 	<uib-tabset>
 		<uib-tab>
 			<uib-tab-heading>
-				<span>Carga Manual</span>
+				<span>Carga Diaria(Manual)</span>
 			</uib-tab-heading>
 			<div class="panel-body" ng-controller="StoreTicketsCtrl" class="wrapper wrapper-content animated fadeInRight">
 				<div class="row">
@@ -69,22 +69,24 @@
 
 		<uib-tab>
 			<uib-tab-heading>
-				<span>Carga Masiva</span>
+				<span>Carga Diaria(Excel)</span>
 			</uib-tab-heading>
 			<div class="panel-body" ng-controller="StoreTicketsCtrl" class="wrapper wrapper-content animated fadeInRight">
 				<div class="row">
 					<div class="col-lg-12 ibox-content" data-ng-init="init()">
 						<div class="form-group row">
-							<div class="input-group" style="float: left; margin-left: 10px;">
-								Cadena:<br>
+							<div class="input-group" style="margin-left: 10px;">
+								<label>Cadena:</label><br>
 								<select ng-model="brand" ng-change="brandChange()" data-ng-options="o.name for o in brands" class="form-control" style="width: 250px;"></select><br>
-								Periodo:<br>
+							</div>
+							<div class="input-group" style="margin-left: 10px;">
+								<label>Periodo:</label><br>
 								<input type="datetime" id="period" ng-model="period" class="form-control" date-time view="month" min-view="month" auto-close="true" format="YYYY-MM" style="width: 250px;">
 								<br/>
 								<button style="margin-top:30px;" type="button" ng-click="fileUpdate()" ladda="loadingexecUpdate" class="ladda-button btn btn-primary block btn-w-m m-b" ng-disabled="fileUpdateDisabled" data-style="zoom-in" >Confirmar</button>
-						</div>
+							</div>
 							<div class="input-group" style="float: right; margin-right: 15px;">
-								<form class="dropzone" dropzone="" id="dropzone">
+								<form class="dropzone tickets-daily" dropzone="">
 									<div class="dz-message">
 										Arrastra el archivo excel aqu&iacute; para cargarlo
 									</div>
@@ -125,7 +127,7 @@
 
 		<uib-tab>
 			<uib-tab-heading>
-				<span>Carga Horaria</span>
+				<span>Carga por Hora(Manual)</span>
 			</uib-tab-heading>
 			<div class="panel-body" ng-controller="StoreTicketsCtrl" class="wrapper wrapper-content animated fadeInRight">
 				<div class="row">
@@ -182,6 +184,63 @@
 							<button ng-click="updateTicketsByHour()" type="button" ladda="loadingexecUpdate" class="ladda-button btn btn-primary block btn-w-m m-b" data-style="zoom-in">Actualizar</button>
 						</div>
 
+					</div>
+				</div>
+			</div>
+		</uib-tab>
+
+		<uib-tab>
+			<uib-tab-heading>
+				<span>Carga por Hora(Excel)</span>
+			</uib-tab-heading>
+			<div class="panel-body" ng-controller="StoreTicketsCtrl" class="wrapper wrapper-content animated fadeInRight">
+				<div class="row">
+					<div class="col-lg-12 ibox-content" data-ng-init="init()">
+						<div class="form-group row">
+							<div class="input-group" style="margin-left: 10px;">
+								<label>Cadena:</label><br>
+								<select ng-model="brand" ng-change="brandChange()" data-ng-options="o.name for o in brands" class="form-control" style="width: 250px;"></select><br>
+							</div>
+							<div class="input-group" style="margin-left: 10px;">
+								<label>Periodo:</label><br>
+								<input type="datetime" id="period" ng-model="period" class="form-control" date-time view="month" min-view="month" auto-close="true" format="YYYY-MM" style="width: 250px;">
+								<br/>
+								<button style="margin-top:30px;" type="button" ng-click="fileUpdate()" ladda="loadingexecUpdate" class="ladda-button btn btn-primary block btn-w-m m-b" ng-disabled="fileUpdateDisabled" data-style="zoom-in" >Confirmar</button>
+							</div>
+							<div class="input-group" style="float: right; margin-right: 15px;">
+								<form class="dropzone tickets-hour" dropzone="">
+									<div class="dz-message">
+										Arrastra el archivo excel aqu&iacute; para cargarlo
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div ng-class="formTicketsClass" class="row">
+					<div class="col-lg-12 ibox-content">
+		                <p class="font-bold  alert alert-warning m-b-sm">
+							Por favor, revisa bien los datos de previsualizaci&oacute;n antes de dar click al botón "Confirmar".<br/>
+							Si los datos no son correctos, puede haber corrupción de las gráficas de tickets en el Dashboard.
+	                    </p>
+						<div class="row" ng-repeat="(j, element) in liststores">
+							<div class="col-lg-12 ibox-content">
+								<div class="ibox-title">
+									<h5>{{element.name}} (Deducido de: {{element.original}}) </h5>
+								</div>
+
+								<div class="ibox-content form-group">
+									<div ng-repeat="(i, day) in element.tickets track by $index">
+										<label class="col-lg-2 col-sm-3" style="text-align: center; margin-top: 7px;">{{listdates[i]}}</label>
+										<div class="col-lg-2 col-sm-3"><input ng-model="day" disabled="true" class="form-control"></div>
+									</div>
+									<div class="col-lg-12" ng-class="formTicketsClass">
+										&nbsp;
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

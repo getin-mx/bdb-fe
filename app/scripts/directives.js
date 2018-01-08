@@ -188,16 +188,18 @@
  	return {
  		restrict: 'C',
  		link: function(scope, element, attrs) {
-
+      debugger;
  			var dropzoneConfig = {
  				url: config.uploadUrl,
  				parallelUploads: 1,
  				maxFiles: 1,
- 				createImageThumbnails: false,
+ 				createImageThumbnails: true,
+        addRemoveLinks: true,
  				maxThumbnailFilesize: 10,
  				thumbnailWidth: 80,
  				thumbnailHeight: 80,
- 				autoProcessQueue: true
+ 				autoProcessQueue: true,
+        acceptedFiles: 'application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/docx,application/pdf,text/plain,application/msword,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
  			};
 
  			var eventHandlers = {
@@ -213,6 +215,7 @@
 
  				'success': function (file, response) {
  					file.previewElement.classList.add('hide-trans');
+          debugger;
  					scope.$emit('upload.success', [file,response]);
  				}
 
