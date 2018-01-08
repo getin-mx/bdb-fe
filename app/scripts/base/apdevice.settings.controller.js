@@ -881,7 +881,6 @@
     }
 
     $scope.requestProcess = function() {
-        debugger;
         $scope.loadingUpdate = true;
         $scope.processFromDate = $('#processFromDate').val();
         $scope.processToDate = $('#processToDate').val();

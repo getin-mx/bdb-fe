@@ -207,6 +207,14 @@
             + '&entityId=' + $scope.brandId
             + '&entityKind=1')
         .then($scope.postUpdateStoreLabel);
+
+
+    }
+
+
+    $scope.storeChange = function(){
+      $scope.updateZoneList('#zone', $scope.brandId);
+
     }
 
     $scope.postUpdateStoreLabel = function(data) {
@@ -349,7 +357,7 @@
         }
 
         $('#visits_by_date').html('');
-        vm.updateVisitsByDateChart('#visits_by_date', config.baseUrl, $scope.fromDate, $scope.toDate, $scope.brandId, $scope.storeId, $scope.zoneId, $scope.periodType);
+        vm.updateVisitsByDateChart('#visits_by_date', config.baseUrl, $scope.fromDate, $scope.toDate, $scope.brandId, $scope.storeId.identifier, $scope.zoneId, $scope.periodType);
     }
 
     this.filterAPDVisits = function(brandId, storeId, fromDate, toDate, storeType) {
@@ -381,9 +389,10 @@
         vm.updateBrandPerformanceTable('#brand_performance_table', config.baseUrl, fromDate, toDate, brandId, storeType);
     }
 
-    $scope.updateZoneList = function(id, entityId) {
+    $scope.updateZoneList = function(id, entityId, subEntityId) {
         $http.get(CommonsService.getUrl('/dashboard/innerZoneList')
             + '&entityId=' + entityId
+            + '&subEntityId=' + subEntityId
             + '&entityKind=1')
         .then(function(data) {
             $(id).empty();
@@ -479,6 +488,7 @@
             vo = true;
         }
 
+
         if( $scope.visitsOnly == true || vo == true )
             url = baseUrl
             + '/dashboard/timelineData'
@@ -490,6 +500,7 @@
             + '&subIdOrder=visitor_total_visits,'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
+            + '&periodType=' + periodType
             + '&eraseBlanks=false'
             + '&timestamp=' + CommonsService.getTimestamp();
         else
@@ -504,6 +515,7 @@
                 + '&subIdOrder=visitor_total_revenue,visitor_total_peasents,visitor_total_visits,visitor_total_tickets,visitor_total_items'
                 + '&fromStringDate=' + fromDate
                 + '&toStringDate=' + toDate
+                + '&periodType=' + periodType
                 + '&eraseBlanks=false'
                 + '&timestamp=' + CommonsService.getTimestamp();
             else
@@ -517,6 +529,7 @@
                 + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_tickets,visitor_total_items'
                 + '&fromStringDate=' + fromDate
                 + '&toStringDate=' + toDate
+                + '&periodType=' + periodType
                 + '&eraseBlanks=false'
                 + '&timestamp=' + CommonsService.getTimestamp();
 
@@ -1230,12 +1243,10 @@
                     var ob = data.data[i];
                     var p1 = p[ob[0]];
                     if( p1 === null || p1 === undefined )  {
-                        p1 = 0;
+                        p1 = new Array();
+                        p[ob[0]] = p1;
                     }
                     var val = ob[3];
-                    if( val === null || val === undefined )  {
-                        val = 0;
-                    }
                     p1[ob[1]] = val;
                 }
 
@@ -1244,12 +1255,10 @@
                     var ob = data.data[i];
                     var q1 = q[ob[0]];
                     if( q1 === null || q1 === undefined )  {
-                        q1 = 0;
+                        q1 = new Array();
+                        q[ob[0]] = q1;
                     }
                     var val = ob[4];
-                    if( val === null || val === undefined )  {
-                        val = 0;
-                    }
                     q1[ob[1]] = val;
                 }
 
