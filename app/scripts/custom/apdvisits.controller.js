@@ -1314,6 +1314,10 @@
     };
     this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId, storeType) {
         // TODO use store type
+        if(entityId == 'modatelas_mx') {
+            $('#brand-count').html('');
+            return;
+        }
         $http.get(CommonsService.getUrl('/dashboard/brandTableData')
             + '&entityId=' + entityId
             + '&entityKind=1'
@@ -1389,6 +1393,10 @@
 
 
     this.backup_updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId, sotreType) {
+        if(entityId == 'modatelas_mx') {
+            $(id).html('');
+            return vm;
+        }
         $.getJSON(
             baseUrl
             + '/dashboard/brandTableData'
