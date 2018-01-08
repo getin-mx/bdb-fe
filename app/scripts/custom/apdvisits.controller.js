@@ -214,7 +214,6 @@
 
     $scope.storeChange = function(){
       $scope.updateZoneList('#zone', $scope.brandId);
-
     }
 
     $scope.postUpdateStoreLabel = function(data) {
@@ -1333,9 +1332,13 @@
         var table = $('#brand-table').data('footable');
 
         var newRow = '';
+        var isZone = false;
         for(var i = 0; i < data.data.data.length; i++) {
             var obj = data.data.data[i];
-            newRow += $scope.fillBrandRecord(obj, false);
+            if($scope.zoneAble !== 'hidden' && i !== 0 && (i !== data.data.data.length -1 )){
+              isZone = true;
+            }
+            newRow += $scope.fillBrandRecord(obj, false, isZone);
         }
 
         table.appendRow(newRow);
@@ -1347,7 +1350,7 @@
         $('#brand-count').html('&nbsp;(' + data.data.recordCount + ')');
     }
 
-    $scope.fillBrandRecord = function(obj, bold) {
+    $scope.fillBrandRecord = function(obj, bold, isZone) {
 
         var formatter1 = new Intl.NumberFormat('en-US');
         var formatter2 = new Intl.NumberFormat('en-US', {
@@ -1363,9 +1366,14 @@
         var b1 = bold == true ? "<b>" : "";
         var b2 = bold == true ? "</b>" : "";
 
+        var peasants = "";
+        if(!isZone){
+          peasants = b1 + formatter1.format(obj.peasants) + b2;
+        }
+
         var row = '<tr>'
                 + '<td data-value="' + obj.title + '">' + b1 + obj.title + b2 + '</td>'
-                + '<td data-value="' + obj.peasants + '"><center>'  + b1 + formatter1.format(obj.peasants) + b2 + '</center></td>'
+                + '<td data-value="' + obj.peasants + '"><center>'  + peasants + '</center></td>'
                 + '<td data-value="' + obj.visitors + '"><center>'  + b1 +  formatter1.format(obj.visitors) + b2 + '</center></td>'
                 + '<td data-value="' + obj.tickets + '"><center>'  + b1 +  formatter1.format(obj.tickets) + b2 + '</center></td>'
                 + '<td data-value="' + obj.items + '"><center>'  + b1 +  formatter1.format(obj.items) + b2 + '</center></td>'
