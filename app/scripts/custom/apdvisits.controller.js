@@ -1372,6 +1372,10 @@
 
 
     this.backup_updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId, sotreType) {
+        if(entityId == 'modatelas_mx') {
+            $(id).html('');
+            return vm;
+        }
         $.getJSON(
             baseUrl
             + '/dashboard/brandTableData'
