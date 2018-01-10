@@ -13,6 +13,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 	$scope.obj = null;
 	$scope.fromHour = null;
 	$scope.toHour = null;
+	$scope.period = null;
 
 	$scope.latitude = 0;
 	$scope.longitude = 0;
@@ -271,8 +272,8 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 		$scope.fileUpdateDisabled = false;
 
 		CommonsService.safeApply($scope);
-        $scope.period = $('#period').val();
-        $scope.image = response.name;
+    $scope.period = $('#period').val();
+    $scope.image = response.name;
 
 		$scope.liststores = new Array();
 		$scope.listdates = new Array();
@@ -327,7 +328,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 		$scope.liststores = new Array();
 		$scope.listdates = new Array();
 
-        $scope.period = $('#period').val();
+    $scope.period = $('#period').val();
 
 		var obj = {
 			method: 'doFileUpdate',

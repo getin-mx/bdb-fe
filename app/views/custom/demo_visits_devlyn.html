@@ -23,6 +23,14 @@
 							</div>
 						</div>
 						<div class="row">
+							<div class="col-lg-12">
+								<label class="font-noraml">Análisis grupal:</label>
+								<div class="input-group">
+									<label class="switch"><input type="checkbox" ng-change="changeMode()" ng-model="groupChecked"><i></i></label>
+								</div>
+							</div>
+						</div>
+						<div class="row grouped-devlyn-filters">
 							<div class="form-group col-lg-2">
 								<label class="font-noraml">Región:</label>
 								<div class="input-group date">
@@ -41,6 +49,8 @@
 									<select ng-model="formatSelected" ng-options="format as format.name for format in formats track by format.value" ng-change="formatChanged()" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 200px;"></select>
 								</div>
 							</div>
+						</div>
+						<div class="row individual-devlyn-filters hidden">
 							<div class="form-group col-lg-2">
 								<label class="font-noraml">Óptica:</label>
 								<div class="input-group date">

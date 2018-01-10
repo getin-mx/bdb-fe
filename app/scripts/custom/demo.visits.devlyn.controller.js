@@ -14,6 +14,19 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
     $scope.fromDate = dFromDate.format("yyyy-mm-dd", null);
     $('#fromDate').val($scope.fromDate);
     $scope.storeId = '';
+    $scope.groupChecked = true;
+
+
+    $scope.changeMode = function(){
+      console.log($scope.groupChecked);
+      if($scope.groupChecked){
+        $(".grouped-devlyn-filters").removeClass("hidden");
+        $(".individual-devlyn-filters").addClass("hidden");
+      } else{
+      $(".grouped-devlyn-filters").addClass("hidden");
+      $(".individual-devlyn-filters").removeClass("hidden");
+      }
+    }
 
     $scope.types = [
       {
