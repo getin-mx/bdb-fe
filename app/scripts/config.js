@@ -157,6 +157,12 @@ function angularConfig($stateProvider, $urlRouterProvider) {
             data: { pageTitle: 'Heatmap de Patrones'}
         })
 
+        .state('index.patternheatmapdemo', {
+            url: "/patternheatmapdemo",
+            templateUrl: "views/custom/pattern_heatmap_demo.html",
+            data: { pageTitle: 'Heatmap de Patrones'}
+        })
+
         .state('patternheatmap_frame', {
             url: "/patternheatmap_frame",
             templateUrl: "views/custom/pattern_heatmap_frame.html",
@@ -196,6 +202,12 @@ function angularConfig($stateProvider, $urlRouterProvider) {
         .state('index.demovisits3', {
             url: "/demovisits3",
             templateUrl: "views/custom/demo_visits_3.html",
+            data: { pageTitle: 'Visitas'}
+        })
+
+        .state('index.demovisits5', {
+            url: "/demovisits5",
+            templateUrl: "views/custom/demo_visits_5.html",
             data: { pageTitle: 'Visitas'}
         })
 
