@@ -1,11 +1,9 @@
 {
-  "name": "Big Data Brain",
+  "name": "big-data-brain",
   "version": "0.9.0",
   "description": "Big Data Brain",
-  "dependencies": {
-    "grunt": "^0.4.5",
-    "sweetalert": "^2.0.8"
-  },
+  "repository": "https://github.com/getin-mx/bdb-fe.git",
+  "license": "AGPL-3.0",
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-assets-versioning": "^1.0.6",
