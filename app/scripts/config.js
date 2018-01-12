@@ -8,17 +8,17 @@
  */
 var config = {};
 
-// config.baseUrl = 'http://api.getin.mx/bdb';
-// config.dashUrl = 'http://api.getin.mx/appv2';
-// config.uploadUrl = 'http://api.getin.mx/bdb/img/upload'
+config.baseUrl = 'http://api.getin.mx/bdb';
+config.dashUrl = 'http://api.getin.mx/appv2';
+config.uploadUrl = 'http://api.getin.mx/bdb/img/upload'
 
 // config.baseUrl = 'http://localhost:8081/bdb';
 // config.dashUrl = 'http://localhost:8081/appv2';
 // config.uploadUrl = 'http://localhost:8081/bdb/img/upload'
 
-config.baseUrl = 'http://r2d2.getin.mx/bdb';
-config.dashUrl = 'http://r2d2.getin.mx/appv2';
-config.uploadUrl = 'http://r2d2.getin.mx/bdb/img/upload'
+//config.baseUrl = 'http://r2d2.getin.mx/bdb';
+//config.dashUrl = 'http://r2d2.getin.mx/appv2';
+//config.uploadUrl = 'http://r2d2.getin.mx/bdb/img/upload'
 
 config.oneMonth = 2505600000;
 config.oneWeek = 518400000;
