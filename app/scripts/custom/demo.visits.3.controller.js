@@ -1371,10 +1371,10 @@
         for(var i = 0; i < data.data.data.length; i++) {
             var obj = data.data.data[i];
 
-            obj["title"] = obj["title"].replace('Flormar Altaplaza', 'Sucursal 1');
-            obj["title"] = obj["title"].replace('Flormar Metromall', 'Sucursal 2');
-            obj["title"] = obj["title"].replace('Flormar Multicentro', 'Sucursal 3');
-            obj["title"] = obj["title"].replace('Flormar Multiplaza', 'Sucursal 4');
+            obj["title"] = obj["title"].replace('Flormar Altaplaza', 'Tienda 1');
+            obj["title"] = obj["title"].replace('Flormar Metromall', 'Tienda 2');
+            obj["title"] = obj["title"].replace('Flormar Multicentro', 'Tienda 3');
+            obj["title"] = obj["title"].replace('Flormar Multiplaza', 'Tienda 4');
             if($scope.zoneAble !== 'hidden' && i !== 0 && (i !== data.data.data.length -1 )){
               isZone = true;
             }
