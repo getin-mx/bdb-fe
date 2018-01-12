@@ -157,7 +157,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 			+ '&fromHour=' + $scope.fromHour.id
 			+ '&toHour=' + $scope.toHour.id)
 			.then(function(data) {
-				$scope.obj2 = data.data;
+				$scope.obj = data.data;
 				for( var i = 0; i < data.data.data.length; i++ ) {
 					//generar la lista de dias/ticket
 					var day = {
@@ -194,12 +194,13 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 
 	$scope.updateTicketsByHour = function(){
 		$scope.loadingexecUpdate = true;
-		$scope.obj2.data = new Array();
+		$scope.obj.data = new Array();
+		$scope.obj.fromHour = $scope.fromHour.id;
 
 		for( var i = 0; i < $scope.listhours.length; i++ ) {
-			$scope.obj2.data.push($scope.listhours[i].numberoftickets)
+			$scope.obj.data.push($scope.listhours[i].numberoftickets)
 		}
-		$http.post(CommonsService.getUrl('/dashboard/storeTicketByHourData'), $scope.obj2)
+		$http.post(CommonsService.getUrl('/dashboard/storeTicketByHourData'), $scope.obj)
 			.then($scope.postUpdateTickets);
 
 	}
@@ -218,11 +219,12 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 					this.primary = "Ok";
 					this.action = function(){
 						console.log("did stuff");
+						$scope.obj = null;
 					};
 				},controllerAs: "alerta",
 				inputs: {
-					from: $scope.fromDate,
-					to: $scope.toDate
+					from: ($scope.obj.toHour !== undefined ? $scope.obj.fromHour : $scope.obj.fromDate),
+					to: ($scope.obj.toHour !== undefined ? $scope.obj.toHour : $scope.obj.toDate)
 			}
 			}).then(function(modal) {
 				modal.element.modal();
