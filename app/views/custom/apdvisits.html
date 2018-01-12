@@ -43,23 +43,24 @@
 								<select ng-model="retailCalendarDate" ng-change="retailCalendarChange()" data-ng-options="o.name for o in retailCalendar" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 300px;"></select>
 							</div>
 						</div>
+						<div class="col-lg-3 col-md-4">
+							<div class="dropdown align-right">
+								<button class="btn btn-default dropdown-toggle export-custom-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+									Exportar
+									<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+									<li><a href="#">Descargar Excel</a></li>
+									<li><a href="#">Generar Reporte</a></li>
+								</ul>
+							</div>
+							<div class="filter-alignment">
+								<button href="#" type="button" ng-click="updateAPDVisits()" ladda="loadingSubmit" class="btn filter-button" data-style="zoom-in" >Filtrar</button>
+							</div>
+						</div>
 					</div>
 
-					<div class="col-sm-12 col-md-12">
-						<div class="dropdown align-right">
-						  <button class="btn btn-default dropdown-toggle export-custom-dropdown" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-						    Exportar
-						    <span class="caret"></span>
-						  </button>
-						  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-						    <li><a href="#">Descargar Excel</a></li>
-								<li><a href="#">Generar Reporte</a></li>
-						  </ul>
-						</div>
-						<div class="filter-alignment">
-							<button href="#" type="button" ng-click="updateAPDVisits()" ladda="loadingSubmit" class="btn filter-button" data-style="zoom-in" >Filtrar</button>
-						</div>
-					</div>
+
 					</div>
 				</div>
 			</div>
@@ -115,6 +116,72 @@
 	</div>
 	<!-- fin table -->
 	<!-- visits_by_date -->
+	<div class="row">
+		<div class="col-lg-25">
+			<div ng-show="loadedClientData" class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Ventas</h5>
+					<div ibox-tools></div>
+				</div>
+				<div class="ibox-content">
+					<h1 class="no-margins">{{info.revenue}}</h1>
+					<small>Total de Ventas</small>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-25">
+			<div ng-show="loadedClientData" class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Paseantes</h5>
+					<div ibox-tools></div>
+				</div>
+				<div class="ibox-content">
+					<h1 class="no-margins">{{info.peasants}}</h1>
+					<small>Total de Paseantes</small>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-25">
+			<div ng-show="loadedClientData" class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Visitas</h5>
+					<div ibox-tools></div>
+				</div>
+				<div class="ibox-content">
+					<h1 class="no-margins">{{info.visits}}</h1>
+					<small>Total de Visitas</small>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-25">
+			<div ng-show="loadedClientData" class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Tickets</h5>
+					<div ibox-tools></div>
+				</div>
+				<div class="ibox-content">
+					<h1 class="no-margins">{{info.tickets}}</h1>
+					<small>Total de Tickets</small>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-25">
+			<div ng-show="loadedClientData" class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Ticket Promedio</h5>
+					<div ibox-tools></div>
+				</div>
+				<div class="ibox-content">
+					<h1 class="no-margins">{{info.avgTickets}}</h1>
+					<small>Ticket Promedio</small>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="row" ng-show="loadedClientData">
 		<div class="col-lg-12">
 			<div class="ibox float-e-margins">
@@ -180,6 +247,16 @@
 			</div>
 		</div>
 
+		<div class="col-lg-6">
+			<div class="ibox float-e-margins">
+				<div class="ibox-content" class="form-group" ng-class="classAdmin">
+          <div class="new_gauge"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row" ng-show="loadedClientData">
 		<div class="col-lg-6">
 			<div class="ibox float-e-margins">
 				<div class="ibox-content" class="form-group" ng-class="classAdmin">

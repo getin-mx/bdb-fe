@@ -18,6 +18,21 @@
     $scope.stores = [];
     $scope.brands = [];
     $scope.storeId = undefined;
+    $scope.info = {
+      conversionVisits: 0.0,
+      conversionTickets: 0.0
+    };
+
+    $scope.formatter1 = new Intl.NumberFormat('en-US');
+    $scope.formatter2 = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    });
+    $scope.formatter3 = new Intl.NumberFormat('en-US', {
+      minimumFractionDigits: 2, /* this might not be necessary */
+      maximumFractionDigits: 2 /* this might not be necessary */
+    });
+
 
     $scope.selectedBrand = undefined;
     $scope.brandId = undefined;
@@ -30,6 +45,60 @@
     $scope.dateChange = function() {
         alert("date changed");
     }
+
+    this.generateGeneralInfo = function() {
+
+        $http.get(CommonsService.getUrl('/dashboard/generalData')
+            + '&entityId=' + $scope.brandId
+            + '&subentityId=' + $scope.storeId.identifier
+            + '&entityKind=1'
+            + '&fromStringDate=' + $scope.fromDate
+            + '&toStringDate=' + $scope.toDate
+            + '&onlyExternalIds=true'
+            + '&format=json'
+            + '&timestamp=' + CommonsService.getTimestamp())
+            .then(function(data) {
+
+              $scope.info = {
+                peasants: $scope.formatter1.format(data.data.peasants),
+                revenue: $scope.formatter2.format(data.data.revenue),
+                visits: $scope.formatter1.format(data.data.visits),
+                tickets: $scope.formatter1.format(data.data.tickets),
+                avgVisits: $scope.formatter1.format(data.data.avgVisits),
+                avgTickets: $scope.formatter2.format(data.data.avgTickets),
+                permanenceMedian: $scope.formatter1.format(data.data.permanenceMedian) + ' mins',
+                lowerDate: data.data.lowerDate,
+                higherDate: data.data.higherDate,
+                conversionVisits: Math.round((data.data.visits / data.data.peasants) * 100),
+                conversionTickets: Math.round((data.data.tickets / data.data.visits) * 100)
+              };
+
+            // $scope.generateConversionGauges();
+
+            $('#lower-days-table>tbody>tr').each(function(index, elem){$(elem).remove();});
+
+            //get the footable object
+            var table = $('#lower-days-table').data('footable');
+
+            var newRow = '';
+            for(var i = 0; i < data.data.performance.length; i++) {
+                var obj = data.data.performance[i];
+              var row = '<tr>'
+                  + ((i < 3) ? '<td><center><i class="fa fa-level-up"></i></center></td>' : '<td><center><i class="fa fa-level-down"></i></center></td>')
+                      + '<td><center>' + obj.date + '</center></td>'
+                      + '<td><center>' + obj.day + '</center></td>'
+                      + '<td><center>' + $scope.formatter1.format(obj.visits) + '</center></td>'
+                      + '<td><center>' + $scope.formatter3.format(obj.conversion) + '</center></td>'
+                      + '<td><center>' + $scope.formatter2.format(obj.avgTicket) + '</center></td>'
+                      + '</tr>';
+
+                newRow += row;
+            }
+
+            table.appendRow(newRow);
+
+            });
+    };
 
     $scope.findRetailCalendarDate = function() {
         var d = new Date(new Date().getTime() - config.oneWeek).format("yyyy-mm-dd");
@@ -365,6 +434,9 @@
         $('#heatmap_traffic_by_hour').html('');
         $('#heatmap_occupation_by_hour').html('');
         $('#heatmap_permanence_by_hour').html('');
+        $('.new_gauge').html('');
+
+        vm.generateGeneralInfo();
 
         vm.updateVisitsByDateChart('#visits_by_date', config.baseUrl, fromDate, toDate, brandId, storeId,
             $scope.zoneId, $scope.periodType, storeType);
@@ -382,6 +454,8 @@
             $scope.zoneId, storeType);
         vm.updateHeatmapOccupation('#heatmap_occupation_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
             $scope.zoneId, storeType);
+        // vm.updateNewGauges('.new_gauge', config.baseUrl, fromDate, toDate, brandId, storeId,
+        //     $scope.zoneId, storeType);
 
         $scope.loadedClientData = true;
     }
@@ -561,6 +635,7 @@
                         categories: data.categories
                     },
                     yAxis: [{
+                        type: 'linear',
                         title: {
                             text: 'Tráfico por Día'
                         },
@@ -682,6 +757,7 @@
                         categories: data.categories
                     },
                     yAxis: {
+                        type: 'linear',
                         title: {
                             text: 'Tráfico por Hora'
                         },
@@ -1081,6 +1157,173 @@
                 });
             });
     };
+
+
+    // this.renderIcons = function() {
+    //       // Move icon
+    //       if (!this.series[0].icon) {
+    //           this.series[0].icon = this.renderer.path(['M', -8, 0, 'L', 8, 0, 'M', 0, -8, 'L', 8, 0, 0, 8])
+    //               .attr({
+    //                   'stroke': '#303030',
+    //                   'stroke-linecap': 'round',
+    //                   'stroke-linejoin': 'round',
+    //                   'stroke-width': 2,
+    //                   'zIndex': 10
+    //               })
+    //               .add(this.series[2].group);
+    //       }
+    //       this.series[0].icon.translate(
+    //           this.chartWidth / 2 - 10,
+    //           this.plotHeight / 2 - this.series[0].points[0].shapeArgs.innerR -
+    //               (this.series[0].points[0].shapeArgs.r - this.series[0].points[0].shapeArgs.innerR) / 2
+    //       );
+    //
+    //       // Exercise icon
+    //       if (!this.series[1].icon) {
+    //           this.series[1].icon = this.renderer.path(
+    //               ['M', -8, 0, 'L', 8, 0, 'M', 0, -8, 'L', 8, 0, 0, 8,
+    //                   'M', 8, -8, 'L', 16, 0, 8, 8]
+    //               )
+    //               .attr({
+    //                   'stroke': '#ffffff',
+    //                   'stroke-linecap': 'round',
+    //                   'stroke-linejoin': 'round',
+    //                   'stroke-width': 2,
+    //                   'zIndex': 10
+    //               })
+    //               .add(this.series[2].group);
+    //       }
+    //       this.series[1].icon.translate(
+    //           this.chartWidth / 2 - 10,
+    //           this.plotHeight / 2 - this.series[1].points[0].shapeArgs.innerR -
+    //               (this.series[1].points[0].shapeArgs.r - this.series[1].points[0].shapeArgs.innerR) / 2
+    //       );
+    //
+    //       // Stand icon
+    //       if (!this.series[2].icon) {
+    //           this.series[2].icon = this.renderer.path(['M', 0, 8, 'L', 0, -8, 'M', -8, 0, 'L', 0, -8, 8, 0])
+    //               .attr({
+    //                   'stroke': '#303030',
+    //                   'stroke-linecap': 'round',
+    //                   'stroke-linejoin': 'round',
+    //                   'stroke-width': 2,
+    //                   'zIndex': 10
+    //               })
+    //               .add(this.series[2].group);
+    //       }
+    //
+    //       this.series[2].icon.translate(
+    //           this.chartWidth / 2 - 10,
+    //           this.plotHeight / 2 - this.series[2].points[0].shapeArgs.innerR -
+    //               (this.series[2].points[0].shapeArgs.r - this.series[2].points[0].shapeArgs.innerR) / 2
+    //       );
+    //   }
+    // this.updateNewGauges = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, storeType) {
+    //   Highcharts.chart('.new_gauge', {
+    //     chart: {
+    //         type: 'solidgauge',
+    //         height: '110%',
+    //         events: {
+    //             render: this.renderIcons
+    //         }
+    //     },
+    //
+    //     title: {
+    //         text: 'Activity',
+    //         style: {
+    //             fontSize: '24px'
+    //         }
+    //     },
+    //
+    //     tooltip: {
+    //         borderWidth: 0,
+    //         backgroundColor: 'none',
+    //         shadow: false,
+    //         style: {
+    //             fontSize: '16px'
+    //         },
+    //         pointFormat: '{series.name}<br><span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}%</span>',
+    //         positioner: function (labelWidth) {
+    //             return {
+    //                 x: (this.chart.chartWidth - labelWidth) / 2,
+    //                 y: (this.chart.plotHeight / 2) + 15
+    //             };
+    //         }
+    //     },
+    //
+    //     pane: {
+    //         startAngle: 0,
+    //         endAngle: 360,
+    //         background: [{ // Track for Move
+    //             outerRadius: '112%',
+    //             innerRadius: '88%',
+    //             backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[0])
+    //                 .setOpacity(0.3)
+    //                 .get(),
+    //             borderWidth: 0
+    //         }, { // Track for Exercise
+    //             outerRadius: '87%',
+    //             innerRadius: '63%',
+    //             backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[1])
+    //                 .setOpacity(0.3)
+    //                 .get(),
+    //             borderWidth: 0
+    //         }, { // Track for Stand
+    //             outerRadius: '62%',
+    //             innerRadius: '38%',
+    //             backgroundColor: Highcharts.Color(Highcharts.getOptions().colors[2])
+    //                 .setOpacity(0.3)
+    //                 .get(),
+    //             borderWidth: 0
+    //         }]
+    //     },
+    //
+    //     yAxis: {
+    //         min: 0,
+    //         max: 100,
+    //         lineWidth: 0,
+    //         tickPositions: []
+    //     },
+    //
+    //     plotOptions: {
+    //         solidgauge: {
+    //             dataLabels: {
+    //                 enabled: false
+    //             },
+    //             linecap: 'round',
+    //             stickyTracking: false,
+    //             rounded: true
+    //         }
+    //     },
+    //
+    //     series: [{
+    //         name: 'Move',
+    //         data: [{
+    //             color: Highcharts.getOptions().colors[0],
+    //             radius: '112%',
+    //             innerRadius: '88%',
+    //             y: 80
+    //         }]
+    //     }, {
+    //         name: 'Exercise',
+    //         data: [{
+    //             color: Highcharts.getOptions().colors[1],
+    //             radius: '87%',
+    //             innerRadius: '63%',
+    //             y: 65
+    //         }]
+    //     }, {
+    //         name: 'Stand',
+    //         data: [{
+    //             color: Highcharts.getOptions().colors[2],
+    //             radius: '62%',
+    //             innerRadius: '38%',
+    //             y: 50
+    //         }]
+    //     }]
+    // });
+    // }
+
     this.updateHeatmapOccupation = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, storeType) {
         // TODO use store type
         var url = null;
