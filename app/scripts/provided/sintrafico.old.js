@@ -143,7 +143,7 @@ function getFlow(storePosition, success, fail) {
 		'lon': storePosition.lng
 	};
 
-	$.getJSON('http://api.sintrafico.com/flow', parameters)
+	$.getJSON('https://api.sintrafico.com/flow', parameters)
 		.done(function(data, textStatus, jqXHR) {
 			
 			// Wait a second for the next request
@@ -165,7 +165,7 @@ function delayFlowResponse(req_id, success, fail) {
 		'key': 'e3d5b3f4b180e43558c1908b04f85f9e73de94b31777a8eb2ab844fd9296f177',
 		'req_id': req_id,
 	};
-	$.getJSON('http://api.sintrafico.com/flow', parameters)
+	$.getJSON('https://api.sintrafico.com/flow', parameters)
 		.done(function(data, textStatus, jqXHR) {
 			statusCode = jqXHR.status
 			if (statusCode == 202) {

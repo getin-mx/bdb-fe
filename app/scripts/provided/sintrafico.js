@@ -93,7 +93,7 @@ function getFlow(storePosition, success, fail) {
 		'lon': storePosition.lng
 	};
 
-	$.getJSON('http://api.sintrafico.com/flow', parameters)
+	$.getJSON('https://api.sintrafico.com/flow', parameters)
 		.done(function(data, textStatus, jqXHR) {
 
 			// Wait a second for the next request
@@ -115,7 +115,7 @@ function delayFlowResponse(req_id, success, fail) {
 		'key': 'e3d5b3f4b180e43558c1908b04f85f9e73de94b31777a8eb2ab844fd9296f177',
 		'req_id': req_id,
 	};
-	$.getJSON('http://api.sintrafico.com/flow', parameters)
+	$.getJSON('https://api.sintrafico.com/flow', parameters)
 		.done(function(data, textStatus, jqXHR) {
 			statusCode = jqXHR.status
 			if (statusCode == 202) {
@@ -147,7 +147,7 @@ function getOriginWork(lat, lon, mapa, success, fail) {
 
     var result = null;
 
-    $.getJSON('http://api.sintrafico.com/trips', parameters)
+    $.getJSON('https://api.sintrafico.com/trips', parameters)
         .done(function(data, textStatus, jqXHR) {
             if (textStatus == 'success') {
                 $.each( data.result, function( i, item ) {
@@ -183,7 +183,7 @@ function getDestinyWork(lat, lon, mapa, success, fail) {
 
     var result = null;
 
-    $.getJSON('http://api.sintrafico.com/trips', parameters)
+    $.getJSON('https://api.sintrafico.com/trips', parameters)
         .done(function(data, textStatus, jqXHR) {
             if (textStatus == 'success') {
                 $.each( data.result, function( i, item ) {
@@ -218,7 +218,7 @@ function getOriginHome(lat, lon, mapa, success, fail) {
 
     var result = null;
 
-    $.getJSON('http://api.sintrafico.com/trips', parameters)
+    $.getJSON('https://api.sintrafico.com/trips', parameters)
         .done(function(data, textStatus, jqXHR) {
             if (textStatus == 'success') {
                 $.each( data.result, function( i, item ) {
@@ -253,7 +253,7 @@ function getDestinyHome(lat, lon, mapa, success, fail) {
 
     var result = null;
 
-    $.getJSON('http://api.sintrafico.com/trips', parameters)
+    $.getJSON('https://api.sintrafico.com/trips', parameters)
         .done(function(data, textStatus, jqXHR) {
             if (textStatus == 'success') {
                 $.each( data.result, function( i, item ) {
@@ -292,7 +292,7 @@ function getIsochrone(lat, lon, mapa, length, color, success, fail) {
 							"method": "router_st_v0.1"
 					};
 					var result = null;
-					$.getJSON('http://api.sintrafico.com/isochrone', parameters)
+					$.getJSON('https://api.sintrafico.com/isochrone', parameters)
 							.done(function(data, textStatus, jqXHR) {
 									var geom = data.geom[0].geom;
 									var index = '<Polygon><outerBoundaryIs><LinearRing><coordinates>';
