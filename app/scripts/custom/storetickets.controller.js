@@ -13,7 +13,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 	$scope.obj = null;
 	$scope.fromHour = null;
 	$scope.toHour = null;
-	$scope.period = null;
+	$scope.monthPeriod = null;
 
 	$scope.latitude = 0;
 	$scope.longitude = 0;
@@ -211,7 +211,6 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 
 	$scope.postUpdateTickets = function(data){
 		$scope.loadingexecUpdate = false;
-
 		if( data.status = 200
 			&& data.data.error_code === undefined ) {
 
@@ -222,7 +221,6 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 					this.body = "Los tickets del "+ from + ' al ' + to +" han sido actualizados con éxito";
 					this.primary = "Ok";
 					this.action = function(){
-						console.log("did stuff");
 						$scope.obj = null;
 					};
 				},controllerAs: "alerta",
@@ -268,44 +266,53 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 			.then($scope.postUpdate);
 
 	}
+	$scope.$on('file.removed', function(event, data) {
+		$scope.fileUpdateDisabled = true;
+		$(".monthPeriodButton").attr("disabled", "disabled");
+	});
 
 	$scope.$on('upload.success', function(event, data) {
-		debugger;
 		var file = data[0];
-		var response = JSON.parse(data[1]);
-		$scope.loadingexecUpdate = true;
-
 		file.previewElement.classList.remove('hide-trans');
-		$scope.fileUpdateDisabled = false;
+		var response = JSON.parse(data[1]);
 
-		CommonsService.safeApply($scope);
-    $scope.period = $('#period').val();
-    $scope.image = response.name;
+		//if month period is set
+		if($(".monthPeriodButton").val() !== ""){
+			$scope.loadingexecUpdate = true;
+			$scope.fileUpdateDisabled = false;
 
-		$scope.liststores = new Array();
-		$scope.listdates = new Array();
+			CommonsService.safeApply($scope);
+			$scope.monthPeriod = $('.monthPeriod').val();
+			$scope.image = response.name;
 
-		var obj = {
-			method: 'previewFileUpdate',
-			brandId: $scope.brand.id,
-			period: $scope.period,
-			imageId: response.name,
-			isHourly: false
+			$scope.liststores = new Array();
+			$scope.listdates = new Array();
+
+			var obj = {
+				method: 'previewFileUpdate',
+				brandId: $scope.brand.id,
+				period: $scope.monthPeriod,
+				imageId: response.name,
+				isHourly: false
+			}
+
+			$http.post(CommonsService.getUrl('/dashboard/storeTicketData'), obj)
+				.then($scope.postPreview);
 		}
 
-		$http.post(CommonsService.getUrl('/dashboard/storeTicketData'), obj)
-			.then($scope.postPreview);
 	})
 
 	$scope.postPreview = function(data){
-		$scope.listdates = data.data.dateList;
+		debugger;
+		var results = data.data;
+		$scope.listdates = results.dateList;
 
-		for( var i = 0; i < data.data.storeList.length; i++ ) {
+		for( var i = 0; i < results.storeList.length; i++ ) {
 			var storeElement = {
-				identifier: data.data.storeList[i].storeId,
-				original: data.data.storeList[i].original,
-				name: data.data.storeList[i].storeName,
-				tickets: data.data.storeList[i].tickets
+				identifier: results.storeList[i].storeId,
+				original: results.storeList[i].original,
+				name: results.storeList[i].storeName,
+				tickets: results.storeList[i].data
 			}
 			$scope.liststores.push(storeElement);
 		}
@@ -336,12 +343,12 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 		$scope.liststores = new Array();
 		$scope.listdates = new Array();
 
-    $scope.period = $('#period').val();
+    $scope.monthPeriod = $('#period').val();
 
 		var obj = {
 			method: 'doFileUpdate',
 			brandId: $scope.brand.id,
-			period: $scope.period,
+			period: $scope.monthPeriod,
 			imageId: $scope.image,
 			isHourly: false
 		}

@@ -202,6 +202,10 @@
  			};
 
  			var eventHandlers = {
+        'removedfile': function(file){
+            scope.$emit('file.removed', undefined);
+            scope.fileUpdateDisabled = true;
+        },
  				'addedfile': function(file) {
  					scope.file = file;
  					if (this.files[1]!=null) {
@@ -213,9 +217,8 @@
  				},
 
  				'success': function (file, response) {
- 					file.previewElement.classList.add('hide-trans');
-          debugger;
- 					scope.$emit('upload.success', [file,response]);
+ 				     file.previewElement.classList.add('hide-trans');
+  			     scope.$emit('upload.success', [file,response]);
  				}
 
  			};

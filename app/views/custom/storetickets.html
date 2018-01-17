@@ -81,9 +81,9 @@
 							</div>
 							<div class="input-group" style="margin-left: 10px;">
 								<label>Periodo:</label><br>
-								<input type="datetime" id="period" ng-model="period" class="form-control" date-time view="month" min-view="month" auto-close="true" format="YYYY-MM" style="width: 250px;">
+								<input type="datetime" required placeholder="Seleccione un mes" ng-model="monthPeriod" class="form-control monthPeriod" date-time view="month" min-view="month" auto-close="true" format="YYYY-MM" style="width: 250px;">
 								<br/>
-								<button style="margin-top:30px;" type="button" ng-click="fileUpdate()" ladda="loadingexecUpdate" class="ladda-button btn btn-primary block btn-w-m m-b" ng-disabled="fileUpdateDisabled" data-style="zoom-in" >Confirmar</button>
+								<button style="margin-top:30px;" type="submit" ng-click="fileUpdate()" ladda="loadingexecUpdate" class="ladda-button btn btn-primary block btn-w-m m-b monthPeriodButton" ng-disabled="fileUpdateDisabled" data-style="zoom-in" >Confirmar</button>
 							</div>
 							<div class="input-group" style="float: right; margin-right: 15px;">
 								<form class="dropzone tickets-daily" dropzone="">
@@ -203,9 +203,9 @@
 							</div>
 							<div class="input-group" style="float: left; margin-left: 10px;">
 								Fecha:<br>
-								<input type="datetime" id="date" ng-model="date" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD" style="width: 190px;">
+								<input type="datetime" ng-model="dayperiod" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD" style="width: 190px;">
 								<br/>
-								<button style="margin-top:30px;" type="button" ng-click="fileUpdate()" ladda="loadingexecUpdate" class="ladda-button btn btn-primary block btn-w-m m-b" ng-disabled="fileUpdateDisabled" data-style="zoom-in" >Confirmar</button>
+								<button style="margin-top:30px;" type="button" ng-click="fileUpdate()" ladda="loadingexecUpdate" class="ladda-button btn btn-primary block btn-w-m m-b" ng-disabled="chargeByHourButtonDisabled" data-style="zoom-in" >Confirmar</button>
 							</div>
 							<div class="input-group" style="margin-top:6em; margin-left:1em;display:flex; margin-right: 45px;">
 								<form class="dropzone tickets-hour" dropzone="">
