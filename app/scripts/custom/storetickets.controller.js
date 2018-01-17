@@ -158,8 +158,8 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 			+ '&storeId=' + this.store.id
 			+ '&date=' + $scope.date
 			+ '&fromHour=' + $scope.fromHour.id
-			+ '&toHour=' + $scope.toHour.id)
-			+ '&isHourly=' + $scope.isHourly
+			+ '&toHour=' + $scope.toHour.id
+			+ '&isHourly=' + $scope.isHourly)
 			.then(function(data) {
 				$scope.obj = data.data;
 				for( var i = 0; i < data.data.data.length; i++ ) {
