@@ -204,6 +204,8 @@
 							<div class="input-group" style="float: left; margin-left: 10px;">
 								Fecha:<br>
 								<input type="datetime" id="date" ng-model="date" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD" style="width: 190px;">
+								<br/>
+								<button style="margin-top:30px;" type="button" ng-click="fileUpdate()" ladda="loadingexecUpdate" class="ladda-button btn btn-primary block btn-w-m m-b" ng-disabled="fileUpdateDisabled" data-style="zoom-in" >Confirmar</button>
 							</div>
 							<div class="input-group" style="margin-top:6em; margin-left:1em;display:flex; margin-right: 45px;">
 								<form class="dropzone tickets-hour" dropzone="">
