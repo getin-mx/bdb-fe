@@ -8,6 +8,76 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
     var dToDate = new Date(new Date().getTime() - config.oneDay);
     var dFromDate = new Date(dToDate.getTime() - config.oneWeek);
 
+
+    var emmitRow = function(data, i){
+      var time = 0;
+      var sum = 0;
+      var cellValue = NaN;
+      var result = [];
+      output = "";
+      for (var x = 0; x < data[i].length; x++) {
+          var td = '<td>';
+          cellValue = data[i][x];
+          val = 0;
+
+          if(x === 0)
+          cellValue = cellValue.replace('Opticas Devlyn Perisur', 'Opticas Devlyn Chedraui');
+
+          if(x == 0 || x == 3 || x == 6 || x == 9 || x == 11){
+              td = '<td style="border-right: 1px solid gray;">';
+          }
+          if(isNaN(cellValue)) {
+            output += td + cellValue  + '</td>';
+          } else{
+            var formatted = Number(cellValue);
+            formatted = parseInt(formatted);
+            formatted = formatted.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            output += td + formatted + '</td>';
+            }
+      }
+      result[0] = output;
+      result[1] = sum;
+      return result;
+    }
+
+    var insertColumn = function(data, column, index){
+      for (var i = 0; i < data.length; i++){
+        var row = data[i];
+        row.splice(index, 0, column[i]);
+      }
+    }
+    var substituteColumn = function(data, column, index){
+      for (var i = 0; i < data.length; i++){
+        var row = data[i];
+        row.splice(index, 1, column[i]);
+      }
+    }
+    var getColumnValues = function(data, index){
+      var clone = [];
+      for (var i = 1; i < data.length; i++){
+        clone.push(data[i][index]);
+      }
+      return clone;
+    }
+
+    var deleteRow = function(data, index){
+      data.splice(index, 1);
+    }
+    var substituteRow = function(data, row, index){
+      data.splice(index, 1, row);
+    }
+
+
+    var twoColumnFunc = function(data, a, b, func){
+      var colA = getColumnValues(data, a);
+      var colB = getColumnValues(data, b);
+      var result = [];
+      for(var i=0; i< colA.length; i++) {
+        result.push(func(colA[i], colB[i]));
+      }
+      return result;
+    }
+
     $scope.gabineteFactor = 0.85;
     $scope.toDate = dToDate.format("yyyy-mm-dd", null);
     $('#toDate').val($scope.toDate);
@@ -175,7 +245,6 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
         $('#permanence_by_hour').html('');
         $('#heatmap_traffic_by_hour').html('');
         $('#heatmap_permanence_by_hour').html('');
-        $('#brand_performance_table').html('');
 
         vm.updateVisitsByDateChart('#visits_by_date', config.baseUrl, fromDate, toDate, brandId, storeId);
         vm.updateVisitsByHourChart('#visits_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId);
@@ -701,278 +770,78 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             });
     };
 
-    this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId) {
-      var emmitSubRow = function(data, i, x, multiplier, type, replaceFrom, replaceTo){
-      var val = 0;
-      sum = 0;
-      console.log(replaceTo);
-      result = [];
-      output = "";
-      for (var x = 0; x < data[i].length; x++) {
-          val = 0;
-          var td = '<td>';
-          var td_style = '<td style="border-right: 1px solid gray;">';
-          // data[i][x] = data[i][x].replace(replaceFrom, replaceTo);
+    this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId, storeType) {
 
-          if (x === 1 && type === 'gabinete'){
-            output += td + '</td>';
-            continue;
-          }
+        $http.get(CommonsService.getUrl('/dashboard/brandTableData')
+            + '&entityId=' + entityId
+            + '&entityKind=1'
+            + '&fromStringDate=' + fromDate
+            + '&toStringDate=' + toDate
+            + '&onlyExternalIds=true'
+            + '&format=json'
+            + '&timestamp=' + CommonsService.getTimestamp())
+            .then($scope.fillBrandTable);
+    };
 
-          if (x === 0 && type === 'gabinete'){
-            output += td_style + 'Gabinete</td>';
-            continue;
-          }
+    $scope.fillBrandTable = function(data) {
+        $('#brand-table>tbody>tr').each(function(index, elem){$(elem).remove();});
+        //get the footable object
+        var table = $('#brand-table').data('footable');
 
-          if (x === 7 && type === 'gabinete'){
-            output += td_style + '</td>';
-            continue;
-          }
-
-          if ((x === 3 || x === 6 || x === 7) && type === 'gabinete'){
-            output += td + '</td>';
-            continue;
-          }
-
-          if ((x === 3) && type === 'exhibicion'){
-            output += td + data[i][x] + '</td>';
-            continue;
-          }
-
-          if ((x === 10) && type === 'gabinete'){
-            val += (15 + Math.floor((Math.random() * 45)));
-            sum += val;
-            output += '<td>' + val + ' mins</td>';
-            continue;
-          }
-
-          if (x === 0 && type === 'exhibicion'){
-            output += td_style + 'Exhibición</td>';
-            continue;
-          }
-
-          if (x === 1 && type === 'exhibicion'){
-            output += td + data[i][x] + '</td>';
-            continue;
-          }
-
-
-
-          if (x === 0 || x === 5 || x === 7 || x === 9){
-              td = '<td style="border-right: 1px solid gray;">';
-          }
-
-          if(x == 10){
-              val += (5 + Math.floor((Math.random() * 2) + 1));
-              sum += val;
-              output += '<td>' + val + ' mins</td>';
-              continue;
-          }
-          cellValue = data[i][x];
-          if(isNaN(cellValue)) {
-            output += td + cellValue  + '</td>';
-          }
-          else{
-           cellValue = Number(cellValue);
-           if (x == 1 || x == 2 || x == 3){
-             cellValue *= multiplier;
-             cellValue = parseInt(cellValue);
-           } else{
-             cellValue = cellValue.toFixed(2);
-           }
-
-           output += td + cellValue + '</td>';
-           }
-      }
-      result[0] = output;
-      result[1] = sum;
-      return result;
-      }
-
-      var emmitRow = function(data, i){
-        var time = 0;
-        var sum = 0;
-        var cellValue = NaN;
-        var result = [];
-        output = "";
-        for (var x = 0; x < data[i].length; x++) {
-            var td = '<td>';
-            cellValue = data[i][x];
-            val = 0;
-
-            if(x === 0)
-            cellValue = cellValue.replace('Opticas Devlyn Perisur', 'Opticas Devlyn Chedraui');
-
-            if(x == 0 || x == 3 || x == 6 || x == 9 || x == 11){
-                td = '<td style="border-right: 1px solid gray;">';
+        var newRow = '';
+        var isZone = false;
+        for(var i = 0; i < data.data.data.length; i++) {
+            var obj = data.data.data[i];
+            if($scope.zoneAble !== 'hidden' && i !== 0 && (i !== data.data.data.length -1 )){
+              isZone = true;
             }
-            if(isNaN(cellValue)) {
-              output += td + cellValue  + '</td>';
-            } else{
-              var formatted = Number(cellValue);
-              formatted = parseInt(formatted);
-              formatted = formatted.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-              output += td + formatted + '</td>';
-              }
+            newRow += $scope.fillBrandRecord(obj, false, isZone);
         }
-        result[0] = output;
-        result[1] = sum;
-        return result;
-      }
-      var insertColumn = function(data, column, index){
-        for (var i = 0; i < data.length; i++){
-          var row = data[i];
-          row.splice(index, 0, column[i]);
+
+        table.appendRow(newRow);
+        $('#brand-table>tfoot>tr').each(function(index, elem){
+            if( index == 0 ) $(elem).remove();
+        });
+        $('#brand-table>tfoot').prepend($scope.fillBrandRecord(data.data.totals, true));
+
+        $('#brand-count').html('&nbsp;(' + data.data.recordCount + ')');
+    };
+
+    $scope.fillBrandRecord = function(obj, bold, isZone) {
+
+        var formatter1 = new Intl.NumberFormat('en-US');
+        var formatter2 = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2 /* this might not be necessary */
+        });
+        var formatter3 = new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2, /* this might not be necessary */
+            maximumFractionDigits: 2 /* this might not be necessary */
+        });
+
+        var b1 = bold == true ? "<b>" : "";
+        var b2 = bold == true ? "</b>" : "";
+
+        var peasants = "";
+        if(!isZone){
+          peasants = b1 + formatter1.format(obj.peasants) + b2;
         }
-      }
-      var substituteColumn = function(data, column, index){
-        for (var i = 0; i < data.length; i++){
-          var row = data[i];
-          row.splice(index, 1, column[i]);
-        }
-      }
-      var getColumnValues = function(data, index){
-        var clone = [];
-        for (var i = 1; i < data.length; i++){
-          clone.push(data[i][index]);
-        }
-        return clone;
-      }
 
-      var deleteRow = function(data, index){
-        data.splice(index, 1);
-      }
-      var substituteRow = function(data, row, index){
-        data.splice(index, 1, row);
-      }
-
-
-      var twoColumnFunc = function(data, a, b, func){
-        var colA = getColumnValues(data, a);
-        var colB = getColumnValues(data, b);
-        var result = [];
-        for(var i=0; i< colA.length; i++) {
-          result.push(func(colA[i], colB[i]));
-        }
-        return result;
-      }
-      $.getJSON(
-          baseUrl
-          + '/dashboard/brandTableData'
-          + '?authToken=' + $rootScope.globals.currentUser.token
-          + '&entityId=' + entityId
-          + '&entityKind=1'
-          + '&fromStringDate=' + fromDate
-          + '&toStringDate=' + toDate
-          + '&onlyExternalIds=true'
-          + '&timestamp=' + CommonsService.getTimestamp(),
-          function(data) {
-
-
-              deleteRow(data, 1);
-              deleteRow(data, 4);
-              deleteRow(data, 4);
-              substituteRow(data, ["Óptica", "Mirador", "Visitas", "OVs", "Piezas", "Ventas", "Visitantes/Mirador", "Gabinete/Visitas", "Día más Alto", "Día más Bajo", "Permanencia Óptica"], 0);
-
-              //insertColumn(data, ["Sup",0,0,0,0], 2);
-              // var tickets = getColumn(data, 3);
-
-              //substituteColumn(data, ["Piezas",11,12,13,14], 4);
-              // substituteColumn(data, ["ABC", 11,12,13,14], 4);
-              // insertColumn(data, , 4);
-
-              // substituteColumn(data, , 4);
-              var gabinete = getColumnValues(data, 2).map(function(x) {
-                reduced =  x * $scope.gabineteFactor;
-                return parseInt(reduced)
-              });
-              gabinete.splice(0,0,"Gabinete");
-              insertColumn(data, gabinete, 3);
-
-              var piezas = [18, 12, 23, 53];
-              piezas.splice(0,0,"Piezas");
-              substituteColumn(data, piezas, 5);
-
-              var productFormatted = function(a,b){
-                res = Number(a)*Number(b);
-                return "$" + res.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
-              }
-
-              var divisionPercent = function(a,b){
-                return (Number(a)/Number(b)*100).toFixed(2) + "%";
-              }
-
-
-              var ventas = twoColumnFunc(data, 4, 5, productFormatted);
-              ventas.splice(0,0,"Ventas");
-              substituteColumn(data, ventas, 6);
-
-              var v_over_m = twoColumnFunc(data, 2, 1, divisionPercent);
-              v_over_m.splice(0,0,"Visitantes/Mirador");
-              substituteColumn(data, v_over_m, 7);
-
-              var g_over_v = twoColumnFunc(data, 3, 2, divisionPercent);
-              g_over_v.splice(0,0,"Gabinete/Visitas");
-              substituteColumn(data, g_over_v, 8);
-
-              var ov_over_v = twoColumnFunc(data, 4, 2, divisionPercent);
-              ov_over_v.splice(0,0,"Ovs/Visitas");
-              insertColumn(data, ov_over_v, 9);
-
-              insertColumn(data, ["Permanencia Exhibición","5 mins","10 mins","20 mins","11.6 mins"], 12);
-              insertColumn(data, ["Permanencia Gabinete","24 mins","10 mins","40 mins","24.66 mins"], 13);
-              substituteColumn(data, ["Permanencia Óptica","12 mins","8 mins","5 mins","8.33 mins"], 14);
-
-              var titles = data[0];
-              var sum = 0;
-              tab = '<table class="devlyn-brand-table table table-striped" style="text-align: center;" >';
-              tab += '<tr style="font-weight:bold;">';
-              for (var i = 0; i < titles.length; i++) {
-
-                tab +=  '<td>'+ titles[i] +'</td>';
-              }
-              tab += '</tr>';
-              tab += '<tbody>';
-              for (var i = 0; i < data.length -1 ; i++) {
-                  if(i === 2){
-                      var res;
-                      tab += '<tr>';
-                      res = emmitRow(data, i);
-                      sum += res[1];
-                      tab += res[0];
-                      tab += '</tr>';
-                  }
-                  if(i === 3){
-                    tab += '<tr>';
-                    res = emmitRow(data, i);
-                    sum += res[1];
-                    tab += res[0];
-                    tab += '</tr>';
-                  }
-                  if(i === 1 || i > 3){
-                    tab += '<tr>';
-                    res = emmitRow(data, i);
-                    sum += res[1];
-                    tab += res[0];
-                    tab += '</tr>';
-                  }
-              }
-              tab += '<tr style="font-weight:bold;">';
-              for (var x = 0; x < data[data.length - 1].length; x++) {
-                  var value = data[data.length - 1][x];
-                  if (x == 1 || x === 2 || x === 3){
-                    value = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                  }
-                  if (x == 0 || x == 3 || x == 6 || x == 9 || x == 11)
-                      tab += '<td style="border-right: 1px solid gray;">' + value + '</td>';
-                  else{
-                      tab += '<td>' + value + '</td>';
-                  }
-              }
-              tab += '</tr></tbody></table>';
-
-              $(id).html(tab);
-          });
+        var row = '<tr>'
+                + '<td data-value="' + obj.title + '">' + b1 + obj.title + b2 + '</td>'
+                + '<td data-value="' + obj.peasants + '"><center>'  + peasants + '</center></td>'
+                + '<td data-value="' + obj.visitors + '"><center>'  + b1 +  formatter1.format(obj.visitors) + b2 + '</center></td>'
+                + '<td data-value="' + obj.tickets + '"><center>'  + b1 +  formatter1.format(obj.tickets) + b2 + '</center></td>'
+                + '<td data-value="' + obj.items + '"><center>'  + b1 +  formatter1.format(obj.items) + b2 + '</center></td>'
+                + '<td data-value="' + obj.revenue + '"><center>'  + b1 +  formatter2.format(obj.revenue) + b2 + '</center></td>'
+                + '<td data-value="' + obj.visitsConversion + '"><center>'  + b1 + formatter3.format(obj.visitsConversion) + '%' + b2 + '</center></td>'
+                + '<td data-value="' + obj.ticketsConversion + '"><center>'  + b1 + formatter3.format(obj.ticketsConversion) + '%' + b2 + '</center></td>'
+                + '<td data-value="' + obj.higherDay + '"><center>'  + b1 + obj.higherDay + b2 + '</center></td>'
+                + '<td data-value="' + obj.lowerDay + '"><center>'  + b1 + obj.lowerDay + b2 + '</center></td>'
+                + '<td data-value="' + obj.averagePermanence + '"><center>'  + b1 + formatter1.format(obj.averagePermanence) + ' mins' + b2 + '</center></td>'
+                + '</tr>';
+        return row;
     };
 
     this.updateStoreList('#store', config.baseUrl, $scope.brandId);
