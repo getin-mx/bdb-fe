@@ -188,7 +188,6 @@
  	return {
  		restrict: 'C',
  		link: function(scope, element, attrs) {
-      debugger;
  			var dropzoneConfig = {
  				url: config.uploadUrl,
  				parallelUploads: 1,

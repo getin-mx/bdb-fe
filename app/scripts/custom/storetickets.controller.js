@@ -18,6 +18,8 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 	$scope.latitude = 0;
 	$scope.longitude = 0;
 
+	$scope.isHourly = 'false';
+
 	$scope.init = function() {
 		$scope.brands = new Array();
 		$scope.hours = new Array();
@@ -128,7 +130,8 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 		$http.get(CommonsService.getUrl('/dashboard/storeTicketData')
 			+ '&storeId=' + this.store.id
 			+ '&fromDate=' + $scope.fromDate
-			+ '&toDate=' + $scope.toDate)
+			+ '&toDate=' + $scope.toDate
+			+ '&isHourly=' + $scope.isHourly)
 			.then(function(data) {
 				$scope.obj = data.data;
 				$scope.blocked = $scope.getBlockedTickets($scope.obj.dates, $scope.obj.toDate);
@@ -156,6 +159,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 			+ '&date=' + $scope.date
 			+ '&fromHour=' + $scope.fromHour.id
 			+ '&toHour=' + $scope.toHour.id)
+			+ '&isHourly=' + $scope.isHourly
 			.then(function(data) {
 				$scope.obj = data.data;
 				for( var i = 0; i < data.data.data.length; i++ ) {
@@ -266,6 +270,7 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 	}
 
 	$scope.$on('upload.success', function(event, data) {
+		debugger;
 		var file = data[0];
 		var response = JSON.parse(data[1]);
 		$scope.loadingexecUpdate = true;
@@ -284,7 +289,8 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 			method: 'previewFileUpdate',
 			brandId: $scope.brand.id,
 			period: $scope.period,
-			imageId: response.name
+			imageId: response.name,
+			isHourly: false
 		}
 
 		$http.post(CommonsService.getUrl('/dashboard/storeTicketData'), obj)
@@ -336,7 +342,8 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 			method: 'doFileUpdate',
 			brandId: $scope.brand.id,
 			period: $scope.period,
-			imageId: $scope.image
+			imageId: $scope.image,
+			isHourly: false
 		}
 
 		$http.post(CommonsService.getUrl('/dashboard/storeTicketData'), obj)
