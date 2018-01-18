@@ -772,7 +772,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
 
     this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId, storeType) {
 
-        $http.get(CommonsService.getUrl('/dashboard/brandTableData')
+        $http.get(CommonsService.getUrl('/dashboard/devlynD')
             + '&entityId=' + entityId
             + '&entityKind=1'
             + '&fromStringDate=' + fromDate
@@ -829,7 +829,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
         }
 
         var row = '<tr>'
-                + '<td data-value="' + obj.title + '">' + b1 + obj.title + b2 + '</td>'
+                + '<td data-value="' + obj.title.replace("Ópticas Devlyn", "") + '">' + b1 + obj.title.replace("Ópticas Devlyn", "") + b2 + '</td>'
                 + '<td data-value="' + obj.peasants + '"><center>'  + peasants + '</center></td>'
                 + '<td data-value="' + obj.visitors + '"><center>'  + b1 +  formatter1.format(obj.visitors) + b2 + '</center></td>'
                 + '<td data-value="' + obj.tickets + '"><center>'  + b1 +  formatter1.format(obj.tickets) + b2 + '</center></td>'
