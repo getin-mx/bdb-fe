@@ -772,7 +772,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
 
     this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId, storeType) {
 
-        $http.get(CommonsService.getUrl('/dashboard/devlynD')
+        $http.get(CommonsService.getUrl('/dashboard/brandTableData')
             + '&entityId=' + entityId
             + '&entityKind=1'
             + '&fromStringDate=' + fromDate
