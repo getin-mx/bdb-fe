@@ -18,6 +18,7 @@
         'summernote',                   // Summernote text editor
         'angular-flot',                 // Flot Charts
         'angles',                       // Chartjs
-        'BrowserCache'
+        'BrowserCache',
+        'datatables'
     ])
 })();

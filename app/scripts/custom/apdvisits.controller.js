@@ -1,7 +1,7 @@
 /**
  * APDVisitsCtrl - controller
  */
- function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService, $rootScope, $http, ModalService) {
+ function APDVisitsCtrl($rootScope, $scope, AuthenticationService, CommonsService, $rootScope, $http, DTOptionsBuilder, DTColumnBuilder, ModalService) {
 
     var vm = this;
 
@@ -22,6 +22,36 @@
       conversionVisits: 0.0,
       conversionTickets: 0.0
     };
+
+    vm.updateOfflineDevices = function(id, baseUrl, brandId){
+
+      var dfd = $.Deferred();
+
+      url = baseUrl
+      + '/offlineDevice'
+      + '?authToken=' + $rootScope.globals.currentUser.token
+      + '&brandId=' + brandId
+      + '&timestamp=' + CommonsService.getTimestamp();
+
+      var fundone = function(){
+        console.log("done with Deferred execution");
+      }
+      $.getJSON(url,
+        function(data){
+          dfd.resolve(data['APDevices']);
+        });
+
+        return dfd.promise();
+    };
+
+    $scope.dtOptions = DTOptionsBuilder.fromFnPromise(vm.updateOfflineDevices('.offline_devices', config.pyServiceUrl, "modatelas_mx")).withPaginationType('full_numbers');
+    $scope.dtColumns = [
+        DTColumnBuilder.newColumn('description').withTitle('Tienda'),
+        DTColumnBuilder.newColumn('hostname').withTitle('Hostname'),
+        DTColumnBuilder.newColumn('lastUpdate').withTitle('Última fecha')
+    ];
+
+    vm.dtInstance = {};
 
     $scope.formatter1 = new Intl.NumberFormat('en-US');
     $scope.formatter2 = new Intl.NumberFormat('en-US', {
@@ -434,7 +464,6 @@
         $('#heatmap_traffic_by_hour').html('');
         $('#heatmap_occupation_by_hour').html('');
         $('#heatmap_permanence_by_hour').html('');
-        $('.new_gauge').html('');
 
         vm.generateGeneralInfo();
 
@@ -454,8 +483,7 @@
             $scope.zoneId, storeType);
         vm.updateHeatmapOccupation('#heatmap_occupation_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
             $scope.zoneId, storeType);
-        // vm.updateNewGauges('.new_gauge', config.baseUrl, fromDate, toDate, brandId, storeId,
-        //     $scope.zoneId, storeType);
+        //vm.updateOfflineDevices('.offline_devices', config.pyServiceUrl, brandId, storeId);
 
         $scope.loadedClientData = true;
     }
@@ -1038,6 +1066,8 @@
                 });
             });
     };
+
+
     this.updateHeatmapPermanence = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, storeType) {
         // TODO use storeType
         var url = null;
