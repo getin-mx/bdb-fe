@@ -31,6 +31,7 @@
   $scope.remote = {};
 	$scope.obj = {
         visitPowerThreshold: -60,
+        viewerPowerThreshold: -60,
 		    peasantPowerThreshold: -200,
         visitTimeThreshold: 2,
         visitGapThreshold: 10,
