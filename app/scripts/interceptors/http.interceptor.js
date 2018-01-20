@@ -27,8 +27,11 @@ angular
                 }
               }
               break;
+            case 500:
+              //$location.path('/500');
+              break;
             default:
-              $location.path('/500');
+              break;
           }
 
           return $q.reject(response);
