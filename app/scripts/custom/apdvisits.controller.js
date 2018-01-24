@@ -614,7 +614,6 @@
     this.updateVisitsByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, storeType) {
         // TODO use storeType
         var url = null;
-
         var eid;
         var seid;
         var kind;
