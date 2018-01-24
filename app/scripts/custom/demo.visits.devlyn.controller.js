@@ -293,35 +293,14 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             + '&entityKind=1'
             + '&subentityId=' + subEntityId
             + '&elementId=apd_visitor'
-            + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
-            + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android,visitor_total_tickets'
+            + '&subIdOrder=visitor_total_peasents,visitor_total_visits'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
             + '&eraseBlanks=false'
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 // Disable extra options by default
-                var copy = Object.assign([], data.series);
-                var copy2 = Object.assign([], data.series);
-                var series = [];
-                if($scope.selected.value === 2){
-                  data.series = data.series.slice(1,2);
-                }
-                else if($scope.selected.value === 1){
-                  series = data.series.slice(0,2);
-                  series[0].name = "Mirador";
-                  // series[0].yAxis = 1;
-                  console.log(copy);
-                  var tickets = copy.slice(6,7);
-                  var chunk = series.concat(tickets);
-                  // console.log(copy2.slice(7,8));
-                  console.log(series);
-                  data.series = chunk;
-                } else{
-                  data.series = data.series.slice(0,2);
-                  data.series[0].name = "Mirador";
-                }
-
+                debugger;
                 $(id).highcharts({
                     chart: {
                         zoomType: 'xy',
@@ -376,8 +355,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             + '&entityKind=1'
             + '&subentityId=' + subEntityId
             + '&elementId=apd_visitor'
-            + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_peasents_ios,'
-            + 'visitor_total_peasents_android,visitor_total_visits_ios,visitor_total_visits_android'
+            + '&subIdOrder=visitor_total_peasents,visitor_total_visits,'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
             + '&eraseBlanks=true'
@@ -772,7 +750,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
 
     this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId, storeType) {
 
-        $http.get(CommonsService.getUrl('/dashboard/brandTableData')
+        $http.get(CommonsService.getUrl('/dashboard/devlynD')
             + '&entityId=' + entityId
             + '&entityKind=1'
             + '&fromStringDate=' + fromDate
@@ -831,15 +809,19 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
         var row = '<tr>'
                 + '<td data-value="' + obj.title.replace("Ópticas Devlyn", "") + '">' + b1 + obj.title.replace("Ópticas Devlyn", "") + b2 + '</td>'
                 + '<td data-value="' + obj.peasants + '"><center>'  + peasants + '</center></td>'
+                + '<td data-value="' + obj.cabinet + '"><center>'   + b1 +  formatter1.format(obj.cabinet) + b2 + '</center></td>'
                 + '<td data-value="' + obj.visitors + '"><center>'  + b1 +  formatter1.format(obj.visitors) + b2 + '</center></td>'
                 + '<td data-value="' + obj.tickets + '"><center>'  + b1 +  formatter1.format(obj.tickets) + b2 + '</center></td>'
                 + '<td data-value="' + obj.items + '"><center>'  + b1 +  formatter1.format(obj.items) + b2 + '</center></td>'
                 + '<td data-value="' + obj.revenue + '"><center>'  + b1 +  formatter2.format(obj.revenue) + b2 + '</center></td>'
+                + '<td data-value="' + obj.cabinetConversion + '"><center>'  + b1 + formatter3.format(obj.cabinetConversion) + '%' + b2 + '</center></td>'
                 + '<td data-value="' + obj.visitsConversion + '"><center>'  + b1 + formatter3.format(obj.visitsConversion) + '%' + b2 + '</center></td>'
                 + '<td data-value="' + obj.ticketsConversion + '"><center>'  + b1 + formatter3.format(obj.ticketsConversion) + '%' + b2 + '</center></td>'
                 + '<td data-value="' + obj.higherDay + '"><center>'  + b1 + obj.higherDay + b2 + '</center></td>'
                 + '<td data-value="' + obj.lowerDay + '"><center>'  + b1 + obj.lowerDay + b2 + '</center></td>'
-                + '<td data-value="' + obj.averagePermanence + '"><center>'  + b1 + formatter1.format(obj.averagePermanence) + ' mins' + b2 + '</center></td>'
+                + '<td data-value="' + obj.averagePermanenceCabinet + '"><center>'  + b1 + formatter1.format(obj.averagePermanenceCabinet) + ' mins' + b2 + '</center></td>'
+                + '<td data-value="' + obj.averagePermanenceEntrance + '"><center>'  + b1 + formatter1.format(obj.averagePermanenceEntrance) + ' mins' + b2 + '</center></td>'
+                + '<td data-value="' + obj.averagePermanenceAll + '"><center>'  + b1 + formatter1.format(obj.averagePermanenceAll) + ' mins' + b2 + '</center></td>'
                 + '</tr>';
         return row;
     };
