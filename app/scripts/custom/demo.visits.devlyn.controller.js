@@ -293,14 +293,13 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             + '&entityKind=1'
             + '&subentityId=' + subEntityId
             + '&elementId=apd_visitor'
-            + '&subIdOrder=visitor_total_peasents,visitor_total_visits'
+            + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_viewer'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
             + '&eraseBlanks=false'
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 // Disable extra options by default
-                debugger;
                 $(id).highcharts({
                     chart: {
                         zoomType: 'xy',
@@ -355,7 +354,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             + '&entityKind=1'
             + '&subentityId=' + subEntityId
             + '&elementId=apd_visitor'
-            + '&subIdOrder=visitor_total_peasents,visitor_total_visits,'
+            + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_viewer'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
             + '&eraseBlanks=true'
@@ -422,8 +421,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             + '&entityKind=1'
             + '&subentityId=' + subEntityId
             + '&elementId=apd_permanence'
-            + '&subIdOrder=permanence_hourly_peasents,permanence_hourly_visits,permanence_hourly_peasents_ios,'
-            + 'permanence_hourly_peasents_android,permanence_hourly_visits_ios,permanence_hourly_visits_android'
+            + '&subIdOrder=permanence_hourly_peasents,permanence_hourly_visits,visitor_total_viewer'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
             + '&average=true'
