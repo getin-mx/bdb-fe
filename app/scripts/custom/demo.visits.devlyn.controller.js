@@ -101,57 +101,54 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
     $scope.types = [
       {
         name:"Todas",
-        value: 0
+        value: 'all'
       },
       { name:"Exhibición",
-        value: 1
+        value: 'exhibicion'
       },
       {
         name:"Gabinete",
-        value: 2
+        value: 'gabinete'
     }];
 
     $scope.regions = [
       {
         name:"Todas",
-        value: 0
+        value: 'all'
       },
       { name:"Centro 1",
-        value: 1
+        value: 'centro-1'
       },
       {
         name:"Centro 2",
-        value: 2
+        value: 'centro-2'
       }];
 
     $scope.districts = [
       {
         name:"Todas",
-        value: 0
+        value: 'all'
       },
-      { name:"Distrito 3",
-        value: 1
-      },
-      {
-        name:"Distrito 5",
-        value: 2
-      },
-      {
-        name: "Distrito 7",
-        value: 3
-      },
-      {
-        name: "Distrito 9",
+      { name:"Distrito 4",
         value: 4
       },
       {
-        name: "Distrito 10",
+        name:"Distrito 5",
         value: 5
       },
       {
-        name: "Distrito 11",
-        value: 6
-      }];
+        name: "Distrito 7",
+        value: 7
+      },
+      {
+        name: "Distrito 8",
+        value: 8
+      },
+      {
+        name: "Distrito 9",
+        value: 9
+      },
+      ];
 
     $scope.formats = [
       {
@@ -159,45 +156,46 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
         value: 0
       },
       { name:"Chedraui",
-        value: 1
+        value: 'chedraui'
       },
       {
         name:"City Club",
-        value: 2
+        value: 'city club'
       },
       {
         name: "Coppel",
-        value: 3
+        value: 'coppel'
       },{
         name: "Devlyn",
-        value: 4
+        value: 'devlyn'
       },
       {
         name: "In Moda",
-        value: 5
+        value: 'in moda'
       },
       {
         name: "Optimart",
-        value: 6
+        value: 'optimart'
+      },
+      {
+        name: "Optisys",
+        value: 'optisys'
       },
       {
         name: "Sams",
-        value: 7
+        value: 'sams'
       },
       {
         name: "Sears Optica",
-        value: 8
+        value: 'sears optica'
       },
       {
         name: "Soriana",
-        value: 9
+        value: 'soriana'
       },
       {
-        name: "Virtual",
-        value: 10
-      }, {
-        name: "Wal Mart",
-        value: 11
+        name: "Wal-Mart",
+        value: 'wal mart'
       }];
 
 
@@ -800,13 +798,13 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
         var b2 = bold == true ? "</b>" : "";
 
         var peasants = "";
-        if(!isZone){
-          peasants = b1 + formatter1.format(obj.peasants) + b2;
-        }
+        // if(!isZone){
+        //   peasants = b1 + formatter1.format(obj.peasants) + b2;
+        // }
 
         var row = '<tr>'
                 + '<td data-value="' + obj.title.replace("Ópticas Devlyn", "") + '">' + b1 + obj.title.replace("Ópticas Devlyn", "") + b2 + '</td>'
-                + '<td data-value="' + obj.peasants + '"><center>'  + peasants + '</center></td>'
+                + '<td data-value="' + obj.peasants + '"><center>'   + b1 +  formatter1.format(obj.peasants) + b2 + '</center></td>'
                 + '<td data-value="' + obj.cabinet + '"><center>'   + b1 +  formatter1.format(obj.cabinet) + b2 + '</center></td>'
                 + '<td data-value="' + obj.visitors + '"><center>'  + b1 +  formatter1.format(obj.visitors) + b2 + '</center></td>'
                 + '<td data-value="' + obj.tickets + '"><center>'  + b1 +  formatter1.format(obj.tickets) + b2 + '</center></td>'
