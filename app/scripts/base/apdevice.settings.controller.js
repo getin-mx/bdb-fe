@@ -40,15 +40,12 @@
       $scope.obj.viewerPowerThreshold = Math.round(values[1]) * -1;
       $scope.obj.viewerOffsetPowerThreshold = Math.round(values[2]) * -1;
       $scope.obj.peasantPowerThreshold = Math.round(values[3]) * -1;
-      console.log($scope.obj);
     }
   }
 
 
 	$scope.obj = {
         visitPowerThreshold: -60,
-        viewerPowerThreshold: -70,
-        viewerOffsetPowerThreshold: -75,
 		    peasantPowerThreshold: -80,
         visitTimeThreshold: 2,
         visitGapThreshold: 10,
