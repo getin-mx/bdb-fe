@@ -29,8 +29,26 @@
     var BAR_COLOR_NEUTRAL = "#EEE";
 
   $scope.remote = {};
+
+  //no initNoUISlider
+  $scope.eventHandlers = {
+    update: function(values, handle, unencoded) {},
+    slide: function(values, handle, unencoded) {},
+    set: function(values, handle, unencoded) {},
+    change: function(values, handle, unencoded) {
+      $scope.obj.visitPowerThreshold = Math.round(values[0]) * -1;
+      $scope.obj.viewerPowerThreshold = Math.round(values[1]) * -1;
+      $scope.obj.viewerOffsetPowerThreshold = Math.round(values[2]) * -1;
+      $scope.obj.peasantPowerThreshold = Math.round(values[3]) * -1;
+      console.log($scope.obj);
+    }
+  }
+
+
 	$scope.obj = {
         visitPowerThreshold: -60,
+        viewerPowerThreshold: -70,
+        viewerOffsetPowerThreshold: -75,
 		    peasantPowerThreshold: -80,
         visitTimeThreshold: 2,
         visitGapThreshold: 10,
