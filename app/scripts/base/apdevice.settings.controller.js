@@ -31,8 +31,7 @@
   $scope.remote = {};
 	$scope.obj = {
         visitPowerThreshold: -60,
-        viewerPowerThreshold: -60,
-		    peasantPowerThreshold: -200,
+		    peasantPowerThreshold: -80,
         visitTimeThreshold: 2,
         visitGapThreshold: 10,
         visitMaxThreshold: 90,
@@ -238,22 +237,7 @@
                 		prefix: 'Visitante: -',
                 	});
 
-    $scope.sliderOptions = {
-      start: [60, 70, 75, 80],
-	    connect: [false, false, true, false, false],
-      tooltips: [formatVisitor, formatViewer, formatOffsetViewer, formatWalker],
-      step: 1,
-      range: {
-    		'min': [0],
-    		'10%': [60],
-    		'90%': [100],
-    		'max': [200]
-    	},
-      pips: {
-        mode: 'range',
-        density: 3
-      }
-    };
+
 
     $scope.processMinDate = moment("2017-01-01T12:00:00.000Z");
 
@@ -414,6 +398,47 @@
 		.then($scope.postRefresh);
 	}
 
+  $scope.initNoUISlider = function (){
+
+    var startingArray = [];
+
+    var visitPowerThreshold = $scope.obj.visitPowerThreshold * -1;
+    var peasantPowerThreshold = $scope.obj.peasantPowerThreshold * -1; //work with positives
+    var viewerPowerThreshold = (visitPowerThreshold + peasantPowerThreshold)/2;
+    var viewerOffsetPowerThreshold = viewerPowerThreshold;
+
+    // initialRange = visitPowerThreshold * ;
+
+    startingArray.push(visitPowerThreshold);
+    startingArray.push(viewerPowerThreshold);
+    startingArray.push(viewerOffsetPowerThreshold);
+    startingArray.push(peasantPowerThreshold);
+
+    stdDev = (viewerPowerThreshold - visitPowerThreshold);
+    minSoftLimit = ((visitPowerThreshold - stdDev) <= 40)? 40 : (visitPowerThreshold - stdDev);
+    maxSoftLimit = ((peasantPowerThreshold + stdDev) >= 200)? 200 : (peasantPowerThreshold + stdDev);
+
+    var rangeDict = {};
+
+    if (minSoftLimit === 40 || maxSoftLimit === 200){
+      rangeDict = {'min': [40], 'max': [200] };
+    } else{
+      rangeDict = { 'min': [40], '15%': [minSoftLimit], '85%': [maxSoftLimit], 'max': [200]};
+    }
+
+    $scope.sliderOptions = {
+      start: startingArray,
+      connect: [true, false, true, false, false],
+      tooltips: [formatVisitor, formatViewer, formatOffsetViewer, formatWalker],
+      step: 1,
+      range: rangeDict,
+      pips: {
+        mode: 'range',
+        density: 3
+      }
+    };
+  }
+
 	$scope.postRefresh = function(data) {
 		angular.extend($scope.obj, data.data);
 
@@ -442,6 +467,7 @@
     $scope.initSlider('friday');
     $scope.initSlider('saturday');
     $scope.initSlider('sunday');
+    $scope.initNoUISlider();
 
     $scope.changeDay();
 	}

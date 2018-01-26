@@ -805,6 +805,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
         var row = '<tr>'
                 + '<td data-value="' + obj.title.replace("Ópticas Devlyn", "") + '">' + b1 + obj.title.replace("Ópticas Devlyn", "") + b2 + '</td>'
                 + '<td data-value="' + obj.peasants + '"><center>'   + b1 +  formatter1.format(obj.peasants) + b2 + '</center></td>'
+                + '<td data-value="' + obj.viewers + '"><center>'   + b1 +  formatter1.format(obj.viewers) + b2 + '</center></td>'
                 + '<td data-value="' + obj.cabinet + '"><center>'   + b1 +  formatter1.format(obj.cabinet) + b2 + '</center></td>'
                 + '<td data-value="' + obj.visitors + '"><center>'  + b1 +  formatter1.format(obj.visitors) + b2 + '</center></td>'
                 + '<td data-value="' + obj.tickets + '"><center>'  + b1 +  formatter1.format(obj.tickets) + b2 + '</center></td>'
