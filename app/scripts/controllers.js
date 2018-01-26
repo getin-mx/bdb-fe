@@ -163,18 +163,18 @@ function SessionCtrl($scope, $rootScope, $location, AuthenticationService, Commo
         }
 
         if( message !== undefined ) {
-            swal("Error!", message, "error");
+            alert("Error!" + message + "error");
         } else {
             $scope.loadingSubmit = true;
             $http.post((CommonsService.getUrl('/pass')), $scope.obj)
                 .then(function(data) {
                     if(data.data.error_code === undefined) {
-                        swal("Contraseña Cambiada", "La contraseña fue cambiada con éxito", "success");
+                        alert("La contraseña fue cambiada con éxito");
                         $rootScope.passModalInstance.close();
                     } else if(data.data.error_code == 407) {
-                        swal("Error", "La contraseña actual es incorrecta", "error");
+                        alert("La contraseña actual es incorrecta");
                     } else {
-                        swal("Error", "Ocurrió un error al cambiar la contraseña. Por favor, inténtalo más tarde", "error");
+                        alert("Ocurrió un error al cambiar la contraseña. Por favor, inténtalo más tarde");
                     }
                     $scope.loadingSubmit = false;
                 })

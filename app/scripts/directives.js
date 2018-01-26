@@ -161,25 +161,6 @@
  	}
  }
 
-/**
- * touchSpin - Directive for Bootstrap TouchSpin
- */
- function touchSpin() {
- 	return {
- 		restrict: 'A',
- 		scope: {
- 			spinOptions: '='
- 		},
- 		link: function (scope, element, attrs) {
- 			scope.$watch(scope.spinOptions, function(){
- 				render();
- 			});
- 			var render = function () {
- 				$(element).TouchSpin(scope.spinOptions);
- 			};
- 		}
- 	}
- };
 
 /**
  * dropZone - Directive for Drag and drop zone file upload plugin
@@ -329,7 +310,6 @@
  .directive('iboxTools', iboxTools)
  .directive('minimalizaSidebar', minimalizaSidebar)
  .directive('ionRangeSlider', ionRangeSlider)
- .directive('touchSpin', touchSpin)
  .directive('dropzone', dropzone)
  .directive('iboxToolsFullScreen', iboxToolsFullScreen)
  .directive('icheck', icheck)

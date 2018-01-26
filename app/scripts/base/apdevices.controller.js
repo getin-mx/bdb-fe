@@ -181,56 +181,35 @@ function APDevicesCtrl($scope, $rootScope, $http, $location, $uibModal, CommonsS
 		$('.apdevicedisable').click(function(e) {
 			e.preventDefault();
 
-            swal({
-                title: "Estas seguro?",
-                text: "Quieres dar de baja esta antena?",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Si, dar de baja!",
-                cancelButtonText: "No, me arrepiento...",
-                closeOnConfirm: false,
-                closeOnCancel: true },
-            function (isConfirm) {
-                if (isConfirm) {
-                    $http.get((CommonsService.getUrl('/apdevice/' + $(e.currentTarget).data('value'))))
-                        .then(function(data) {
-                            data.data.status = 1;
-                            $http.post((CommonsService.getUrl('/apdevice')), data.data)
-                                .then(function(data) {
-                                    swal("Dada de Baja!", "La antena fue dada de baja", "success");
-                                    $scope.refresh();
-                                })
-                        })
-                }
-            });
+			if (confirm("Estas seguro que quieres dar de baja esta antena?")) {
+				$http.get((CommonsService.getUrl('/apdevice/' + $(e.currentTarget).data('value'))))
+						.then(function(data) {
+								data.data.status = 1;
+								$http.post((CommonsService.getUrl('/apdevice')), data.data)
+										.then(function(data) {
+												alert("La antena fue dada de baja");
+												$scope.refresh();
+										});
+						});
+			} else {
+			}
+
 		})
 
         // Define apdevicedelete click response
         $('.apdevicedelete').click(function(e) {
             e.preventDefault();
 
-            swal({
-                title: "Estas seguro?",
-                text: "Si se elimina esta antena se perderá toda la configuración asociada a ella!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Si, eliminalo!",
-                cancelButtonText: "No, me arrepiento...",
-                closeOnConfirm: false,
-                closeOnCancel: true },
-            function (isConfirm) {
-                if (isConfirm) {
-                    $http.delete(CommonsService.getUrl('/apdevice/' + $(e.currentTarget).data('value')))
-                        .then(function(data) {
-                            swal("Eliminado!", "La antena fue eliminada.", "success");
-                            $scope.refresh();
-                        });
-                }
-            });
-        });
+						if(confirm("Si se elimina esta antena se perderá toda la configuración asociada a ella!")) {
+							$http.delete(CommonsService.getUrl('/apdevice/' + $(e.currentTarget).data('value')))
+									.then(function(data) {
+											alert("La antena fue eliminada.");
+											$scope.refresh();
+									});
+						} else{
 
+						}
+					});
 	}
 
 

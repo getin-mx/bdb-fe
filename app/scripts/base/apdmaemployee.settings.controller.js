@@ -18,7 +18,7 @@
         } else {
             $scope.load($scope.identifier);
         }
-    
+
     }
 
     $scope.new = function() {
@@ -46,9 +46,9 @@
                         $('#fromDate').val('');
                     }
                     if( $scope.obj.toDate === undefined || $scope.obj.toDate === null ) {
-                        $scope.obj.toDate = null;  
+                        $scope.obj.toDate = null;
                         $('#toDate').val('');
-                    } 
+                    }
 
                     CommonsService.safeApply($scope);
                 }
@@ -74,27 +74,19 @@
     $scope.postUpdate = function(data) {
         console.log(data);
 
-        if( data.status = 200 
+        if( data.status = 200
             && data.data.error_code === undefined ) {
-            swal({
-                title: "Ok!",
-                text: "La configuración del empleado fue salvada con éxito",
-                type: "success"
-            });
+            alert("La configuración del empleado fue salvada con éxito");
 
             $scope.loadingSubmit = false;
             $rootScope.$emit('apdmaemployee.update')
 
         } else {
-            swal({
-                title: "Error!",
-                text: "La configuración del empleado no pudo salvarse",
-                type: "error"
-            });
+            alert("La configuración del empleado no pudo salvarse");
         }
 
     }
-    
+
 	return vm;
 };
 

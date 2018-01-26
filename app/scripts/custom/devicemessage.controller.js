@@ -5,7 +5,7 @@ function DeviceMessageCtrl($scope, $http, $location, CommonsService, Authenticat
 
 	var vm = this;
 
-	$scope.types = null; 	
+	$scope.types = null;
 	$scope.type = null;
 
 	$scope.typeDevice = 'hidden';
@@ -84,19 +84,11 @@ function DeviceMessageCtrl($scope, $http, $location, CommonsService, Authenticat
 		console.log(data);
 		$scope.loadingUpdate = false;
 
-		if( data.status = 200 
+		if( data.status = 200
 			&& data.data.error_code === undefined ) {
-			swal({
-				title: "Ok!",
-				text: "Mensaje enviado con éxito",
-				type: "success"
-			});
+			alert("Mensaje enviado con éxito");
 		} else {
-			swal({
-				title: "Error!",
-				text: "No pudo enviarse el mensaje",
-				type: "error"
-			});
+			alert("No pudo enviarse el mensaje");
 		}
 
 	}

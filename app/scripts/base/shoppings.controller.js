@@ -24,7 +24,7 @@ function ShoppingsCtrl($scope, $http, $location, CommonsService, AuthenticationS
 		// validate token
 		if( data.status != 200 || data.data.error_code !== undefined )
 	        AuthenticationService.logout(function(response) {
-	            $location.path('/login');    
+	            $location.path('/login');
 	        });
 
 	    for( var i = 0; i < data.data.data.length; i++ ) {
@@ -48,12 +48,12 @@ function ShoppingsCtrl($scope, $http, $location, CommonsService, AuthenticationS
 	$scope.refresh = function() {
 
 		$scope.loadingRefresh = true;
-		$http.get(CommonsService.getUrl('/shopping') 
-			+ '&order=name&from=0&to=10&status=0&country=' + $scope.country.id 
+		$http.get(CommonsService.getUrl('/shopping')
+			+ '&order=name&from=0&to=10&status=0&country=' + $scope.country.id
 			+ '&q=' + encodeURIComponent($scope.search))
 			.then($scope.fillTableActive);
-		$http.get(CommonsService.getUrl('/shopping') 
-			+ '&order=name&from=0&to=10&status=1&country=' + $scope.country.id 
+		$http.get(CommonsService.getUrl('/shopping')
+			+ '&order=name&from=0&to=10&status=1&country=' + $scope.country.id
 			+ '&q=' + encodeURIComponent($scope.search))
 			.then($scope.fillTableInactive);
 
@@ -62,7 +62,7 @@ function ShoppingsCtrl($scope, $http, $location, CommonsService, AuthenticationS
 	$scope.fillRecord = function(obj, status) {
 		var row = '<tr>'
 	    		+ '<td data-value="' + obj.identifier + '">' + obj.name + '</td>'
-	    		+ '<td data-value="' + (obj.country === undefined ? '' : obj.country) 
+	    		+ '<td data-value="' + (obj.country === undefined ? '' : obj.country)
 	    					  + '">' + (obj.country === undefined ? '-' : obj.country) + '</td>'
 			   + '<td data-value="' + obj.identifier + '">'
 
@@ -106,25 +106,17 @@ function ShoppingsCtrl($scope, $http, $location, CommonsService, AuthenticationS
 	    $('.shoppingdelete').click(function(e) {
 	        e.preventDefault();
 
-	        swal({
-	            title: "Estas seguro?",
-	            text: "Si se elimina centro comercial se perderá toda la configuración asociada a el!",
-	            type: "warning",
-	            showCancelButton: true,
-	            confirmButtonColor: "#DD6B55",
-	            confirmButtonText: "Si, eliminalo!",
-	            cancelButtonText: "No, me arrepiento...",
-	            closeOnConfirm: false,
-	            closeOnCancel: true },
-	        function (isConfirm) {
-	            if (isConfirm) {
-	                $http.delete(CommonsService.getUrl('/shopping/' + $(e.currentTarget).data('value')))
-	                    .then(function(data) {
-	                        swal("Eliminado!", "El centro comercial fue eliminada.", "success");
-	                        $scope.refresh();
-	                    });
-	            }
-	        });
+
+					if(confirm( "Si se elimina centro comercial se perderá toda la configuración asociada a el!")) {
+							$http.delete(CommonsService.getUrl('/shopping/' + $(e.currentTarget).data('value')))
+									.then(function(data) {
+											alert("El centro comercial fue eliminada.");
+											$scope.refresh();
+									});
+					} else{
+
+					}
+
 	    });		
 	}
 

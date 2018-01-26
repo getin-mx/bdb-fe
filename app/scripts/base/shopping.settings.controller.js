@@ -91,7 +91,7 @@
 			});
 
 		}
-		
+
 		$timeout(function() {$scope.map.refresh(); $scope.map.setCenter($scope.obj.address.latitude, $scope.obj.address.longitude);}, 500);
 	}
 
@@ -104,19 +104,11 @@
 	}
 
     $scope.postUpdate = function(data) {
-        if( data.status = 200 
+        if( data.status = 200
             && data.data.error_code === undefined ) {
-            swal({
-                title: "Ok!",
-                text: "La configuración del centro comercial fue salvada con éxito",
-                type: "success"
-            });
+            alert("La configuración del centro comercial fue salvada con éxito");
         } else {
-            swal({
-                title: "Error!",
-                text: "La configuración del centro comercial no pudo salvarse",
-                type: "error"
-            });
+            alert("La configuración del centro comercial no pudo salvarse");
         }
 
         $scope.loadingSubmit = false;

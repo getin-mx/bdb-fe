@@ -45,7 +45,6 @@
     "fontawesome": "~4.7.0",
     "highcharts": "~4.2.6",
     "ion.rangeSlider": "~2.1.4",
-    "bootstrap-touchspin": "~3.1.2",
     "chosen": "~1.6.2",
     "awesome-bootstrap-checkbox": "~0.3.7",
     "dropzone": "~4.3.0",
@@ -55,10 +54,12 @@
     "blueimp-gallery": "~2.22.0",
     "angular-modal-service": "^0.13.0",
     "SpinKit": "spinkit#^1.2.5",
-    "angularjs-datatables": "^0.5.9"
+    "angularjs-datatables": "^0.5.9",
+    "nouislider": "^11.0.3",
+    "wnumb": "^1.1.0"
   },
   "resolutions": {
     "jquery": "~2.1.4",
-    "angular": "~1.5.0"
+    "angular": "#1.6.0"
   }
 }

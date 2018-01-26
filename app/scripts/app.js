@@ -13,12 +13,13 @@
         'datePicker',					          // Angular Date Pciker
         'ui.footable',					        // Foo Tables
         'ui.knob',                      // jsKnob
-        'angularModalService',
+        'angularModalService',          // Modal Service
         'localytics.directives',        // angular-chosen (just provided... not in repo)
         'summernote',                   // Summernote text editor
         'angular-flot',                 // Flot Charts
         'angles',                       // Chartjs
         'BrowserCache',
-        'datatables'
+        'datatables',                   //Datatables
+        'ya.nouislider'                 //NoUISlider
     ])
 })();

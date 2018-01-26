@@ -30,15 +30,29 @@
 <div class="panel-body wrapper wrapper-content animated fadeInRight">
 
 	<div class="row">
+		<div class="col-lg-12">
+			<div class="ibox float-e-margins">
+				<div class="ibox-title">
+					<h5>Potencia de antena</h5>
+					<br>
+					<br>
+				</div>
+				<div class="ibox-content">
+					<div class="antenna-slider">
+						<div ya-no-ui-slider='sliderOptions'></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
+	<div class="row">
 		<!-- Power & Threshold Configuration -->
 		<div class="col-lg-5">
 			<div class="ibox float-e-margins">
-				<div class="ibox-title">
-					<h5>Potencia</h5>
-				</div>
+				<div class="ibox-title"></div>
 				<div class="ibox-content">
-					<div class="text-center" style="height: 130px;">
+					<!-- <div class="text-center" style="height: 130px;">
 						<div style="width: 30%; float: left;">
 						Potencia de Visitante<br/>
 						<div class="m-r-md inline" style="margin-top: 15px; margin-left: 5px;">
@@ -59,7 +73,7 @@
 							<knob knob-data="obj.peasantPowerThreshold" class="m-r-sm" data-fgColor="#1AB394" data-width="85" data-height="85" data-min="-200" data-max="0" knob-options=""></knob>
 						</div>
 						</div>
-					</div>
+					</div> -->
 
 					<div class="m-b-sm" style="margin-top: 15px;">
 						<strong>Tiempo de visita:</strong> Un visitante deber&aacute; estar m&aacute;s del m&iacute;nimo del rango y menos del m&aacute;ximo del rango seleccionado para ser contado como tal.
@@ -75,7 +89,6 @@
 						<strong>GAP:</strong> Tiempo entre probe-requests para que un visitante sea contado como la misma visita.
 					</div>
 					<div id="visitGapThreshold" ion-range-slider range-options="visitGapThreshold"></div>
-
 				</div>
 			</div>
 		</div>
@@ -256,7 +269,6 @@
 							<div id="visitSun" ion-range-slider range-options="visitSun"></div>
 						</div>
 					</div>
-
 				</div>
 			</div>
 		</div>

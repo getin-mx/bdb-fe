@@ -221,6 +221,40 @@
         to: 1440
     };
 
+    var formatWalker = wNumb({
+                		decimals: 0,
+                		prefix: 'Paseante: -',
+                	});
+    var formatViewer = wNumb({
+                		decimals: 0,
+                		prefix: 'Mirador: -',
+                	});
+    var formatOffsetViewer = wNumb({
+                		decimals: 0,
+                		prefix: 'Offset: -',
+                	});
+    var formatVisitor = wNumb({
+                		decimals: 0,
+                		prefix: 'Visitante: -',
+                	});
+
+    $scope.sliderOptions = {
+      start: [60, 70, 75, 80],
+	    connect: [false, false, true, false, false],
+      tooltips: [formatVisitor, formatViewer, formatOffsetViewer, formatWalker],
+      step: 1,
+      range: {
+    		'min': [0],
+    		'10%': [60],
+    		'90%': [100],
+    		'max': [200]
+    	},
+      pips: {
+        mode: 'range',
+        density: 3
+      }
+    };
+
     $scope.processMinDate = moment("2017-01-01T12:00:00.000Z");
 
 	$scope.init = function() {
@@ -331,18 +365,11 @@
     }
 
     $scope.postUpdate = function(data) {
-        console.log(data);
-        if( data.status = 200
-            && data.data.error_code === undefined ) {
-            // swal({
-            //     title: "Ok!",
-            //     text: "La configuración de la antena fue salvada con éxito",
-            //     type: "success"
-            // });
+        if( data.status === 200 && data.data.error_code === undefined ) {
+
             ModalService.showModal({
               templateUrl: "views/modal_alert.html",
               controller: function($scope, close) {
-                //
                 this.title = "Success";
                 this.body = "La configuración de la antena fue salvada con éxito";
                 this.primary = "Ok";
@@ -357,15 +384,28 @@
               });
             });
 
-
-            // swal({
-            //     title: "Error!",
-            //     text: "La configuración de la antena no pudo salvarse",
-            //     type: "error"
-            // });
-
         $scope.loadingSubmit = false;
         $scope.postRefresh(data);
+
+      } else {
+          ModalService.showModal({
+            templateUrl: "views/modal_alert.html",
+            controller: function($scope, close) {
+              this.title = "Error!";
+              this.body = "La configuración de la antena no pudo salvarse";
+              this.primary = "Ok";
+              this.action = function(){
+                console.log("did stuff");
+              };
+            },controllerAs: "alerta"
+          }).then(function(modal) {
+            modal.element.modal();
+            modal.close.then(function($scope, result) {
+              console.log(result);
+            });
+          });
+
+          $scope.loadingSubmit = false;
       }
     }
 
@@ -737,54 +777,52 @@
         // Define apdassignationdelete click response
         $('.apdassignationdelete').click(function(e) {
             e.preventDefault();
+            ModalService.showModal({
+               templateUrl: "views/yes_no.html",
+               controller: "YesNoController",
+               controllerAs: "yesno",
+               inputs: {
+                  title: "Estas seguro de querer eliminar la asignación?",
+                  body: "Si se elimina la asignación ya no podrá recuperarse!"
+                }
+             }).then(function(modal) {
+                   // The modal object has the element built, if this is a bootstrap modal
+                   // you can call 'modal' to show it, if it's a custom modal just show or hide
+                   // it as you need to.
+                   modal.element.modal();
+                   modal.close.then(function(result) {
+                     // $scope.message = result ? "You said Yes" : "You said No";
+                     if(result) {
+                       $http.delete(CommonsService.getUrl('/apdassignation/' + $(e.currentTarget).data('value')))
+                         .then(function(data) {
+                             alert("La asignación fue eliminada.");
+                             $scope.refreshAssignations();
+                         });
+                     } else {
+                       alert("La asignación no se pudo eliminar");
+                     }
+                   });
+             });
 
-            // swal({
-            //     title: "Estas seguro?",
-            //     text: "Si se elimina la asignación ya no podrá recuperarse!",
-            //     type: "warning",
-            //     showCancelButton: true,
-            //     confirmButtonColor: "#DD6B55",
-            //     confirmButtonText: "Si, eliminalo!",
-            //     cancelButtonText: "No, me arrepiento...",
-            //     closeOnConfirm: false,
-            //     closeOnCancel: true },
-            // function (isConfirm) {
-            //     if (isConfirm) {
-            //         $http.delete(CommonsService.getUrl('/apdassignation/' + $(e.currentTarget).data('value')))
-            //             .then(function(data) {
-            //                 swal("Eliminado!", "La asignación fue eliminada.", "success");
-            //                 $scope.refreshAssignations();
-            //             });
-            //     }
-            // });
         });
 
         // Define apdassignationdelete click response
         $('.apdassignationremove').click(function(e) {
             e.preventDefault();
-            // swal({
-            //     title: "Estas seguro?",
-            //     text: "Quieres desasignar esta antena?",
-            //     type: "warning",
-            //     showCancelButton: true,
-            //     confirmButtonColor: "#DD6B55",
-            //     confirmButtonText: "Si, desasignar!",
-            //     cancelButtonText: "No, me arrepiento...",
-            //     closeOnConfirm: false,
-            //     closeOnCancel: true },
-            // function (isConfirm) {
-            //     if (isConfirm) {
-            //         $http.get((CommonsService.getUrl('/apdassignation/' + $(e.currentTarget).data('value'))))
-            //             .then(function(data) {
-            //                 data.data.toDate = 'now';
-            //                 $http.post((CommonsService.getUrl('/apdassignation')), data.data)
-            //                     .then(function(data) {
-            //                         swal("Desasignado!", "La antena fue desasignada", "success");
-            //                         $scope.refreshAssignations();
-            //                     })
-            //             })
-            //     }
-            // });
+
+            if (confirm('Quieres desasignar esta antena?')) {
+              $http.get((CommonsService.getUrl('/apdassignation/' + $(e.currentTarget).data('value'))))
+                 .then(function(data) {
+                     data.data.toDate = 'now';
+                     $http.post((CommonsService.getUrl('/apdassignation')), data.data)
+                         .then(function(data) {
+                             alert("La antena fue desasignada");
+                             $scope.refreshAssignations();
+                         });
+                 });
+            } else {
+
+            }
         });
 
         $scope.loadingRefresh = false;
@@ -889,42 +927,26 @@
 
         var tmpDate = moment($scope.processFromDate);
         if( tmpDate <= $scope.processMinDate ) {
-            // swal({
-            //     title: "Error!",
-            //     text: "La fecha de inicio del reproceso es menor al primero de enero!",
-            //     type: "error"
-            // });
+            alert("La fecha de inicio del reproceso es menor al primero de enero!");
             $scope.loadingUpdate = false;
             return;
         }
 
         tmpDate = moment($scope.processToDate);
         if( tmpDate < $scope.processMinDate ) {
-            // swal({
-            //     title: "Error!",
-            //     text: "La fecha de fin del reproceso es menor al primero de enero!",
-            //     type: "error"
-            // });
+              alert("La fecha de fin del reproceso es menor al primero de enero!");
             $scope.loadingUpdate = false;
             return;
         }
 
         if( Date.daysBetween(new Date($scope.processFromDate), new Date($scope.processToDate)) > 186 ) {
-            // swal({
-            //     title: "Error!",
-            //     text: "No puede reprocesarse más de un mes!",
-            //     type: "error"
-            // });
+            alert("No puede reprocesarse más de seis meses!");
             $scope.loadingUpdate = false;
             return;
         }
 
         if( moment($scope.processToDate) <= moment($scope.processFromDate)) {
-            // swal({
-            //     title: "Error!",
-            //     text: "La fecha de fin de reproceso tiene que ser mayor a la de inicio!",
-            //     type: "error"
-            // });
+            alert("La fecha de fin de reproceso tiene que ser mayor a la de inicio!");
             $scope.loadingUpdate = false;
             return;
         }
@@ -947,17 +969,9 @@
 
         if( data.status = 200
             && data.data.error_code === undefined ) {
-            // swal({
-            //     title: "Ok!",
-            //     text: "Se ha emitido el reproceso! Espera hasta que el proceso se encuentre en estado finalizado",
-            //     type: "success"
-            // });
+            alert("Se ha emitido el reproceso! Espera hasta que el proceso se encuentre en estado finalizado");
         } else {
-            // swal({
-            //     title: "Error!",
-            //     text: "No pudo emitirse el reproceso! Asegúrate de que la antena esté asignada y que las fechas de proceso sean correctas",
-            //     type: "error"
-            // });
+            alert("No pudo emitirse el reproceso! Asegúrate de que la antena esté asignada y que las fechas de proceso sean correctas");
         }
 
         $scope.loadingUpdate = false;

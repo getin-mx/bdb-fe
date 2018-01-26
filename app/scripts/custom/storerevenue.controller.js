@@ -29,7 +29,7 @@ function StoreRevenueCtrl($scope, $http, $location, CommonsService, Authenticati
 		// validate token
 		if( data.status != 200 || data.data.error_code !== undefined )
 			AuthenticationService.logout(function(response) {
-				$location.path('/login');    
+				$location.path('/login');
 			});
 
 		for( var i = 0; i < data.data.data.length; i++ ) {
@@ -49,7 +49,7 @@ function StoreRevenueCtrl($scope, $http, $location, CommonsService, Authenticati
 		$scope.stores = new Array();
 		$scope.loadingRefresh = true;
 		$http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
-			+ '&entityId=' + $scope.brand.id 
+			+ '&entityId=' + $scope.brand.id
 			+ '&entityKind=1&onlyExternalIds=true')
 			.then($scope.postBrandChange);
 	}
@@ -80,7 +80,7 @@ function StoreRevenueCtrl($scope, $http, $location, CommonsService, Authenticati
 		console.log($scope.store.id);
 		console.log($scope.store);
 		$http.get(CommonsService.getUrl('/dashboard/storeRevenueData')
-			+ '&storeId=' + $scope.store.id 
+			+ '&storeId=' + $scope.store.id
 			+ '&fromDate=' + $scope.fromDate
 			+ '&toDate=' + $scope.toDate)
 			.then($scope.postLoadUpdate);
@@ -125,29 +125,20 @@ function StoreRevenueCtrl($scope, $http, $location, CommonsService, Authenticati
 		$http.post(CommonsService.getUrl('/dashboard/storeRevenueData'), $scope.obj)
 			.then($scope.postUpdateRevenue);
 
-	}		
-	
+	}
+
 
 	$scope.postUpdateRevenue = function(data){
 	console.log(data);
 		$scope.loadingexecUpdate = false;
 
-		if( data.status = 200 
+		if( data.status = 200
 			&& data.data.error_code === undefined ) {
-			swal({
-				title: "Ok!",
-				text: "Los Revenue del "+ $scope.fromDate
-			+ ' al ' + $scope.toDate+" han sido actualizados con éxito",
-				type: "success"
-			});
+			alert("Los Revenue del "+ $scope.fromDate + ' al ' + $scope.toDate+" han sido actualizados con éxito");
 		} else {
-			swal({
-				title: "Error!",
-				text: "Ocurrio un problema, no se han podido guardar el Revenue.",
-				type: "error"
-			});
+			alert("Ocurrio un problema, no se han podido guardar el Revenue.");
 		}
-		
+
 	}
 
 	$scope.update = function() {

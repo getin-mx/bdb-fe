@@ -305,17 +305,9 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 
 		if( data.status = 200
 			&& data.data.error_code === undefined ) {
-			swal({
-				title: "Ok!",
-				text: "La previsualización de tickets fue generada con éxito. Los tickets aun no están guardados. Por favor, revisa los datos y luego haz un click en el botón Confirmar para guardar los datos.",
-				type: "success"
-			});
+			alert("La previsualización de tickets fue generada con éxito. Los tickets aun no están guardados. Por favor, revisa los datos y luego haz un click en el botón Confirmar para guardar los datos.");
 		} else {
-			swal({
-				title: "Error!",
-				text: "Ocurrio un problema, no se han podido guardar los tickets.",
-				type: "error"
-			});
+			alert("Ocurrio un problema, no se han podido guardar los tickets.");
 		}
 
 	}
@@ -348,19 +340,10 @@ function StoreTicketsCtrl($scope, $http, $location, CommonsService, Authenticati
 
 		if( data.status = 200
 			&& data.data.error_code === undefined ) {
-			swal({
-				title: "Ok!",
-				text: "La carga de tickets ha sido generada con éxito.",
-				type: "success"
-			});
+			alert("La carga de tickets ha sido generada con éxito.");
 		} else {
-			swal({
-				title: "Error!",
-				text: "Ocurrio un problema, no se han podido guardar los tickets.",
-				type: "error"
-			});
+			alert("Ocurrio un problema, no se han podido guardar los tickets.");
 		}
-
 	}
 	return vm;
 };

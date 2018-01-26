@@ -25,7 +25,7 @@ function ÀPDMAEmployeesCtrl($scope, $rootScope, $http, $location, $uibModal, Co
 		// validate token
 		if( data.status != 200 || data.data.error_code !== undefined )
 			AuthenticationService.logout(function(response) {
-				$location.path('/login');    
+				$location.path('/login');
 			});
 
 		for( var i = 0; i < data.data.data.length; i++ ) {
@@ -56,7 +56,7 @@ function ÀPDMAEmployeesCtrl($scope, $rootScope, $http, $location, $uibModal, Co
 		$scope.stores = new Array();
 		$scope.loadingRefresh = true;
 		$http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
-			+ '&entityId=' + $scope.brand.id 
+			+ '&entityId=' + $scope.brand.id
 			+ '&entityKind=1&onlyExternalIds=true')
 			.then($scope.postBrandChange);
 	}
@@ -87,7 +87,7 @@ function ÀPDMAEmployeesCtrl($scope, $rootScope, $http, $location, $uibModal, Co
 	$scope.refresh = function() {
 
 		$scope.loadingRefresh = true;
-		$http.get(CommonsService.getUrl('/apdmaemployee') 
+		$http.get(CommonsService.getUrl('/apdmaemployee')
 			+ '&entityId=' + $scope.store.id
 			+ '&entityKind=3&from=0&to=0&q=' + encodeURIComponent($scope.search))
 			.then($scope.fillTable);
@@ -128,7 +128,7 @@ function ÀPDMAEmployeesCtrl($scope, $rootScope, $http, $location, $uibModal, Co
 	    			   + '<td data-value="' + obj.description + '">' + obj.description + '</td>'
 	    			   + '<td data-value="' + obj.fromDate + '">' + $filter('date')(obj.fromDate, "dd/MM/yyyy") + '</td>'
 	    			   + '<td data-value="' + obj.toDate + '">' + ((obj.toDate !== undefined) ? $filter('date')(obj.toDate, "dd/MM/yyyy") : '-') + '</td>'
-	    			   
+
 	    			   + '<td data-value="' + obj.identifier + '">'
 
 	    			   + '<a class="edit" style="margin-left: 10px;" href="#" '
@@ -172,25 +172,14 @@ function ÀPDMAEmployeesCtrl($scope, $rootScope, $http, $location, $uibModal, Co
         $('.delete').click(function(e) {
             e.preventDefault();
 
-            swal({
-                title: "Estas seguro?",
-                text: "Si se elimina este empleado no podrá recuperarse!",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#DD6B55",
-                confirmButtonText: "Si, eliminalo!",
-                cancelButtonText: "No, me arrepiento...",
-                closeOnConfirm: false,
-                closeOnCancel: true },
-            function (isConfirm) {
-                if (isConfirm) {
-                    $http.delete(CommonsService.getUrl('/apdmaemployee/' + $(e.currentTarget).data('value')))
-                        .then(function(data) {
-                            swal("Eliminado!", "El empleado fue eliminado.", "success");
-                            $scope.refresh();
-                        });
-                }
-            });
+						if(confirm("Si se elimina este empleado no podrá recuperarse!")) {
+							$http.delete(CommonsService.getUrl('/apdmaemployee/' + $(e.currentTarget).data('value')))
+									.then(function(data) {
+											alert("El empleado fue eliminado.");
+											$scope.refresh();
+									});
+						}
+
         });
 
 	}

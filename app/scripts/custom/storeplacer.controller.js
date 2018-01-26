@@ -29,7 +29,7 @@ function StorePlacerCtrl($scope, $http, $location, CommonsService, Authenticatio
 		// validate token
 		if( data.status != 200 || data.data.error_code !== undefined )
 			AuthenticationService.logout(function(response) {
-				$location.path('/login');    
+				$location.path('/login');
 			});
 
 		for( var i = 0; i < data.data.data.length; i++ ) {
@@ -49,7 +49,7 @@ function StorePlacerCtrl($scope, $http, $location, CommonsService, Authenticatio
 		$scope.stores = new Array();
 		$scope.loadingRefresh = true;
 		$http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
-			+ '&entityId=' + $scope.brand.id 
+			+ '&entityId=' + $scope.brand.id
 			+ '&entityKind=1&onlyExternalIds=true')
 			.then($scope.postBrandChange);
 	}
@@ -131,19 +131,11 @@ function StorePlacerCtrl($scope, $http, $location, CommonsService, Authenticatio
 		console.log(data);
 		$scope.loadingUpdate = false;
 
-		if( data.status = 200 
+		if( data.status = 200
 			&& data.data.error_code === undefined ) {
-			swal({
-				title: "Ok!",
-				text: "La configuración fue salvada con éxito",
-				type: "success"
-			});
+				alert("La configuración fue salvada con éxito");
 		} else {
-			swal({
-				title: "Error!",
-				text: "La configuración no pudo salvarse",
-				type: "error"
-			});
+				alert("La configuración no pudo salvarse");
 		}
 
 	}

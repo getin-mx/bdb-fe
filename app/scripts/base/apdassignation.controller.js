@@ -14,7 +14,7 @@
         $scope.entityKinds = new Array();
         $scope.entityKinds.push({id: 0, name: 'Centro Comercial'});
         $scope.entityKinds.push({id: 3, name: 'Tienda'});
-        $scope.entityKind = $scope.entityKinds[1];        
+        $scope.entityKind = $scope.entityKinds[1];
     }
 
     $scope.new = function() {
@@ -66,9 +66,9 @@
                         $('#fromDate').val('');
                     }
                     if( $scope.obj.toDate === undefined || $scope.obj.toDate === null ) {
-                        $scope.obj.toDate = null;  
+                        $scope.obj.toDate = null;
                         $('#toDate').val('');
-                    } 
+                    }
 
                     CommonsService.safeApply($scope);
                 }
@@ -115,19 +115,11 @@
         console.log(data);
         $scope.loadingUpdate = false;
 
-        if( data.status = 200 
+        if( data.status = 200
             && data.data.error_code === undefined ) {
-            swal({
-                title: "Ok!",
-                text: "La asignación fue salvada con éxito",
-                type: "success"
-            });
+            alert("La asignación fue salvada con éxito");
         } else {
-            swal({
-                title: "Error!",
-                text: "La asignación no pudo salvarse",
-                type: "error"
-            });
+            alert("La asignación no pudo salvarse");
         }
 
         $rootScope.$emit('adpassignation.update');
@@ -143,7 +135,7 @@
                 // validate token
                 if( data.status != 200 || data.data.error_code !== undefined )
                     AuthenticationService.logout(function(response) {
-                        $location.path('/login');    
+                        $location.path('/login');
                     });
 
                 for( var i = 0; i < data.data.data.length; i++ ) {
@@ -174,7 +166,7 @@
                 // validate token
                 if( data.status != 200 || data.data.error_code !== undefined )
                     AuthenticationService.logout(function(response) {
-                        $location.path('/login');    
+                        $location.path('/login');
                     });
 
                 for( var i = 0; i < data.data.data.length; i++ ) {
@@ -196,7 +188,7 @@
         $scope.loadingRefresh = true;
         if( $scope.brand !== null && $scope.brand.id !== null )
             $http.get(CommonsService.getUrl('/dashboard/assignedStoreList')
-                + '&entityId=' + $scope.brand.id 
+                + '&entityId=' + $scope.brand.id
                 + '&entityKind=1&onlyExternalIds=true')
                 .then($scope.postBrandChange);
     }

@@ -347,11 +347,7 @@
         .then(function(data) {
 
             if( data.status = 200 && data.data.error_code === undefined ) {
-                // swal({
-                //     title: "Ok!",
-                //     text: "Los comentarios fueron salvados con éxito",
-                //     type: "success"
-                // });
+                alert("Los comentarios fueron salvados con éxito");
 
                 ModalService.showModal({
                   templateUrl: "views/modal_alert.html",
@@ -374,12 +370,7 @@
                 $scope.loadingSubmit = false;
 
             } else {
-                // swal({
-                //     title: "Error!",
-                //     text: "Los comentarios no pudieron salvarse",
-                //     type: "error"
-                // });
-
+                alert("Los comentarios no pudieron salvarse");
             }
         });
     }
