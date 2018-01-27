@@ -380,12 +380,13 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 // Disable extra options by default
+                /*alert(data.series);
                 if($scope.selected.value === 2){
                   data.series = data.series.slice(1,2);
                 } else{
                   data.series = data.series.slice(0,2);
                   data.series[0].name = "Mirador";
-                }
+                }*/
                 // for( var i = 2; i < data.series.length; i++)
                 //     data.series[i].visible = false;
 
@@ -449,7 +450,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             + '&timestamp=' + CommonsService.getTimestamp(),
             function(data) {
                 // Disable extra options by default
-                data.series = data.series.slice(1,2);
+                //data.series = data.series.slice(1,2);
 
                 $(id).highcharts({
                     chart: {
