@@ -5,6 +5,11 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
 
     var vm = this;
 
+
+    $scope.groupChecked = true;
+    $scope.isIndividualAnalysis = !$scope.groupChecked;
+
+
     var dToDate = new Date(new Date().getTime() - config.oneDay);
     var dFromDate = new Date(dToDate.getTime() - config.oneWeek);
 
@@ -84,11 +89,12 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
     $scope.fromDate = dFromDate.format("yyyy-mm-dd", null);
     $('#fromDate').val($scope.fromDate);
     $scope.storeId = '';
-    $scope.groupChecked = true;
+
 
 
     $scope.changeMode = function(){
       console.log($scope.groupChecked);
+      $scope.isIndividualAnalysis = !$scope.groupChecked;
       if($scope.groupChecked){
         $(".grouped-devlyn-filters").removeClass("hidden");
         $(".individual-devlyn-filters").addClass("hidden");
@@ -123,6 +129,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
         name:"Centro 2",
         value: 'centro-2'
       }];
+
 
     $scope.districts = [
       {
@@ -230,11 +237,26 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
     }
 
     $scope.updateAPDVisits = function() {
+
         $scope.fromDate = $('#fromDate').val();
         $scope.toDate = $('#toDate').val();
 
-        vm.filterAPDVisits($scope.brandId, $scope.storeId, $scope.fromDate, $scope.toDate);
+        //individual analysis
+        if(!$scope.groupChecked){
+            vm.filterAPDVisits($scope.brandId, $scope.storeId, $scope.fromDate, $scope.toDate);
+        //groupal analysis
+        } else{
+            vm.updateReports($scope.brandId, $scope.storeId, $scope.fromDate, $scope.toDate);
+        }
+
     }
+
+
+    this.updateReports = function(brandId, storeId, fromDate, toDate) {
+
+        vm.updateBrandPerformanceTable('#brand_performance_table', config.baseUrl, fromDate, toDate, brandId);
+    }
+
 
     this.filterAPDVisits = function(brandId, storeId, fromDate, toDate) {
 
@@ -249,7 +271,6 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
         vm.updatePermanenceByHourChart('#permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId);
         vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId);
         vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId);
-        vm.updateBrandPerformanceTable('#brand_performance_table', config.baseUrl, fromDate, toDate, brandId);
         vm.updateHeatmapOccupation('#heatmap_occupation_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId);
     }
 
@@ -744,13 +765,16 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             });
     };
 
-    this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId, storeType) {
+    this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId) {
 
         $http.get(CommonsService.getUrl('/dashboard/devlynD')
             + '&entityId=' + entityId
-            + '&entityKind=1'
+            + '&entityKind=3'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
+            + '&region=' + $scope.regionSelected.value
+            + '&district=' + $scope.districtSelected.value
+            + '&storeFormat=' + $scope.formatSelected.value
             + '&onlyExternalIds=true'
             + '&format=json'
             + '&timestamp=' + CommonsService.getTimestamp())
@@ -766,10 +790,10 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
         var isZone = false;
         for(var i = 0; i < data.data.data.length; i++) {
             var obj = data.data.data[i];
-            if($scope.zoneAble !== 'hidden' && i !== 0 && (i !== data.data.data.length -1 )){
-              isZone = true;
-            }
-            newRow += $scope.fillBrandRecord(obj, false, isZone);
+            // if($scope.zoneAble !== 'hidden' && i !== 0 && (i !== data.data.length -1 )){
+            //   isZone = true;
+            // }
+            newRow += $scope.fillBrandRecord(obj, false);
         }
 
         table.appendRow(newRow);
@@ -781,7 +805,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
         $('#brand-count').html('&nbsp;(' + data.data.recordCount + ')');
     };
 
-    $scope.fillBrandRecord = function(obj, bold, isZone) {
+    $scope.fillBrandRecord = function(obj, bold) {
 
         var formatter1 = new Intl.NumberFormat('en-US');
         var formatter2 = new Intl.NumberFormat('en-US', {
