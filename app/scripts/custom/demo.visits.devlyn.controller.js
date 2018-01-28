@@ -89,7 +89,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
     $('#toDate').val($scope.toDate);
     $scope.fromDate = dFromDate.format("yyyy-mm-dd", null);
     $('#fromDate').val($scope.fromDate);
-    $scope.storeId = '';
+    $scope.storeId = undefined;
 
 
 
@@ -106,17 +106,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
     }
 
     $scope.types = [
-      {
-        name:"Todas",
-        value: ''
-      },
-      { name:"Exhibición",
-        value: 'exhibicion'
-      },
-      {
-        name:"Gabinete",
-        value: 'gabinete'
-    }];
+    ];
 
     $scope.regions = [
       {
@@ -207,13 +197,12 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
       }];
 
 
-    $scope.selectedType = $scope.types[0];
     $scope.regionSelected = $scope.regions[0];
     $scope.districtSelected = $scope.districts[0];
     $scope.formatSelected = $scope.formats[0];
 
     $scope.zoneChanged = function(){
-      console.log($scope.selected.value);
+      console.log($scope.zoneChanged.name);
     }
     $scope.regionChanged = function(){
       console.log($scope.regionSelected.value);
@@ -237,35 +226,29 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
         window.open(url);
     }
 
-    $scope.updateZoneList = function(id, entityId, subEntityId) {
+    $scope.updateZoneList = function(id, entityId) {
         $http.get(CommonsService.getUrl('/dashboard/innerZoneList')
             + '&entityId=' + entityId
-            + '&subEntityId=' + subEntityId
             + '&entityKind=1')
         .then(function(data) {
-            debugger;
             $(id).empty();
-            if(data.data.data.length <= 0) {
-                $scope.zoneAble = 'hidden';
-                return;
+            var zones = data.data.data;
+            for(var i=0; i<zones.length; i++){
+              $scope.types.push(zones[i]);
             }
-            $scope.zoneAble = '';
-            $(id).append($('<option>', {
-                value: '',
-                text: 'Todas'
-            }));
+            $scope.selectedZone = $scope.types[0];
 
-            for( var i = 0; i < data.data.data.length; i++ ) {
-                $(id).append($('<option>', {
-                    value: data.data.data[i].identifier,
-                    text: data.data.data[i].name
-                }));
+            if(zones.length === 0){
+              $scope.zoneAble = 'hidden';
+            } else{
+              $scope.zoneAble = '';
             }
+            debugger;
         });
     }
 
     $scope.storeChange = function(){
-      $scope.updateZoneList('.zone', $scope.brandId);
+      $scope.updateZoneList('.zone', $scope.storeId);
     }
 
     $scope.updateAPDVisits = function() {
