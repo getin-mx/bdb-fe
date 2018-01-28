@@ -257,10 +257,16 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
 
         //individual analysis
         if(!$scope.groupChecked){
-            vm.filterAPDVisits($scope.brandId, $scope.storeId, $scope.fromDate, $scope.toDate);
+          debugger;
+          var zone = undefined;
+          if($scope.selectedZone){
+            zone = $scope.selectedZone.identifier;
+          }
+
+            vm.filterAPDVisits($scope.storeId, zone, $scope.fromDate, $scope.toDate);
         //groupal analysis
         } else{
-            vm.updateReports($scope.brandId, $scope.storeId, $scope.fromDate, $scope.toDate);
+            vm.updateReports($scope.storeId, zone, $scope.fromDate, $scope.toDate);
         }
 
     }
@@ -783,7 +789,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
     this.updateBrandPerformanceTable = function(id, baseUrl, fromDate, toDate, entityId) {
 
         $http.get(CommonsService.getUrl('/dashboard/devlynD')
-            + '&entityId=' + entityId
+            + '&entityId=' + 'devlyn_mx'
             + '&entityKind=3'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
