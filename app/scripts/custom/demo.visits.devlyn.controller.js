@@ -231,7 +231,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             + '&entityId=' + entityId
             + '&entityKind=1')
         .then(function(data) {
-            $(id).empty();
+            $scope.types = [];
             var zones = data.data.data;
             for(var i=0; i<zones.length; i++){
               $scope.types.push(zones[i]);
@@ -243,7 +243,6 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             } else{
               $scope.zoneAble = '';
             }
-            debugger;
         });
     }
 
