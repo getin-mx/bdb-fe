@@ -8,6 +8,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
 
     $scope.groupChecked = true;
     $scope.isIndividualAnalysis = !$scope.groupChecked;
+    $scope.zoneAble = 'hidden';
 
 
     var dToDate = new Date(new Date().getTime() - config.oneDay);
@@ -107,7 +108,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
     $scope.types = [
       {
         name:"Todas",
-        value: 'all'
+        value: ''
       },
       { name:"Exhibición",
         value: 'exhibicion'
@@ -120,7 +121,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
     $scope.regions = [
       {
         name:"Todas",
-        value: 'all'
+        value: ''
       },
       { name:"Centro 1",
         value: 'centro-1'
@@ -134,7 +135,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
     $scope.districts = [
       {
         name:"Todas",
-        value: 'all'
+        value: ''
       },
       { name:"Distrito 4",
         value: 4
@@ -160,7 +161,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
     $scope.formats = [
       {
         name:"Todas",
-        value: 0
+        value: ''
       },
       { name:"Chedraui",
         value: 'chedraui'
@@ -206,7 +207,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
       }];
 
 
-    $scope.selected = $scope.types[0];
+    $scope.selectedType = $scope.types[0];
     $scope.regionSelected = $scope.regions[0];
     $scope.districtSelected = $scope.districts[0];
     $scope.formatSelected = $scope.formats[0];
@@ -234,6 +235,37 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             + '&toStringDate=' + $scope.toDate
 
         window.open(url);
+    }
+
+    $scope.updateZoneList = function(id, entityId, subEntityId) {
+        $http.get(CommonsService.getUrl('/dashboard/innerZoneList')
+            + '&entityId=' + entityId
+            + '&subEntityId=' + subEntityId
+            + '&entityKind=1')
+        .then(function(data) {
+            debugger;
+            $(id).empty();
+            if(data.data.data.length <= 0) {
+                $scope.zoneAble = 'hidden';
+                return;
+            }
+            $scope.zoneAble = '';
+            $(id).append($('<option>', {
+                value: '',
+                text: 'Todas'
+            }));
+
+            for( var i = 0; i < data.data.data.length; i++ ) {
+                $(id).append($('<option>', {
+                    value: data.data.data[i].identifier,
+                    text: data.data.data[i].name
+                }));
+            }
+        });
+    }
+
+    $scope.storeChange = function(){
+      $scope.updateZoneList('.zone', $scope.brandId);
     }
 
     $scope.updateAPDVisits = function() {
@@ -791,9 +823,9 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
         var isZone = false;
         for(var i = 0; i < data.data.data.length; i++) {
             var obj = data.data.data[i];
-            // if($scope.zoneAble !== 'hidden' && i !== 0 && (i !== data.data.length -1 )){
-            //   isZone = true;
-            // }
+            if($scope.zoneAble !== 'hidden' && i !== 0 && (i !== data.data.length -1 )){
+              isZone = true;
+            }
             newRow += $scope.fillBrandRecord(obj, false);
         }
 

@@ -54,13 +54,13 @@
 							<div class="form-group col-lg-2">
 								<label class="font-noraml">Óptica:</label>
 								<div class="input-group date">
-									<select name="store" ng-model="storeId" id="store" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 200px;"></select>
+									<select name="store" ng-change="storeChange()" ng-model="storeId" id="store" data-placeholder="Filtrar.." class="form-control" style="width: 200px;"></select>
 								</div>
 							</div>
-							<div class="form-group col-lg-2">
+							<div class="form-group col-lg-2" ng-class="zoneAble">
 								<label class="font-noraml">Zona:</label>
 								<div class="input-group date">
-									<select ng-model="selected" ng-options="type as type.name for type in types track by type.value" ng-change="zoneChanged()" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 200px;"></select>
+									<select ng-model="selectedType" ng-options="type as type.name for type in types track by type.value" ng-change="zoneChanged()" data-placeholder="Filtrar.." class="form-control zone" style="width: 200px;"></select>
 								</div>
 							</div>
 						</div>
