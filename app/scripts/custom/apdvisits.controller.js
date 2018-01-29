@@ -363,7 +363,6 @@
 
         $('#visits_by_date').html('');
         $('#visits_by_hour').html('');
-        $('#repetitions').html('');
         $('#permanence_by_hour').html('');
         $('#heatmap_traffic_by_hour').html('');
         $('#heatmap_occupation_by_hour').html('');
@@ -373,10 +372,6 @@
             $scope.zoneId, $scope.periodType, storeType);
         vm.updateVisitsByHourChart('#visits_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId,
             storeType);
-        if( brandId == 'grupopavel_mx') {
-            vm.updateRepetitionsChart('#repetitions', config.baseUrl, fromDate, toDate, brandId, storeId, $scope.zoneId,
-                storeType);
-        }
         vm.updatePermanenceByHourChart('#permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
             $scope.zoneId, storeType);
         vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId,
@@ -720,101 +715,6 @@
             });
     };
 
-    this.updateRepetitionsChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, storeType) {
-        // TODO use storeType
-        var url = null;
-
-        var eid;
-        var seid;
-        var kind;
-        var vo = false;
-
-        if( zoneId === undefined || zoneId == '') {
-            eid = entityId;
-            seid = subEntityId;
-            kind = 1;
-            vo = false;
-        } else {
-            eid = zoneId;
-            seid = zoneId;
-            kind = 20;
-            vo = true;
-        }
-
-        if( $scope.visitsOnly == true || vo == true ) {
-            return;
-            url = baseUrl
-            + '/dashboard/repetitions'
-            + '?authToken=' + $rootScope.globals.currentUser.token
-            + '&entityId=' + eid
-            + '&entityKind=' + kind
-            + '&subentityId=' + seid
-            + '&elementId=apd_visitor'
-            + '&subIdOrder=visitor_total_visits'
-            + '&fromStringDate=' + fromDate
-            + '&toStringDate=' + toDate
-            + '&eraseBlanks=true'
-            + '&timestamp=' + CommonsService.getTimestamp();
-        } else
-            url = baseUrl
-            + '/dashboard/repetitions'
-            + '?authToken=' + $rootScope.globals.currentUser.token
-            + '&entityId=' + eid
-            + '&entityKind=' + kind
-            + '&subentityId=' + seid
-            + '&elementId=apd_visitor'
-            + '&subIdOrder=visitor_total_peasents,visitor_total_visits,'
-            + '&fromStringDate=' + fromDate
-            + '&toStringDate=' + toDate
-            + '&eraseBlanks=true'
-            + '&timestamp=' + CommonsService.getTimestamp();
-
-        $.getJSON(url,
-            function(data) {
-                // Disable extra options by default
-                $(id).highcharts({
-                    chart: {
-                        type: 'column',
-                        marginLeft: 200,
-                        marginRight: 200
-                    },
-                    title: {
-                        text: 'Repeticiones'
-                    },
-                    xAxis: {
-                        categories: data.categories
-                    },
-                    yAxis: {
-                        title: {
-                            text: 'Repeticiones'
-                        },
-                        plotLines: [{
-                            value: 0,
-                            width: 1,
-                            color: '#808080'
-                        }]
-                    },
-                    tooltip: {
-                        valueSuffix: ''
-                    },
-                    legend: {
-                        layout: 'vertical',
-                        align: 'right',
-                        verticalAlign: 'middle',
-                        borderWidth: 0
-                    },
-                    plotOptions: {
-                        line: {
-                            dataLabels: {
-                                enabled: true
-                            },
-                            enableMouseTracking: false
-                        }
-                    },
-                    series: data.series
-                });
-            });
-    };
     this.updatePermanenceByHourChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId, zoneId, storeType) {
         // TODO use storeType
         var url = null;
