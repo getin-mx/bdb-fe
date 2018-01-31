@@ -11,6 +11,14 @@
       return moment.utc().hours(h).minutes(m).format("HH:mm");
     };
 
+    function isInt(value) {
+      if (isNaN(value)) {
+        return false;
+      }
+      var x = parseFloat(value);
+      return (x | 0) === x;
+    }
+
     var STATUS_ENABLED = 0;
     var STATUS_DISABLED = 1;
     var STATUS_PENDING = 2;
@@ -36,11 +44,13 @@
     slide: function(values, handle, unencoded) {},
     set: function(values, handle, unencoded) {},
     change: function(values, handle, unencoded) {
-      var viewerOffset = Math.round(values[2]) - Math.round(values[1]);
 
       $scope.obj.visitPowerThreshold = Math.round(values[0]) * -1;
-      $scope.obj.viewerPowerThreshold = Math.round(values[1]) * -1;
-      $scope.obj.viewerOffsetPowerThreshold = viewerOffset;
+      if($scope.obj.viewerPowerThreshold){
+        $scope.obj.viewerPowerThreshold = Math.round(values[1]) * -1;
+        var viewerOffset = Math.round(values[2]) - Math.round(values[1]);
+        $scope.obj.viewerOffsetPowerThreshold = viewerOffset;
+      }
       $scope.obj.peasantPowerThreshold = Math.round(values[3]) * -1;
     }
   }
@@ -423,14 +433,14 @@
     var peasantPowerThreshold = $scope.obj.peasantPowerThreshold * -1; //work with positives
 
     var viewerPowerThreshold = undefined;
-    if($scope.obj.viewerPowerThreshold){
+    if(isInt($scope.obj.viewerPowerThreshold)){
       viewerPowerThreshold = $scope.obj.viewerPowerThreshold * -1;
     } else{
       viewerPowerThreshold = (visitPowerThreshold + peasantPowerThreshold)/2;
     }
 
     var viewerOffsetPowerThreshold = undefined;
-    if($scope.obj.offsetViewer){
+    if(isInt($scope.obj.offsetViewer)){
       viewerOffsetPowerThreshold = viewerPowerThreshold + $scope.obj.offsetViewer;
     } else{
       viewerOffsetPowerThreshold = viewerPowerThreshold;
