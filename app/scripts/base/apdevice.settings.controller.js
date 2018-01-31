@@ -925,7 +925,6 @@
                 var response = data.data.data;
                 $scope.entity = {};
                 if( response.length > 0 ) {
-                    debugger;
                     for(var i=0; i<= response.length; i++){
                       if(response[i].entityKind === 3){
                         $scope.entity.id = response[i].entityId;
