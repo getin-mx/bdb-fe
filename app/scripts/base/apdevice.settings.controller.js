@@ -922,11 +922,18 @@
             .then($scope.fillProcessTable);
         $http.get(CommonsService.getUrl('/apdassignation') + '&hostname=' + $scope.hostname + '&active=true' )
             .then(function(data) {
+                var response = data.data.data;
                 $scope.entity = {};
-                if( data.data.data.length > 0 ) {
-                    $scope.entity.id = data.data.data[0].entityId;
-                    $scope.entity.kind = data.data.data[0].entityKind;
-                    $scope.entity.name = data.data.data[0].entityName;
+                if( response.length > 0 ) {
+                    debugger;
+                    for(var i=0; i<= response.length; i++){
+                      if(response[i].entityKind === 3){
+                        $scope.entity.id = response[i].entityId;
+                        $scope.entity.kind = response[i].entityKind;
+                        $scope.entity.name = response[i].entityName;
+                        break;
+                      }
+                    }
                 }
                 $scope.loadingUpdate = false;
             });
