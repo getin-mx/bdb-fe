@@ -36,9 +36,11 @@
     slide: function(values, handle, unencoded) {},
     set: function(values, handle, unencoded) {},
     change: function(values, handle, unencoded) {
+      var viewerOffset = Math.round(values[2]) - Math.round(values[1]);
+
       $scope.obj.visitPowerThreshold = Math.round(values[0]) * -1;
       $scope.obj.viewerPowerThreshold = Math.round(values[1]) * -1;
-      $scope.obj.viewerOffsetPowerThreshold = Math.round(values[2]) * -1;
+      $scope.obj.viewerOffsetPowerThreshold = viewerOffset;
       $scope.obj.peasantPowerThreshold = Math.round(values[3]) * -1;
     }
   }
@@ -419,11 +421,22 @@
 
     var visitPowerThreshold = $scope.obj.visitPowerThreshold * -1;
     var peasantPowerThreshold = $scope.obj.peasantPowerThreshold * -1; //work with positives
-    var viewerPowerThreshold = (visitPowerThreshold + peasantPowerThreshold)/2;
-    var viewerOffsetPowerThreshold = viewerPowerThreshold;
+
+    var viewerPowerThreshold = undefined;
+    if($scope.obj.viewerPowerThreshold){
+      viewerPowerThreshold = $scope.obj.viewerPowerThreshold * -1;
+    } else{
+      viewerPowerThreshold = (visitPowerThreshold + peasantPowerThreshold)/2;
+    }
+
+    var viewerOffsetPowerThreshold = undefined;
+    if($scope.obj.offsetViewer){
+      viewerOffsetPowerThreshold = viewerPowerThreshold + $scope.obj.offsetViewer;
+    } else{
+      viewerOffsetPowerThreshold = viewerPowerThreshold;
+    }
 
     // initialRange = visitPowerThreshold * ;
-
     startingArray.push(visitPowerThreshold);
     startingArray.push(viewerPowerThreshold);
     startingArray.push(viewerOffsetPowerThreshold);
