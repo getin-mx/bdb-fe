@@ -257,7 +257,6 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
 
         //individual analysis
         if(!$scope.groupChecked){
-          debugger;
           var zone = undefined;
           if($scope.selectedZone){
             zone = $scope.selectedZone.identifier;
@@ -851,18 +850,18 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
                 + '<td data-value="' + obj.title.replace("Ópticas Devlyn", "") + '">' + b1 + obj.title.replace("Ópticas Devlyn", "") + b2 + '</td>'
                 + '<td data-value="' + obj.peasants + '"><center>'   + b1 +  formatter1.format(obj.peasants) + b2 + '</center></td>'
                 + '<td data-value="' + obj.viewers + '"><center>'   + b1 +  formatter1.format(obj.viewers) + b2 + '</center></td>'
-                + '<td data-value="' + obj.cabinet + '"><center>'   + b1 +  formatter1.format(obj.cabinet) + b2 + '</center></td>'
                 + '<td data-value="' + obj.visitors + '"><center>'  + b1 +  formatter1.format(obj.visitors) + b2 + '</center></td>'
+                + '<td data-value="' + obj.cabinet + '"><center>'   + b1 +  formatter1.format(obj.cabinet) + b2 + '</center></td>'
                 + '<td data-value="' + obj.tickets + '"><center>'  + b1 +  formatter1.format(obj.tickets) + b2 + '</center></td>'
                 + '<td data-value="' + obj.items + '"><center>'  + b1 +  formatter1.format(obj.items) + b2 + '</center></td>'
                 + '<td data-value="' + obj.revenue + '"><center>'  + b1 +  formatter2.format(obj.revenue) + b2 + '</center></td>'
-                + '<td data-value="' + obj.cabinetConversion + '"><center>'  + b1 + formatter3.format(obj.cabinetConversion) + '%' + b2 + '</center></td>'
                 + '<td data-value="' + obj.visitsConversion + '"><center>'  + b1 + formatter3.format(obj.visitsConversion) + '%' + b2 + '</center></td>'
+                + '<td data-value="' + obj.cabinetConversion + '"><center>'  + b1 + formatter3.format(obj.cabinetConversion) + '%' + b2 + '</center></td>'
                 + '<td data-value="' + obj.ticketsConversion + '"><center>'  + b1 + formatter3.format(obj.ticketsConversion) + '%' + b2 + '</center></td>'
                 + '<td data-value="' + obj.higherDay + '"><center>'  + b1 + obj.higherDay + b2 + '</center></td>'
                 + '<td data-value="' + obj.lowerDay + '"><center>'  + b1 + obj.lowerDay + b2 + '</center></td>'
-                + '<td data-value="' + obj.averagePermanenceCabinet + '"><center>'  + b1 + formatter1.format(obj.averagePermanenceCabinet) + ' mins' + b2 + '</center></td>'
                 + '<td data-value="' + obj.averagePermanenceEntrance + '"><center>'  + b1 + formatter1.format(obj.averagePermanenceEntrance) + ' mins' + b2 + '</center></td>'
+                + '<td data-value="' + obj.averagePermanenceCabinet + '"><center>'  + b1 + formatter1.format(obj.averagePermanenceCabinet) + ' mins' + b2 + '</center></td>'
                 + '<td data-value="' + obj.averagePermanenceAll + '"><center>'  + b1 + formatter1.format(obj.averagePermanenceAll) + ' mins' + b2 + '</center></td>'
                 + '</tr>';
         return row;
