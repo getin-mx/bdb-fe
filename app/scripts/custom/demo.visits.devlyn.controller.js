@@ -304,7 +304,6 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
               id = '#store';
               $(id).empty();
 
-              debugger;
               var result = data;
               $scope.stores = result;
               $scope.storeSelected = $scope.stores[0];

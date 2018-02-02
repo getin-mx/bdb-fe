@@ -46,10 +46,10 @@
     change: function(values, handle, unencoded) {
 
       $scope.obj.visitPowerThreshold = Math.round(values[0]) * -1;
-      if($scope.obj.viewerPowerThreshold){
+      if(isInt($scope.obj.viewerPowerThreshold)){
         $scope.obj.viewerPowerThreshold = Math.round(values[1]) * -1;
       }
-      if($scope.obj.offsetViewer){
+      if(isInt($scope.obj.offsetViewer)){
         var viewerOffset = Math.round(values[2]) - Math.round(values[1]);
         $scope.obj.offsetViewer = viewerOffset;
       }
