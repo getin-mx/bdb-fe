@@ -230,14 +230,14 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             + '&entityId=' + entityId
             + '&entityKind=1')
         .then(function(data) {
-            $scope.types = [];
+            $scope.types = [{name: $scope.storeSelected.name, identifier: $scope.storeSelected.identifier}];
             var zones = data.data.data;
             for(var i=0; i<zones.length; i++){
               $scope.types.push(zones[i]);
             }
             $scope.selectedZone = $scope.types[0];
 
-            if(zones.length === 0){
+            if(zones.length <= 1){
               $scope.zoneAble = 'hidden';
             } else{
               $scope.zoneAble = '';
@@ -261,9 +261,14 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
           if($scope.selectedZone){
             zone = $scope.selectedZone.identifier;
           }
-          debugger;
+          var pid = undefined;
+          if(zone){
+            pid = zone;
+          } else{
+            pid = $scope.storeIdx;
+          }
 
-            vm.filterAPDVisits("devlyn_mx", $scope.storeIdx, $scope.fromDate, $scope.toDate);
+            vm.filterAPDVisits("devlyn_mx", pid, $scope.fromDate, $scope.toDate);
         //groupal analysis
         } else{
             vm.updateReports($scope.storeIdx, $scope.fromDate, $scope.toDate);
