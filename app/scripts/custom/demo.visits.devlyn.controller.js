@@ -6,7 +6,6 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
     var vm = this;
 
     $scope.stores = [];
-    $scope.storeSelected = undefined;
     $scope.groupChecked = true;
     $scope.isIndividualAnalysis = !$scope.groupChecked;
     $scope.zoneAble = 'hidden';
@@ -219,7 +218,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
         var url =  config.baseUrl + '/dashboard/brandExport'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&brandId=' + $scope.brandId
-            + '&storeId=' + $scope.storeId
+            + '&storeId=' + $scope.storeIdx
             + '&fromStringDate=' + $scope.fromDate
             + '&toStringDate=' + $scope.toDate
 
@@ -247,7 +246,8 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
     }
 
     $scope.storeChange = function(){
-      $scope.updateZoneList('.zone', $scope.storeId);
+      $scope.storeIdx = $scope.storeSelected.identifier;
+      $scope.updateZoneList('.zone', $scope.storeIdx);
     }
 
     $scope.updateAPDVisits = function() {
@@ -261,23 +261,24 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
           if($scope.selectedZone){
             zone = $scope.selectedZone.identifier;
           }
+          debugger;
 
-            vm.filterAPDVisits($scope.storeId, zone, $scope.fromDate, $scope.toDate);
+            vm.filterAPDVisits("devlyn_mx", $scope.storeIdx, $scope.fromDate, $scope.toDate);
         //groupal analysis
         } else{
-            vm.updateReports($scope.storeId, zone, $scope.fromDate, $scope.toDate);
+            vm.updateReports($scope.storeIdx, $scope.fromDate, $scope.toDate);
         }
 
     }
 
 
-    this.updateReports = function(brandId, storeId, fromDate, toDate) {
+    this.updateReports = function(entityId, fromDate, toDate) {
 
-        vm.updateBrandPerformanceTable('#brand_performance_table', config.baseUrl, fromDate, toDate, brandId);
+        vm.updateBrandPerformanceTable('#brand_performance_table', config.baseUrl, fromDate, toDate, entityId);
     }
 
 
-    this.filterAPDVisits = function(brandId, storeId, fromDate, toDate) {
+    this.filterAPDVisits = function(entityId, subentityId, fromDate, toDate) {
 
         $('#visits_by_date').html('');
         $('#visits_by_hour').html('');
@@ -285,12 +286,12 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
         $('#heatmap_traffic_by_hour').html('');
         $('#heatmap_permanence_by_hour').html('');
 
-        vm.updateVisitsByDateChart('#visits_by_date', config.baseUrl, fromDate, toDate, brandId, storeId);
-        vm.updateVisitsByHourChart('#visits_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId);
-        vm.updatePermanenceByHourChart('#permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId);
-        vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId);
-        vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId);
-        vm.updateHeatmapOccupation('#heatmap_occupation_by_hour', config.baseUrl, fromDate, toDate, brandId, storeId);
+        vm.updateVisitsByDateChart('#visits_by_date', config.baseUrl, fromDate, toDate, entityId, subentityId);
+        vm.updateVisitsByHourChart('#visits_by_hour', config.baseUrl, fromDate, toDate, entityId, subentityId);
+        vm.updatePermanenceByHourChart('#permanence_by_hour', config.baseUrl, fromDate, toDate, entityId, subentityId);
+        vm.updateHeatmapTraffic('#heatmap_traffic_by_hour', config.baseUrl, fromDate, toDate, entityId, subentityId);
+        vm.updateHeatmapPermanence('#heatmap_permanence_by_hour', config.baseUrl, fromDate, toDate, entityId, subentityId);
+        vm.updateHeatmapOccupation('#heatmap_occupation_by_hour', config.baseUrl, fromDate, toDate, entityId, subentityId);
     }
 
     this.updateStoreList = function(id, baseUrl, entityId) {
@@ -307,7 +308,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
               var result = data;
               $scope.stores = result;
               $scope.storeSelected = $scope.stores[0];
-              $scope.storeId = $scope.storeSelected.identifier;
+              $scope.storeIdxx = $scope.storeSelected.identifier;
             });
     }
     this.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {
@@ -316,7 +317,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             + '/dashboard/timelineData'
             + '?authToken=' + $rootScope.globals.currentUser.token
             + '&entityId=' + entityId
-            + '&entityKind=1'
+            + '&entityKind=3'
             + '&subentityId=' + subEntityId
             + '&elementId=apd_visitor'
             + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_viewer'
