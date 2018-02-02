@@ -5,7 +5,8 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
 
     var vm = this;
 
-
+    $scope.stores = [];
+    $scope.storeSelected = undefined;
     $scope.groupChecked = true;
     $scope.isIndividualAnalysis = !$scope.groupChecked;
     $scope.zoneAble = 'hidden';
@@ -89,7 +90,6 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
     $('#toDate').val($scope.toDate);
     $scope.fromDate = dFromDate.format("yyyy-mm-dd", null);
     $('#fromDate').val($scope.fromDate);
-    $scope.storeId = undefined;
 
 
 
@@ -298,28 +298,17 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             baseUrl
             + '/dashboard/storesFilter?entityId=' + entityId
             + '&authToken=' + $rootScope.globals.currentUser.token
-            + '&entityKind=1'
-            + '&toStringDate=' + toDate
+            + '&entityKind=3'
             + '&onlyExternalIds=true',
             function(data) {
-                $(id).empty();
-                $(id).append($('<option>', {
-                    value: '',
-                    text: 'Todas'
-                }));
-                var i = 0;
-                $.each(data, function(idx, item) {
-                    item.name = item.name.replace('Opticas Devlyn Perisur', 'Opticas Devlyn Chedraui');
-                    if(i === 0 || i === 4 || i === 5 ){
-                      i ++;
-                    } else{
-                      $(id).append($('<option>', {
-                          value: item.identifier,
-                          text: item.name
-                      }));
-                      i++;
-                    }
-                });
+              id = '#store';
+              $(id).empty();
+
+              debugger;
+              var result = data;
+              $scope.stores = result;
+              $scope.storeSelected = $scope.stores[0];
+              $scope.storeId = $scope.storeSelected.identifier;
             });
     }
     this.updateVisitsByDateChart = function(id, baseUrl, fromDate, toDate, entityId, subEntityId) {

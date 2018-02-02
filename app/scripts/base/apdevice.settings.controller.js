@@ -48,8 +48,10 @@
       $scope.obj.visitPowerThreshold = Math.round(values[0]) * -1;
       if($scope.obj.viewerPowerThreshold){
         $scope.obj.viewerPowerThreshold = Math.round(values[1]) * -1;
+      }
+      if($scope.obj.offsetViewer){
         var viewerOffset = Math.round(values[2]) - Math.round(values[1]);
-        $scope.obj.viewerOffsetPowerThreshold = viewerOffset;
+        $scope.obj.offsetViewer = viewerOffset;
       }
       $scope.obj.peasantPowerThreshold = Math.round(values[3]) * -1;
     }
@@ -436,20 +438,22 @@
     if(isInt($scope.obj.viewerPowerThreshold)){
       viewerPowerThreshold = $scope.obj.viewerPowerThreshold * -1;
     } else{
-      viewerPowerThreshold = (visitPowerThreshold + peasantPowerThreshold)/2;
+      $scope.obj.viewerPowerThreshold = visitPowerThreshold;
+      viewerPowerThreshold = $scope.obj.viewerPowerThreshold;
     }
 
-    var viewerOffsetPowerThreshold = undefined;
+    var offsetViewer = undefined;
     if(isInt($scope.obj.offsetViewer)){
-      viewerOffsetPowerThreshold = viewerPowerThreshold + $scope.obj.offsetViewer;
+      offsetViewer = viewerPowerThreshold + $scope.obj.offsetViewer;
     } else{
-      viewerOffsetPowerThreshold = viewerPowerThreshold;
+      $scope.obj.offsetViewer = $scope.obj.viewerPowerThreshold;
+      offsetViewer = $scope.obj.offsetViewer;
     }
 
     // initialRange = visitPowerThreshold * ;
     startingArray.push(visitPowerThreshold);
     startingArray.push(viewerPowerThreshold);
-    startingArray.push(viewerOffsetPowerThreshold);
+    startingArray.push(offsetViewer);
     startingArray.push(peasantPowerThreshold);
 
     stdDev = (viewerPowerThreshold - visitPowerThreshold);
