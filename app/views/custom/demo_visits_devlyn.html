@@ -1,4 +1,4 @@
-<div class="wrapper wrapper-content animated fadeInRight" ng-controller="DemoVisitsDevlin">
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="DemoVisitsDevlin" data-ng-init="initAPDVisits()">
 	<!-- filtro -->
 	<div class="row">
 		<div class="col-lg-12">
@@ -19,6 +19,11 @@
 									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
 									<input type="datetime" id="toDate" ng-model="toDate" class="form-control" date-time view="month" min-view="date" auto-close="true" format="YYYY-MM-DD">
 									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+								</div>
+							</div>
+							<div class="col-lg-3 col-md-4">
+								<div class="input-group" style="max-width: 400px;">
+									<select ng-model="retailCalendarDate" ng-change="retailCalendarChange()" data-ng-options="o.name for o in retailCalendar" data-placeholder="Filtrar.." class="chosen-select form-control" style="width: 400px;"></select>
 								</div>
 							</div>
 						</div>

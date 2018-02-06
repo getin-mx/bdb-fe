@@ -9,6 +9,8 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
     $scope.groupChecked = true;
     $scope.isIndividualAnalysis = !$scope.groupChecked;
     $scope.zoneAble = 'hidden';
+    $scope.retailCalendar = config.retailCalendar;
+    $scope.retailCalendarDate = null;
 
 
     var dToDate = new Date(new Date().getTime() - config.oneDay);
@@ -276,6 +278,48 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
 
     }
 
+    $scope.retailCalendarChange = function() {
+        if($scope.retailCalendarDate != null ) {
+            $scope.toDate = $scope.retailCalendarDate.toDate;
+            $('#toDate').val($scope.toDate);
+            $scope.fromDate = $scope.retailCalendarDate.fromDate;
+            $('#fromDate').val($scope.fromDate);
+        }
+    }
+    
+    $scope.findRetailCalendarDate = function() {
+        var d = new Date(new Date().getTime() - config.oneWeek).format("yyyy-mm-dd");
+        for( var i = 0; i < $scope.retailCalendar.length; i++ ) {
+            if($scope.retailCalendar[i].fromDate <= d && $scope.retailCalendar[i].toDate >= d)
+                $scope.retailCalendarDate = $scope.retailCalendar[i];
+        }
+        $scope.retailCalendarChange();
+
+        $('.datelistener').each(function() {
+            var elem = $(this);
+
+            // Save current value of element
+            elem.data('oldVal', elem.val());
+
+            // Look for changes in the value
+            elem.bind("propertychange change click keyup input paste blur focus", function(event){
+                // If value has changed...
+                if (elem.data('oldVal') != elem.val()) {
+                    // Updated stored value
+                    elem.data('oldVal', elem.val());
+
+                    var fd = $('#fromDate').val();
+                    var td = $('#toDate').val();
+
+                    $scope.retailCalendarDate = null;
+                    for( var i = 0; i < $scope.retailCalendar.length; i++ ) {
+                        if($scope.retailCalendar[i].fromDate == fd && $scope.retailCalendar[i].toDate == td)
+                            $scope.retailCalendarDate = $scope.retailCalendar[i];
+                    }
+                }
+            });
+       });
+    }
 
     this.updateReports = function(entityId, fromDate, toDate) {
 
@@ -325,7 +369,7 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
             + '&entityKind=3'
             + '&subentityId=' + subEntityId
             + '&elementId=apd_visitor'
-            + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_viewer'
+            + '&subIdOrder=visitor_total_peasents,visitor_total_visits,visitor_total_viewer,visitor_total_tickets'
             + '&fromStringDate=' + fromDate
             + '&toStringDate=' + toDate
             + '&eraseBlanks=false'
@@ -862,6 +906,8 @@ function DemoVisitsDevlin($rootScope, $scope, AuthenticationService, CommonsServ
     };
 
     this.updateStoreList('#store', config.baseUrl, $scope.brandId);
+    $scope.findRetailCalendarDate();
+
     $scope.updateAPDVisits();
 
     return vm;
