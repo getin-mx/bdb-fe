@@ -257,7 +257,8 @@
           'atelier_mx',
           'mt_sport_mx',
           'sbarro_mx',
-          'aditivo_franquicias_mx'
+          'aditivo_franquicias_mx',
+          'sunglasshut_ar'
         );
         if( revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
