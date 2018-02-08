@@ -137,7 +137,7 @@
         $('#brandId').val(selected);
 
         // Please change this!
-        var revenueStores = new Array(
+        $scope.revenueStores = new Array(
           'aditivo_mx',
           '98coastav_mx',
           'botanicus_mx',
@@ -155,9 +155,11 @@
           'mt_sport_mx',
           'sbarro_mx',
           'aditivo_franquicias_mx',
-          'sunglasshut_ar'
+          'sunglasshut_ar',
+          'juguetron_mx'
         );
-        if( revenueStores.includes( $scope.brandId ) )
+
+        if( $scope.revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
         else
             $scope.showRevenue = false;
@@ -172,27 +174,7 @@
         $scope.loadingSubmit = true;
         $scope.brandId = $('#brandId').val();
 
-        // Please change this!
-        var revenueStores = new Array(
-          'aditivo_mx',
-          '98coastav_mx',
-          'botanicus_mx',
-          'tonymoly_mx',
-          'areasmexico_mx',
-          'liverpoolboutiques_mx',
-          'cafe_balcarce_ar',
-          'ecobutik_mx',
-          'fullsand_mx',
-          'sallybeauty_mx',
-          'delicafe_mx',
-          'prada_mx',
-          'grupopavel_mx',
-          'atelier_mx',
-          'mt_sport_mx',
-          'sbarro_mx',
-          'aditivo_franquicias_mx'
-        );
-        if( revenueStores.includes( $scope.brandId ) )
+        if( $scope.revenueStores.includes( $scope.brandId ) )
             $scope.showRevenue = true;
         else
             $scope.showRevenue = false;
